@@ -428,6 +428,47 @@
     }
     .msg-delete:hover { color: #c0396b; }
 
+    .msg-edit {
+      position: absolute;
+      top: 14px;
+      right: 44px;
+      background: none;
+      border: none;
+      color: #d080a0;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .msg-edit:hover { color: #c0396b; }
+
+    /* Inline edit form inside a card */
+    .edit-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    .edit-form input, .edit-form textarea {
+      padding: 8px 12px;
+      border: 1px solid rgba(255,182,210,0.7);
+      border-radius: 10px;
+      background: rgba(255,240,248,0.9);
+      color: #7a2545;
+      font-size: 0.9rem;
+      font-family: 'Lato', sans-serif;
+      outline: none;
+    }
+    .edit-form textarea { min-height: 80px; resize: vertical; }
+    .edit-actions { display: flex; gap: 10px; }
+    .btn-save-edit {
+      flex: 1; padding: 9px; background: linear-gradient(135deg, #e07fa0, #c0396b);
+      color: #fff; border: none; border-radius: 10px; cursor: pointer;
+      font-size: 0.88rem; font-family: 'Lato', sans-serif; transition: opacity .2s;
+    }
+    .btn-save-edit:hover { opacity: 0.85; }
+    .btn-cancel-edit {
+      flex: 1; padding: 9px; background: rgba(255,182,210,0.3);
+      color: #9b1c4a; border: 1px solid rgba(255,182,210,0.6);
+      border-radius: 10px; cursor: pointer; font-size: 0.88rem;
+      font-family: 'Lato', sans-serif; transition: background .2s;
+    }
+    .btn-cancel-edit:hover { background: rgba(255,182,210,0.5); }
+
     .no-messages {
       text-align: center;
       color: #c090a8;
@@ -541,10 +582,8 @@
 <footer>Forever & Always 💕</footer>
 
 <script>
-  /* ─── Fixed target dates ─── */
   const engTarget = new Date('2026-07-11T00:00:00');
   const wedTarget = new Date('2027-05-20T00:00:00');
-
   const ENG_TOTAL_DAYS = 103;
   const WED_TOTAL_DAYS = 417;
 
@@ -554,7 +593,6 @@
   document.getElementById('eng-date-label').textContent = fmtDate(engTarget);
   document.getElementById('wed-date-label').textContent = fmtDate(wedTarget);
 
-  /* ─── Countdown renderer ─── */
   function renderCountdown(target, cntId, progId, daysId, totalDays) {
     const diff = target - Date.now();
     if (diff <= 0) {
@@ -568,34 +606,22 @@
     const h = Math.floor((diff % 86400000) / 3600000);
     const m = Math.floor((diff % 3600000)  / 60000);
     const s = Math.floor((diff % 60000)    / 1000);
-
-    const blocks = [
-      { num: d, lbl: 'Days'    },
-      { num: h, lbl: 'Hours'   },
-      { num: m, lbl: 'Minutes' },
-      { num: s, lbl: 'Seconds' },
-    ];
-
-    document.getElementById(cntId).innerHTML = blocks.map(b =>
-      `<div class="time-block">
-         <span class="num">${String(b.num).padStart(2,'0')}</span>
-         <span class="lbl">${b.lbl}</span>
-       </div>`
-    ).join('');
-
+    document.getElementById(cntId).innerHTML =
+      [{ num:d,lbl:'Days'},{ num:h,lbl:'Hours'},{ num:m,lbl:'Minutes'},{ num:s,lbl:'Seconds'}]
+      .map(b => `<div class="time-block"><span class="num">${String(b.num).padStart(2,'0')}</span><span class="lbl">${b.lbl}</span></div>`)
+      .join('');
     const pct = Math.max(0, Math.min(100, ((totalDays - d) / totalDays) * 100));
     document.getElementById(progId).style.width = pct + '%';
-    document.getElementById(daysId).textContent =
-      `still ${d} day${d !== 1 ? 's' : ''} to go ✨`;
+    document.getElementById(daysId).textContent = `still ${d} day${d!==1?'s':''} to go ✨`;
     return false;
   }
 
   function tick() {
-    const engDone = renderCountdown(engTarget, 'eng-countdown', 'eng-progress', 'eng-days', ENG_TOTAL_DAYS);
-    const wedDone = renderCountdown(wedTarget, 'wed-countdown', 'wed-progress', 'wed-days', WED_TOTAL_DAYS);
+    const engDone = renderCountdown(engTarget,'eng-countdown','eng-progress','eng-days',ENG_TOTAL_DAYS);
+    const wedDone = renderCountdown(wedTarget,'wed-countdown','wed-progress','wed-days',WED_TOTAL_DAYS);
     document.getElementById('quotes-eng').style.display = engDone ? 'block' : 'none';
     document.getElementById('quotes-wed').style.display = wedDone ? 'block' : 'none';
-    document.getElementById('quotes-section').style.display = (engDone || wedDone) ? 'flex' : 'none';
+    document.getElementById('quotes-section').style.display = (engDone||wedDone) ? 'flex' : 'none';
   }
   tick();
   setInterval(tick, 1000);
@@ -612,7 +638,11 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
   }
 
-  /* Compress image to base64 via canvas — max 800px wide, quality 0.75 */
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
   function compressImage(file, callback) {
     const reader = new FileReader();
     reader.onload = e => {
@@ -635,10 +665,10 @@
     const file = e.target.files[0];
     if (!file) return;
     compressImage(file, b64 => {
-      const preview = document.getElementById('img-preview');
-      const hint    = document.getElementById('upload-hint');
+      const preview  = document.getElementById('img-preview');
+      const hint     = document.getElementById('upload-hint');
       const clearBtn = document.getElementById('img-clear-btn');
-      const zone    = document.getElementById('img-upload-zone');
+      const zone     = document.getElementById('img-upload-zone');
       preview.src = b64;
       preview.style.display = 'block';
       hint.style.display = 'none';
@@ -671,11 +701,12 @@
     }
     container.innerHTML = list.slice().reverse().map((m, i) => {
       const realIdx = list.length - 1 - i;
-      const pinned  = m.date ? `📅 ${m.date}` : '';
+      const pinned  = m.date  ? `📅 ${m.date}` : '';
       const label   = m.label ? m.label : 'Memory';
       const imgHtml = m.image ? `<img class="msg-img" src="${m.image}" alt="memory photo" />` : '';
       return `
-        <div class="msg-card">
+        <div class="msg-card" id="msg-card-${realIdx}">
+          <button class="msg-edit"   onclick="startEdit(${realIdx})"    title="Edit">✏️</button>
           <button class="msg-delete" onclick="deleteMemory(${realIdx})" title="Delete">✕</button>
           <div class="msg-header">
             <span class="msg-label">${escapeHtml(label)}</span>
@@ -687,37 +718,29 @@
     }).join('');
   }
 
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  function startEdit(idx) {
+    const list = loadMemories();
+    const m    = list[idx];
+    const card = document.getElementById('msg-card-' + idx);
+    card.innerHTML = `
+      <div class="edit-form">
+        <input type="text" id="edit-label-${idx}" value="${escapeHtml(m.label||'')}" placeholder="Label" maxlength="60" />
+        <input type="date" id="edit-date-${idx}"  value="${m.date||''}" />
+        <textarea          id="edit-text-${idx}"  placeholder="Your memory…">${escapeHtml(m.text||'')}</textarea>
+        <div class="edit-actions">
+          <button class="btn-save-edit"   onclick="saveEdit(${idx})">💾 Save</button>
+          <button class="btn-cancel-edit" onclick="renderMemories()">Cancel</button>
+        </div>
+      </div>`;
   }
 
-  function saveMemory() {
-    const text   = document.getElementById('memo-text').value.trim();
-    const date   = document.getElementById('memo-date').value;
-    const label  = document.getElementById('memo-label').value.trim();
-    const zone   = document.getElementById('img-upload-zone');
-    const image  = zone._b64 || null;
-
-    if (!text && !image) { alert('Write a memory or add a photo 💕'); return; }
-
-    const list = loadMemories();
-    try {
-      list.push({ text, date, label, image, savedAt: new Date().toISOString() });
-      saveMemories(list);
-    } catch(e) {
-      alert('Storage full! Try removing some old memories or use a smaller photo.');
-      return;
-    }
-
-    document.getElementById('memo-text').value  = '';
-    document.getElementById('memo-date').value  = '';
-    document.getElementById('memo-label').value = '';
-    clearImage({ stopPropagation: () => {} });
-
-    const toast = document.getElementById('save-toast');
-    toast.style.display = 'block';
-    setTimeout(() => { toast.style.display = 'none'; }, 2500);
-
+  function saveEdit(idx) {
+    const list  = loadMemories();
+    const label = document.getElementById('edit-label-' + idx).value.trim();
+    const date  = document.getElementById('edit-date-'  + idx).value;
+    const text  = document.getElementById('edit-text-'  + idx).value.trim();
+    list[idx]   = { ...list[idx], label, date, text };
+    saveMemories(list);
     renderMemories();
   }
 
@@ -729,7 +752,38 @@
     renderMemories();
   }
 
+  function saveMemory() {
+    const text  = document.getElementById('memo-text').value.trim();
+    const date  = document.getElementById('memo-date').value;
+    const label = document.getElementById('memo-label').value.trim();
+    const zone  = document.getElementById('img-upload-zone');
+    const image = zone._b64 || null;
+
+    if (!text && !image) { alert('Please write a memory or add a photo 💕'); return; }
+
+    const list = loadMemories();
+    try {
+      list.push({ text, date, label, image, savedAt: new Date().toISOString() });
+      saveMemories(list);
+    } catch(e) {
+      alert('Storage full! Try removing some old memories or use a smaller photo.');
+      return;
+    }
+
+    document.getElementById('memo-text').value  = '';
+    document.getElementById('memo-date').value  = new Date().toISOString().split('T')[0];
+    document.getElementById('memo-label').value = '';
+    clearImage({ stopPropagation: () => {} });
+
+    const toast = document.getElementById('save-toast');
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 2500);
+
+    renderMemories();
+  }
+
   renderMemories();
+  document.getElementById('memo-date').value = new Date().toISOString().split('T')[0];
 
   /* ─── Floating particles ─── */
   const emojis = ['❤️','💕','🌸','🌺','💐','🌹','💗','🌼','✨','💖','🌷','💞'];
@@ -742,12 +796,7 @@
     const size     = 1.2 + Math.random() * 1.8;
     const duration = 6   + Math.random() * 10;
     const delay    = Math.random() * 8;
-    el.style.cssText = `
-      left:${Math.random() * 100}vw;
-      font-size:${size}rem;
-      animation-duration:${duration}s;
-      animation-delay:${delay}s;
-    `;
+    el.style.cssText = `left:${Math.random()*100}vw;font-size:${size}rem;animation-duration:${duration}s;animation-delay:${delay}s;`;
     container.appendChild(el);
     setTimeout(() => el.remove(), (duration + delay) * 1000);
   }
