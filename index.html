@@ -65,7 +65,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 40px;
-      padding: 10px 20px 60px;
+      padding: 10px 20px 20px;
       position: relative;
       z-index: 10;
     }
@@ -153,6 +153,245 @@
       letter-spacing: 1px;
     }
 
+    /* Arabic quotes section */
+    .quotes-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 0 20px 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .quotes-card {
+      background: rgba(255,255,255,0.60);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,182,210,0.45);
+      border-radius: 22px;
+      padding: 28px 36px;
+      width: min(380px, 90vw);
+      box-shadow: 0 8px 28px rgba(192,57,107,0.10);
+    }
+
+    .quotes-card h3 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.6rem;
+      color: #c0396b;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .quote-item {
+      direction: rtl;
+      text-align: right;
+      font-size: 1rem;
+      color: #7a2545;
+      line-height: 1.8;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      background: rgba(255,182,210,0.18);
+      border-radius: 14px;
+      border-right: 3px solid #e07fa0;
+      font-family: 'Lato', 'Arial', sans-serif;
+    }
+
+    /* Memory Journal section */
+    .journal-section {
+      position: relative;
+      z-index: 10;
+      max-width: 820px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+
+    .journal-title {
+      text-align: center;
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8rem;
+      color: #c0396b;
+      margin-bottom: 8px;
+    }
+
+    .journal-subtitle {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #a0556e;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .journal-form {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,182,210,0.55);
+      border-radius: 24px;
+      padding: 30px 34px;
+      box-shadow: 0 8px 30px rgba(192,57,107,0.12);
+      margin-bottom: 28px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .form-row input[type="date"] {
+      flex: 1;
+      min-width: 160px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,182,210,0.7);
+      border-radius: 12px;
+      background: rgba(255,240,248,0.8);
+      color: #7a2545;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .form-row input[type="date"]:focus {
+      border-color: #c0396b;
+    }
+
+    .form-row input[type="text"] {
+      flex: 2;
+      min-width: 200px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,182,210,0.7);
+      border-radius: 12px;
+      background: rgba(255,240,248,0.8);
+      color: #7a2545;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .form-row input[type="text"]:focus {
+      border-color: #c0396b;
+    }
+
+    .form-row input::placeholder { color: #c090a8; }
+
+    textarea#memo-text {
+      width: 100%;
+      min-height: 110px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,182,210,0.7);
+      border-radius: 14px;
+      background: rgba(255,240,248,0.8);
+      color: #7a2545;
+      font-size: 0.95rem;
+      font-family: 'Lato', sans-serif;
+      resize: vertical;
+      outline: none;
+      transition: border-color .2s;
+      margin-bottom: 14px;
+    }
+    textarea#memo-text:focus { border-color: #c0396b; }
+    textarea#memo-text::placeholder { color: #c090a8; }
+
+    .save-btn {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #e07fa0, #c0396b);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-family: 'Lato', sans-serif;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+    .save-btn:hover  { opacity: 0.88; transform: translateY(-2px); }
+    .save-btn:active { transform: translateY(0); }
+
+    .toast {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: #9b1c4a;
+      letter-spacing: 1px;
+    }
+
+    /* Messages list */
+    .messages-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .msg-card {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,182,210,0.50);
+      border-radius: 18px;
+      padding: 20px 24px;
+      box-shadow: 0 6px 20px rgba(192,57,107,0.09);
+      position: relative;
+      animation: fadeIn .4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .msg-label {
+      font-size: 0.8rem;
+      color: #fff;
+      background: linear-gradient(135deg, #e07fa0, #c0396b);
+      border-radius: 8px;
+      padding: 3px 10px;
+      letter-spacing: 1px;
+    }
+
+    .msg-date-pin {
+      font-size: 0.78rem;
+      color: #b07090;
+      letter-spacing: 1px;
+    }
+
+    .msg-body {
+      font-size: 0.96rem;
+      color: #5a1a35;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .msg-delete {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: #d080a0;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .msg-delete:hover { color: #c0396b; }
+
+    .no-messages {
+      text-align: center;
+      color: #c090a8;
+      font-size: 0.9rem;
+      padding: 20px;
+      letter-spacing: 1px;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -202,11 +441,56 @@
 
 </div>
 
+<!-- Arabic quotes after countdown cards -->
+<div class="quotes-section" id="quotes-section" style="display:none;">
+
+  <!-- Engagement quotes -->
+  <div class="quotes-card" id="quotes-eng" style="display:none;">
+    <h3>💍 Engagement</h3>
+    <div class="quote-item">ربي كتبك لي وإنت أغلى رزق من عندو</div>
+    <div class="quote-item">اليوم بش نرى برشة حاجات في عينيك</div>
+    <div class="quote-item">نحس روحي نحلم وغدوة الحلمة تولي حقيقة</div>
+    <div class="quote-item">يا رب بارك في يومنا واجمع بيننا في الخير</div>
+    <div class="quote-item">ديمة حمدلله Yossr</div>
+  </div>
+
+  <!-- Wedding quotes -->
+  <div class="quotes-card" id="quotes-wed" style="display:none;">
+    <h3>👰🤵 Wedding</h3>
+    <div class="quote-item">حاضر بش تكون بجنبي ديمة</div>
+    <div class="quote-item">كل يوم نحبك أكثر وأكثر أما اللحظة هذي أكثر ملي تعدى برشة، ربي جمعنا Yossr</div>
+    <div class="quote-item">ربي يجعلك قرة عين ويرزقنا كان الخير وبنوتة كيفك</div>
+    <div class="quote-item">طو باش نخلص الكريدي هههه حمدلله في حلال كما وعدنا بعضنا</div>
+    <div class="quote-item">ربي ينعم علينا بخير وبركة إنت من قبل امنة أما من لحظة هذي الامانة بجنبي ديمة وفي عينيا ديمة</div>
+    <div class="quote-item">غدوة نصلي بيك</div>
+  </div>
+
+</div>
+
+<!-- Memory Journal -->
+<div class="journal-section">
+  <p class="journal-title">Our Memories 💌</p>
+  <p class="journal-subtitle">✨ Pin a moment — save it forever ✨</p>
+
+  <div class="journal-form">
+    <div class="form-row">
+      <input type="date" id="memo-date" title="Pin a date to this memory" />
+      <input type="text" id="memo-label" placeholder="Label (e.g. bought the rings 💍)" maxlength="60" />
+    </div>
+    <textarea id="memo-text" placeholder="Write your memory here… 💕"></textarea>
+    <button class="save-btn" onclick="saveMemory()">💾 Save Memory</button>
+    <p class="toast" id="save-toast">✅ Memory saved!</p>
+  </div>
+
+  <div class="messages-list" id="messages-list">
+    <!-- messages rendered by JS -->
+  </div>
+</div>
+
 <footer>Forever & Always 💕</footer>
 
 <script>
   /* ─── Fixed target dates ─── */
-  // Engagement : 11 July 2026  |  Wedding : 20 May 2027
   const engTarget = new Date('2026-07-11T00:00:00');
   const wedTarget = new Date('2027-05-20T00:00:00');
 
@@ -227,7 +511,7 @@
         '<span style="font-size:1.4rem;color:#c0396b">🎉 Today is the Day!</span>';
       document.getElementById(progId).style.width = '100%';
       document.getElementById(daysId).textContent = '';
-      return;
+      return true;
     }
     const d = Math.floor(diff / 86400000);
     const h = Math.floor((diff % 86400000) / 3600000);
@@ -252,14 +536,89 @@
     document.getElementById(progId).style.width = pct + '%';
     document.getElementById(daysId).textContent =
       `still ${d} day${d !== 1 ? 's' : ''} to go ✨`;
+    return false;
   }
 
   function tick() {
-    renderCountdown(engTarget, 'eng-countdown', 'eng-progress', 'eng-days', ENG_TOTAL_DAYS);
-    renderCountdown(wedTarget, 'wed-countdown', 'wed-progress', 'wed-days', WED_TOTAL_DAYS);
+    const engDone = renderCountdown(engTarget, 'eng-countdown', 'eng-progress', 'eng-days', ENG_TOTAL_DAYS);
+    const wedDone = renderCountdown(wedTarget, 'wed-countdown', 'wed-progress', 'wed-days', WED_TOTAL_DAYS);
+    document.getElementById('quotes-eng').style.display = engDone ? 'block' : 'none';
+    document.getElementById('quotes-wed').style.display = wedDone ? 'block' : 'none';
+    document.getElementById('quotes-section').style.display = (engDone || wedDone) ? 'flex' : 'none';
   }
   tick();
   setInterval(tick, 1000);
+
+  /* ─── Memory Journal ─── */
+  const STORAGE_KEY = 'hamdi-yossr-memories';
+
+  function loadMemories() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch(e) { return []; }
+  }
+
+  function saveMemories(list) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }
+
+  function renderMemories() {
+    const list = loadMemories();
+    const container = document.getElementById('messages-list');
+    if (list.length === 0) {
+      container.innerHTML = '<p class="no-messages">No memories saved yet… write your first one 💕</p>';
+      return;
+    }
+    container.innerHTML = list.slice().reverse().map((m, i) => {
+      const realIdx = list.length - 1 - i;
+      const pinned = m.date ? `📅 ${m.date}` : '';
+      const label  = m.label ? m.label : 'Memory';
+      return `
+        <div class="msg-card">
+          <button class="msg-delete" onclick="deleteMemory(${realIdx})" title="Delete">✕</button>
+          <div class="msg-header">
+            <span class="msg-label">${escapeHtml(label)}</span>
+            <span class="msg-date-pin">${pinned}</span>
+          </div>
+          <div class="msg-body">${escapeHtml(m.text)}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function saveMemory() {
+    const text  = document.getElementById('memo-text').value.trim();
+    const date  = document.getElementById('memo-date').value;
+    const label = document.getElementById('memo-label').value.trim();
+
+    if (!text) { alert('Please write a memory first 💕'); return; }
+
+    const list = loadMemories();
+    list.push({ text, date, label, savedAt: new Date().toISOString() });
+    saveMemories(list);
+
+    document.getElementById('memo-text').value  = '';
+    document.getElementById('memo-date').value  = '';
+    document.getElementById('memo-label').value = '';
+
+    const toast = document.getElementById('save-toast');
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 2500);
+
+    renderMemories();
+  }
+
+  function deleteMemory(idx) {
+    if (!confirm('Delete this memory?')) return;
+    const list = loadMemories();
+    list.splice(idx, 1);
+    saveMemories(list);
+    renderMemories();
+  }
+
+  renderMemories();
 
   /* ─── Floating particles ─── */
   const emojis = ['❤️','💕','🌸','🌺','💐','🌹','💗','🌼','✨','💖','🌷','💞'];
@@ -287,4 +646,3 @@
 </script>
 </body>
 </html>
-
