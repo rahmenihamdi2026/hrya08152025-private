@@ -371,6 +371,50 @@
       white-space: pre-wrap;
     }
 
+    .img-upload-zone {
+      border: 2px dashed rgba(255,182,210,0.8);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 14px;
+      transition: background .2s, border-color .2s;
+      background: rgba(255,240,248,0.5);
+      color: #c090a8;
+      font-size: 0.88rem;
+      letter-spacing: 1px;
+    }
+    .img-upload-zone:hover { background: rgba(255,210,230,0.5); border-color: #c0396b; }
+    .img-upload-zone.has-img { border-style: solid; border-color: #e07fa0; padding: 10px; }
+
+    #img-preview {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 10px;
+      display: none;
+      margin: 0 auto;
+    }
+
+    .img-clear-btn {
+      display: none;
+      margin: 6px auto 0;
+      background: none;
+      border: none;
+      color: #c0396b;
+      font-size: 0.8rem;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+
+    .msg-img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      max-height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
     .msg-delete {
       position: absolute;
       top: 14px;
@@ -478,6 +522,13 @@
       <input type="text" id="memo-label" placeholder="Label (e.g. bought the rings 💍)" maxlength="60" />
     </div>
     <textarea id="memo-text" placeholder="Write your memory here… 💕"></textarea>
+
+    <div class="img-upload-zone" id="img-upload-zone" onclick="document.getElementById('memo-img').click()">
+      <span id="upload-hint">📷 Click to add a photo (optional)</span>
+      <img id="img-preview" src="" alt="preview" />
+      <button class="img-clear-btn" id="img-clear-btn" onclick="clearImage(event)">✕ Remove photo</button>
+    </div>
+    <input type="file" id="memo-img" accept="image/*" style="display:none" onchange="previewImage(event)" />
     <button class="save-btn" onclick="saveMemory()">💾 Save Memory</button>
     <p class="toast" id="save-toast">✅ Memory saved!</p>
   </div>
@@ -561,6 +612,56 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
   }
 
+  /* Compress image to base64 via canvas — max 800px wide, quality 0.75 */
+  function compressImage(file, callback) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 800;
+        let w = img.width, h = img.height;
+        if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        callback(canvas.toDataURL('image/jpeg', 0.75));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function previewImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    compressImage(file, b64 => {
+      const preview = document.getElementById('img-preview');
+      const hint    = document.getElementById('upload-hint');
+      const clearBtn = document.getElementById('img-clear-btn');
+      const zone    = document.getElementById('img-upload-zone');
+      preview.src = b64;
+      preview.style.display = 'block';
+      hint.style.display = 'none';
+      clearBtn.style.display = 'block';
+      zone.classList.add('has-img');
+      zone._b64 = b64;
+    });
+  }
+
+  function clearImage(e) {
+    e.stopPropagation();
+    const preview  = document.getElementById('img-preview');
+    const hint     = document.getElementById('upload-hint');
+    const clearBtn = document.getElementById('img-clear-btn');
+    const zone     = document.getElementById('img-upload-zone');
+    preview.src = ''; preview.style.display = 'none';
+    hint.style.display = '';
+    clearBtn.style.display = 'none';
+    zone.classList.remove('has-img');
+    zone._b64 = null;
+    document.getElementById('memo-img').value = '';
+  }
+
   function renderMemories() {
     const list = loadMemories();
     const container = document.getElementById('messages-list');
@@ -570,8 +671,9 @@
     }
     container.innerHTML = list.slice().reverse().map((m, i) => {
       const realIdx = list.length - 1 - i;
-      const pinned = m.date ? `📅 ${m.date}` : '';
-      const label  = m.label ? m.label : 'Memory';
+      const pinned  = m.date ? `📅 ${m.date}` : '';
+      const label   = m.label ? m.label : 'Memory';
+      const imgHtml = m.image ? `<img class="msg-img" src="${m.image}" alt="memory photo" />` : '';
       return `
         <div class="msg-card">
           <button class="msg-delete" onclick="deleteMemory(${realIdx})" title="Delete">✕</button>
@@ -579,7 +681,8 @@
             <span class="msg-label">${escapeHtml(label)}</span>
             <span class="msg-date-pin">${pinned}</span>
           </div>
-          <div class="msg-body">${escapeHtml(m.text)}</div>
+          ${imgHtml}
+          ${m.text ? `<div class="msg-body">${escapeHtml(m.text)}</div>` : ''}
         </div>`;
     }).join('');
   }
@@ -589,19 +692,27 @@
   }
 
   function saveMemory() {
-    const text  = document.getElementById('memo-text').value.trim();
-    const date  = document.getElementById('memo-date').value;
-    const label = document.getElementById('memo-label').value.trim();
+    const text   = document.getElementById('memo-text').value.trim();
+    const date   = document.getElementById('memo-date').value;
+    const label  = document.getElementById('memo-label').value.trim();
+    const zone   = document.getElementById('img-upload-zone');
+    const image  = zone._b64 || null;
 
-    if (!text) { alert('Please write a memory first 💕'); return; }
+    if (!text && !image) { alert('Write a memory or add a photo 💕'); return; }
 
     const list = loadMemories();
-    list.push({ text, date, label, savedAt: new Date().toISOString() });
-    saveMemories(list);
+    try {
+      list.push({ text, date, label, image, savedAt: new Date().toISOString() });
+      saveMemories(list);
+    } catch(e) {
+      alert('Storage full! Try removing some old memories or use a smaller photo.');
+      return;
+    }
 
     document.getElementById('memo-text').value  = '';
     document.getElementById('memo-date').value  = '';
     document.getElementById('memo-label').value = '';
+    clearImage({ stopPropagation: () => {} });
 
     const toast = document.getElementById('save-toast');
     toast.style.display = 'block';
