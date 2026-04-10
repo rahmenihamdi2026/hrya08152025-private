@@ -213,7 +213,6 @@
             background: rgba(255, 182, 210, 0.18);
             border-radius: 14px;
             border-right: 3px solid #e07fa0;
-            font-family: 'Lato', 'Arial', sans-serif;
         }
 
         .journal-section {
@@ -269,6 +268,7 @@
             font-size: 0.9rem;
             outline: none;
             transition: border-color .2s;
+            font-family: 'Lato', sans-serif;
         }
 
         .form-row input[type="text"] {
@@ -330,6 +330,12 @@
 
         .save-btn:active {
             transform: translateY(0);
+        }
+
+        .save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .toast {
@@ -405,7 +411,6 @@
             white-space: pre-wrap;
         }
 
-        /* Upload zone — used both in add-form and in edit inline form */
         .img-upload-zone {
             border: 2px dashed rgba(255, 182, 210, 0.8);
             border-radius: 14px;
@@ -543,6 +548,24 @@
             letter-spacing: 1px;
         }
 
+        .loading-msg {
+            text-align: center;
+            color: #e07fa0;
+            font-size: 0.9rem;
+            padding: 30px;
+            letter-spacing: 1px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1
+            }
+            50% {
+                opacity: 0.4
+            }
+        }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -552,17 +575,39 @@
             position: relative;
             z-index: 10;
         }
+
+        .sync-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 182, 210, 0.6);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            color: #c0396b;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 4px 14px rgba(192, 57, 107, 0.15);
+        }
+
+        .sync-indicator.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
 <div id="particles"></div>
+<div class="sync-indicator" id="sync-indicator">💾 Saving...</div>
+
 <header>
     <h1>Hamdi &amp; Yossr</h1>
     <p class="subtitle">Our Love Story ✨</p>
 </header>
 <div class="divider">🌸 ❤️ 🌸</div>
+
 <div class="cards">
-    <div class="card" id="card-engagement">
+    <div class="card">
         <div class="icon">💍</div>
         <h2>Engagement Day</h2>
         <p class="event-date" id="eng-date-label"></p>
@@ -572,7 +617,7 @@
         </div>
         <p class="days-left" id="eng-days"></p>
     </div>
-    <div class="card" id="card-wedding">
+    <div class="card">
         <div class="icon">👰🤵</div>
         <h2>Wedding Day</h2>
         <p class="event-date" id="wed-date-label"></p>
@@ -583,6 +628,7 @@
         <p class="days-left" id="wed-days"></p>
     </div>
 </div>
+
 <div class="quotes-section" id="quotes-section" style="display:none;">
     <div class="quotes-card" id="quotes-eng" style="display:none;">
         <h3>💍 Engagement</h3>
@@ -604,6 +650,7 @@
         <div class="quote-item">غدوة نصلي بيك</div>
     </div>
 </div>
+
 <div class="journal-section">
     <p class="journal-title">Our Memories 💌</p>
     <p class="journal-subtitle">✨ Pin a moment — save it forever ✨</p>
@@ -620,23 +667,48 @@
         </div>
         <input type="file" id="add-file-input" accept="image/*" style="display:none"
                onchange="handleZoneFile(event,'add')"/>
-        <button class="save-btn" onclick="saveMemory()">💾 Save Memory</button>
+        <button class="save-btn" id="save-btn" onclick="saveMemory()">💾 Save Memory</button>
         <p class="toast" id="save-toast">✅ Memory saved!</p>
     </div>
-    <div class="messages-list" id="messages-list"></div>
+    <div class="messages-list" id="messages-list">
+        <p class="loading-msg">💕 Loading memories...</p>
+    </div>
 </div>
+
 <footer>Forever & Always 💕</footer>
-<script>
+
+<!-- Firebase SDK -->
+<script type="module">
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import {
+        getFirestore,
+        collection,
+        addDoc,
+        onSnapshot,
+        doc,
+        deleteDoc,
+        updateDoc,
+        query,
+        orderBy
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDT2Qb4FAQzM0jwompq7FZQCLFUM4VMaYs",
+        authDomain: "hamdi-yossr.firebaseapp.com",
+        projectId: "hamdi-yossr",
+        storageBucket: "hamdi-yossr.firebasestorage.app",
+        messagingSenderId: "850872869440",
+        appId: "1:850872869440:web:5aedd5c8b1dc7e9d4f35a5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const memoriesRef = collection(db, "memories");
+
+    /* ─── Countdown ─── */
     const engTarget = new Date('2026-07-11T00:00:00');
     const wedTarget = new Date('2027-05-20T00:00:00');
-    const ENG_TOTAL_DAYS = 103;
-    const WED_TOTAL_DAYS = 417;
-
-    function localToday() {
-        const d = new Date();
-        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-    }
-
+    const ENG_TOTAL_DAYS = 103, WED_TOTAL_DAYS = 417;
     const fmtDate = d => d.toLocaleDateString('en-GB', {
         weekday: 'long',
         year: 'numeric',
@@ -677,20 +749,20 @@
     tick();
     setInterval(tick, 1000);
 
-    /* ─── Memories stored in-memory ─── */
-    let memories = [];
-
-    function escapeHtml(s) {
-        if (!s) return '';
-        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    function localToday() {
+        const d = new Date();
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     }
 
+    document.getElementById('memo-date').value = localToday();
+
+    /* ─── Image helpers ─── */
     function compressImage(file, cb) {
         const r = new FileReader();
         r.onload = e => {
             const img = new Image();
             img.onload = () => {
-                const MAX = 800;
+                const MAX = 600;
                 let w = img.width, h = img.height;
                 if (w > MAX) {
                     h = Math.round(h * MAX / w);
@@ -700,19 +772,18 @@
                 c.width = w;
                 c.height = h;
                 c.getContext('2d').drawImage(img, 0, 0, w, h);
-                cb(c.toDataURL('image/jpeg', 0.75));
+                cb(c.toDataURL('image/jpeg', 0.65));
             };
             img.src = e.target.result;
         };
         r.readAsDataURL(file);
     }
 
-    /* Generic zone helpers — zoneId: 'add' or 'edit-N' */
-    function handleZoneFile(event, zoneId) {
+    window.handleZoneFile = function (event, zoneId) {
         const file = event.target.files[0];
         if (!file) return;
         compressImage(file, b64 => applyZoneImage(zoneId, b64));
-    }
+    };
 
     function applyZoneImage(zoneId, b64) {
         const zone = document.getElementById(zoneId + '-upload-zone');
@@ -728,7 +799,7 @@
         zone.classList.add('has-img');
     }
 
-    function clearZone(e, zoneId) {
+    window.clearZone = function (e, zoneId) {
         e.stopPropagation();
         const zone = document.getElementById(zoneId + '-upload-zone');
         const preview = document.getElementById(zoneId + '-img-preview');
@@ -743,73 +814,41 @@
         zone.classList.remove('has-img');
         const fi = document.getElementById(zoneId + '-file-input') || document.getElementById('add-file-input');
         if (fi) fi.value = '';
+    };
+
+    /* ─── Escape HTML ─── */
+    function esc(s) {
+        if (!s) return '';
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    /* ─── Render ─── */
-    function renderMemories() {
+    /* ─── Real-time listener from Firestore ─── */
+    const q = query(memoriesRef, orderBy("savedAt", "desc"));
+    onSnapshot(q, (snapshot) => {
         const container = document.getElementById('messages-list');
-        if (memories.length === 0) {
+        if (snapshot.empty) {
             container.innerHTML = '<p class="no-messages">No memories saved yet… write your first one 💕</p>';
             return;
         }
-        container.innerHTML = memories.slice().reverse().map((m, ri) => {
-            const idx = memories.length - 1 - ri;
+        container.innerHTML = snapshot.docs.map(docSnap => {
+            const m = docSnap.data();
+            const id = docSnap.id;
             const imgHtml = m.image ? '<img class="msg-img" src="' + m.image + '" alt="memory photo" />' : '';
-            return '<div class="msg-card" id="msg-card-' + idx + '">' +
-                '<div class="msg-header"><span class="msg-label">' + escapeHtml(m.label || 'Memory') + '</span>' +
-                '<span class="msg-actions"><button class="msg-edit" onclick="startEdit(' + idx + ')" title="Edit">✏️</button>' +
-                '<button class="msg-delete" onclick="deleteMemory(' + idx + ')" title="Delete">🗑️</button></span></div>' +
-                (m.date ? '<span class="msg-date-pin">📅 ' + m.date + '</span>' : '') +
+            return '<div class="msg-card" id="msg-card-' + id + '">' +
+                '<div class="msg-header"><span class="msg-label">' + esc(m.label || 'Memory') + '</span>' +
+                '<span class="msg-actions">' +
+                '<button class="msg-edit" onclick="startEdit(\'' + id + '\')" title="Edit">✏️</button>' +
+                '<button class="msg-delete" onclick="deleteMemory(\'' + id + '\')" title="Delete">🗑️</button>' +
+                '</span></div>' +
+                (m.date ? '<span class="msg-date-pin">📅 ' + esc(m.date) + '</span>' : '') +
                 imgHtml +
-                (m.text ? '<div class="msg-body">' + escapeHtml(m.text) + '</div>' : '') +
+                (m.text ? '<div class="msg-body">' + esc(m.text) + '</div>' : '') +
                 '</div>';
         }).join('');
-    }
+    });
 
-    /* ─── Edit with image zone ─── */
-    function startEdit(idx) {
-        const m = memories[idx];
-        const card = document.getElementById('msg-card-' + idx);
-        const uid = 'edit-' + idx;
-        const hasImg = !!m.image;
-        card.innerHTML =
-            '<div class="edit-form">' +
-            '<input type="text" id="' + uid + '-label-input" value="' + escapeHtml(m.label || '') + '" placeholder="Label" maxlength="60" />' +
-            '<input type="date" id="' + uid + '-date-input" value="' + (m.date || '') + '" style="padding:8px 12px;border:1px solid rgba(255,182,210,0.7);border-radius:10px;background:rgba(255,240,248,0.9);color:#7a2545;font-size:0.9rem;font-family:Lato,sans-serif;outline:none;" />' +
-            '<textarea id="' + uid + '-text-input" placeholder="Your memory…">' + escapeHtml(m.text || '') + '</textarea>' +
-            '<div class="img-upload-zone' + (hasImg ? ' has-img' : '') + '" id="' + uid + '-upload-zone" onclick="document.getElementById(\'' + uid + '-file-input\').click()">' +
-            '<span id="' + uid + '-upload-hint"' + (hasImg ? ' style="display:none"' : '') + '>📷 Click to add a photo (optional)</span>' +
-            '<img class="zone-preview" id="' + uid + '-img-preview" src="' + (m.image || '') + '" alt="preview" style="display:' + (hasImg ? 'block' : 'none') + ';" />' +
-            '<button class="zone-clear-btn" id="' + uid + '-clear-btn" style="display:' + (hasImg ? 'block' : 'none') + ';" onclick="clearZone(event,\'' + uid + '\')">✕ Remove photo</button>' +
-            '</div>' +
-            '<input type="file" id="' + uid + '-file-input" accept="image/*" style="display:none" onchange="handleZoneFile(event,\'' + uid + '\')" />' +
-            '<div class="edit-actions">' +
-            '<button class="btn-save-edit" onclick="saveEdit(' + idx + ')">💾 Save</button>' +
-            '<button class="btn-cancel-edit" onclick="renderMemories()">Cancel</button>' +
-            '</div></div>';
-        // store current image in zone state
-        const zone = document.getElementById(uid + '-upload-zone');
-        zone._b64 = m.image || null;
-    }
-
-    function saveEdit(idx) {
-        const uid = 'edit-' + idx;
-        const label = document.getElementById(uid + '-label-input').value.trim();
-        const date = document.getElementById(uid + '-date-input').value;
-        const text = document.getElementById(uid + '-text-input').value.trim();
-        const zone = document.getElementById(uid + '-upload-zone');
-        const image = zone ? zone._b64 : memories[idx].image;
-        memories[idx] = {...memories[idx], label, date, text, image};
-        renderMemories();
-    }
-
-    function deleteMemory(idx) {
-        if (!confirm('Delete this memory?')) return;
-        memories.splice(idx, 1);
-        renderMemories();
-    }
-
-    function saveMemory() {
+    /* ─── Save memory to Firestore ─── */
+    window.saveMemory = async function () {
         const text = document.getElementById('memo-text').value.trim();
         const date = document.getElementById('memo-date').value;
         const label = document.getElementById('memo-label').value.trim();
@@ -819,24 +858,97 @@
             alert('Please write a memory or add a photo 💕');
             return;
         }
-        memories.push({text, date, label, image, savedAt: new Date().toISOString()});
-        document.getElementById('memo-text').value = '';
-        document.getElementById('memo-date').value = localToday();
-        document.getElementById('memo-label').value = '';
-        clearZone({
-            stopPropagation: () => {
-            }
-        }, 'add');
-        const toast = document.getElementById('save-toast');
-        toast.style.display = 'block';
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 2500);
-        renderMemories();
+        const btn = document.getElementById('save-btn');
+        btn.disabled = true;
+        btn.textContent = '💾 Saving...';
+        showSync();
+        try {
+            await addDoc(memoriesRef, {text, date, label, image, savedAt: new Date().toISOString()});
+            document.getElementById('memo-text').value = '';
+            document.getElementById('memo-date').value = localToday();
+            document.getElementById('memo-label').value = '';
+            clearZone({
+                stopPropagation: () => {
+                }
+            }, 'add');
+            const toast = document.getElementById('save-toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2500);
+        } catch (e) {
+            alert('Error saving: ' + e.message);
+        }
+        btn.disabled = false;
+        btn.textContent = '💾 Save Memory';
+        hideSync();
+    };
+
+    /* ─── Delete ─── */
+    window.deleteMemory = async function (id) {
+        if (!confirm('Delete this memory?')) return;
+        showSync();
+        await deleteDoc(doc(db, 'memories', id));
+        hideSync();
+    };
+
+    /* ─── Edit ─── */
+    window.startEdit = function (id) {
+        const card = document.getElementById('msg-card-' + id);
+        const imgSrc = card.querySelector('.msg-img') ? card.querySelector('.msg-img').src : '';
+        const label = card.querySelector('.msg-label') ? card.querySelector('.msg-label').textContent : '';
+        const datePin = card.querySelector('.msg-date-pin') ? card.querySelector('.msg-date-pin').textContent.replace('📅 ', '') : '';
+        const body = card.querySelector('.msg-body') ? card.querySelector('.msg-body').textContent : '';
+        const uid = 'edit-' + id;
+        const hasImg = !!imgSrc;
+        card.innerHTML =
+            '<div class="edit-form">' +
+            '<input type="text" id="' + uid + '-label-input" value="' + esc(label) + '" placeholder="Label" maxlength="60" />' +
+            '<input type="date" id="' + uid + '-date-input" value="' + esc(datePin) + '" style="padding:8px 12px;border:1px solid rgba(255,182,210,0.7);border-radius:10px;background:rgba(255,240,248,0.9);color:#7a2545;font-size:0.9rem;font-family:Lato,sans-serif;outline:none;" />' +
+            '<textarea id="' + uid + '-text-input" placeholder="Your memory…">' + esc(body) + '</textarea>' +
+            '<div class="img-upload-zone' + (hasImg ? ' has-img' : '') + '" id="' + uid + '-upload-zone" onclick="document.getElementById(\'' + uid + '-file-input\').click()">' +
+            '<span id="' + uid + '-upload-hint"' + (hasImg ? ' style="display:none"' : '') + '>📷 Click to add a photo (optional)</span>' +
+            '<img class="zone-preview" id="' + uid + '-img-preview" src="' + (imgSrc || '') + '" alt="preview" style="display:' + (hasImg ? 'block' : 'none') + ';" />' +
+            '<button class="zone-clear-btn" id="' + uid + '-clear-btn" style="display:' + (hasImg ? 'block' : 'none') + ';" onclick="clearZone(event,\'' + uid + '\')">✕ Remove photo</button>' +
+            '</div>' +
+            '<input type="file" id="' + uid + '-file-input" accept="image/*" style="display:none" onchange="handleZoneFile(event,\'' + uid + '\')" />' +
+            '<div class="edit-actions">' +
+            '<button class="btn-save-edit" onclick="saveEdit(\'' + id + '\')">💾 Save</button>' +
+            '<button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button>' +
+            '</div></div>';
+        const zone = document.getElementById(uid + '-upload-zone');
+        zone._b64 = imgSrc || null;
+    };
+
+    window.cancelEdit = function () {
+        // trigger re-render by forcing a snapshot re-read — just reload
+        window.location.reload();
+    };
+
+    window.saveEdit = async function (id) {
+        const uid = 'edit-' + id;
+        const label = document.getElementById(uid + '-label-input').value.trim();
+        const date = document.getElementById(uid + '-date-input').value;
+        const text = document.getElementById(uid + '-text-input').value.trim();
+        const zone = document.getElementById(uid + '-upload-zone');
+        const image = zone ? zone._b64 : null;
+        showSync();
+        try {
+            await updateDoc(doc(db, 'memories', id), {label, date, text, image});
+        } catch (e) {
+            alert('Error updating: ' + e.message);
+        }
+        hideSync();
+    };
+
+    /* ─── Sync indicator ─── */
+    function showSync() {
+        document.getElementById('sync-indicator').classList.add('show');
     }
 
-    renderMemories();
-    document.getElementById('memo-date').value = localToday();
+    function hideSync() {
+        document.getElementById('sync-indicator').classList.remove('show');
+    }
 
     /* ─── Particles ─── */
     const emojis = ['❤️', '💕', '🌸', '🌺', '💐', '🌹', '💗', '🌼', '✨', '💖', '🌷', '💞'];
@@ -854,6 +966,7 @@
 
     for (let i = 0; i < 22; i++) spawnParticle();
     setInterval(spawnParticle, 700);
+
 </script>
 </body>
 </html>
