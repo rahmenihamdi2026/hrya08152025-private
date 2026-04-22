@@ -938,6 +938,200 @@
         }
 
         .comment-send-btn:hover { opacity: .85; }
+
+        /* ===== WEDDING CHECKLIST ===== */
+        .checklist-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .checklist-board { grid-template-columns: 1fr; }
+        }
+
+        .checklist-column {
+            background: rgba(255, 255, 255, .65);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 182, 210, .45);
+            border-radius: 22px;
+            padding: 18px 16px 20px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: background .2s;
+        }
+
+        .checklist-column.drag-over {
+            background: rgba(255, 210, 235, .55);
+            border-color: #c0396b;
+        }
+
+        .checklist-col-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .checklist-col-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.7rem;
+            color: #c0396b;
+        }
+
+        .checklist-col-count {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+            border-radius: 50px;
+            padding: 2px 10px;
+            font-size: .75rem;
+            letter-spacing: 1px;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .checklist-task {
+            background: rgba(255, 255, 255, .85);
+            border: 1px solid rgba(255, 182, 210, .5);
+            border-radius: 14px;
+            padding: 12px 14px;
+            cursor: grab;
+            box-shadow: 0 3px 10px rgba(192, 57, 107, .08);
+            transition: transform .2s, box-shadow .2s, opacity .2s;
+            position: relative;
+            user-select: none;
+            animation: fadeIn .3s ease;
+        }
+
+        .checklist-task:active { cursor: grabbing; }
+        .checklist-task.dragging { opacity: .45; transform: scale(.97); box-shadow: 0 8px 24px rgba(192, 57, 107, .22); }
+
+        .checklist-task-text {
+            font-size: .93rem;
+            color: #5a1a35;
+            line-height: 1.5;
+            padding-right: 24px;
+            word-break: break-word;
+        }
+
+        .checklist-task-delete {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #d080a0;
+            font-size: .8rem;
+            cursor: pointer;
+            transition: color .2s;
+            padding: 2px;
+            line-height: 1;
+        }
+
+        .checklist-task-delete:hover { color: #c0396b; }
+
+        .checklist-task-meta {
+            font-size: .72rem;
+            color: #c090a8;
+            margin-top: 5px;
+            letter-spacing: .5px;
+        }
+
+        .checklist-status-todo { border-left: 3px solid #f48fb1; }
+        .checklist-status-inprogress { border-left: 3px solid #e07fa0; }
+        .checklist-status-done { border-left: 3px solid #c0396b; opacity: .8; }
+        .checklist-status-done .checklist-task-text { text-decoration: line-through; color: #a07080; }
+
+        .checklist-add-form {
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, .72);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 182, 210, .55);
+            border-radius: 18px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 6px 20px rgba(192, 57, 107, .10);
+        }
+
+        .checklist-add-form input[type="text"] {
+            flex: 1;
+            min-width: 180px;
+            padding: 9px 14px;
+            border: 1px solid rgba(255, 182, 210, .7);
+            border-radius: 10px;
+            background: rgba(255, 240, 248, .8);
+            color: #7a2545;
+            font-size: .9rem;
+            font-family: 'Lato', sans-serif;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .checklist-add-form input[type="text"]:focus { border-color: #c0396b; }
+        .checklist-add-form input::placeholder { color: #c090a8; }
+
+        .checklist-add-form select {
+            padding: 9px 12px;
+            border: 1px solid rgba(255, 182, 210, .7);
+            border-radius: 10px;
+            background: rgba(255, 240, 248, .8);
+            color: #7a2545;
+            font-size: .88rem;
+            font-family: 'Lato', sans-serif;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .checklist-add-btn {
+            padding: 9px 20px;
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: .9rem;
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity .2s;
+        }
+
+        .checklist-add-btn:hover { opacity: .85; }
+
+        .checklist-empty {
+            text-align: center;
+            color: #c090a8;
+            font-size: .85rem;
+            padding: 20px 10px;
+            letter-spacing: 1px;
+        }
+
+        .checklist-progress-wrap {
+            background: rgba(255, 182, 210, .3);
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .checklist-progress-bar {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #f48fb1, #c0396b);
+            transition: width .5s ease;
+        }
+
+        .checklist-progress-label {
+            font-size: .75rem;
+            color: #a0556e;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -968,8 +1162,10 @@
 <nav>
     <button class="nav-btn active" onclick="showPage('home',this)">🏠 Home</button>
     <button class="nav-btn" onclick="showPage('memories',this)">💌 Memories</button>
+    <button class="nav-btn" onclick="showPage('checklist',this)">✅ Wedding Checklist</button>
     <button class="nav-btn" onclick="showPage('special',this)">🗓️ Special Dates</button>
     <button class="nav-btn" onclick="showPage('story',this)">💑 Our Story</button>
+    
 </nav>
 
 <!-- PAGE HOME -->
@@ -1081,6 +1277,59 @@
         <div class="timeline" id="timeline"></div>
     </div>
 </div>
+
+<!-- PAGE WEDDING CHECKLIST -->
+<div id="page-checklist" class="page">
+    <div class="page-wrap" style="max-width:1100px;">
+        <p class="page-title">Wedding Checklist ✅</p>
+        <p class="page-sub">✨ Plan your perfect day ✨</p>
+        <div class="checklist-progress-wrap"><div class="checklist-progress-bar" id="cl-progress-bar" style="width:0%"></div></div>
+        <p class="checklist-progress-label" id="cl-progress-label">Add your first task 🌸</p>
+        <div class="checklist-add-form">
+            <input type="text" id="cl-task-input" placeholder="New task… e.g. Book the venue 💒" maxlength="120"
+                onkeydown="if(event.key==='Enter') addChecklistTask()"/>
+            <select id="cl-status-select">
+                <option value="todo">📋 To Do</option>
+                <option value="inprogress">⏳ In Progress</option>
+                <option value="done">✅ Done</option>
+            </select>
+            <button class="checklist-add-btn" onclick="addChecklistTask()">+ Add Task</button>
+        </div>
+        <div class="checklist-board">
+            <div class="checklist-column" id="col-todo"
+                ondragover="onColDragOver(event,'todo')"
+                ondragleave="onColDragLeave(event,'todo')"
+                ondrop="onColDrop(event,'todo')">
+                <div class="checklist-col-header">
+                    <span class="checklist-col-title">📋 To Do</span>
+                    <span class="checklist-col-count" id="count-todo">0</span>
+                </div>
+                <div id="tasks-todo"><p class="checklist-empty">No tasks yet 🌸</p></div>
+            </div>
+            <div class="checklist-column" id="col-inprogress"
+                ondragover="onColDragOver(event,'inprogress')"
+                ondragleave="onColDragLeave(event,'inprogress')"
+                ondrop="onColDrop(event,'inprogress')">
+                <div class="checklist-col-header">
+                    <span class="checklist-col-title">⏳ In Progress</span>
+                    <span class="checklist-col-count" id="count-inprogress">0</span>
+                </div>
+                <div id="tasks-inprogress"><p class="checklist-empty">Nothing in progress 💕</p></div>
+            </div>
+            <div class="checklist-column" id="col-done"
+                ondragover="onColDragOver(event,'done')"
+                ondragleave="onColDragLeave(event,'done')"
+                ondrop="onColDrop(event,'done')">
+                <div class="checklist-col-header">
+                    <span class="checklist-col-title">✅ Done</span>
+                    <span class="checklist-col-count" id="count-done">0</span>
+                </div>
+                <div id="tasks-done"><p class="checklist-empty">Nothing completed yet ✨</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script type="module">
     import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
@@ -1657,6 +1906,176 @@
         catch (e) { alert("Error: " + e.message); }
         hideSync();
     };
+
+    /* ===== WEDDING CHECKLIST (Firestore) ===== */
+    const checklistRef = collection(db, "checklist");
+    let draggedTaskId = null;
+
+    function clEsc(s) {
+        if (!s) return "";
+        return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    function renderChecklistTasks(docs) {
+        const buckets = { todo: [], inprogress: [], done: [] };
+        docs.forEach(d => {
+            const data = d.data();
+            const status = data.status || "todo";
+            if (buckets[status]) buckets[status].push({ id: d.id, ...data });
+        });
+
+        ["todo","inprogress","done"].forEach(status => {
+            const container = document.getElementById("tasks-" + status);
+            const countEl = document.getElementById("count-" + status);
+            const tasks = buckets[status];
+            if (countEl) countEl.textContent = tasks.length;
+            if (!container) return;
+            if (tasks.length === 0) {
+                const msgs = { todo:"No tasks yet 🌸", inprogress:"Nothing in progress 💕", done:"Nothing completed yet ✨" };
+                container.innerHTML = `<p class="checklist-empty">${msgs[status]}</p>`;
+                return;
+            }
+            container.innerHTML = tasks.map(t => `
+                <div class="checklist-task checklist-status-${status}"
+                     draggable="true"
+                     id="task-${t.id}"
+                     ondragstart="onTaskDragStart(event,'${t.id}')"
+                     ondragend="onTaskDragEnd(event)">
+                    <div class="checklist-task-text">${clEsc(t.text)}</div>
+                    <div class="checklist-task-meta">Added by ${t.createdBy === "yossr" ? "👩 Yossr" : "👨 Hamdi"} · ${t.createdAt ? t.createdAt.substring(0,10) : ""}</div>
+                    <button class="checklist-task-delete" onclick="deleteChecklistTask('${t.id}')">🗑️</button>
+                </div>`).join("");
+        });
+
+        const total = docs.length;
+        const done = buckets.done.length;
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        const bar = document.getElementById("cl-progress-bar");
+        const lbl = document.getElementById("cl-progress-label");
+        if (bar) bar.style.width = pct + "%";
+        if (lbl) lbl.textContent = total === 0 ? "Add your first task 🌸" : `${done} of ${total} tasks completed (${pct}%) 💕`;
+    }
+
+    onSnapshot(query(checklistRef, orderBy("createdAt", "asc")), snapshot => {
+        renderChecklistTasks(snapshot.docs);
+    });
+
+    window.addChecklistTask = async function() {
+        const input = document.getElementById("cl-task-input");
+        const select = document.getElementById("cl-status-select");
+        if (!input || !select) return;
+        const text = input.value.trim();
+        if (!text) { input.focus(); return; }
+        showSync();
+        try {
+            await addDoc(checklistRef, {
+                text,
+                status: select.value,
+                createdBy: currentUser || "hamdi",
+                createdAt: new Date().toISOString()
+            });
+            input.value = "";
+            select.value = "todo";
+        } catch(e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.deleteChecklistTask = async function(id) {
+        if (!confirm("Delete this task?")) return;
+        showSync();
+        try { await deleteDoc(doc(db, "checklist", id)); }
+        catch(e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.onTaskDragStart = function(e, id) {
+        draggedTaskId = id;
+        e.dataTransfer.effectAllowed = "move";
+        setTimeout(() => {
+            const el = document.getElementById("task-" + id);
+            if (el) el.classList.add("dragging");
+        }, 0);
+    };
+
+    window.onTaskDragEnd = function(e) {
+        if (draggedTaskId) {
+            const el = document.getElementById("task-" + draggedTaskId);
+            if (el) el.classList.remove("dragging");
+        }
+        document.querySelectorAll(".checklist-column").forEach(c => c.classList.remove("drag-over"));
+    };
+
+    window.onColDragOver = function(e, status) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        document.getElementById("col-" + status)?.classList.add("drag-over");
+    };
+
+    window.onColDragLeave = function(e, status) {
+        const col = document.getElementById("col-" + status);
+        if (col && !col.contains(e.relatedTarget)) col.classList.remove("drag-over");
+    };
+
+    window.onColDrop = async function(e, newStatus) {
+        e.preventDefault();
+        document.querySelectorAll(".checklist-column").forEach(c => c.classList.remove("drag-over"));
+        if (!draggedTaskId) return;
+        showSync();
+        try { await updateDoc(doc(db, "checklist", draggedTaskId), { status: newStatus }); }
+        catch(err) { alert("Error: " + err.message); }
+        draggedTaskId = null;
+        hideSync();
+    };
+
+    /* Touch support for mobile drag */
+    let touchTask = null, touchClone = null;
+    document.addEventListener("touchstart", function(e) {
+        const task = e.target.closest(".checklist-task");
+        if (!task) return;
+        touchTask = task;
+        touchClone = task.cloneNode(true);
+        touchClone.style.cssText = "position:fixed;opacity:.7;pointer-events:none;z-index:9999;width:" + task.offsetWidth + "px;border-radius:14px;";
+        document.body.appendChild(touchClone);
+    }, {passive:true});
+
+    document.addEventListener("touchmove", function(e) {
+        if (!touchClone) return;
+        const t = e.touches[0];
+        touchClone.style.left = (t.clientX - touchClone.offsetWidth / 2) + "px";
+        touchClone.style.top = (t.clientY - 30) + "px";
+        document.querySelectorAll(".checklist-column").forEach(col => {
+            const r = col.getBoundingClientRect();
+            if (t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom) {
+                col.classList.add("drag-over");
+            } else {
+                col.classList.remove("drag-over");
+            }
+        });
+    }, {passive:true});
+
+    document.addEventListener("touchend", async function(e) {
+        if (!touchClone || !touchTask) return;
+        const t = e.changedTouches[0];
+        let dropped = false;
+        const cols = document.querySelectorAll(".checklist-column");
+        for (const col of cols) {
+            const r = col.getBoundingClientRect();
+            if (!dropped && t.clientX >= r.left && t.clientX <= r.right && t.clientY >= r.top && t.clientY <= r.bottom) {
+                dropped = true;
+                const newStatus = col.id.replace("col-","");
+                const taskId = touchTask.id.replace("task-","");
+                showSync();
+                try { await updateDoc(doc(db, "checklist", taskId), { status: newStatus }); }
+                catch(err) { alert("Error: " + err.message); }
+                hideSync();
+            }
+            col.classList.remove("drag-over");
+        }
+        touchClone.remove();
+        touchClone = null;
+        touchTask = null;
+    });
+
 
     /* ===== PARTICLES ===== */
     const emojis = ["❤️", "💕", "🌸", "🌺", "💐", "🌹", "💗", "🌼", "✨", "💖", "🌷", "💞"];
