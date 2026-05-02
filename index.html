@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&display=swap');
 
@@ -1132,6 +1133,646 @@
             margin-bottom: 16px;
             text-align: center;
         }
+
+        /* ===== OUR PLACES ===== */
+        #our-places-map {
+            height: 440px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 182, 210, .55);
+            box-shadow: 0 8px 28px rgba(192, 57, 107, .14);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .place-hint {
+            text-align: center;
+            font-size: .85rem;
+            color: #a0556e;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            padding: 10px 16px;
+            background: rgba(255, 210, 230, .3);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 182, 210, .4);
+        }
+
+        .places-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .place-card {
+            background: rgba(255, 255, 255, .72);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 182, 210, .55);
+            border-radius: 20px;
+            padding: 18px 22px;
+            width: min(260px, 90vw);
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(192, 57, 107, .10);
+            transition: transform .3s, box-shadow .3s;
+            position: relative;
+            animation: fadeIn .3s ease;
+        }
+
+        .place-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(192, 57, 107, .2); }
+        .place-card .p-emoji { font-size: 2.4rem; margin-bottom: 6px; }
+        .place-card .p-name { font-family: 'Great Vibes', cursive; font-size: 1.7rem; color: #c0396b; margin-bottom: 6px; }
+        .place-card .p-desc { font-size: .84rem; color: #7a2545; line-height: 1.55; margin-bottom: 8px; }
+        .place-card .p-coords { font-size: .72rem; color: #c090a8; letter-spacing: .5px; margin-bottom: 4px; }
+        .place-card .p-author { font-size: .72rem; color: #b07090; letter-spacing: .5px; }
+        .place-card .p-view-btn {
+            margin-top: 10px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: .78rem;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            transition: opacity .2s;
+        }
+        .place-card .p-view-btn:hover { opacity: .85; }
+
+        .place-card .p-del {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #d080a0;
+            font-size: .85rem;
+            cursor: pointer;
+            transition: color .2s;
+        }
+        .place-card .p-del:hover { color: #c0396b; }
+
+        /* Place Add Modal */
+        .place-add-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(90, 26, 53, .48);
+            backdrop-filter: blur(10px);
+            z-index: 9000;
+            align-items: center;
+            justify-content: center;
+        }
+        .place-add-popup.open { display: flex; animation: fadeIn .25s ease; }
+
+        .place-add-modal {
+            background: linear-gradient(160deg, #fff5f9, #ffe4f0);
+            border: 1px solid rgba(255, 182, 210, .6);
+            border-radius: 26px;
+            padding: 30px 28px 24px;
+            width: min(360px, 90vw);
+            box-shadow: 0 20px 60px rgba(192, 57, 107, .28);
+        }
+
+        .place-add-modal h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #c0396b;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .place-add-modal input,
+        .place-add-modal textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 182, 210, .7);
+            border-radius: 11px;
+            background: rgba(255, 240, 248, .85);
+            color: #7a2545;
+            font-size: .9rem;
+            font-family: 'Lato', sans-serif;
+            outline: none;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            transition: border-color .2s;
+        }
+
+        .place-add-modal input:focus,
+        .place-add-modal textarea:focus { border-color: #c0396b; }
+        .place-add-modal input::placeholder,
+        .place-add-modal textarea::placeholder { color: #c090a8; }
+        .place-add-modal textarea { min-height: 76px; resize: vertical; }
+
+        .place-modal-row { display: flex; gap: 10px; }
+
+        .place-coords-info {
+            font-size: .75rem;
+            color: #b07090;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: .5px;
+        }
+
+        .place-modal-actions { display: flex; gap: 10px; margin-top: 4px; }
+
+        .place-save-btn {
+            flex: 1;
+            padding: 11px;
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+            border: none;
+            border-radius: 11px;
+            font-size: .92rem;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            transition: opacity .2s;
+        }
+        .place-save-btn:hover { opacity: .85; }
+
+        .place-cancel-btn {
+            flex: 1;
+            padding: 11px;
+            background: rgba(255, 182, 210, .3);
+            color: #9b1c4a;
+            border: 1px solid rgba(255, 182, 210, .6);
+            border-radius: 11px;
+            font-size: .92rem;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+        }
+
+        .no-places {
+            text-align: center;
+            color: #c090a8;
+            font-size: .9rem;
+            padding: 24px;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        /* Map search bar (floating over map) */
+        .map-wrap { position: relative; margin-bottom: 22px; }
+
+        .map-geocode-bar {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: min(400px, 86%);
+            background: rgba(255,255,255,.97);
+            border-radius: 50px;
+            box-shadow: 0 4px 22px rgba(0,0,0,.18);
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 8px;
+        }
+
+        .map-geocode-bar span { font-size: 1rem; flex-shrink: 0; }
+
+        .map-geocode-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px 4px;
+            font-size: .92rem;
+            color: #7a2545;
+            outline: none;
+            font-family: 'Lato', sans-serif;
+        }
+        .map-geocode-input::placeholder { color: #c090a8; }
+
+        .map-geocode-clear {
+            background: none;
+            border: none;
+            color: #c090a8;
+            font-size: .9rem;
+            cursor: pointer;
+            padding: 4px;
+            display: none;
+        }
+        .map-geocode-clear.show { display: block; }
+
+        .map-geocode-results {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0; right: 0;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 28px rgba(0,0,0,.16);
+            overflow: hidden;
+            display: none;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+        .map-geocode-results.open { display: block; }
+
+        .mgr-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-size: .88rem;
+            color: #5a1a35;
+            border-bottom: 1px solid rgba(255,182,210,.18);
+            transition: background .15s;
+        }
+        .mgr-item:last-child { border-bottom: none; }
+        .mgr-item:hover { background: rgba(255,210,230,.3); }
+        .mgr-item .mgr-icon { font-size: 1rem; flex-shrink: 0; }
+        .mgr-item .mgr-name { font-weight: 700; color: #9b1c4a; }
+        .mgr-item .mgr-sub { font-size: .76rem; color: #b07090; margin-top: 1px; }
+        .mgr-loading { padding: 14px 16px; font-size: .85rem; color: #c090a8; text-align: center; letter-spacing: 1px; animation: pulse 1.2s infinite; }
+
+        /* Multi-photo preview grid */
+        .gal-multi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .gal-multi-item {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255,182,210,.5);
+            background: rgba(255,240,248,.6);
+            animation: fadeIn .25s ease;
+        }
+
+        .gal-multi-item img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gal-multi-item input[type="text"] {
+            width: 100%;
+            padding: 6px 8px;
+            border: none;
+            border-top: 1px solid rgba(255,182,210,.4);
+            background: rgba(255,240,248,.92);
+            font-size: .76rem;
+            color: #7a2545;
+            font-family: 'Lato', sans-serif;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .gal-multi-item input::placeholder { color: #c090a8; }
+
+        .gal-multi-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255,255,255,.92);
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: .75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c0396b;
+            box-shadow: 0 2px 6px rgba(0,0,0,.12);
+            transition: background .15s;
+        }
+        .gal-multi-remove:hover { background: #fff; }
+
+        /* ===== GALLERY ===== */
+        .album-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+
+        .album-tab {
+            padding: 8px 18px;
+            border: 1.5px solid rgba(255, 182, 210, .6);
+            border-radius: 50px;
+            background: transparent;
+            color: #c0396b;
+            font-family: 'Lato', sans-serif;
+            font-size: .85rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all .22s;
+        }
+        .album-tab:hover { background: rgba(255, 182, 210, .2); }
+        .album-tab.active {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 3px 12px rgba(192, 57, 107, .25);
+        }
+
+        .gallery-add-form {
+            background: rgba(255, 255, 255, .72);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 182, 210, .55);
+            border-radius: 22px;
+            padding: 22px 26px;
+            box-shadow: 0 8px 28px rgba(192, 57, 107, .12);
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .gallery-form-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .gallery-form-row input[type="text"] {
+            flex: 1;
+            min-width: 160px;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 182, 210, .7);
+            border-radius: 11px;
+            background: rgba(255, 240, 248, .8);
+            color: #7a2545;
+            font-size: .9rem;
+            font-family: 'Lato', sans-serif;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .gallery-form-row input:focus { border-color: #c0396b; }
+        .gallery-form-row input::placeholder { color: #c090a8; }
+
+        .gallery-form-row select {
+            padding: 10px 12px;
+            border: 1px solid rgba(255, 182, 210, .7);
+            border-radius: 11px;
+            background: rgba(255, 240, 248, .8);
+            color: #7a2545;
+            font-size: .88rem;
+            font-family: 'Lato', sans-serif;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .gallery-choose-btn {
+            padding: 10px 20px;
+            background: rgba(255, 182, 210, .35);
+            color: #c0396b;
+            border: 1.5px solid rgba(255, 182, 210, .6);
+            border-radius: 11px;
+            font-size: .9rem;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+        .gallery-choose-btn:hover { background: rgba(255, 182, 210, .5); border-color: #c0396b; }
+
+        .gallery-preview-zone {
+            display: none;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: rgba(255, 240, 248, .6);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 182, 210, .5);
+        }
+        .gallery-preview-zone.active { display: flex; }
+
+        .gallery-preview-zone img {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .gp-info { flex: 1; font-size: .84rem; color: #7a2545; line-height: 1.5; }
+        .gp-info strong { color: #c0396b; }
+
+        .gp-clear {
+            background: none;
+            border: none;
+            color: #c0396b;
+            font-size: .85rem;
+            cursor: pointer;
+            letter-spacing: .5px;
+            flex-shrink: 0;
+        }
+
+        .gallery-save-btn {
+            padding: 12px;
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: .95rem;
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity .2s, transform .15s;
+        }
+        .gallery-save-btn:hover { opacity: .88; transform: translateY(-1px); }
+        .gallery-save-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(192, 57, 107, .12);
+            transition: transform .25s, box-shadow .25s;
+            animation: fadeIn .3s ease;
+        }
+
+        .photo-item:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(192, 57, 107, .24); }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .3s;
+        }
+        .photo-item:hover img { transform: scale(1.05); }
+
+        .photo-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(90, 26, 53, .7) 0%, transparent 55%);
+            opacity: 0;
+            transition: opacity .25s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 12px 14px;
+        }
+        .photo-item:hover .photo-overlay { opacity: 1; }
+
+        .po-caption { font-size: .82rem; color: #fff; line-height: 1.4; }
+        .po-album { font-size: .7rem; color: rgba(255, 200, 220, .9); margin-top: 3px; letter-spacing: .5px; }
+
+        .photo-del-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, .88);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: .85rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #c0396b;
+            transition: background .2s;
+        }
+        .photo-item:hover .photo-del-btn { display: flex; }
+        .photo-del-btn:hover { background: #fff; }
+
+        .gallery-empty {
+            text-align: center;
+            color: #c090a8;
+            font-size: .9rem;
+            padding: 36px;
+            letter-spacing: 1px;
+            grid-column: 1 / -1;
+        }
+
+        .gallery-loading-state {
+            text-align: center;
+            color: #e07fa0;
+            font-size: .9rem;
+            padding: 36px;
+            letter-spacing: 1px;
+            grid-column: 1 / -1;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* ===== SLIDESHOW MODAL ===== */
+        .slideshow-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 0, 10, .94);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .slideshow-overlay.open { display: flex; animation: fadeIn .2s ease; }
+
+        .slideshow-img-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 92vw;
+            max-height: 70vh;
+        }
+
+        .slideshow-img-wrap img {
+            max-width: 90vw;
+            max-height: 68vh;
+            border-radius: 18px;
+            object-fit: contain;
+            box-shadow: 0 24px 70px rgba(0,0,0,.7);
+        }
+
+        .slideshow-info {
+            text-align: center;
+            margin-top: 18px;
+        }
+
+        .slideshow-caption {
+            color: #ffd6e8;
+            font-size: 1rem;
+            letter-spacing: .5px;
+            line-height: 1.5;
+        }
+
+        .slideshow-album-tag {
+            color: rgba(255, 182, 210, .65);
+            font-size: .78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .slideshow-counter {
+            color: rgba(255, 182, 210, .45);
+            font-size: .75rem;
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+
+        .slideshow-nav {
+            display: flex;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .sl-nav-btn {
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 182, 210, .35);
+            border-radius: 50px;
+            padding: 10px 26px;
+            color: #ffd6e8;
+            font-size: .9rem;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            transition: background .2s;
+            letter-spacing: 1px;
+        }
+        .sl-nav-btn:hover { background: rgba(255, 182, 210, .2); }
+
+        .slideshow-close {
+            position: fixed;
+            top: 18px;
+            right: 20px;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 182, 210, .35);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            color: #ffd6e8;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+        }
+        .slideshow-close:hover { background: rgba(255, 182, 210, .2); }
+
+        /* Leaflet popup custom style */
+        .leaflet-popup-content-wrapper {
+            border-radius: 14px !important;
+            border: 1px solid rgba(255, 182, 210, .5) !important;
+            font-family: 'Lato', sans-serif !important;
+            color: #7a2545 !important;
+        }
+        .leaflet-popup-tip { background: #fff !important; }
     </style>
 </head>
 <body>
@@ -1164,8 +1805,9 @@
     <button class="nav-btn" onclick="showPage('memories',this)">💌 Memories</button>
     <button class="nav-btn" onclick="showPage('checklist',this)">✅ Wedding Checklist</button>
     <button class="nav-btn" onclick="showPage('special',this)">🗓️ Special Dates</button>
+    <button class="nav-btn" onclick="showPage('places',this)">🗺️ Our Places</button>
+    <button class="nav-btn" onclick="showPage('gallery',this)">📸 Gallery</button>
     <button class="nav-btn" onclick="showPage('story',this)">💑 Our Story</button>
-    
 </nav>
 
 <!-- PAGE HOME -->
@@ -1330,7 +1972,91 @@
     </div>
 </div>
 
+<!-- PAGE OUR PLACES -->
+<div id="page-places" class="page">
+    <div class="page-wrap" style="max-width:900px;">
+        <p class="page-title">Our Places 🗺️</p>
+        <p class="page-sub">✨ Every spot that belongs to our story ✨</p>
+        <p class="place-hint">📍 Search a location below, then click the map to pin your special place</p>
+        <div class="map-wrap">
+            <div id="our-places-map"></div>
+            <div class="map-geocode-bar" id="map-geocode-bar">
+                <span>🔍</span>
+                <input class="map-geocode-input" id="map-geocode-input" type="text" placeholder="Search a place…" autocomplete="off"/>
+                <button class="map-geocode-clear" id="map-geocode-clear" onclick="clearMapSearch()">✕</button>
+                <div class="map-geocode-results" id="map-geocode-results"></div>
+            </div>
+        </div>
+        <div class="places-list" id="places-list">
+            <p class="no-places">No places saved yet… click the map to add your first one 🌹</p>
+        </div>
+    </div>
+</div>
 
+<!-- Place Add Popup Modal -->
+<div class="place-add-popup" id="place-add-popup">
+    <div class="place-add-modal">
+        <h3>📍 Pin This Place</h3>
+        <div class="place-modal-row">
+            <input type="text" id="place-emoji-input" placeholder="Emoji 🌹" maxlength="4" style="max-width:90px;"/>
+            <input type="text" id="place-name-input" placeholder="Place name (e.g. Where we met 💕)" maxlength="50"/>
+        </div>
+        <textarea id="place-desc-input" placeholder="Tell the story of this place… 💕" maxlength="200"></textarea>
+        <p class="place-coords-info" id="place-coords-info">📍 Coordinates will be saved automatically</p>
+        <input type="hidden" id="place-lat-input"/>
+        <input type="hidden" id="place-lng-input"/>
+        <div class="place-modal-actions">
+            <button class="place-save-btn" onclick="savePlaceFromModal()">💾 Save Place</button>
+            <button class="place-cancel-btn" onclick="closePlaceModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE GALLERY -->
+<div id="page-gallery" class="page">
+    <div class="page-wrap">
+        <p class="page-title">Our Gallery 📸</p>
+        <p class="page-sub">✨ Captured moments, forever ✨</p>
+
+        <div class="gallery-add-form">
+            <div class="gallery-form-row">
+                <input type="text" id="gal-album" placeholder="Album name.." maxlength="40" list="albums-datalist" style="min-width:170px;flex:1;"/>
+                <datalist id="albums-datalist"></datalist>
+                <button class="gallery-choose-btn" onclick="document.getElementById('gal-file-input').click()">📷 Choose Photos</button>
+            </div>
+            <input type="file" id="gal-file-input" accept="image/*" multiple style="display:none" onchange="handleGalleryFiles(event)"/>
+            <div class="gal-multi-grid" id="gal-multi-grid" style="display:none;"></div>
+            <button class="gallery-save-btn" id="gal-save-btn" onclick="saveAllGalleryPhotos()" style="display:none;">💾 Add Photos to Gallery</button>
+        </div>
+
+        <div class="album-tabs" id="album-tabs">
+            <button class="album-tab active" onclick="filterAlbum('all', this)">🌸 All</button>
+        </div>
+
+        <div class="photo-grid" id="gallery-grid">
+            <p class="gallery-loading-state">💕 Loading photos...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Slideshow Modal -->
+<div class="slideshow-overlay" id="slideshow-overlay">
+    <button class="slideshow-close" onclick="closeSlideshow()">✕</button>
+    <div class="slideshow-img-wrap">
+        <img id="slideshow-img" src="" alt=""/>
+    </div>
+    <div class="slideshow-info">
+        <div class="slideshow-caption" id="slideshow-caption"></div>
+        <div class="slideshow-album-tag" id="slideshow-album"></div>
+        <div class="slideshow-counter" id="slideshow-counter"></div>
+    </div>
+    <div class="slideshow-nav">
+        <button class="sl-nav-btn" onclick="slideshowNav(-1)">← Prev</button>
+        <button class="sl-nav-btn" onclick="slideshowNav(1)">Next →</button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script type="module">
     import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import {getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy}
@@ -1472,7 +2198,6 @@
 
     function saveEvents(list) { localStorage.setItem(CUSTOM_KEY, JSON.stringify(list)); }
 
-    /* Helper: get today as YYYY-MM-DD */
     function todayStr() {
         const d = new Date();
         return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -1633,7 +2358,7 @@
     /* ===== REACTION EMOJIS ===== */
     const REACTION_EMOJIS = ["❤️", "💕", "🥰", "😍", "😂", "🌹", "🦋", "🌸", "💐"];
 
-    /* ===== FIRESTORE MEMORIES LISTENER - sorted by date Desc ===== */
+    /* ===== FIRESTORE MEMORIES LISTENER ===== */
     const memoriesRef = collection(db, "memories");
     onSnapshot(query(memoriesRef, orderBy("date", "desc")), snapshot => {
         const container = document.getElementById("messages-list");
@@ -1646,7 +2371,6 @@
             const reactions = m.reactions || {};
             const comments = m.comments || [];
 
-            /* Build reaction chips */
             let reactionsHtml = "";
             if (reactions.hamdi) {
                 reactionsHtml += `<span class="reaction-chip" onclick="toggleReactionPicker('${id}')" title="Hamdi"><span class="rc-emoji">${reactions.hamdi}</span> <span class="rc-who">👨</span></span>`;
@@ -1655,7 +2379,6 @@
                 reactionsHtml += `<span class="reaction-chip" onclick="toggleReactionPicker('${id}')" title="Yossr"><span class="rc-emoji">${reactions.yossr}</span> <span class="rc-who">👩</span></span>`;
             }
 
-            /* Build comments list */
             let commentsHtml = comments.map((c, ci) => {
                 const whoIcon = c.author === "hamdi" ? "👨" : "👩";
                 const whoName = c.author === "hamdi" ? "Hamdi" : "Yossr";
@@ -1715,19 +2438,16 @@
         }).join("");
     });
 
-    /* ===== TOGGLE REACTION PICKER ===== */
     window.toggleReactionPicker = function(id) {
         if (!currentUser) { showIdentityModal(); return; }
         const picker = document.getElementById("picker-" + id);
         if (!picker) return;
-        /* Close all other pickers */
         document.querySelectorAll('.reaction-picker.open').forEach(p => {
             if (p.id !== "picker-" + id) p.classList.remove('open');
         });
         picker.classList.toggle("open");
     };
 
-    /* ===== ADD / REMOVE REACTION ===== */
     window.addReaction = async function(id, emoji) {
         if (!currentUser) { showIdentityModal(); return; }
         document.getElementById("picker-" + id)?.classList.remove("open");
@@ -1740,7 +2460,6 @@
             const reactions = data.reactions || {};
             const updateData = {};
             if (reactions[currentUser] === emoji) {
-                /* Same emoji = remove it */
                 updateData["reactions." + currentUser] = deleteField();
             } else {
                 updateData["reactions." + currentUser] = emoji;
@@ -1750,7 +2469,6 @@
         hideSync();
     };
 
-    /* ===== TOGGLE COMMENT REACTION PICKER ===== */
     window.toggleCommentReactionPicker = function(memId, ci) {
         if (!currentUser) { showIdentityModal(); return; }
         const pickerId = "cpicker-" + memId + "-" + ci;
@@ -1762,7 +2480,6 @@
         picker.classList.toggle("open");
     };
 
-    /* ===== ADD / REMOVE COMMENT REACTION ===== */
     window.addCommentReaction = async function(memId, ci, emoji) {
         if (!currentUser) { showIdentityModal(); return; }
         document.getElementById("cpicker-" + memId + "-" + ci)?.classList.remove("open");
@@ -1776,7 +2493,6 @@
             if (!comments[ci]) { hideSync(); return; }
             if (!comments[ci].reactions) comments[ci].reactions = {};
             if (comments[ci].reactions[currentUser] === emoji) {
-                /* Same emoji = remove it */
                 delete comments[ci].reactions[currentUser];
             } else {
                 comments[ci].reactions[currentUser] = emoji;
@@ -1786,13 +2502,11 @@
         hideSync();
     };
 
-    /* ===== TOGGLE COMMENTS ===== */
     window.toggleComments = function(id) {
         const list = document.getElementById("comments-" + id);
         if (list) list.classList.toggle("open");
     };
 
-    /* ===== ADD COMMENT ===== */
     window.addComment = async function(id) {
         if (!currentUser) { showIdentityModal(); return; }
         const input = document.getElementById("cinput-" + id);
@@ -1801,9 +2515,7 @@
         if (!text) return;
         showSync();
         try {
-            /* Get current doc snapshot to read existing comments */
             const docRef = doc(db, "memories", id);
-            /* We need to import getDoc for this */
             const { getDoc } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
             const snap = await getDoc(docRef);
             const data = snap.data();
@@ -1817,7 +2529,6 @@
         hideSync();
     };
 
-    /* ===== DELETE COMMENT ===== */
     window.deleteComment = async function(id, commentIndex) {
         if (!confirm("Delete this comment?")) return;
         showSync();
@@ -1833,7 +2544,6 @@
         hideSync();
     };
 
-    /* ===== SAVE MEMORY ===== */
     window.saveMemory = async function () {
         const text = document.getElementById("memo-text").value.trim();
         const date = document.getElementById("memo-date").value;
@@ -2076,6 +2786,464 @@
         touchTask = null;
     });
 
+    /* ===== OUR PLACES ===== */
+    const placesRef = collection(db, "places");
+    let leafletMap = null;
+    let mapInitialized = false;
+    let placesData = [];
+    const placeMarkers = {};
+
+    /* ===== MAP GEOCODE SEARCH (Nominatim) ===== */
+    let geocodeTimeout = null;
+
+    function setupGeocodeSearch() {
+        const geocodeInput = document.getElementById("map-geocode-input");
+        const geocodeResults = document.getElementById("map-geocode-results");
+        const geocodeClear = document.getElementById("map-geocode-clear");
+        if (!geocodeInput) return;
+
+        geocodeInput.addEventListener("input", function() {
+            const q = this.value.trim();
+            geocodeClear.classList.toggle("show", q.length > 0);
+            clearTimeout(geocodeTimeout);
+            if (q.length < 2) { closeGeocodeResults(); return; }
+            geocodeResults.innerHTML = '<div class="mgr-loading">🔍 Searching…</div>';
+            geocodeResults.classList.add("open");
+            geocodeTimeout = setTimeout(() => runGeocode(q), 420);
+        });
+
+        geocodeInput.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") clearMapSearch();
+        });
+    }
+
+    async function runGeocode(q) {
+        const geocodeResults = document.getElementById("map-geocode-results");
+        if (!geocodeResults) return;
+        try {
+            const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1`;
+            const res = await fetch(url, { headers: { "Accept-Language": "en" } });
+            const data = await res.json();
+            if (!data.length) {
+                geocodeResults.innerHTML = '<div class="mgr-loading">No results found 🌸</div>';
+                return;
+            }
+            geocodeResults.innerHTML = data.map(r => {
+                const parts = r.display_name.split(", ");
+                const name = parts.slice(0, 2).join(", ");
+                const sub = parts.slice(2, 4).join(", ");
+                const safeName = parts[0].replace(/'/g, "\\'").replace(/"/g, '\\"');
+                return `<div class="mgr-item" onclick="selectGeoResult(${r.lat},${r.lon},'${safeName}')">
+                    <span class="mgr-icon">📍</span>
+                    <div><div class="mgr-name">${esc(name)}</div><div class="mgr-sub">${esc(sub)}</div></div>
+                </div>`;
+            }).join("");
+            geocodeResults.classList.add("open");
+        } catch(e) {
+            geocodeResults.innerHTML = '<div class="mgr-loading">Search error 😔</div>';
+        }
+    }
+
+    let lastGeocodedName = "";
+
+    window.selectGeoResult = function(lat, lon, name) {
+        if (!leafletMap) return;
+        lastGeocodedName = name; // store for modal pre-fill
+        leafletMap.flyTo([parseFloat(lat), parseFloat(lon)], 15, { duration: 1.4 });
+        const geocodeInput = document.getElementById("map-geocode-input");
+        const geocodeClear = document.getElementById("map-geocode-clear");
+        if (geocodeInput) geocodeInput.value = name;
+        if (geocodeClear) geocodeClear.classList.add("show");
+        closeGeocodeResults();
+    };
+
+    window.clearMapSearch = function() {
+        const geocodeInput = document.getElementById("map-geocode-input");
+        const geocodeClear = document.getElementById("map-geocode-clear");
+        if (geocodeInput) geocodeInput.value = "";
+        if (geocodeClear) geocodeClear.classList.remove("show");
+        closeGeocodeResults();
+    };
+
+    function closeGeocodeResults() {
+        const r = document.getElementById("map-geocode-results");
+        if (r) { r.classList.remove("open"); r.innerHTML = ""; }
+    }
+
+    document.addEventListener("click", function(e) {
+        if (!e.target.closest("#map-geocode-bar")) closeGeocodeResults();
+    });
+
+    function initOurPlacesMap() {
+        if (mapInitialized) {
+            setTimeout(() => leafletMap && leafletMap.invalidateSize(), 50);
+            return;
+        }
+        mapInitialized = true;
+
+        leafletMap = L.map("our-places-map", { zoomControl: true }).setView([36.8065, 10.1815], 11);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 19
+        }).addTo(leafletMap);
+
+        leafletMap.on("click", function(e) {
+            const lat = e.latlng.lat.toFixed(6);
+            const lng = e.latlng.lng.toFixed(6);
+            document.getElementById("place-lat-input").value = lat;
+            document.getElementById("place-lng-input").value = lng;
+            document.getElementById("place-coords-info").textContent = `📍 ${lat}, ${lng}`;
+            document.getElementById("place-emoji-input").value = "";
+            document.getElementById("place-name-input").value = lastGeocodedName || "";
+            document.getElementById("place-desc-input").value = "";
+            document.getElementById("place-add-popup").classList.add("open");
+        });
+
+        renderPlaceMarkers(placesData);
+        setupGeocodeSearch();
+    }
+
+    function renderPlaceMarkers(places) {
+        if (!leafletMap) return;
+        Object.values(placeMarkers).forEach(m => m.remove());
+        Object.keys(placeMarkers).forEach(k => delete placeMarkers[k]);
+        places.forEach(p => {
+            const icon = L.divIcon({
+                html: `<div style="font-size:1.6rem;text-align:center;line-height:1;">${p.emoji || "📍"}</div>`,
+                className: "",
+                iconSize: [32, 32],
+                iconAnchor: [16, 16],
+                popupAnchor: [0, -16]
+            });
+            const marker = L.marker([p.lat, p.lng], { icon })
+                .addTo(leafletMap)
+                .bindPopup(`<strong>${p.emoji || "📍"} ${p.name}</strong>${p.desc ? "<br><span style='font-size:.85rem;color:#7a2545'>" + p.desc + "</span>" : ""}`);
+            placeMarkers[p.id] = marker;
+        });
+    }
+
+    let placeSearchQuery = "";
+
+    window.filterPlaces = function(query) {
+        placeSearchQuery = query.toLowerCase().trim();
+        renderPlacesList(placesData);
+    };
+
+    function renderPlacesList(places) {
+        const list = document.getElementById("places-list");
+        if (!list) return;
+
+        const filtered = placeSearchQuery
+            ? places.filter(p =>
+                (p.name || "").toLowerCase().includes(placeSearchQuery) ||
+                (p.desc || "").toLowerCase().includes(placeSearchQuery) ||
+                (p.emoji || "").includes(placeSearchQuery))
+            : places;
+
+        if (places.length === 0) {
+            list.innerHTML = '<p class="no-places">No places saved yet… click the map to add your first one 🌹</p>';
+            return;
+        }
+        if (filtered.length === 0) {
+            list.innerHTML = `<p class="no-places">No places found for "<strong>${esc(placeSearchQuery)}</strong>" 🔍</p>`;
+            return;
+        }
+        list.innerHTML = filtered.map(p => {
+            const authorIcon = p.addedBy === "yossr" ? "👩" : "👨";
+            const authorName = p.addedBy === "yossr" ? "Yossr" : "Hamdi";
+            /* Highlight matching text */
+            const highlightName = placeSearchQuery
+                ? esc(p.name).replace(new RegExp(`(${esc(placeSearchQuery)})`, "gi"), '<mark style="background:rgba(255,182,210,.5);border-radius:4px;padding:0 2px;">$1</mark>')
+                : esc(p.name);
+            return `<div class="place-card">
+                <button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button>
+                <div class="p-emoji">${p.emoji || "📍"}</div>
+                <div class="p-name" style="font-family:'Great Vibes',cursive;font-size:1.7rem;color:#c0396b;margin-bottom:6px;">${highlightName}</div>
+                ${p.desc ? `<div class="p-desc">${esc(p.desc)}</div>` : ""}
+                <div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div>
+                <div class="p-author">${authorIcon} Added by ${authorName}</div>
+                <button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button>
+            </div>`;
+        }).join("");
+    }
+
+    onSnapshot(query(placesRef, orderBy("addedAt", "asc")), snapshot => {
+        placesData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderPlacesList(placesData);
+        renderPlaceMarkers(placesData);
+    });
+
+    window.flyToPlace = function(lat, lng) {
+        if (!leafletMap) return;
+        leafletMap.flyTo([lat, lng], 15, { duration: 1.2 });
+        window.scrollTo({ top: document.getElementById("our-places-map").offsetTop - 80, behavior: "smooth" });
+    };
+
+    window.savePlaceFromModal = async function() {
+        const name = document.getElementById("place-name-input").value.trim();
+        const emoji = document.getElementById("place-emoji-input").value.trim() || "📍";
+        const desc = document.getElementById("place-desc-input").value.trim();
+        const lat = parseFloat(document.getElementById("place-lat-input").value);
+        const lng = parseFloat(document.getElementById("place-lng-input").value);
+        if (!name) { alert("Please enter a place name 💕"); return; }
+        if (isNaN(lat) || isNaN(lng)) { alert("Invalid coordinates. Please click on the map first."); return; }
+        showSync();
+        try {
+            await addDoc(placesRef, {
+                name, emoji, desc, lat, lng,
+                addedBy: currentUser || "hamdi",
+                addedAt: new Date().toISOString()
+            });
+            closePlaceModal();
+        } catch(e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.closePlaceModal = function() {
+        document.getElementById("place-add-popup").classList.remove("open");
+    };
+
+    window.deletePlace = async function(id) {
+        if (!confirm("Delete this place?")) return;
+        showSync();
+        try { await deleteDoc(doc(db, "places", id)); }
+        catch(e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    /* Close place modal on backdrop click */
+    document.getElementById("place-add-popup").addEventListener("click", function(e) {
+        if (e.target === this) closePlaceModal();
+    });
+
+    /* ===== GALLERY ===== */
+    const galleryRef = collection(db, "gallery");
+    let galleryAllPhotos = [];
+    let currentAlbumFilter = "all";
+    let slideshowPhotos = [];
+    let slideshowIndex = 0;
+    let galleryPendingPhotos = []; // [{b64, caption}]
+
+    function compressGalleryImage(file, cb) {
+        const r = new FileReader();
+        r.onload = ev => {
+            const img = new Image();
+            img.onload = () => {
+                const MAX = 520;
+                let w = img.width, h = img.height;
+                if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+                const c = document.createElement("canvas");
+                c.width = w; c.height = h;
+                c.getContext("2d").drawImage(img, 0, 0, w, h);
+                cb(c.toDataURL("image/jpeg", .62));
+            };
+            img.src = ev.target.result;
+        };
+        r.readAsDataURL(file);
+    }
+
+    window.handleGalleryFiles = function(e) {
+        const files = Array.from(e.target.files);
+        if (!files.length) return;
+        const startIndex = galleryPendingPhotos.length; // append from here
+        const grid = document.getElementById("gal-multi-grid");
+        grid.style.display = "grid";
+
+        // Show processing indicator for new files only if grid is empty
+        if (startIndex === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#e07fa0;font-size:.88rem;padding:14px;letter-spacing:1px;animation:pulse 1.2s infinite;">📷 Processing ${files.length} photo${files.length > 1 ? "s" : ""}…</div>`;
+        }
+
+        let done = 0;
+        // Pre-allocate slots so order is preserved
+        files.forEach((file, i) => {
+            galleryPendingPhotos[startIndex + i] = null; // reserve slot
+            compressGalleryImage(file, b64 => {
+                galleryPendingPhotos[startIndex + i] = { b64, caption: "" };
+                done++;
+                if (done === files.length) renderMultiPreview();
+            });
+        });
+        // Reset file input so same file can be selected again
+        e.target.value = "";
+    };
+
+    function renderMultiPreview() {
+        // Filter out any null slots (still processing)
+        const ready = galleryPendingPhotos.filter(Boolean);
+        galleryPendingPhotos = ready;
+        const grid = document.getElementById("gal-multi-grid");
+        grid.style.display = ready.length > 0 ? "grid" : "none";
+        grid.innerHTML = ready.map((p, i) => `
+            <div class="gal-multi-item" id="gmi-${i}">
+                <img src="${p.b64}" alt="photo ${i+1}"/>
+                <input type="text" placeholder="Caption… 💕" maxlength="80"
+                    oninput="galleryPendingPhotos[${i}].caption=this.value"
+                    value="${esc(p.caption || "")}"/>
+                <button class="gal-multi-remove" onclick="removeGalleryPending(${i})">✕</button>
+            </div>
+        `).join("");
+        updateGalSaveBtn();
+    }
+
+    window.removeGalleryPending = function(i) {
+        galleryPendingPhotos.splice(i, 1);
+        renderMultiPreview();
+    };
+
+    function updateGalSaveBtn() {
+        const btn = document.getElementById("gal-save-btn");
+        const n = galleryPendingPhotos.length;
+        btn.style.display = n > 0 ? "block" : "none";
+        btn.textContent = n === 1 ? "💾 Add 1 Photo to Gallery" : `💾 Add ${n} Photos to Gallery`;
+    }
+
+    window.saveAllGalleryPhotos = async function() {
+        if (!galleryPendingPhotos.length) return;
+        const albumRaw = document.getElementById("gal-album").value.trim();
+        const album = albumRaw || "Other ✨";
+        const btn = document.getElementById("gal-save-btn");
+        btn.disabled = true; btn.textContent = "💾 Saving…";
+        showSync();
+        try {
+            for (const p of galleryPendingPhotos) {
+                await addDoc(galleryRef, {
+                    image: p.b64,
+                    caption: p.caption || "",
+                    album,
+                    addedBy: currentUser || "hamdi",
+                    addedAt: new Date().toISOString()
+                });
+            }
+            galleryPendingPhotos = [];
+            document.getElementById("gal-multi-grid").style.display = "none";
+            document.getElementById("gal-multi-grid").innerHTML = "";
+            document.getElementById("gal-album").value = "";
+            document.getElementById("gal-file-input").value = "";
+        } catch(er) { alert("Error: " + er.message); }
+        btn.disabled = false;
+        updateGalSaveBtn();
+        hideSync();
+    };
+
+    onSnapshot(query(galleryRef, orderBy("addedAt", "desc")), snapshot => {
+        galleryAllPhotos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderGalleryGrid();
+    });
+
+    function renderGalleryGrid() {
+        const grid = document.getElementById("gallery-grid");
+        if (!grid) return;
+
+        /* Build unique album list */
+        const albumSet = [...new Set(galleryAllPhotos.map(p => p.album).filter(Boolean))];
+
+        /* Update datalist for autocomplete */
+        const dl = document.getElementById("albums-datalist");
+        if (dl) dl.innerHTML = albumSet.map(a => `<option value="${esc(a)}">`).join("");
+
+        /* Rebuild album tabs dynamically */
+        const tabsEl = document.getElementById("album-tabs");
+        if (tabsEl) {
+            tabsEl.innerHTML = `<button class="album-tab${currentAlbumFilter === "all" ? " active" : ""}" onclick="filterAlbum('all',this)">🌸 All (${galleryAllPhotos.length})</button>` +
+                albumSet.map(a => {
+                    const count = galleryAllPhotos.filter(p => p.album === a).length;
+                    const active = currentAlbumFilter === a ? " active" : "";
+                    return `<button class="album-tab${active}" onclick="filterAlbum('${esc(a).replace(/'/g,"\\'")}',this)">${esc(a)} <span style="font-size:.75rem;opacity:.8">(${count})</span></button>`;
+                }).join("");
+        }
+
+        const filtered = currentAlbumFilter === "all"
+            ? galleryAllPhotos
+            : galleryAllPhotos.filter(p => p.album === currentAlbumFilter);
+        slideshowPhotos = filtered;
+
+        if (filtered.length === 0) {
+            grid.innerHTML = '<p class="gallery-empty">No photos yet in this album… add your first memory 📸</p>';
+            return;
+        }
+
+        grid.innerHTML = filtered.map((p, i) => `
+            <div class="photo-item" onclick="openSlideshow(${i})">
+                <img src="${p.image}" alt="${esc(p.caption || "")}" loading="lazy"/>
+                <div class="photo-overlay">
+                    ${p.caption ? `<div class="po-caption">${esc(p.caption)}</div>` : ""}
+                    <div class="po-album">${esc(p.album || "")}</div>
+                </div>
+                <button class="photo-del-btn" onclick="deleteGalleryPhoto(event,'${p.id}')">🗑️</button>
+            </div>
+        `).join("");
+    }
+
+    window.filterAlbum = function(album, btn) {
+        currentAlbumFilter = album;
+        document.querySelectorAll(".album-tab").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderGalleryGrid();
+    };
+
+    window.openSlideshow = function(index) {
+        slideshowIndex = index;
+        updateSlideshowView();
+        document.getElementById("slideshow-overlay").classList.add("open");
+        document.body.style.overflow = "hidden";
+    };
+
+    window.closeSlideshow = function() {
+        document.getElementById("slideshow-overlay").classList.remove("open");
+        document.body.style.overflow = "";
+    };
+
+    window.slideshowNav = function(dir) {
+        if (slideshowPhotos.length === 0) return;
+        slideshowIndex = (slideshowIndex + dir + slideshowPhotos.length) % slideshowPhotos.length;
+        updateSlideshowView();
+    };
+
+    function updateSlideshowView() {
+        const p = slideshowPhotos[slideshowIndex];
+        if (!p) return;
+        const imgEl = document.getElementById("slideshow-img");
+        imgEl.style.opacity = "0";
+        imgEl.src = p.image;
+        imgEl.onload = () => { imgEl.style.transition = "opacity .25s"; imgEl.style.opacity = "1"; };
+        document.getElementById("slideshow-caption").textContent = p.caption || "";
+        document.getElementById("slideshow-album").textContent = p.album || "";
+        document.getElementById("slideshow-counter").textContent = `${slideshowIndex + 1} / ${slideshowPhotos.length}`;
+    }
+
+    window.deleteGalleryPhoto = async function(e, id) {
+        e.stopPropagation();
+        if (!confirm("Delete this photo?")) return;
+        showSync();
+        try { await deleteDoc(doc(db, "gallery", id)); }
+        catch(err) { alert("Error: " + err.message); }
+        hideSync();
+    };
+
+    /* Keyboard navigation for slideshow */
+    document.addEventListener("keydown", function(e) {
+        const overlay = document.getElementById("slideshow-overlay");
+        if (!overlay || !overlay.classList.contains("open")) return;
+        if (e.key === "ArrowLeft") slideshowNav(-1);
+        if (e.key === "ArrowRight") slideshowNav(1);
+        if (e.key === "Escape") closeSlideshow();
+    });
+
+    /* Close slideshow on background click */
+    document.getElementById("slideshow-overlay").addEventListener("click", function(e) {
+        if (e.target === this) closeSlideshow();
+    });
+
+    /* ===== EXTEND showPage TO INIT MAP ===== */
+    const _origShowPage = window.showPage;
+    window.showPage = function(id, btn) {
+        _origShowPage(id, btn);
+        if (id === "places") {
+            setTimeout(() => initOurPlacesMap(), 120);
+        }
+    };
 
     /* ===== PARTICLES ===== */
     const emojis = ["❤️", "💕", "🌸", "🌺", "💐", "🌹", "💗", "🌼", "✨", "💖", "🌷", "💞"];
