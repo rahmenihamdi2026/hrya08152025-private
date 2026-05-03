@@ -1123,6 +1123,555 @@
         }
         .quiz-winner-banner h3 { font-family: 'Great Vibes', cursive; font-size: 2rem; color: #c0396b; }
         .quiz-winner-banner p { font-size: .88rem; color: #a0556e; margin-top: 6px; letter-spacing: 1px; }
+        /* ============================================================
+           ===== GAMES PAGE =====
+           ============================================================ */
+        .games-tabs {
+            display: flex; justify-content: center; gap: 10px;
+            flex-wrap: wrap; margin-bottom: 26px;
+        }
+        .games-tab {
+            padding: 10px 22px; border: 1.5px solid rgba(255,182,210,.6);
+            border-radius: 50px; background: transparent; color: #c0396b;
+            font-family: 'Lato', sans-serif; font-size: .88rem;
+            letter-spacing: 1px; cursor: pointer; transition: all .25s;
+        }
+        .games-tab:hover { background: rgba(255,182,210,.2); }
+        .games-tab.active {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff; border-color: transparent;
+            box-shadow: 0 4px 14px rgba(192,57,107,.28);
+        }
+        .game-panel { display: none; }
+        .game-panel.active { display: block; animation: fadeIn .3s ease; }
+
+        /* ===== TIC TAC TOE ===== */
+        .ttt-wrap {
+            background: rgba(255,255,255,.72); backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,182,210,.55); border-radius: 22px;
+            padding: 26px 30px; box-shadow: 0 8px 28px rgba(192,57,107,.12);
+            margin-bottom: 24px; text-align: center;
+        }
+        .ttt-status {
+            font-family: 'Great Vibes', cursive; font-size: 1.8rem;
+            color: #c0396b; margin-bottom: 14px;
+        }
+        .ttt-turn-indicator {
+            font-size: .9rem; color: #a0556e; letter-spacing: 1px;
+            margin-bottom: 18px; min-height: 1.4em;
+        }
+        .ttt-board {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 8px; max-width: 320px; margin: 0 auto 20px;
+            background: rgba(255, 182, 210, .25); padding: 8px;
+            border-radius: 18px;
+        }
+        .ttt-cell {
+            aspect-ratio: 1; background: rgba(255, 240, 248, .9);
+            border: 2px solid rgba(255, 182, 210, .5); border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.6rem; cursor: pointer; transition: all .2s;
+            user-select: none;
+        }
+        .ttt-cell:hover:not(.disabled) {
+            background: rgba(255, 210, 230, .8);
+            transform: scale(1.04);
+            box-shadow: 0 4px 12px rgba(192, 57, 107, .2);
+        }
+        .ttt-cell.disabled { cursor: not-allowed; }
+        .ttt-cell.win {
+            background: linear-gradient(135deg, #d4edda, #b8e3c3);
+            border-color: #6dc48a;
+            animation: winPulse 1s ease infinite;
+        }
+        @keyframes winPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .ttt-actions {
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+        }
+        .ttt-btn {
+            padding: 10px 22px; border-radius: 12px; cursor: pointer;
+            font-family: 'Lato', sans-serif; font-size: .9rem;
+            letter-spacing: 1px; transition: opacity .2s; border: none;
+        }
+        .ttt-btn-primary {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+        }
+        .ttt-btn-secondary {
+            background: rgba(255, 182, 210, .35); color: #c0396b;
+            border: 1.5px solid rgba(255, 182, 210, .6);
+        }
+        .ttt-btn:hover { opacity: .85; }
+
+        .ttt-scoreboard {
+            display: flex; gap: 16px; flex-wrap: wrap;
+            justify-content: center; margin-bottom: 20px;
+        }
+        .ttt-score-card {
+            background: rgba(255,255,255,.72); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,182,210,.5); border-radius: 18px;
+            padding: 18px 24px; min-width: 130px; text-align: center;
+        }
+        .ttt-score-card .ts-icon { font-size: 2rem; margin-bottom: 4px; }
+        .ttt-score-card .ts-name {
+            font-family: 'Great Vibes', cursive; font-size: 1.4rem;
+            color: #c0396b;
+        }
+        .ttt-score-card .ts-num {
+            font-size: 2rem; font-weight: 700; color: #9b1c4a;
+            line-height: 1;
+        }
+        .ttt-score-card .ts-lbl {
+            font-size: .68rem; color: #b07090;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            margin-top: 3px;
+        }
+
+        .ttt-history {
+            background: rgba(255,255,255,.6); border-radius: 16px;
+            padding: 16px 20px; max-height: 240px; overflow-y: auto;
+            border: 1px solid rgba(255,182,210,.4);
+        }
+        .ttt-history-title {
+            font-family: 'Great Vibes', cursive; font-size: 1.4rem;
+            color: #c0396b; text-align: center; margin-bottom: 10px;
+        }
+        .ttt-history-item {
+            display: flex; justify-content: space-between;
+            align-items: center; padding: 8px 12px;
+            background: rgba(255,240,248,.6); border-radius: 10px;
+            margin-bottom: 6px; font-size: .82rem; color: #5a1a35;
+        }
+        .ttt-history-result {
+            font-weight: 700; font-size: .82rem;
+        }
+        .ttt-result-win { color: #4caf50; }
+        .ttt-result-loss { color: #e57373; }
+        .ttt-result-draw { color: #b07090; }
+        .ttt-history-time {
+            font-size: .7rem; color: #c090a8; letter-spacing: .5px;
+        }
+        .ttt-history-empty {
+            text-align: center; color: #c090a8;
+            font-size: .85rem; padding: 14px;
+        }
+        .ttt-waiting {
+            background: rgba(255,210,230,.4);
+            border: 1px dashed rgba(192,57,107,.4);
+            border-radius: 14px; padding: 16px;
+            color: #c0396b; font-size: .9rem;
+            margin-bottom: 14px; animation: pulse 1.6s ease-in-out infinite;
+        }
+
+        /* ===== SLIDER PUZZLE ===== */
+        .puzzle-wrap {
+            background: rgba(255,255,255,.72); backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,182,210,.55); border-radius: 22px;
+            padding: 26px 30px; box-shadow: 0 8px 28px rgba(192,57,107,.12);
+            margin-bottom: 24px;
+        }
+        .puzzle-controls {
+            display: flex; gap: 12px; flex-wrap: wrap;
+            justify-content: center; align-items: center; margin-bottom: 18px;
+        }
+        .puzzle-control-row {
+            display: flex; gap: 8px; align-items: center;
+        }
+        .puzzle-control-row label {
+            font-size: .82rem; color: #a0556e; letter-spacing: 1px;
+        }
+        .puzzle-select {
+            padding: 8px 14px; border: 1px solid rgba(255,182,210,.7);
+            border-radius: 10px; background: rgba(255,240,248,.8);
+            color: #7a2545; font-size: .88rem;
+            font-family: 'Lato', sans-serif; outline: none;
+            cursor: pointer; max-width: 220px;
+        }
+        .puzzle-stats {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            justify-content: center; margin-bottom: 16px;
+        }
+        .puzzle-stat-block {
+            background: linear-gradient(145deg, #ffd6e8, #ffb3d1);
+            border-radius: 14px; padding: 10px 18px; min-width: 110px;
+            text-align: center; box-shadow: 0 3px 10px rgba(192,57,107,.15);
+        }
+        .puzzle-stat-num {
+            font-size: 1.6rem; font-weight: 700; color: #9b1c4a;
+            line-height: 1; display: block;
+        }
+        .puzzle-stat-lbl {
+            font-size: .65rem; color: #b05070;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            margin-top: 4px; display: block;
+        }
+        .puzzle-board {
+            display: grid; gap: 2px;
+            margin: 0 auto 18px; aspect-ratio: 1;
+            max-width: 480px; width: 100%;
+            background: rgba(255, 182, 210, .3); padding: 4px;
+            border-radius: 16px; touch-action: none;
+        }
+        .puzzle-tile {
+            background-size: cover; background-position: center;
+            cursor: pointer; border-radius: 6px;
+            transition: transform .18s ease, box-shadow .18s;
+            position: relative; user-select: none;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,.85); font-weight: 700;
+            text-shadow: 0 1px 4px rgba(0,0,0,.6);
+        }
+        .puzzle-tile.movable:hover {
+            transform: scale(.97);
+            box-shadow: 0 4px 14px rgba(192,57,107,.3);
+        }
+        .puzzle-tile.empty {
+            background: transparent; cursor: default;
+        }
+        .puzzle-tile.solved {
+            animation: tileSolved .8s ease;
+        }
+        @keyframes tileSolved {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px #6dc48a; }
+            100% { transform: scale(1); }
+        }
+        .puzzle-actions {
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+        }
+        .puzzle-btn {
+            padding: 10px 22px; border-radius: 12px; cursor: pointer;
+            font-family: 'Lato', sans-serif; font-size: .9rem;
+            letter-spacing: 1px; transition: opacity .2s; border: none;
+        }
+        .puzzle-btn-primary {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+        }
+        .puzzle-btn-secondary {
+            background: rgba(255, 182, 210, .35); color: #c0396b;
+            border: 1.5px solid rgba(255, 182, 210, .6);
+        }
+        .puzzle-btn:hover { opacity: .85; }
+        .puzzle-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+        .puzzle-leaderboard {
+            background: rgba(255,255,255,.6); border-radius: 16px;
+            padding: 16px 20px; margin-top: 14px;
+            border: 1px solid rgba(255,182,210,.4);
+        }
+        .puzzle-leaderboard-title {
+            font-family: 'Great Vibes', cursive; font-size: 1.4rem;
+            color: #c0396b; text-align: center; margin-bottom: 10px;
+        }
+        .puzzle-leaderboard-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 12px; background: rgba(255,240,248,.6);
+            border-radius: 10px; margin-bottom: 6px; font-size: .82rem;
+            color: #5a1a35; gap: 8px; flex-wrap: wrap;
+        }
+        .puzzle-rank {
+            font-size: 1rem; font-weight: 700;
+        }
+        .puzzle-leaderboard-empty {
+            text-align: center; color: #c090a8;
+            font-size: .85rem; padding: 14px;
+        }
+        .puzzle-win-banner {
+            background: linear-gradient(135deg, #d4edda, #b8e3c3);
+            border: 2px solid #6dc48a; border-radius: 16px;
+            padding: 16px; text-align: center; color: #1a5c2e;
+            font-size: 1rem; margin-bottom: 14px; animation: fadeIn .4s;
+        }
+        .puzzle-no-photos {
+            text-align: center; color: #c090a8; padding: 30px;
+            font-size: .9rem; letter-spacing: 1px;
+        }
+        /* ============================================================
+           ===== MEMORY MATCH =====
+           ============================================================ */
+        .memory-wrap {
+            background: rgba(255,255,255,.72); backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,182,210,.55); border-radius: 22px;
+            padding: 26px 30px; box-shadow: 0 8px 28px rgba(192,57,107,.12);
+            margin-bottom: 24px;
+        }
+        .memory-controls {
+            display: flex; gap: 12px; flex-wrap: wrap;
+            justify-content: center; align-items: center; margin-bottom: 18px;
+        }
+        .memory-control-row { display: flex; gap: 8px; align-items: center; }
+        .memory-control-row label {
+            font-size: .82rem; color: #a0556e; letter-spacing: 1px;
+        }
+        .memory-select {
+            padding: 8px 14px; border: 1px solid rgba(255,182,210,.7);
+            border-radius: 10px; background: rgba(255,240,248,.8);
+            color: #7a2545; font-size: .88rem;
+            font-family: 'Lato', sans-serif; outline: none; cursor: pointer;
+        }
+        .memory-stats {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            justify-content: center; margin-bottom: 16px;
+        }
+        .memory-stat-block {
+            background: linear-gradient(145deg, #ffd6e8, #ffb3d1);
+            border-radius: 14px; padding: 10px 18px; min-width: 90px;
+            text-align: center; box-shadow: 0 3px 10px rgba(192,57,107,.15);
+        }
+        .memory-stat-num {
+            font-size: 1.6rem; font-weight: 700; color: #9b1c4a;
+            line-height: 1; display: block;
+        }
+        .memory-stat-lbl {
+            font-size: .65rem; color: #b05070;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            margin-top: 4px; display: block;
+        }
+        .memory-board {
+            display: grid; gap: 6px; margin: 0 auto 18px;
+            max-width: 600px; width: 100%;
+            background: rgba(255, 182, 210, .25); padding: 8px;
+            border-radius: 16px;
+        }
+        .memory-card {
+            aspect-ratio: 1; cursor: pointer; perspective: 600px;
+            position: relative; user-select: none;
+        }
+        .memory-card-inner {
+            position: relative; width: 100%; height: 100%;
+            transition: transform .5s ease;
+            transform-style: preserve-3d;
+        }
+        .memory-card.flipped .memory-card-inner {
+            transform: rotateY(180deg);
+        }
+        .memory-card.matched .memory-card-inner {
+            transform: rotateY(180deg);
+        }
+        .memory-card.matched {
+            animation: matchPulse .8s ease;
+            pointer-events: none;
+        }
+        @keyframes matchPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; transform: scale(1.05); }
+        }
+        .memory-card-face {
+            position: absolute; inset: 0; backface-visibility: hidden;
+            border-radius: 8px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 8px rgba(192,57,107,.15);
+        }
+        .memory-card-back {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff; font-size: 1.6rem;
+            border: 2px solid rgba(255,255,255,.4);
+        }
+        .memory-card-front {
+            background-size: cover; background-position: center;
+            transform: rotateY(180deg);
+            border: 2px solid rgba(255,255,255,.7);
+        }
+        .memory-card.matched .memory-card-front {
+            border-color: #6dc48a;
+            box-shadow: 0 0 12px rgba(109,196,138,.5);
+        }
+        .memory-actions {
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+        }
+        .memory-btn {
+            padding: 10px 22px; border-radius: 12px; cursor: pointer;
+            font-family: 'Lato', sans-serif; font-size: .9rem;
+            letter-spacing: 1px; transition: opacity .2s; border: none;
+        }
+        .memory-btn-primary {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+        }
+        .memory-btn-secondary {
+            background: rgba(255, 182, 210, .35); color: #c0396b;
+            border: 1.5px solid rgba(255, 182, 210, .6);
+        }
+        .memory-btn:hover { opacity: .85; }
+        .memory-win-banner {
+            background: linear-gradient(135deg, #d4edda, #b8e3c3);
+            border: 2px solid #6dc48a; border-radius: 16px;
+            padding: 16px; text-align: center; color: #1a5c2e;
+            font-size: 1rem; margin-bottom: 14px; animation: fadeIn .4s;
+        }
+        .memory-leaderboard {
+            background: rgba(255,255,255,.6); border-radius: 16px;
+            padding: 16px 20px; margin-top: 14px;
+            border: 1px solid rgba(255,182,210,.4);
+        }
+        .memory-leaderboard-title {
+            font-family: 'Great Vibes', cursive; font-size: 1.4rem;
+            color: #c0396b; text-align: center; margin-bottom: 10px;
+        }
+        .memory-leaderboard-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 12px; background: rgba(255,240,248,.6);
+            border-radius: 10px; margin-bottom: 6px; font-size: .82rem;
+            color: #5a1a35; gap: 8px; flex-wrap: wrap;
+        }
+        .memory-empty {
+            text-align: center; color: #c090a8; padding: 30px;
+            font-size: .9rem; letter-spacing: 1px;
+        }
+
+        /* ============================================================
+           ===== HIGHER OR LOWER =====
+           ============================================================ */
+        .hl-wrap {
+            background: rgba(255,255,255,.72); backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,182,210,.55); border-radius: 22px;
+            padding: 26px 30px; box-shadow: 0 8px 28px rgba(192,57,107,.12);
+            margin-bottom: 24px; text-align: center;
+        }
+        .hl-stats {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            justify-content: center; margin-bottom: 20px;
+        }
+        .hl-stat-block {
+            background: linear-gradient(145deg, #ffd6e8, #ffb3d1);
+            border-radius: 14px; padding: 12px 22px; min-width: 110px;
+            text-align: center; box-shadow: 0 3px 10px rgba(192,57,107,.15);
+        }
+        .hl-stat-num {
+            font-size: 1.8rem; font-weight: 700; color: #9b1c4a;
+            line-height: 1; display: block;
+        }
+        .hl-stat-lbl {
+            font-size: .65rem; color: #b05070;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            margin-top: 4px; display: block;
+        }
+        .hl-card-area {
+            display: flex; gap: 30px; justify-content: center;
+            align-items: center; flex-wrap: wrap; margin: 28px 0;
+        }
+        .hl-card {
+            background: linear-gradient(160deg, #fff5f9, #ffe4f0);
+            border: 3px solid #c0396b; border-radius: 22px;
+            width: 150px; height: 200px; display: flex;
+            align-items: center; justify-content: center;
+            font-size: 4.5rem; font-weight: 700; color: #c0396b;
+            box-shadow: 0 8px 24px rgba(192,57,107,.25);
+            position: relative; overflow: hidden;
+            transition: transform .4s ease;
+        }
+        .hl-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, transparent 30%, rgba(255,182,210,.3) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        .hl-card.revealing {
+            animation: cardFlip .6s ease;
+        }
+        @keyframes cardFlip {
+            0% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(90deg) scale(.95); }
+            100% { transform: rotateY(0deg) scale(1); }
+        }
+        .hl-card.hidden {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: rgba(255,255,255,.9);
+            border-color: rgba(255,255,255,.5);
+            font-size: 3rem;
+        }
+        .hl-card.correct {
+            border-color: #6dc48a;
+            animation: cardCorrect .5s ease;
+        }
+        .hl-card.wrong {
+            border-color: #e57373;
+            animation: cardWrong .5s ease;
+        }
+        @keyframes cardCorrect {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(109,196,138,.6); }
+        }
+        @keyframes cardWrong {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        .hl-card-label {
+            position: absolute; bottom: -28px; left: 0; right: 0;
+            text-align: center; font-size: .78rem;
+            color: #b07090; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .hl-vs {
+            font-family: 'Great Vibes', cursive; font-size: 2rem;
+            color: #c0396b;
+        }
+        .hl-question {
+            font-size: 1rem; color: #5a1a35;
+            letter-spacing: .5px; margin-bottom: 18px;
+        }
+        .hl-actions {
+            display: flex; gap: 12px; justify-content: center;
+            flex-wrap: wrap; margin-bottom: 8px;
+        }
+        .hl-btn {
+            padding: 14px 30px; border-radius: 14px; cursor: pointer;
+            font-family: 'Lato', sans-serif; font-size: 1rem;
+            font-weight: 700; letter-spacing: 1px;
+            transition: all .2s; border: none; min-width: 130px;
+        }
+        .hl-btn-higher {
+            background: linear-gradient(135deg, #6dc48a, #4caf50); color: #fff;
+        }
+        .hl-btn-lower {
+            background: linear-gradient(135deg, #e57373, #c62828); color: #fff;
+        }
+        .hl-btn:hover { opacity: .88; transform: translateY(-2px); }
+        .hl-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+        .hl-btn-newgame {
+            padding: 12px 26px; background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff; border: none; border-radius: 12px;
+            font-family: 'Lato', sans-serif; font-size: .92rem;
+            letter-spacing: 1px; cursor: pointer; transition: opacity .2s;
+            margin-top: 14px;
+        }
+        .hl-btn-newgame:hover { opacity: .85; }
+        .hl-result {
+            font-size: 1.1rem; font-weight: 700; padding: 12px 20px;
+            border-radius: 14px; margin: 14px auto;
+            max-width: 400px; animation: fadeIn .3s ease;
+        }
+        .hl-result.win {
+            background: linear-gradient(135deg, #d4edda, #b8e3c3);
+            color: #1a5c2e; border: 2px solid #6dc48a;
+        }
+        .hl-result.lose {
+            background: linear-gradient(135deg, #fde8e8, #f5c6c6);
+            color: #7a1c1c; border: 2px solid #e07a7a;
+        }
+        .hl-leaderboard {
+            background: rgba(255,255,255,.6); border-radius: 16px;
+            padding: 16px 20px; margin-top: 14px;
+            border: 1px solid rgba(255,182,210,.4);
+        }
+        .hl-leaderboard-title {
+            font-family: 'Great Vibes', cursive; font-size: 1.4rem;
+            color: #c0396b; text-align: center; margin-bottom: 10px;
+        }
+        .hl-leaderboard-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 14px; background: rgba(255,240,248,.6);
+            border-radius: 10px; margin-bottom: 6px; font-size: .85rem;
+            color: #5a1a35; gap: 8px; flex-wrap: wrap;
+        }
+        .hl-streak-badge {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff; border-radius: 50px;
+            padding: 3px 12px; font-size: .8rem; font-weight: 700;
+        }
 
         .quiz-empty { text-align: center; color: #c090a8; font-size: .9rem; padding: 30px; letter-spacing: 1px; }
         .quiz-loading { text-align: center; color: #e07fa0; font-size: .9rem; padding: 30px; letter-spacing: 1px; animation: pulse 1.5s infinite; }
@@ -1171,6 +1720,7 @@
     <button class="nav-btn" id="nav-gallery" onclick="showPage('gallery',this)">📸 Gallery</button>
     <button class="nav-btn" id="nav-scratch" onclick="showPage('scratch',this)">🎴 Scratch Cards</button>
     <button class="nav-btn" id="nav-quiz" onclick="showPage('quiz',this)">❓ Quiz</button>
+    <button class="nav-btn" id="nav-games" onclick="showPage('games',this)">🎮 Games</button>
     <button class="nav-btn" id="nav-story" onclick="showPage('story',this)">👩‍❤️‍👨 Our Story</button>
 </nav>
 
@@ -1489,6 +2039,221 @@
         <!-- Scores Panel -->
         <div class="quiz-panel" id="qpanel-scores">
             <div id="scores-content"><p class="quiz-loading">💕 Calculating scores...</p></div>
+        </div>
+    </div>
+</div>
+<!-- ===== GAMES ===== -->
+<div id="page-games" class="page">
+    <div class="page-wrap" style="max-width:900px;">
+        <p class="page-title">Our Games 🎮</p>
+        <p class="page-sub">✨ Play together — battle for the crown ✨</p>
+
+        <div class="games-tabs">
+            <button class="games-tab active" onclick="showGameTab('ttt',this)">🎯 Tic Tac Toe</button>
+            <button class="games-tab" onclick="showGameTab('puzzle',this)">🧩 Photo Puzzle</button>
+            <button class="games-tab" onclick="showGameTab('memory',this)">🧠 Memory Match</button>
+            <button class="games-tab" onclick="showGameTab('hl',this)">🃏 Higher / Lower</button>
+        </div>
+
+        <!-- ===== TIC TAC TOE PANEL ===== -->
+        <div class="game-panel active" id="gpanel-ttt">
+            <!-- Scoreboard -->
+            <div class="ttt-scoreboard">
+                <div class="ttt-score-card">
+                    <div class="ts-icon">👨</div>
+                    <div class="ts-name">Hamdi ❤️</div>
+                    <div class="ts-num" id="ttt-score-hamdi">0</div>
+                    <div class="ts-lbl">Wins</div>
+                </div>
+                <div class="ttt-score-card">
+                    <div class="ts-icon">🤝</div>
+                    <div class="ts-name">Draws</div>
+                    <div class="ts-num" id="ttt-score-draws">0</div>
+                    <div class="ts-lbl">Ties</div>
+                </div>
+                <div class="ttt-score-card">
+                    <div class="ts-icon">👩</div>
+                    <div class="ts-name">Yossr 🌹</div>
+                    <div class="ts-num" id="ttt-score-yossr">0</div>
+                    <div class="ts-lbl">Wins</div>
+                </div>
+            </div>
+
+            <!-- Game Area -->
+            <div class="ttt-wrap">
+                <div class="ttt-status" id="ttt-status">🎯 Tic Tac Toe</div>
+                <div class="ttt-turn-indicator" id="ttt-turn-indicator">Click "New Game" to start ✨</div>
+                <div id="ttt-waiting-msg"></div>
+                <div class="ttt-board" id="ttt-board">
+                    <!-- Cells generated by JS -->
+                </div>
+                <div class="ttt-actions">
+                    <button class="ttt-btn ttt-btn-primary" onclick="startNewTTTGame()">🎮 New Game</button>
+                    <button class="ttt-btn ttt-btn-secondary" onclick="resetTTTScores()">🗑️ Reset Scores</button>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="ttt-history">
+                <div class="ttt-history-title">📜 Match History</div>
+                <div id="ttt-history-list">
+                    <p class="ttt-history-empty">No games played yet 🌸</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PHOTO PUZZLE PANEL ===== -->
+        <div class="game-panel" id="gpanel-puzzle">
+            <div class="puzzle-wrap">
+                <div class="puzzle-controls">
+                    <div class="puzzle-control-row">
+                        <label>📷 Photo:</label>
+                        <select class="puzzle-select" id="puzzle-photo-select">
+                            <option value="">Loading photos...</option>
+                        </select>
+                    </div>
+                    <div class="puzzle-control-row">
+                        <label>🎯 Difficulty:</label>
+                        <select class="puzzle-select" id="puzzle-difficulty">
+                            <option value="3">Easy (3×3)</option>
+                            <option value="4" selected>Medium (4×4)</option>
+                            <option value="5">Hard (5×5)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="puzzle-stats">
+                    <div class="puzzle-stat-block">
+                        <span class="puzzle-stat-num" id="puzzle-moves">0</span>
+                        <span class="puzzle-stat-lbl">Moves</span>
+                    </div>
+                    <div class="puzzle-stat-block">
+                        <span class="puzzle-stat-num" id="puzzle-time">00:00</span>
+                        <span class="puzzle-stat-lbl">Time</span>
+                    </div>
+                </div>
+
+                <div id="puzzle-win-area"></div>
+
+                <div class="puzzle-board" id="puzzle-board">
+                    <p class="puzzle-no-photos">🧩 Click "Start" to begin the puzzle</p>
+                </div>
+
+                <div class="puzzle-actions">
+                    <button class="puzzle-btn puzzle-btn-primary" id="puzzle-start-btn" onclick="startPuzzle()">🎮 Start / Shuffle</button>
+                    <button class="puzzle-btn puzzle-btn-secondary" onclick="showPuzzleSolution()">👁️ Peek</button>
+                    <button class="puzzle-btn puzzle-btn-secondary" onclick="clearPuzzle()">🗑️ Clear</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <!-- Leaderboard -->
+            <div class="puzzle-leaderboard">
+                <div class="puzzle-leaderboard-title">🏆 Best Scores</div>
+                <div id="puzzle-leaderboard-list">
+                    <p class="puzzle-leaderboard-empty">No scores yet — be the first! 🌸</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MEMORY MATCH PANEL ===== -->
+        <div class="game-panel" id="gpanel-memory">
+            <div class="memory-wrap">
+                <div class="memory-controls">
+                    <div class="memory-control-row">
+                        <label>🎯 Difficulty:</label>
+                        <select class="memory-select" id="memory-difficulty">
+                            <option value="4">Easy (4×4 — 8 pairs)</option>
+                            <option value="6" selected>Medium (6×4 — 12 pairs)</option>
+                            <option value="8">Hard (8×6 — 24 pairs)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="memory-stats">
+                    <div class="memory-stat-block">
+                        <span class="memory-stat-num" id="memory-moves">0</span>
+                        <span class="memory-stat-lbl">Moves</span>
+                    </div>
+                    <div class="memory-stat-block">
+                        <span class="memory-stat-num" id="memory-pairs">0/0</span>
+                        <span class="memory-stat-lbl">Pairs</span>
+                    </div>
+                    <div class="memory-stat-block">
+                        <span class="memory-stat-num" id="memory-time">00:00</span>
+                        <span class="memory-stat-lbl">Time</span>
+                    </div>
+                </div>
+
+                <div id="memory-win-area"></div>
+
+                <div class="memory-board" id="memory-board">
+                    <p class="memory-empty" style="grid-column: 1 / -1;">🧠 Click "Start" to begin the memory match</p>
+                </div>
+
+                <div class="memory-actions">
+                    <button class="memory-btn memory-btn-primary" onclick="startMemoryGame()">🎮 Start / Restart</button>
+                    <button class="memory-btn memory-btn-secondary" onclick="clearMemoryGame()">🗑️ Clear</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="memory-leaderboard">
+                <div class="memory-leaderboard-title">🏆 Best Scores</div>
+                <div id="memory-leaderboard-list">
+                    <p class="memory-empty">No scores yet — be the first! 🌸</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== HIGHER OR LOWER PANEL ===== -->
+        <div class="game-panel" id="gpanel-hl">
+            <div class="hl-wrap">
+                <div class="hl-stats">
+                    <div class="hl-stat-block">
+                        <span class="hl-stat-num" id="hl-current-streak">0</span>
+                        <span class="hl-stat-lbl">Current Streak</span>
+                    </div>
+                    <div class="hl-stat-block">
+                        <span class="hl-stat-num" id="hl-best-streak">0</span>
+                        <span class="hl-stat-lbl">Your Best</span>
+                    </div>
+                </div>
+
+                <div class="hl-question" id="hl-question">Will the next number be higher or lower?</div>
+
+                <div class="hl-card-area">
+                    <div class="hl-card" id="hl-current-card">
+                        <span id="hl-current-num">?</span>
+                        <span class="hl-card-label">Current</span>
+                    </div>
+                    <div class="hl-vs">VS</div>
+                    <div class="hl-card hidden" id="hl-next-card">
+                        <span id="hl-next-num">?</span>
+                        <span class="hl-card-label">Next</span>
+                    </div>
+                </div>
+
+                <div id="hl-result-area"></div>
+
+                <div class="hl-actions">
+                    <button class="hl-btn hl-btn-higher" id="hl-btn-higher" onclick="hlGuess('higher')">⬆️ Higher</button>
+                    <button class="hl-btn hl-btn-lower" id="hl-btn-lower" onclick="hlGuess('lower')">⬇️ Lower</button>
+                </div>
+
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
+                    <button class="hl-btn-newgame" onclick="startHlGame()">🎮 New Game</button>
+                    <button class="hl-btn-newgame" style="background:rgba(255,182,210,.35);color:#c0396b;border:1.5px solid rgba(255,182,210,.6);" onclick="clearHlGame()">🗑️ Clear</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="hl-leaderboard">
+                <div class="hl-leaderboard-title">🏆 Best Streaks</div>
+                <div id="hl-leaderboard-list">
+                    <p class="memory-empty">No scores yet — be the first! 🌸</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -2731,6 +3496,1070 @@ function renderQuizScores() {
     ${allQuizQuestions.length === 0 ? '<p class="quiz-empty">No questions yet — go add some! 💡</p>' : ''}`;
 }
 
+    /* ============================================================
+       ===== GAMES SYSTEM =====
+       ============================================================ */
+
+    window.showGameTab = function(tab, btn) {
+        document.querySelectorAll(".game-panel").forEach(p => p.classList.remove("active"));
+        document.querySelectorAll(".games-tab").forEach(b => b.classList.remove("active"));
+        document.getElementById("gpanel-" + tab).classList.add("active");
+        btn.classList.add("active");
+        if (tab === "puzzle") loadPuzzlePhotoOptions();
+    };
+
+    /* ============================================================
+       ===== TIC TAC TOE =====
+       ============================================================ */
+    const tttGameRef = doc(db, "games", "tictactoe");
+    const tttHistoryRef = collection(db, "tttHistory");
+    let tttCurrentGame = null;
+    let tttHistory = [];
+
+    // Symbol mapping
+    const TTT_SYMBOL = { hamdi: "❤️", yossr: "🌹" };
+
+    // Listen to current game
+    onSnapshot(tttGameRef, snap => {
+        if (snap.exists()) {
+            tttCurrentGame = snap.data();
+            renderTTTBoard();
+        } else {
+            tttCurrentGame = null;
+            initEmptyTTTBoard();
+        }
+    });
+
+    // Listen to history (limit recent)
+    onSnapshot(query(tttHistoryRef, orderBy("finishedAt", "desc")), snap => {
+        tttHistory = snap.docs.map(d => ({ id: d.id, ...d.data() })).slice(0, 50);
+        renderTTTScores();
+        renderTTTHistory();
+    });
+
+    function initEmptyTTTBoard() {
+        const board = document.getElementById("ttt-board");
+        if (!board) return;
+        board.innerHTML = "";
+        for (let i = 0; i < 9; i++) {
+            const cell = document.createElement("div");
+            cell.className = "ttt-cell disabled";
+            cell.dataset.idx = i;
+            board.appendChild(cell);
+        }
+        const status = document.getElementById("ttt-status");
+        const turnInd = document.getElementById("ttt-turn-indicator");
+        if (status) status.textContent = "🎯 Tic Tac Toe";
+        if (turnInd) turnInd.textContent = 'Click "New Game" to start ✨';
+        document.getElementById("ttt-waiting-msg").innerHTML = "";
+    }
+
+    window.startNewTTTGame = async function() {
+        if (!currentUser) { showIdentityModal(); return; }
+        showSync();
+        try {
+            // Current user starts as the first player
+            await setTTTGame({
+                board: ["", "", "", "", "", "", "", "", ""],
+                turn: currentUser,
+                starter: currentUser,
+                status: "playing",
+                winner: null,
+                winningLine: null,
+                startedBy: currentUser,
+                startedAt: new Date().toISOString()
+            });
+            // Notify partner
+            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+            await createNotification("games", `${whoName} started a Tic Tac Toe game — your turn! 🎯`, partner, "games");
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    async function setTTTGame(data) {
+        const { setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+        await setDoc(tttGameRef, data);
+    }
+
+    window.tttPlayMove = async function(idx) {
+        if (!currentUser) { showIdentityModal(); return; }
+        if (!tttCurrentGame) { alert("Start a new game first 🎯"); return; }
+        if (tttCurrentGame.status !== "playing") return;
+        if (tttCurrentGame.turn !== currentUser) {
+            alert("Not your turn! 💕");
+            return;
+        }
+        if (tttCurrentGame.board[idx] !== "") return;
+
+        const newBoard = [...tttCurrentGame.board];
+        newBoard[idx] = currentUser;
+
+        // Check win/draw
+        const result = checkTTTWinner(newBoard);
+        let updates = { board: newBoard };
+
+        if (result.winner) {
+            updates.status = "finished";
+            updates.winner = result.winner;
+            updates.winningLine = result.line;
+            updates.turn = null;
+            // Save to history
+            await saveTTTHistory(result.winner, currentUser);
+        } else if (result.draw) {
+            updates.status = "finished";
+            updates.winner = "draw";
+            updates.turn = null;
+            await saveTTTHistory("draw", currentUser);
+        } else {
+            updates.turn = currentUser === "hamdi" ? "yossr" : "hamdi";
+        }
+
+        showSync();
+        try {
+            await updateDoc(tttGameRef, updates);
+            // Notify partner if game continues
+            if (updates.status !== "finished") {
+                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                await createNotification("games", `${whoName} played — your turn now 🎯`, partner, "games");
+            }
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    async function saveTTTHistory(winner, lastPlayedBy) {
+        try {
+            await addDoc(tttHistoryRef, {
+                winner,
+                lastPlayedBy,
+                finishedAt: new Date().toISOString()
+            });
+        } catch (e) { console.error(e); }
+    }
+
+    function checkTTTWinner(board) {
+        const lines = [
+            [0,1,2], [3,4,5], [6,7,8],
+            [0,3,6], [1,4,7], [2,5,8],
+            [0,4,8], [2,4,6]
+        ];
+        for (const line of lines) {
+            const [a, b, c] = line;
+            if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                return { winner: board[a], line };
+            }
+        }
+        if (board.every(c => c !== "")) return { draw: true };
+        return {};
+    }
+
+    function renderTTTBoard() {
+        if (!tttCurrentGame) { initEmptyTTTBoard(); return; }
+        const board = document.getElementById("ttt-board");
+        const status = document.getElementById("ttt-status");
+        const turnInd = document.getElementById("ttt-turn-indicator");
+        const waitingMsg = document.getElementById("ttt-waiting-msg");
+        if (!board) return;
+
+        const me = currentUser || "hamdi";
+        const isMyTurn = tttCurrentGame.turn === me;
+        const isFinished = tttCurrentGame.status === "finished";
+
+        // Status / Turn
+        if (isFinished) {
+            if (tttCurrentGame.winner === "draw") {
+                status.textContent = "🤝 It's a Draw!";
+                turnInd.textContent = "Great game! Click New Game to play again 💕";
+            } else if (tttCurrentGame.winner === me) {
+                status.textContent = "🎉 You Won!";
+                turnInd.textContent = "Amazing! Click New Game for a rematch 🏆";
+            } else {
+                const winnerName = tttCurrentGame.winner === "hamdi" ? "Hamdi" : "Yossr";
+                status.textContent = `🏆 ${winnerName} Won!`;
+                turnInd.textContent = "Get ready for the next round! 💕";
+            }
+            waitingMsg.innerHTML = "";
+        } else {
+            status.textContent = "🎯 Tic Tac Toe";
+            if (isMyTurn) {
+                turnInd.innerHTML = `Your turn ${TTT_SYMBOL[me]} — make your move!`;
+                waitingMsg.innerHTML = "";
+            } else {
+                const partnerName = tttCurrentGame.turn === "hamdi" ? "Hamdi" : "Yossr";
+                turnInd.innerHTML = `${TTT_SYMBOL[tttCurrentGame.turn]} ${partnerName}'s turn`;
+                waitingMsg.innerHTML = `<div class="ttt-waiting">⏳ Waiting for ${partnerName} to play…</div>`;
+            }
+        }
+
+        // Render cells
+        board.innerHTML = "";
+        for (let i = 0; i < 9; i++) {
+            const cell = document.createElement("div");
+            cell.className = "ttt-cell";
+            const value = tttCurrentGame.board[i];
+            if (value) {
+                cell.textContent = TTT_SYMBOL[value];
+                cell.classList.add("disabled");
+            }
+            if (isFinished) cell.classList.add("disabled");
+            if (!isMyTurn && !isFinished) cell.classList.add("disabled");
+            if (tttCurrentGame.winningLine && tttCurrentGame.winningLine.includes(i)) {
+                cell.classList.add("win");
+            }
+            cell.addEventListener("click", () => {
+                if (cell.classList.contains("disabled")) return;
+                window.tttPlayMove(i);
+            });
+            board.appendChild(cell);
+        }
+    }
+
+    function renderTTTScores() {
+        let h = 0, y = 0, d = 0;
+        tttHistory.forEach(g => {
+            if (g.winner === "hamdi") h++;
+            else if (g.winner === "yossr") y++;
+            else if (g.winner === "draw") d++;
+        });
+        const eh = document.getElementById("ttt-score-hamdi");
+        const ey = document.getElementById("ttt-score-yossr");
+        const ed = document.getElementById("ttt-score-draws");
+        if (eh) eh.textContent = h;
+        if (ey) ey.textContent = y;
+        if (ed) ed.textContent = d;
+    }
+
+    function renderTTTHistory() {
+        const listEl = document.getElementById("ttt-history-list");
+        if (!listEl) return;
+        if (tttHistory.length === 0) {
+            listEl.innerHTML = '<p class="ttt-history-empty">No games played yet 🌸</p>';
+            return;
+        }
+        const me = currentUser || "hamdi";
+        listEl.innerHTML = tttHistory.slice(0, 15).map(g => {
+            const time = g.finishedAt ? getTimeAgo(g.finishedAt) : "";
+            let resultText = "", resultClass = "";
+            if (g.winner === "draw") {
+                resultText = "🤝 Draw";
+                resultClass = "ttt-result-draw";
+            } else if (g.winner === me) {
+                resultText = "🏆 Win";
+                resultClass = "ttt-result-win";
+            } else {
+                resultText = "💔 Loss";
+                resultClass = "ttt-result-loss";
+            }
+            const winnerName = g.winner === "hamdi" ? "👨 Hamdi" : g.winner === "yossr" ? "👩 Yossr" : "Tie";
+            return `<div class="ttt-history-item">
+                <span>${winnerName}</span>
+                <span class="ttt-history-result ${resultClass}">${resultText}</span>
+                <span class="ttt-history-time">${time}</span>
+            </div>`;
+        }).join("");
+    }
+
+    window.resetTTTScores = async function() {
+        if (!confirm("Reset all Tic Tac Toe scores and history?")) return;
+        showSync();
+        try {
+            for (const g of tttHistory) {
+                await deleteDoc(doc(db, "tttHistory", g.id));
+            }
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    /* ============================================================
+       ===== PHOTO SLIDER PUZZLE =====
+       ============================================================ */
+    const puzzleScoresRef = collection(db, "puzzleScores");
+    let puzzleAllScores = [];
+    let puzzleState = {
+        size: 4,
+        tiles: [],
+        emptyIdx: 0,
+        moves: 0,
+        startTime: null,
+        timerInterval: null,
+        photoUrl: null,
+        photoCaption: "",
+        playing: false,
+        solved: false
+    };
+
+    // Listen to puzzle scores
+    onSnapshot(query(puzzleScoresRef, orderBy("score", "asc")), snap => {
+        puzzleAllScores = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderPuzzleLeaderboard();
+    });
+
+    function loadPuzzlePhotoOptions() {
+        const select = document.getElementById("puzzle-photo-select");
+        if (!select) return;
+        if (galleryAllPhotos.length === 0) {
+            select.innerHTML = '<option value="">No photos available — add some to gallery!</option>';
+            return;
+        }
+        const currentVal = select.value;
+        select.innerHTML = '<option value="">-- Pick a photo --</option>' +
+            galleryAllPhotos.map((p, i) => {
+                const label = p.caption ? `${p.caption} (${p.album || "Other"})` : `Photo ${i + 1} (${p.album || "Other"})`;
+                return `<option value="${p.id}">${esc(label.slice(0, 50))}</option>`;
+            }).join("");
+        if (currentVal) select.value = currentVal;
+    }
+
+    window.startPuzzle = function() {
+        const select = document.getElementById("puzzle-photo-select");
+        const diffSelect = document.getElementById("puzzle-difficulty");
+        if (!select || !diffSelect) return;
+
+        if (galleryAllPhotos.length === 0) {
+            alert("Add some photos to the Gallery first! 📸");
+            return;
+        }
+
+        let photoId = select.value;
+        if (!photoId) {
+            // Pick random
+            const randomPhoto = galleryAllPhotos[Math.floor(Math.random() * galleryAllPhotos.length)];
+            photoId = randomPhoto.id;
+            select.value = photoId;
+        }
+
+        const photo = galleryAllPhotos.find(p => p.id === photoId);
+        if (!photo) { alert("Photo not found"); return; }
+
+        const size = parseInt(diffSelect.value);
+        puzzleState.size = size;
+        puzzleState.photoUrl = photo.image;
+        puzzleState.photoCaption = photo.caption || "";
+        puzzleState.moves = 0;
+        puzzleState.solved = false;
+        puzzleState.playing = true;
+
+        // Initialize tiles in solved state, then shuffle
+        const total = size * size;
+        puzzleState.tiles = [];
+        for (let i = 0; i < total - 1; i++) puzzleState.tiles.push(i);
+        puzzleState.tiles.push(-1); // empty tile
+        puzzleState.emptyIdx = total - 1;
+
+        shufflePuzzle();
+        startPuzzleTimer();
+        document.getElementById("puzzle-win-area").innerHTML = "";
+        renderPuzzleBoard();
+    };
+
+    function shufflePuzzle() {
+        // Do random valid moves to ensure solvable
+        const size = puzzleState.size;
+        const totalShuffles = size * size * 25;
+        for (let s = 0; s < totalShuffles; s++) {
+            const neighbors = getMovableNeighbors(puzzleState.emptyIdx);
+            const pick = neighbors[Math.floor(Math.random() * neighbors.length)];
+            // Swap
+            [puzzleState.tiles[puzzleState.emptyIdx], puzzleState.tiles[pick]] =
+                [puzzleState.tiles[pick], puzzleState.tiles[puzzleState.emptyIdx]];
+            puzzleState.emptyIdx = pick;
+        }
+        // Reset moves after shuffle
+        puzzleState.moves = 0;
+        updatePuzzleStats();
+    }
+
+    function getMovableNeighbors(idx) {
+        const size = puzzleState.size;
+        const row = Math.floor(idx / size);
+        const col = idx % size;
+        const neighbors = [];
+        if (row > 0) neighbors.push(idx - size);        // up
+        if (row < size - 1) neighbors.push(idx + size); // down
+        if (col > 0) neighbors.push(idx - 1);            // left
+        if (col < size - 1) neighbors.push(idx + 1);    // right
+        return neighbors;
+    }
+
+    function renderPuzzleBoard() {
+        const board = document.getElementById("puzzle-board");
+        if (!board) return;
+        const size = puzzleState.size;
+        board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+
+        if (!puzzleState.playing && !puzzleState.solved) {
+            board.innerHTML = '<p class="puzzle-no-photos" style="grid-column: 1 / -1;">🧩 Click "Start" to begin the puzzle</p>';
+            return;
+        }
+
+        const movable = puzzleState.playing && !puzzleState.solved
+            ? getMovableNeighbors(puzzleState.emptyIdx)
+            : [];
+
+        board.innerHTML = puzzleState.tiles.map((tileNum, idx) => {
+            if (tileNum === -1) {
+                return `<div class="puzzle-tile empty"></div>`;
+            }
+            const tileRow = Math.floor(tileNum / size);
+            const tileCol = tileNum % size;
+            const bgPosX = (tileCol / (size - 1)) * 100;
+            const bgPosY = (tileRow / (size - 1)) * 100;
+            const isMovable = movable.includes(idx);
+            const movableClass = isMovable ? " movable" : "";
+            const solvedClass = puzzleState.solved ? " solved" : "";
+            const numLabel = (tileNum + 1);
+
+            return `<div class="puzzle-tile${movableClass}${solvedClass}"
+                style="background-image:url('${puzzleState.photoUrl}');
+                background-size: ${size * 100}% ${size * 100}%;
+                background-position: ${bgPosX}% ${bgPosY}%;"
+                onclick="movePuzzleTile(${idx})"
+                ontouchstart="movePuzzleTile(${idx})">
+                <span style="font-size:${size <= 3 ? '1.2rem' : size === 4 ? '0.95rem' : '0.75rem'};">${numLabel}</span>
+            </div>`;
+        }).join("");
+    }
+
+    window.movePuzzleTile = function(idx) {
+        if (!puzzleState.playing || puzzleState.solved) return;
+        const movable = getMovableNeighbors(puzzleState.emptyIdx);
+        if (!movable.includes(idx)) return;
+
+        // Swap
+        [puzzleState.tiles[puzzleState.emptyIdx], puzzleState.tiles[idx]] =
+            [puzzleState.tiles[idx], puzzleState.tiles[puzzleState.emptyIdx]];
+        puzzleState.emptyIdx = idx;
+        puzzleState.moves++;
+
+        updatePuzzleStats();
+        renderPuzzleBoard();
+        checkPuzzleSolved();
+    };
+
+    function checkPuzzleSolved() {
+        const total = puzzleState.size * puzzleState.size;
+        for (let i = 0; i < total - 1; i++) {
+            if (puzzleState.tiles[i] !== i) return false;
+        }
+        if (puzzleState.tiles[total - 1] !== -1) return false;
+        // SOLVED!
+        puzzleState.solved = true;
+        puzzleState.playing = false;
+        stopPuzzleTimer();
+        const elapsed = Math.floor((Date.now() - puzzleState.startTime) / 1000);
+        savePuzzleScore(elapsed);
+        showPuzzleWin(elapsed);
+        renderPuzzleBoard();
+        return true;
+    }
+
+    function startPuzzleTimer() {
+        stopPuzzleTimer();
+        puzzleState.startTime = Date.now();
+        puzzleState.timerInterval = setInterval(() => {
+            updatePuzzleStats();
+        }, 1000);
+    }
+
+    function stopPuzzleTimer() {
+        if (puzzleState.timerInterval) {
+            clearInterval(puzzleState.timerInterval);
+            puzzleState.timerInterval = null;
+        }
+    }
+
+    function updatePuzzleStats() {
+        const movesEl = document.getElementById("puzzle-moves");
+        const timeEl = document.getElementById("puzzle-time");
+        if (movesEl) movesEl.textContent = puzzleState.moves;
+        if (timeEl && puzzleState.startTime) {
+            const elapsed = Math.floor((Date.now() - puzzleState.startTime) / 1000);
+            const min = Math.floor(elapsed / 60);
+            const sec = elapsed % 60;
+            timeEl.textContent = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+        }
+    }
+
+    async function savePuzzleScore(elapsedSec) {
+        if (!currentUser) return;
+        // Score = combination of time and moves (lower is better)
+        const score = elapsedSec + (puzzleState.moves * 2);
+        try {
+            await addDoc(puzzleScoresRef, {
+                user: currentUser,
+                size: puzzleState.size,
+                moves: puzzleState.moves,
+                timeSec: elapsedSec,
+                score,
+                photoCaption: puzzleState.photoCaption || "",
+                solvedAt: new Date().toISOString()
+            });
+            // Notify partner
+            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+            const min = Math.floor(elapsedSec / 60);
+            const sec = elapsedSec % 60;
+            const timeStr = `${min}m ${sec}s`;
+            await createNotification("games", `${whoName} solved a ${puzzleState.size}×${puzzleState.size} puzzle in ${timeStr} 🧩`, partner, "games");
+        } catch (e) { console.error(e); }
+    }
+
+    function showPuzzleWin(elapsedSec) {
+        const min = Math.floor(elapsedSec / 60);
+        const sec = elapsedSec % 60;
+        const timeStr = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+        document.getElementById("puzzle-win-area").innerHTML = `
+            <div class="puzzle-win-banner">
+                🎉 <strong>Puzzle Solved!</strong> 🎉<br>
+                ⏱️ Time: ${timeStr} · 🎯 Moves: ${puzzleState.moves}
+            </div>`;
+    }
+
+    window.showPuzzleSolution = function() {
+        if (!puzzleState.photoUrl) {
+            alert("Start a puzzle first 🧩");
+            return;
+        }
+        // Open the photo in slideshow mode briefly
+        const overlay = document.getElementById("slideshow-overlay");
+        const img = document.getElementById("slideshow-img");
+        const caption = document.getElementById("slideshow-caption");
+        const album = document.getElementById("slideshow-album");
+        const counter = document.getElementById("slideshow-counter");
+        if (img) img.src = puzzleState.photoUrl;
+        if (caption) caption.textContent = puzzleState.photoCaption || "Solution preview";
+        if (album) album.textContent = "PUZZLE SOLUTION";
+        if (counter) counter.textContent = "Close to continue playing";
+        if (overlay) {
+            overlay.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+    };
+
+    function renderPuzzleLeaderboard() {
+        const listEl = document.getElementById("puzzle-leaderboard-list");
+        if (!listEl) return;
+        if (puzzleAllScores.length === 0) {
+            listEl.innerHTML = '<p class="puzzle-leaderboard-empty">No scores yet — be the first! 🌸</p>';
+            return;
+        }
+        // Best per difficulty
+        const bestBySize = {};
+        puzzleAllScores.forEach(s => {
+            const key = `${s.size}_${s.user}`;
+            if (!bestBySize[key] || s.score < bestBySize[key].score) {
+                bestBySize[key] = s;
+            }
+        });
+        const arr = Object.values(bestBySize).sort((a, b) => {
+            if (a.size !== b.size) return a.size - b.size;
+            return a.score - b.score;
+        });
+
+        listEl.innerHTML = arr.slice(0, 12).map((s, i) => {
+            const min = Math.floor(s.timeSec / 60);
+            const sec = s.timeSec % 60;
+            const timeStr = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+            const userIcon = s.user === "hamdi" ? "👨" : "👩";
+            const userName = s.user === "hamdi" ? "Hamdi" : "Yossr";
+            const rank = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
+            return `<div class="puzzle-leaderboard-item">
+                <span class="puzzle-rank">${rank}</span>
+                <span>${userIcon} ${userName}</span>
+                <span style="background:rgba(192,57,107,.15);padding:2px 8px;border-radius:6px;font-size:.74rem;">${s.size}×${s.size}</span>
+                <span>⏱️ ${timeStr}</span>
+                <span>🎯 ${s.moves}</span>
+            </div>`;
+        }).join("");
+    }
+
+    window.clearPuzzle = function() {
+        if (puzzleState.playing && !puzzleState.solved) {
+            if (!confirm("Clear the current puzzle? Your progress will be lost 💔")) return;
+        }
+        stopPuzzleTimer();
+        puzzleState.playing = false;
+        puzzleState.solved = false;
+        puzzleState.tiles = [];
+        puzzleState.moves = 0;
+        puzzleState.startTime = null;
+        puzzleState.photoUrl = null;
+        puzzleState.photoCaption = "";
+
+        // Reset stats display
+        const movesEl = document.getElementById("puzzle-moves");
+        const timeEl = document.getElementById("puzzle-time");
+        if (movesEl) movesEl.textContent = "0";
+        if (timeEl) timeEl.textContent = "00:00";
+
+        // Reset board
+        document.getElementById("puzzle-win-area").innerHTML = "";
+        renderPuzzleBoard();
+    };
+
+    // Trigger photo options reload when gallery updates
+    setTimeout(() => loadPuzzlePhotoOptions(), 1500);
+
+    /* ============================================================
+       ===== MEMORY MATCH =====
+       ============================================================ */
+    const memoryScoresRef = collection(db, "memoryScores");
+    let memoryAllScores = [];
+    let memoryState = {
+        size: 8,
+        cards: [],
+        flipped: [],
+        matched: 0,
+        totalPairs: 0,
+        moves: 0,
+        startTime: null,
+        timerInterval: null,
+        playing: false,
+        locked: false
+    };
+
+    onSnapshot(query(memoryScoresRef, orderBy("score", "asc")), snap => {
+        memoryAllScores = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderMemoryLeaderboard();
+    });
+
+    window.startMemoryGame = function() {
+        if (galleryAllPhotos.length < 3) {
+            alert("Add at least 3 photos to the Gallery first! 📸");
+            return;
+        }
+
+        const diffSelect = document.getElementById("memory-difficulty");
+        const sizeVal = parseInt(diffSelect.value);
+        // Map difficulty to grid layout
+        let cols, rows, totalPairs;
+        if (sizeVal === 4) {
+            cols = 4; rows = 4; totalPairs = 8;   // Easy: 4x4 = 16 cards = 8 pairs
+        } else if (sizeVal === 6) {
+            cols = 6; rows = 4; totalPairs = 12;  // Medium: 6x4 = 24 cards = 12 pairs
+        } else {
+            cols = 8; rows = 6; totalPairs = 24;  // Hard: 8x6 = 48 cards = 24 pairs
+        }
+        const size = cols;
+        const totalCards = totalPairs * 2;
+        memoryState.cols = cols;
+        memoryState.rows = rows;
+
+        memoryState.size = size;
+        memoryState.totalPairs = totalPairs;
+        memoryState.matched = 0;
+        memoryState.moves = 0;
+        memoryState.flipped = [];
+        memoryState.locked = false;
+        memoryState.playing = true;
+
+        // Generate pairs of photos (cycling if needed)
+        const photoPool = [];
+        for (let i = 0; i < totalPairs; i++) {
+            const photo = galleryAllPhotos[i % galleryAllPhotos.length];
+            photoPool.push(photo.image, photo.image);
+        }
+
+        // Shuffle
+        for (let i = photoPool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [photoPool[i], photoPool[j]] = [photoPool[j], photoPool[i]];
+        }
+
+        memoryState.cards = photoPool.map((img, idx) => ({
+            id: idx,
+            image: img,
+            flipped: false,
+            matched: false
+        }));
+
+        document.getElementById("memory-win-area").innerHTML = "";
+        startMemoryTimer();
+        renderMemoryBoard();
+        updateMemoryStats();
+    };
+
+    function renderMemoryBoard() {
+        const board = document.getElementById("memory-board");
+        if (!board) return;
+        const cols = memoryState.cols || memoryState.size;
+        board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+        if (!memoryState.playing) {
+            board.innerHTML = '<p class="memory-empty" style="grid-column: 1 / -1;">🧠 Click "Start" to begin the memory match</p>';
+            return;
+        }
+
+        board.innerHTML = memoryState.cards.map((card, idx) => {
+            // Handle empty slots if odd grid
+            if (!card) return '<div></div>';
+            const flipClass = card.flipped ? "flipped" : "";
+            const matchClass = card.matched ? "matched" : "";
+            return `<div class="memory-card ${flipClass} ${matchClass}" onclick="flipMemoryCard(${idx})">
+                <div class="memory-card-inner">
+                    <div class="memory-card-face memory-card-back">💕</div>
+                    <div class="memory-card-face memory-card-front" style="background-image:url('${card.image}');"></div>
+                </div>
+            </div>`;
+        }).join("");
+
+        // Fill remaining cells if odd grid
+    }
+
+    window.flipMemoryCard = function(idx) {
+        if (memoryState.locked) return;
+        if (!memoryState.playing) return;
+        const card = memoryState.cards[idx];
+        if (!card || card.matched || card.flipped) return;
+
+        card.flipped = true;
+        memoryState.flipped.push(idx);
+        renderMemoryBoard();
+
+        if (memoryState.flipped.length === 2) {
+            memoryState.moves++;
+            memoryState.locked = true;
+            updateMemoryStats();
+            const [i1, i2] = memoryState.flipped;
+            const c1 = memoryState.cards[i1];
+            const c2 = memoryState.cards[i2];
+            if (c1.image === c2.image) {
+                // Match!
+                setTimeout(() => {
+                    c1.matched = true;
+                    c2.matched = true;
+                    memoryState.matched++;
+                    memoryState.flipped = [];
+                    memoryState.locked = false;
+                    renderMemoryBoard();
+                    updateMemoryStats();
+                    if (memoryState.matched === memoryState.totalPairs) {
+                        memoryWin();
+                    }
+                }, 500);
+            } else {
+                // No match
+                setTimeout(() => {
+                    c1.flipped = false;
+                    c2.flipped = false;
+                    memoryState.flipped = [];
+                    memoryState.locked = false;
+                    renderMemoryBoard();
+                }, 1000);
+            }
+        }
+    };
+
+    function startMemoryTimer() {
+        stopMemoryTimer();
+        memoryState.startTime = Date.now();
+        memoryState.timerInterval = setInterval(() => updateMemoryStats(), 1000);
+    }
+
+    function stopMemoryTimer() {
+        if (memoryState.timerInterval) {
+            clearInterval(memoryState.timerInterval);
+            memoryState.timerInterval = null;
+        }
+    }
+
+    function updateMemoryStats() {
+        const movesEl = document.getElementById("memory-moves");
+        const pairsEl = document.getElementById("memory-pairs");
+        const timeEl = document.getElementById("memory-time");
+        if (movesEl) movesEl.textContent = memoryState.moves;
+        if (pairsEl) pairsEl.textContent = `${memoryState.matched}/${memoryState.totalPairs}`;
+        if (timeEl && memoryState.startTime) {
+            const elapsed = Math.floor((Date.now() - memoryState.startTime) / 1000);
+            const min = Math.floor(elapsed / 60);
+            const sec = elapsed % 60;
+            timeEl.textContent = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+        }
+    }
+
+    function memoryWin() {
+        memoryState.playing = false;
+        stopMemoryTimer();
+        const elapsed = Math.floor((Date.now() - memoryState.startTime) / 1000);
+        const min = Math.floor(elapsed / 60);
+        const sec = elapsed % 60;
+        const timeStr = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+        document.getElementById("memory-win-area").innerHTML = `
+            <div class="memory-win-banner">
+                🎉 <strong>All Pairs Matched!</strong> 🎉<br>
+                ⏱️ Time: ${timeStr} · 🎯 Moves: ${memoryState.moves}
+            </div>`;
+        saveMemoryScore(elapsed);
+    }
+
+    async function saveMemoryScore(elapsedSec) {
+        if (!currentUser) return;
+        const score = elapsedSec + (memoryState.moves * 3);
+        try {
+            await addDoc(memoryScoresRef, {
+                user: currentUser,
+                size: memoryState.size,
+                pairs: memoryState.totalPairs,
+                moves: memoryState.moves,
+                timeSec: elapsedSec,
+                score,
+                solvedAt: new Date().toISOString()
+            });
+            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+            const min = Math.floor(elapsedSec / 60);
+            const sec = elapsedSec % 60;
+            await createNotification("games", `${whoName} won Memory Match (${memoryState.size}×${memoryState.size}) in ${min}m ${sec}s 🧠`, partner, "games");
+        } catch (e) { console.error(e); }
+    }
+
+    window.clearMemoryGame = function() {
+        if (memoryState.playing && memoryState.matched < memoryState.totalPairs) {
+            if (!confirm("Clear the current memory game? Your progress will be lost 💔")) return;
+        }
+        stopMemoryTimer();
+        memoryState.playing = false;
+        memoryState.cards = [];
+        memoryState.flipped = [];
+        memoryState.matched = 0;
+        memoryState.totalPairs = 0;
+        memoryState.moves = 0;
+        memoryState.startTime = null;
+        memoryState.locked = false;
+
+        // Reset stats display
+        const movesEl = document.getElementById("memory-moves");
+        const pairsEl = document.getElementById("memory-pairs");
+        const timeEl = document.getElementById("memory-time");
+        if (movesEl) movesEl.textContent = "0";
+        if (pairsEl) pairsEl.textContent = "0/0";
+        if (timeEl) timeEl.textContent = "00:00";
+
+        // Reset board
+        document.getElementById("memory-win-area").innerHTML = "";
+        renderMemoryBoard();
+    };
+
+    function renderMemoryLeaderboard() {
+        const listEl = document.getElementById("memory-leaderboard-list");
+        if (!listEl) return;
+        if (memoryAllScores.length === 0) {
+            listEl.innerHTML = '<p class="memory-empty">No scores yet — be the first! 🌸</p>';
+            return;
+        }
+        const bestBySize = {};
+        memoryAllScores.forEach(s => {
+            const key = `${s.size}_${s.user}`;
+            if (!bestBySize[key] || s.score < bestBySize[key].score) {
+                bestBySize[key] = s;
+            }
+        });
+        const arr = Object.values(bestBySize).sort((a, b) => {
+            if (a.size !== b.size) return a.size - b.size;
+            return a.score - b.score;
+        });
+
+        listEl.innerHTML = arr.slice(0, 12).map((s, i) => {
+            const min = Math.floor(s.timeSec / 60);
+            const sec = s.timeSec % 60;
+            const timeStr = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+            const userIcon = s.user === "hamdi" ? "👨" : "👩";
+            const userName = s.user === "hamdi" ? "Hamdi" : "Yossr";
+            const rank = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
+            return `<div class="memory-leaderboard-item">
+                <span style="font-size:1rem;font-weight:700;">${rank}</span>
+                <span>${userIcon} ${userName}</span>
+                <span style="background:rgba(192,57,107,.15);padding:2px 8px;border-radius:6px;font-size:.74rem;">${s.size}×${s.size}</span>
+                <span>⏱️ ${timeStr}</span>
+                <span>🎯 ${s.moves}</span>
+            </div>`;
+        }).join("");
+    }
+
+    /* ============================================================
+       ===== HIGHER OR LOWER =====
+       ============================================================ */
+    const hlScoresRef = collection(db, "hlScores");
+    let hlAllScores = [];
+    let hlState = {
+        currentNumber: null,
+        nextNumber: null,
+        streak: 0,
+        playing: false,
+        locked: false
+    };
+
+    onSnapshot(query(hlScoresRef, orderBy("streak", "desc")), snap => {
+        hlAllScores = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderHlLeaderboard();
+        updateHlBestStreak();
+    });
+
+    function updateHlBestStreak() {
+        if (!currentUser) return;
+        const myScores = hlAllScores.filter(s => s.user === currentUser);
+        const best = myScores.length > 0 ? Math.max(...myScores.map(s => s.streak)) : 0;
+        const el = document.getElementById("hl-best-streak");
+        if (el) el.textContent = best;
+    }
+
+    window.startHlGame = function() {
+        hlState.currentNumber = Math.floor(Math.random() * 100) + 1;
+        hlState.nextNumber = null;
+        hlState.streak = 0;
+        hlState.playing = true;
+        hlState.locked = false;
+
+        document.getElementById("hl-current-num").textContent = hlState.currentNumber;
+        document.getElementById("hl-next-num").textContent = "?";
+        document.getElementById("hl-current-card").classList.remove("correct", "wrong");
+        document.getElementById("hl-next-card").classList.remove("correct", "wrong");
+        document.getElementById("hl-next-card").classList.add("hidden");
+        document.getElementById("hl-result-area").innerHTML = "";
+        document.getElementById("hl-current-streak").textContent = "0";
+        document.getElementById("hl-question").textContent = "Will the next number be higher or lower?";
+
+        document.getElementById("hl-btn-higher").disabled = false;
+        document.getElementById("hl-btn-lower").disabled = false;
+    };
+
+    window.hlGuess = async function(guess) {
+        if (!hlState.playing || hlState.locked) return;
+        hlState.locked = true;
+
+        // Generate next number (different from current)
+        let next;
+        do {
+            next = Math.floor(Math.random() * 100) + 1;
+        } while (next === hlState.currentNumber);
+
+        hlState.nextNumber = next;
+
+        // Reveal the next card
+        const nextCard = document.getElementById("hl-next-card");
+        nextCard.classList.add("revealing");
+        setTimeout(() => {
+            document.getElementById("hl-next-num").textContent = next;
+            nextCard.classList.remove("hidden", "revealing");
+
+            // Determine result
+            const correct =
+                (guess === "higher" && next > hlState.currentNumber) ||
+                (guess === "lower" && next < hlState.currentNumber);
+
+            const resultArea = document.getElementById("hl-result-area");
+
+            if (correct) {
+                hlState.streak++;
+                document.getElementById("hl-current-streak").textContent = hlState.streak;
+                nextCard.classList.add("correct");
+                resultArea.innerHTML = `<div class="hl-result win">✅ Correct! ${hlState.currentNumber} → ${next} · Streak: ${hlState.streak} 🔥</div>`;
+                // Continue: shift next to current
+                setTimeout(() => {
+                    hlState.currentNumber = next;
+                    document.getElementById("hl-current-num").textContent = next;
+                    document.getElementById("hl-next-num").textContent = "?";
+                    nextCard.classList.remove("correct");
+                    nextCard.classList.add("hidden");
+                    hlState.locked = false;
+                }, 1400);
+            } else {
+                // Lost!
+                nextCard.classList.add("wrong");
+                resultArea.innerHTML = `<div class="hl-result lose">❌ Wrong! ${hlState.currentNumber} → ${next} · Final streak: ${hlState.streak}</div>`;
+                hlState.playing = false;
+                document.getElementById("hl-btn-higher").disabled = true;
+                document.getElementById("hl-btn-lower").disabled = true;
+                if (hlState.streak > 0) {
+                    saveHlScore(hlState.streak);
+                }
+            }
+        }, 350);
+    };
+
+    async function saveHlScore(streak) {
+        if (!currentUser) return;
+        try {
+            await addDoc(hlScoresRef, {
+                user: currentUser,
+                streak,
+                playedAt: new Date().toISOString()
+            });
+            // Notify partner only if it's a new personal best
+            const myScores = hlAllScores.filter(s => s.user === currentUser);
+            const previousBest = myScores.length > 0 ? Math.max(...myScores.map(s => s.streak)) : 0;
+            if (streak > previousBest) {
+                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                await createNotification("games", `${whoName} hit a new Higher/Lower record: ${streak} streak! 🃏🔥`, partner, "games");
+            }
+        } catch (e) { console.error(e); }
+    }
+
+    function renderHlLeaderboard() {
+        const listEl = document.getElementById("hl-leaderboard-list");
+        if (!listEl) return;
+        if (hlAllScores.length === 0) {
+            listEl.innerHTML = '<p class="memory-empty">No scores yet — be the first! 🌸</p>';
+            return;
+        }
+        // Best per user
+        const bestByUser = {};
+        hlAllScores.forEach(s => {
+            if (!bestByUser[s.user] || s.streak > bestByUser[s.user].streak) {
+                bestByUser[s.user] = s;
+            }
+        });
+        const arr = Object.values(bestByUser).sort((a, b) => b.streak - a.streak);
+
+        listEl.innerHTML = arr.map((s, i) => {
+            const userIcon = s.user === "hamdi" ? "👨" : "👩";
+            const userName = s.user === "hamdi" ? "Hamdi" : "Yossr";
+            const rank = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
+            return `<div class="hl-leaderboard-item">
+                <span style="font-size:1.1rem;font-weight:700;">${rank}</span>
+                <span>${userIcon} ${userName}</span>
+                <span class="hl-streak-badge">🔥 ${s.streak} streak</span>
+            </div>`;
+        }).join("");
+    }
+
+    window.clearHlGame = function() {
+        if (hlState.playing && hlState.streak > 0) {
+            if (!confirm("Clear the current game? Your streak of " + hlState.streak + " will be lost 💔")) return;
+        }
+        hlState.currentNumber = null;
+        hlState.nextNumber = null;
+        hlState.streak = 0;
+        hlState.playing = false;
+        hlState.locked = false;
+
+        // Reset display
+        document.getElementById("hl-current-num").textContent = "?";
+        document.getElementById("hl-next-num").textContent = "?";
+        document.getElementById("hl-current-streak").textContent = "0";
+        document.getElementById("hl-question").textContent = 'Click "New Game" to start ✨';
+        document.getElementById("hl-result-area").innerHTML = "";
+
+        // Reset card classes
+        const currentCard = document.getElementById("hl-current-card");
+        const nextCard = document.getElementById("hl-next-card");
+        currentCard.classList.remove("correct", "wrong", "revealing");
+        nextCard.classList.remove("correct", "wrong", "revealing");
+        nextCard.classList.add("hidden");
+
+        // Disable buttons
+        document.getElementById("hl-btn-higher").disabled = true;
+        document.getElementById("hl-btn-lower").disabled = true;
+    };
+
+    // Initialize HL game on load
+    setTimeout(() => {
+        if (document.getElementById("hl-current-num")) {
+            startHlGame();
+        }
+    }, 1000);
 
     /* ===== PARTICLES ===== */
     const emojis=["❤️","💕","🌸","🌺","💐","🌹","💗","🌼","✨","💖","🌷","💞"];const pc=document.getElementById("particles");
