@@ -734,10 +734,13 @@
             width: min(300px, 88vw); border-radius: 24px; overflow: hidden;
             box-shadow: 0 12px 36px rgba(192,57,107,.2);
             animation: fadeIn .4s ease; position: relative;
+            display: flex; flex-direction: column;
+            min-height: 360px;
         }
         .scratch-card-inner {
-            position: relative; padding: 32px 28px 28px; min-height: 200px;
+            position: relative; padding: 32px 28px 20px; min-height: 200px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
+            flex: 1;
         }
         .sc-from-badge {
             position: absolute; top: 12px; left: 14px; right: 14px;
@@ -770,11 +773,81 @@
             pointer-events: none; animation: pulse 1.5s infinite;
         }
         .scratch-sent-badge {
-            text-align: center; padding: 6px 12px;
+            text-align: center; padding: 8px 12px;
             background: rgba(255,255,255,.18); font-size: .74rem;
-            color: rgba(255,255,255,.75); letter-spacing: 1px;
+            color: rgba(255,255,255,.85); letter-spacing: 1px;
+            margin-top: auto;
         }
         .no-cards { text-align: center; color: #c090a8; font-size: .9rem; padding: 24px; letter-spacing: 1px; }
+
+        /* ===== SCRATCH CARDS TABS & REACTIONS ===== */
+        .scratch-tabs {
+            display: flex; justify-content: center; gap: 10px;
+            flex-wrap: wrap; margin-bottom: 26px;
+        }
+        .scratch-tab {
+            padding: 10px 22px; border: 1.5px solid rgba(255,182,210,.6);
+            border-radius: 50px; background: transparent; color: #c0396b;
+            font-family: 'Lato', sans-serif; font-size: .88rem;
+            letter-spacing: 1px; cursor: pointer; transition: all .25s;
+        }
+        .scratch-tab:hover { background: rgba(255,182,210,.2); }
+        .scratch-tab.active {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff; border-color: transparent;
+            box-shadow: 0 4px 14px rgba(192,57,107,.28);
+        }
+        .scratch-panel { display: none; }
+        .scratch-panel.active { display: block; animation: fadeIn .3s ease; }
+
+        /* Reactions on scratch cards */
+        .sc-reactions-bar {
+            display: flex; align-items: center; gap: 6px;
+            margin: 0 16px 12px; padding: 8px 12px;
+            background: rgba(255,255,255,.2); border-radius: 12px;
+            backdrop-filter: blur(4px); flex-wrap: wrap;
+            justify-content: center; position: relative;
+            margin-top: auto;
+        }
+        .sc-react-btn {
+            background: rgba(255,255,255,.25); border: 1px solid rgba(255,255,255,.4);
+            border-radius: 50px; padding: 4px 12px; font-size: .8rem;
+            cursor: pointer; transition: all .2s; color: #fff;
+            font-family: 'Lato', sans-serif;
+        }
+        .sc-react-btn:hover { background: rgba(255,255,255,.4); }
+        .sc-reaction-picker {
+            display: none; background: rgba(255,255,255,.95);
+            border: 1px solid rgba(255,182,210,.6); border-radius: 16px;
+            padding: 6px 8px; box-shadow: 0 6px 20px rgba(192,57,107,.18);
+            gap: 2px; flex-wrap: wrap; align-items: center;
+            position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%); z-index: 100; margin-bottom: 6px;
+        }
+        .sc-reaction-picker.open { display: flex; }
+        .sc-reaction-picker button {
+            background: none; border: none; font-size: 1.3rem;
+            cursor: pointer; padding: 4px 6px; border-radius: 8px;
+            transition: all .15s;
+        }
+        .sc-reaction-picker button:hover {
+            background: rgba(255,210,230,.5); transform: scale(1.2);
+        }
+        .sc-reaction-chip {
+            display: inline-flex; align-items: center; gap: 3px;
+            background: rgba(255,255,255,.3); border-radius: 50px;
+            padding: 3px 10px; font-size: .82rem; color: #fff;
+            cursor: pointer; transition: all .2s;
+        }
+        .sc-reaction-chip:hover { background: rgba(255,255,255,.5); }
+        .sc-reaction-chip .scrc-emoji { font-size: 1rem; }
+        .sc-reaction-chip .scrc-who { font-size: .72rem; opacity: .9; }
+
+        /* ===== HOME PAGE LAYOUT REORDER ===== */
+        .home-cards-stack {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 30px; padding: 10px 20px 20px;
+        }
 
         /* ===== QUIZ ===== */
         .quiz-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
@@ -1766,7 +1839,18 @@
         <p class="subtitle">Our Love Story ✨</p>
     </header>
     <div class="divider">🌸 ❤️ 🌸</div>
-    <div class="cards">
+    <div class="home-cards-stack">
+        <div class="relation-card">
+            <h3>💕 Together Since</h3>
+            <p class="rel-since">15 August 2025</p>
+            <div class="rel-human" id="rel-human"></div>
+            <div class="rel-stats">
+                <div class="stat-block"><span class="snum" id="rel-days">0</span><span class="slbl">Days</span></div>
+                <div class="stat-block"><span class="snum" id="rel-hours">0</span><span class="slbl">Hours</span></div>
+                <div class="stat-block"><span class="snum" id="rel-mins">0</span><span class="slbl">Minutes</span></div>
+                <div class="stat-block"><span class="snum" id="rel-secs">0</span><span class="slbl">Seconds</span></div>
+            </div>
+        </div>
         <div class="card">
             <div class="icon">💍</div>
             <h2>Engagement Day</h2>
@@ -1782,19 +1866,6 @@
             <div class="countdown" id="wed-countdown"></div>
             <div class="progress-wrap"><div class="progress-bar" id="wed-progress"></div></div>
             <p class="days-left" id="wed-days"></p>
-        </div>
-    </div>
-    <div class="relation-wrap">
-        <div class="relation-card">
-            <h3>💕 Together Since</h3>
-            <p class="rel-since">15 August 2025</p>
-            <div class="rel-human" id="rel-human"></div>
-            <div class="rel-stats">
-                <div class="stat-block"><span class="snum" id="rel-days">0</span><span class="slbl">Days</span></div>
-                <div class="stat-block"><span class="snum" id="rel-hours">0</span><span class="slbl">Hours</span></div>
-                <div class="stat-block"><span class="snum" id="rel-mins">0</span><span class="slbl">Minutes</span></div>
-                <div class="stat-block"><span class="snum" id="rel-secs">0</span><span class="slbl">Seconds</span></div>
-            </div>
         </div>
     </div>
     <div class="quotes-section" id="quotes-section" style="display:none;">
@@ -1972,6 +2043,7 @@
         <p class="page-title">Scratch Cards 🎴</p>
         <p class="page-sub">✨ Send a mystery message — scratch to reveal ✨</p>
 
+        <!-- Compose form: ALWAYS VISIBLE -->
         <div class="scratch-compose-form">
             <h3>💌 Send a Secret Card</h3>
             <div class="scratch-form-row">
@@ -1992,11 +2064,27 @@
             <button class="send-card-btn" id="sc-send-btn" onclick="sendScratchCard()">🎴 Send Secret Card</button>
         </div>
 
-        <p class="scratch-section-title" id="sc-received-title">💌 Cards For You</p>
-        <div class="scratch-cards-grid" id="sc-received-grid"><p class="no-cards">No cards yet… waiting for love 🌹</p></div>
+        <!-- Tabs to switch between Received / Sent -->
+        <div class="scratch-tabs">
+            <button class="scratch-tab active" onclick="showScratchTab('received',this)">📥 Cards For You</button>
+            <button class="scratch-tab" onclick="showScratchTab('sent',this)">📤 Cards You Sent</button>
+        </div>
 
-        <p class="scratch-section-title" id="sc-sent-title">📤 Cards You Sent</p>
-        <div class="scratch-cards-grid" id="sc-sent-grid"><p class="no-cards">You haven't sent any cards yet 💕</p></div>
+        <!-- Received Panel -->
+        <div class="scratch-panel active" id="spanel-received">
+            <p class="scratch-section-title">💌 Cards For You</p>
+            <div class="scratch-cards-grid" id="sc-received-grid">
+                <p class="no-cards">No cards yet… waiting for love 🌹</p>
+            </div>
+        </div>
+
+        <!-- Sent Panel -->
+        <div class="scratch-panel" id="spanel-sent">
+            <p class="scratch-section-title">📤 Cards You Sent</p>
+            <div class="scratch-cards-grid" id="sc-sent-grid">
+                <p class="no-cards">You haven't sent any cards yet 💕</p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -2931,6 +3019,18 @@
     updateScToDefault();
 
     let scratchCardsData = [];
+
+    window.showScratchTab = function(tab, btn) {
+        document.querySelectorAll(".scratch-panel").forEach(p => p.classList.remove("active"));
+        document.querySelectorAll(".scratch-tab").forEach(b => b.classList.remove("active"));
+        document.getElementById("spanel-" + tab).classList.add("active");
+        btn.classList.add("active");
+        // Re-render to re-initialize scratch canvases when switching to received tab
+        if (tab === "received") {
+            setTimeout(() => renderScratchCards(), 50);
+        }
+    };
+
     onSnapshot(query(scratchRef, orderBy("sentAt", "desc")), snapshot => {
         scratchCardsData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         renderScratchCards();
@@ -2973,6 +3073,34 @@
 
         const showScratch = !isSent && !c.revealed;
 
+        // Reactions section (only when card is revealed)
+        let reactionsHtml = "";
+        const reactions = c.reactions || {};
+        const showReactions = c.revealed;
+
+        if (showReactions) {
+            let chipsHtml = "";
+            if (reactions.hamdi) {
+                chipsHtml += `<span class="sc-reaction-chip" title="Hamdi"><span class="scrc-emoji">${reactions.hamdi}</span><span class="scrc-who">👨</span></span>`;
+            }
+            if (reactions.yossr) {
+                chipsHtml += `<span class="sc-reaction-chip" title="Yossr"><span class="scrc-emoji">${reactions.yossr}</span><span class="scrc-who">👩</span></span>`;
+            }
+
+            // Receiver can react (only on received revealed cards)
+            const canReact = !isSent && c.revealed;
+            const reactBtn = canReact
+                ? `<button class="sc-react-btn" onclick="toggleScReactionPicker('${c.id}')">😊 React</button>
+                   <div class="sc-reaction-picker" id="sc-picker-${c.id}">
+                     ${REACTION_EMOJIS.map(em => `<button onclick="addScReaction('${c.id}','${em}')">${em}</button>`).join("")}
+                   </div>`
+                : "";
+
+            if (chipsHtml || canReact) {
+                reactionsHtml = `<div class="sc-reactions-bar">${chipsHtml}${reactBtn}</div>`;
+            }
+        }
+
         return `<div class="scratch-card-outer" style="background:${bg};">
             <div class="scratch-card-inner" id="sci-${c.id}">
                 <div class="sc-from-badge">
@@ -2984,9 +3112,42 @@
                 <div class="sc-time">${time}</div>
                 ${showScratch ? `<canvas class="scratch-canvas" id="sc-canvas-${c.id}"></canvas><div class="scratch-hint">🪙 Scratch to reveal!</div>` : ""}
             </div>
+            ${reactionsHtml}
             ${isSent ? `<div class="scratch-sent-badge">${c.revealed ? "✅ Revealed" : "⏳ Not yet scratched"}</div>` : ""}
         </div>`;
     }
+
+    window.toggleScReactionPicker = function(cardId) {
+        if (!currentUser) { showIdentityModal(); return; }
+        const picker = document.getElementById("sc-picker-" + cardId);
+        if (!picker) return;
+        document.querySelectorAll('.sc-reaction-picker.open').forEach(p => {
+            if (p.id !== "sc-picker-" + cardId) p.classList.remove('open');
+        });
+        picker.classList.toggle("open");
+    };
+
+    window.addScReaction = async function(cardId, emoji) {
+        if (!currentUser) { showIdentityModal(); return; }
+        document.getElementById("sc-picker-" + cardId)?.classList.remove("open");
+        showSync();
+        try {
+            const docRef = doc(db, "scratchcards", cardId);
+            const snap = await getDoc(docRef);
+            const data = snap.data();
+            const reactions = data.reactions || {};
+            const updateData = {};
+            const isRemoving = reactions[currentUser] === emoji;
+            if (isRemoving) updateData["reactions." + currentUser] = deleteField();
+            else updateData["reactions." + currentUser] = emoji;
+            await updateDoc(docRef, updateData);
+            if (!isRemoving && data.from !== currentUser) {
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                await createNotification("scratch", `${whoName} reacted ${emoji} to your scratch card 🎴`, data.from, "scratch");
+            }
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
 
     function initScratchCanvas(cardId, bgIndex) {
         const canvas = document.getElementById("sc-canvas-" + cardId);
@@ -4651,6 +4812,7 @@ function renderQuizScores() {
     document.addEventListener("click",function(e){
         if(!e.target.closest('.reaction-picker')&&!e.target.closest('.react-btn')&&!e.target.closest('.reaction-chip'))document.querySelectorAll('.reaction-picker.open').forEach(p=>p.classList.remove('open'));
         if(!e.target.closest('.comment-reaction-picker')&&!e.target.closest('.comment-react-btn')&&!e.target.closest('.comment-reaction-chip'))document.querySelectorAll('.comment-reaction-picker.open').forEach(p=>p.classList.remove('open'));
+        if(!e.target.closest('.sc-reaction-picker')&&!e.target.closest('.sc-react-btn')&&!e.target.closest('.sc-reaction-chip'))document.querySelectorAll('.sc-reaction-picker.open').forEach(p=>p.classList.remove('open'));
     });
 </script>
 </body>
