@@ -817,21 +817,50 @@
         }
         .sc-react-btn:hover { background: rgba(255,255,255,.4); }
         .sc-reaction-picker {
-            display: none; background: rgba(255,255,255,.95);
-            border: 1px solid rgba(255,182,210,.6); border-radius: 16px;
-            padding: 6px 8px; box-shadow: 0 6px 20px rgba(192,57,107,.18);
-            gap: 2px; flex-wrap: wrap; align-items: center;
-            position: absolute; bottom: 100%; left: 50%;
-            transform: translateX(-50%); z-index: 100; margin-bottom: 6px;
+            display: none;
+            background: rgba(255,255,255,.97);
+            border: 1px solid rgba(255,182,210,.6);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 6px 20px rgba(192,57,107,.25);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            width: 240px;
+            max-width: 90vw;
         }
-        .sc-reaction-picker.open { display: flex; }
+        .sc-reaction-picker.open {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2px;
+        }
+        .sc-reaction-picker::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(255,255,255,.97);
+        }
         .sc-reaction-picker button {
-            background: none; border: none; font-size: 1.3rem;
-            cursor: pointer; padding: 4px 6px; border-radius: 8px;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 6px 4px;
+            border-radius: 8px;
             transition: all .15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
         }
         .sc-reaction-picker button:hover {
-            background: rgba(255,210,230,.5); transform: scale(1.2);
+            background: rgba(255,210,230,.6);
+            transform: scale(1.25);
         }
         .sc-reaction-chip {
             display: inline-flex; align-items: center; gap: 3px;
@@ -2716,7 +2745,7 @@
     function applyZoneImage(zoneId,b64){const zone=document.getElementById(zoneId+"-upload-zone");if(!zone)return;zone._b64=b64;document.getElementById(zoneId+"-img-preview").src=b64;document.getElementById(zoneId+"-img-preview").style.display="block";document.getElementById(zoneId+"-upload-hint").style.display="none";document.getElementById(zoneId+"-clear-btn").style.display="block";zone.classList.add("has-img");}
     window.clearZone=function(e,zoneId){e.stopPropagation();const zone=document.getElementById(zoneId+"-upload-zone");if(!zone)return;zone._b64=null;document.getElementById(zoneId+"-img-preview").src="";document.getElementById(zoneId+"-img-preview").style.display="none";document.getElementById(zoneId+"-upload-hint").style.display="";document.getElementById(zoneId+"-clear-btn").style.display="none";zone.classList.remove("has-img");const fi=document.getElementById(zoneId+"-file-input")||document.getElementById("add-file-input");if(fi)fi.value="";};
 
-    const REACTION_EMOJIS=["❤️","💕","🥰","😍","😂","🌹","🦋","🌸","💐"];
+    const REACTION_EMOJIS=["❤️","🩷","💕","🤍","🥰","😍","😘","🥹","🤩","😋","😂","😅","🫶","🤝","🤲","🌹","🌸","💐","🦋","🫀"];
 
     /* ===== MEMORIES ===== */
     const memoriesRef=collection(db,"memories");
@@ -3090,7 +3119,7 @@
             // Receiver can react (only on received revealed cards)
             const canReact = !isSent && c.revealed;
             const reactBtn = canReact
-                ? `<button class="sc-react-btn" onclick="toggleScReactionPicker('${c.id}')">😊 React</button>
+                ? `<button class="sc-react-btn" onclick="toggleScReactionPicker('${c.id}')">😊+</button>
                    <div class="sc-reaction-picker" id="sc-picker-${c.id}">
                      ${REACTION_EMOJIS.map(em => `<button onclick="addScReaction('${c.id}','${em}')">${em}</button>`).join("")}
                    </div>`
@@ -4805,7 +4834,7 @@ function renderQuizScores() {
     }, 1000);
 
     /* ===== PARTICLES ===== */
-    const emojis=["❤️","💕","🌸","🌺","💐","🌹","💗","🌼","✨","💖","🌷","💞"];const pc=document.getElementById("particles");
+    const emojis=["❤️","🩷","💕","🤍","🥰","😍","😘","🥹","🤩","😋","😂","😅","🫶","🤝","🤲","🌹","🌸","💐","🦋","🫀"];const pc=document.getElementById("particles");
     function spawnParticle(){const el=document.createElement("div");el.className="particle";el.textContent=emojis[Math.floor(Math.random()*emojis.length)];const sz=1.2+Math.random()*1.8,dur=6+Math.random()*10,del=Math.random()*8;el.style.cssText=`left:${Math.random()*100}vw;font-size:${sz}rem;animation-duration:${dur}s;animation-delay:${del}s;`;pc.appendChild(el);setTimeout(()=>el.remove(),(dur+del)*1000);}
     for(let i=0;i<22;i++)spawnParticle();setInterval(spawnParticle,700);
 
