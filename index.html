@@ -4834,7 +4834,7 @@ function renderQuizScores() {
     }, 1000);
 
     /* ===== PARTICLES ===== */
-    const emojis=["❤️","🩷","💕","🤍","🥰","😍","😘","🥹","🤩","😋","😂","😅","🫶","🤝","🤲","🌹","🌸","💐","🦋","🫀"];const pc=document.getElementById("particles");
+    const emojis=["❤️","🩷","💕","🤍","🥰","😍","⭐️","🌹","🌸","💐","🦋"];const pc=document.getElementById("particles");
     function spawnParticle(){const el=document.createElement("div");el.className="particle";el.textContent=emojis[Math.floor(Math.random()*emojis.length)];const sz=1.2+Math.random()*1.8,dur=6+Math.random()*10,del=Math.random()*8;el.style.cssText=`left:${Math.random()*100}vw;font-size:${sz}rem;animation-duration:${dur}s;animation-delay:${del}s;`;pc.appendChild(el);setTimeout(()=>el.remove(),(dur+del)*1000);}
     for(let i=0;i<22;i++)spawnParticle();setInterval(spawnParticle,700);
 
