@@ -2653,6 +2653,72 @@
             text-align: center; color: #c090a8;
             font-size: .9rem; padding: 30px; letter-spacing: 1px;
         }
+        /* ===== FIX MOBILE - Theme & Notification buttons ===== */
+        @media (max-width: 768px) {
+            .notif-bell {
+                top: auto !important;
+                bottom: 20px !important;
+                right: 20px !important;
+            }
+            .theme-picker-btn {
+                top: auto !important;
+                bottom: 20px !important;
+                right: 80px !important;
+            }
+            #install-prompt {
+                bottom: 20px !important;
+                right: 140px !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .notif-bell {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.2rem !important;
+                bottom: 15px !important;
+                right: 15px !important;
+            }
+            .theme-picker-btn {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.2rem !important;
+                bottom: 15px !important;
+                right: 70px !important;
+            }
+        }
+        /* ===== FIX MOBILE - Theme & Notification buttons ===== */
+        @media (max-width: 768px) {
+            .notif-bell {
+                top: auto !important;
+                bottom: 20px !important;
+                right: 20px !important;
+            }
+            .theme-picker-btn {
+                top: auto !important;
+                bottom: 20px !important;
+                right: 80px !important;
+            }
+            #install-prompt {
+                bottom: 20px !important;
+                right: 140px !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .notif-bell {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.2rem !important;
+                bottom: 15px !important;
+                right: 15px !important;
+            }
+            .theme-picker-btn {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.2rem !important;
+                bottom: 15px !important;
+                right: 70px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2717,7 +2783,6 @@
                 <span class="theme-name">Midnight</span>
             </div>
         </div>
-        <button class="theme-close-btn" onclick="closeThemeModal()">💾 Save & Close</button>
     </div>
 </div>
 
@@ -3422,6 +3487,8 @@
         document.querySelectorAll(".theme-card").forEach(c => {
             c.classList.toggle("selected", c.dataset.theme === themeName);
         });
+        // Auto-close after 400ms (le temps de voir la sélection ✓)
+        setTimeout(() => closeThemeModal(), 400);
     };
 
     document.getElementById("theme-modal-overlay").addEventListener("click", function(e) {
