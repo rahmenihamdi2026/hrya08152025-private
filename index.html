@@ -2719,6 +2719,21 @@
                 right: 70px !important;
             }
         }
+        /* ===== FIX MOBILE - Quiz options grid ===== */
+        @media (max-width: 768px) {
+            .quiz-options-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .quiz-options {
+                grid-template-columns: 1fr !important;
+            }
+            .quiz-type-selector {
+                flex-direction: column !important;
+            }
+            .quiz-type-btn {
+                width: 100% !important;
+            }
+        }
     </style>
 </head>
 <body>
