@@ -3105,7 +3105,6 @@
                 <select id="fl-to">
                     <option value="yossr">👩 To Yossr</option>
                     <option value="hamdi">👨 To Hamdi</option>
-                    <option value="both">💕 To Both of Us</option>
                 </select>
             </div>
             <div class="fl-form-row">
@@ -4807,13 +4806,10 @@ function renderQuizScores() {
             future.setMonth(future.getMonth() + 1);
             document.getElementById("fl-unlock-date").value = future.toISOString().substring(0, 10);
 
-            // Notify recipient(s)
+            // Notify recipient
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
             const formattedDate = new Date(unlockDate).toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
-            if (to === "both") {
-                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-                await createNotification("letters", `${whoName} sealed a letter for both of you, opens ${formattedDate} 💌`, partner, "letters");
-            } else if (to !== currentUser) {
+            if (to !== currentUser) {
                 await createNotification("letters", `${whoName} sealed a letter for you, opens ${formattedDate} 💌`, to, "letters");
             }
         } catch (e) { alert("Error: " + e.message); }
@@ -4824,7 +4820,7 @@ function renderQuizScores() {
     };
 
     function isLetterUnlockableForUser(letter, user) {
-        if (letter.to !== user && letter.to !== "both") return false;
+        if (letter.to !== user) return false;
         const today = new Date().toISOString().substring(0, 10);
         return letter.unlockDate <= today;
     }
@@ -4833,20 +4829,11 @@ function renderQuizScores() {
         const me = currentUser || "hamdi";
         const today = new Date().toISOString().substring(0, 10);
 
-        // Letters I can see (sent to me, both, or written by me)
-        const visible = allLetters.filter(l => l.to === me || l.to === "both" || l.from === me);
+        // Locked: addressed to me, not yet unlock-date
+        const locked = allLetters.filter(l => l.to === me && l.unlockDate > today);
 
-        // Locked: not yet unlock-date, addressed to me/both
-        const locked = visible.filter(l => {
-            if (l.from === me && l.to !== me && l.to !== "both") return false; // hide my own outgoing in locked
-            return l.unlockDate > today && (l.to === me || l.to === "both");
-        });
-
-        // Unlocked: past unlock-date, addressed to me/both
-        const unlocked = visible.filter(l => {
-            if (l.from === me && l.to !== me && l.to !== "both") return false;
-            return l.unlockDate <= today && (l.to === me || l.to === "both");
-        });
+        // Unlocked: addressed to me, past unlock-date
+        const unlocked = allLetters.filter(l => l.to === me && l.unlockDate <= today);
 
         // My letters (all I wrote)
         const mine = allLetters.filter(l => l.from === me);
@@ -4875,15 +4862,12 @@ function renderQuizScores() {
         const me = currentUser || "hamdi";
         const today = new Date().toISOString().substring(0, 10);
         const isLocked = letter.unlockDate > today;
-        const canOpen = !isLocked && (letter.to === me || letter.to === "both");
+        const canOpen = !isLocked && letter.to === me;
         const isOwn = letter.from === me;
 
         const fromIcon = letter.from === "hamdi" ? "👨" : "👩";
         const fromName = letter.from === "hamdi" ? "Hamdi" : "Yossr";
-        let toLabel = "";
-        if (letter.to === "both") toLabel = "💕 Both of us";
-        else if (letter.to === "hamdi") toLabel = "👨 Hamdi";
-        else toLabel = "👩 Yossr";
+        const toLabel = letter.to === "hamdi" ? "👨 Hamdi" : "👩 Yossr";
 
         const unlockDateFormatted = new Date(letter.unlockDate + "T00:00:00").toLocaleDateString("en-GB", {
             weekday: "long", day: "2-digit", month: "long", year: "numeric"
