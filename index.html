@@ -10,6 +10,591 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* ===== THEME SYSTEM ===== */
+        body {
+            transition: background 0.5s ease;
+        }
+
+        /* Default = Rose theme */
+        body[data-theme="rose"] {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4f0 40%, #ffd6e8 100%) !important;
+        }
+
+        /* ===== LAVENDER THEME ===== */
+        body[data-theme="lavender"] {
+            background: linear-gradient(135deg, #f5f0ff 0%, #ebe0ff 40%, #e0d0ff 100%) !important;
+        }
+        body[data-theme="lavender"] nav { background: rgba(245, 240, 255, 0.88) !important; border-bottom-color: rgba(180, 150, 220, 0.4) !important; }
+        body[data-theme="lavender"] .nav-btn { color: #7b4fa5 !important; border-color: rgba(180, 150, 220, 0.6) !important; }
+        body[data-theme="lavender"] .nav-btn.active,
+        body[data-theme="lavender"] .save-btn,
+        body[data-theme="lavender"] .send-card-btn,
+        body[data-theme="lavender"] .add-event-btn,
+        body[data-theme="lavender"] .checklist-add-btn,
+        body[data-theme="lavender"] .quiz-add-btn,
+        body[data-theme="lavender"] .quiz-tab.active,
+        body[data-theme="lavender"] .scratch-tab.active,
+        body[data-theme="lavender"] .games-tab.active,
+        body[data-theme="lavender"] .album-tab.active,
+        body[data-theme="lavender"] .quiz-filter-btn.active,
+        body[data-theme="lavender"] .ttt-btn-primary,
+        body[data-theme="lavender"] .puzzle-btn-primary,
+        body[data-theme="lavender"] .memory-btn-primary,
+        body[data-theme="lavender"] .fl-send-btn,
+        body[data-theme="lavender"] .fl-tab.active,
+        body[data-theme="lavender"] .fl-unlock-btn,
+        body[data-theme="lavender"] .gallery-save-btn,
+        body[data-theme="lavender"] .quiz-comment-send-btn,
+        body[data-theme="lavender"] .comment-send-btn,
+        body[data-theme="lavender"] .place-save-btn,
+        body[data-theme="lavender"] .quiz-open-submit-btn,
+        body[data-theme="lavender"] .hl-btn-newgame {
+            background: linear-gradient(135deg, #9b7fc4, #7b4fa5) !important;
+            color: #fff !important;
+        }
+        body[data-theme="lavender"] header h1,
+        body[data-theme="lavender"] .page-title,
+        body[data-theme="lavender"] .card h2,
+        body[data-theme="lavender"] .relation-card h3,
+        body[data-theme="lavender"] footer,
+        body[data-theme="lavender"] .quotes-card h3,
+        body[data-theme="lavender"] .custom-card .c-name,
+        body[data-theme="lavender"] .checklist-col-title,
+        body[data-theme="lavender"] .place-card .p-name,
+        body[data-theme="lavender"] .scratch-section-title,
+        body[data-theme="lavender"] .scratch-compose-form h3,
+        body[data-theme="lavender"] .quiz-add-form h3,
+        body[data-theme="lavender"] .ttt-status,
+        body[data-theme="lavender"] .ttt-history-title,
+        body[data-theme="lavender"] .puzzle-leaderboard-title,
+        body[data-theme="lavender"] .memory-leaderboard-title,
+        body[data-theme="lavender"] .hl-leaderboard-title,
+        body[data-theme="lavender"] .ttt-score-card .ts-name,
+        body[data-theme="lavender"] .quiz-score-name,
+        body[data-theme="lavender"] .fl-letter-title,
+        body[data-theme="lavender"] .fl-compose-form h3,
+        body[data-theme="lavender"] .notif-header h3,
+        body[data-theme="lavender"] .place-add-modal h3,
+        body[data-theme="lavender"] .identity-modal h2,
+        body[data-theme="lavender"] .theme-modal h2,
+        body[data-theme="lavender"] .tl-content .tl-ttl { color: #4a2080 !important; }
+        body[data-theme="lavender"] .time-block,
+        body[data-theme="lavender"] .stat-block,
+        body[data-theme="lavender"] .mini-block,
+        body[data-theme="lavender"] .puzzle-stat-block,
+        body[data-theme="lavender"] .memory-stat-block,
+        body[data-theme="lavender"] .hl-stat-block,
+        body[data-theme="lavender"] .fl-cd-block { background: linear-gradient(145deg, #d8c4f0, #b89cd8) !important; }
+        body[data-theme="lavender"] .time-block .num,
+        body[data-theme="lavender"] .stat-block .snum,
+        body[data-theme="lavender"] .mini-block .mn,
+        body[data-theme="lavender"] .ttt-score-card .ts-num,
+        body[data-theme="lavender"] .puzzle-stat-num,
+        body[data-theme="lavender"] .memory-stat-num,
+        body[data-theme="lavender"] .hl-stat-num,
+        body[data-theme="lavender"] .fl-cd-num,
+        body[data-theme="lavender"] .quiz-score-num,
+        body[data-theme="lavender"] .rel-human { color: #4a2080 !important; }
+        body[data-theme="lavender"] .progress-bar,
+        body[data-theme="lavender"] .checklist-progress-bar { background: linear-gradient(90deg, #b89cd8, #7b4fa5) !important; }
+
+        /* ===== PEACH THEME ===== */
+        body[data-theme="peach"] {
+            background: linear-gradient(135deg, #fff5ed 0%, #ffe8d6 40%, #ffd9b8 100%) !important;
+        }
+        body[data-theme="peach"] nav { background: rgba(255, 245, 237, 0.88) !important; border-bottom-color: rgba(220, 170, 130, 0.4) !important; }
+        body[data-theme="peach"] .nav-btn { color: #c0784e !important; border-color: rgba(220, 170, 130, 0.6) !important; }
+        body[data-theme="peach"] .nav-btn.active,
+        body[data-theme="peach"] .save-btn,
+        body[data-theme="peach"] .send-card-btn,
+        body[data-theme="peach"] .add-event-btn,
+        body[data-theme="peach"] .checklist-add-btn,
+        body[data-theme="peach"] .quiz-add-btn,
+        body[data-theme="peach"] .quiz-tab.active,
+        body[data-theme="peach"] .scratch-tab.active,
+        body[data-theme="peach"] .games-tab.active,
+        body[data-theme="peach"] .album-tab.active,
+        body[data-theme="peach"] .quiz-filter-btn.active,
+        body[data-theme="peach"] .ttt-btn-primary,
+        body[data-theme="peach"] .puzzle-btn-primary,
+        body[data-theme="peach"] .memory-btn-primary,
+        body[data-theme="peach"] .fl-send-btn,
+        body[data-theme="peach"] .fl-tab.active,
+        body[data-theme="peach"] .fl-unlock-btn,
+        body[data-theme="peach"] .gallery-save-btn,
+        body[data-theme="peach"] .quiz-comment-send-btn,
+        body[data-theme="peach"] .comment-send-btn,
+        body[data-theme="peach"] .place-save-btn,
+        body[data-theme="peach"] .quiz-open-submit-btn,
+        body[data-theme="peach"] .hl-btn-newgame {
+            background: linear-gradient(135deg, #d4a574, #c0784e) !important;
+            color: #fff !important;
+        }
+        body[data-theme="peach"] header h1,
+        body[data-theme="peach"] .page-title,
+        body[data-theme="peach"] .card h2,
+        body[data-theme="peach"] .relation-card h3,
+        body[data-theme="peach"] footer,
+        body[data-theme="peach"] .quotes-card h3,
+        body[data-theme="peach"] .custom-card .c-name,
+        body[data-theme="peach"] .checklist-col-title,
+        body[data-theme="peach"] .place-card .p-name,
+        body[data-theme="peach"] .scratch-section-title,
+        body[data-theme="peach"] .scratch-compose-form h3,
+        body[data-theme="peach"] .quiz-add-form h3,
+        body[data-theme="peach"] .ttt-status,
+        body[data-theme="peach"] .ttt-history-title,
+        body[data-theme="peach"] .puzzle-leaderboard-title,
+        body[data-theme="peach"] .memory-leaderboard-title,
+        body[data-theme="peach"] .hl-leaderboard-title,
+        body[data-theme="peach"] .ttt-score-card .ts-name,
+        body[data-theme="peach"] .quiz-score-name,
+        body[data-theme="peach"] .fl-letter-title,
+        body[data-theme="peach"] .fl-compose-form h3,
+        body[data-theme="peach"] .notif-header h3,
+        body[data-theme="peach"] .place-add-modal h3,
+        body[data-theme="peach"] .identity-modal h2,
+        body[data-theme="peach"] .theme-modal h2,
+        body[data-theme="peach"] .tl-content .tl-ttl { color: #8b4513 !important; }
+        body[data-theme="peach"] .time-block,
+        body[data-theme="peach"] .stat-block,
+        body[data-theme="peach"] .mini-block,
+        body[data-theme="peach"] .puzzle-stat-block,
+        body[data-theme="peach"] .memory-stat-block,
+        body[data-theme="peach"] .hl-stat-block,
+        body[data-theme="peach"] .fl-cd-block { background: linear-gradient(145deg, #ffd9b8, #f5b888) !important; }
+        body[data-theme="peach"] .time-block .num,
+        body[data-theme="peach"] .stat-block .snum,
+        body[data-theme="peach"] .mini-block .mn,
+        body[data-theme="peach"] .ttt-score-card .ts-num,
+        body[data-theme="peach"] .puzzle-stat-num,
+        body[data-theme="peach"] .memory-stat-num,
+        body[data-theme="peach"] .hl-stat-num,
+        body[data-theme="peach"] .fl-cd-num,
+        body[data-theme="peach"] .quiz-score-num,
+        body[data-theme="peach"] .rel-human { color: #8b4513 !important; }
+        body[data-theme="peach"] .progress-bar,
+        body[data-theme="peach"] .checklist-progress-bar { background: linear-gradient(90deg, #f5b888, #c0784e) !important; }
+
+        /* ===== OCEAN THEME ===== */
+        body[data-theme="ocean"] {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d0e8f0 40%, #b8dce8 100%) !important;
+        }
+        body[data-theme="ocean"] nav { background: rgba(232, 244, 248, 0.88) !important; border-bottom-color: rgba(140, 180, 200, 0.4) !important; }
+        body[data-theme="ocean"] .nav-btn { color: #2d6e8c !important; border-color: rgba(140, 180, 200, 0.6) !important; }
+        body[data-theme="ocean"] .nav-btn.active,
+        body[data-theme="ocean"] .save-btn,
+        body[data-theme="ocean"] .send-card-btn,
+        body[data-theme="ocean"] .add-event-btn,
+        body[data-theme="ocean"] .checklist-add-btn,
+        body[data-theme="ocean"] .quiz-add-btn,
+        body[data-theme="ocean"] .quiz-tab.active,
+        body[data-theme="ocean"] .scratch-tab.active,
+        body[data-theme="ocean"] .games-tab.active,
+        body[data-theme="ocean"] .album-tab.active,
+        body[data-theme="ocean"] .quiz-filter-btn.active,
+        body[data-theme="ocean"] .ttt-btn-primary,
+        body[data-theme="ocean"] .puzzle-btn-primary,
+        body[data-theme="ocean"] .memory-btn-primary,
+        body[data-theme="ocean"] .fl-send-btn,
+        body[data-theme="ocean"] .fl-tab.active,
+        body[data-theme="ocean"] .fl-unlock-btn,
+        body[data-theme="ocean"] .gallery-save-btn,
+        body[data-theme="ocean"] .quiz-comment-send-btn,
+        body[data-theme="ocean"] .comment-send-btn,
+        body[data-theme="ocean"] .place-save-btn,
+        body[data-theme="ocean"] .quiz-open-submit-btn,
+        body[data-theme="ocean"] .hl-btn-newgame {
+            background: linear-gradient(135deg, #5a9bb8, #2d6e8c) !important;
+            color: #fff !important;
+        }
+        body[data-theme="ocean"] header h1,
+        body[data-theme="ocean"] .page-title,
+        body[data-theme="ocean"] .card h2,
+        body[data-theme="ocean"] .relation-card h3,
+        body[data-theme="ocean"] footer,
+        body[data-theme="ocean"] .quotes-card h3,
+        body[data-theme="ocean"] .custom-card .c-name,
+        body[data-theme="ocean"] .checklist-col-title,
+        body[data-theme="ocean"] .place-card .p-name,
+        body[data-theme="ocean"] .scratch-section-title,
+        body[data-theme="ocean"] .scratch-compose-form h3,
+        body[data-theme="ocean"] .quiz-add-form h3,
+        body[data-theme="ocean"] .ttt-status,
+        body[data-theme="ocean"] .ttt-history-title,
+        body[data-theme="ocean"] .puzzle-leaderboard-title,
+        body[data-theme="ocean"] .memory-leaderboard-title,
+        body[data-theme="ocean"] .hl-leaderboard-title,
+        body[data-theme="ocean"] .ttt-score-card .ts-name,
+        body[data-theme="ocean"] .quiz-score-name,
+        body[data-theme="ocean"] .fl-letter-title,
+        body[data-theme="ocean"] .fl-compose-form h3,
+        body[data-theme="ocean"] .notif-header h3,
+        body[data-theme="ocean"] .place-add-modal h3,
+        body[data-theme="ocean"] .identity-modal h2,
+        body[data-theme="ocean"] .theme-modal h2,
+        body[data-theme="ocean"] .tl-content .tl-ttl { color: #1a4a66 !important; }
+        body[data-theme="ocean"] .time-block,
+        body[data-theme="ocean"] .stat-block,
+        body[data-theme="ocean"] .mini-block,
+        body[data-theme="ocean"] .puzzle-stat-block,
+        body[data-theme="ocean"] .memory-stat-block,
+        body[data-theme="ocean"] .hl-stat-block,
+        body[data-theme="ocean"] .fl-cd-block { background: linear-gradient(145deg, #b8dce8, #8bbed4) !important; }
+        body[data-theme="ocean"] .time-block .num,
+        body[data-theme="ocean"] .stat-block .snum,
+        body[data-theme="ocean"] .mini-block .mn,
+        body[data-theme="ocean"] .ttt-score-card .ts-num,
+        body[data-theme="ocean"] .puzzle-stat-num,
+        body[data-theme="ocean"] .memory-stat-num,
+        body[data-theme="ocean"] .hl-stat-num,
+        body[data-theme="ocean"] .fl-cd-num,
+        body[data-theme="ocean"] .quiz-score-num,
+        body[data-theme="ocean"] .rel-human { color: #1a4a66 !important; }
+        body[data-theme="ocean"] .progress-bar,
+        body[data-theme="ocean"] .checklist-progress-bar { background: linear-gradient(90deg, #8bbed4, #2d6e8c) !important; }
+
+        /* ===== SUNSET THEME ===== */
+        body[data-theme="sunset"] {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe0c4 40%, #ffc99e 100%) !important;
+        }
+        body[data-theme="sunset"] nav { background: rgba(255, 245, 230, 0.88) !important; border-bottom-color: rgba(255, 170, 110, 0.4) !important; }
+        body[data-theme="sunset"] .nav-btn { color: #d2691e !important; border-color: rgba(255, 170, 110, 0.6) !important; }
+        body[data-theme="sunset"] .nav-btn.active,
+        body[data-theme="sunset"] .save-btn,
+        body[data-theme="sunset"] .send-card-btn,
+        body[data-theme="sunset"] .add-event-btn,
+        body[data-theme="sunset"] .checklist-add-btn,
+        body[data-theme="sunset"] .quiz-add-btn,
+        body[data-theme="sunset"] .quiz-tab.active,
+        body[data-theme="sunset"] .scratch-tab.active,
+        body[data-theme="sunset"] .games-tab.active,
+        body[data-theme="sunset"] .album-tab.active,
+        body[data-theme="sunset"] .quiz-filter-btn.active,
+        body[data-theme="sunset"] .ttt-btn-primary,
+        body[data-theme="sunset"] .puzzle-btn-primary,
+        body[data-theme="sunset"] .memory-btn-primary,
+        body[data-theme="sunset"] .fl-send-btn,
+        body[data-theme="sunset"] .fl-tab.active,
+        body[data-theme="sunset"] .fl-unlock-btn,
+        body[data-theme="sunset"] .gallery-save-btn,
+        body[data-theme="sunset"] .quiz-comment-send-btn,
+        body[data-theme="sunset"] .comment-send-btn,
+        body[data-theme="sunset"] .place-save-btn,
+        body[data-theme="sunset"] .quiz-open-submit-btn,
+        body[data-theme="sunset"] .hl-btn-newgame {
+            background: linear-gradient(135deg, #ff8c5a, #d2691e) !important;
+            color: #fff !important;
+        }
+        body[data-theme="sunset"] header h1,
+        body[data-theme="sunset"] .page-title,
+        body[data-theme="sunset"] .card h2,
+        body[data-theme="sunset"] .relation-card h3,
+        body[data-theme="sunset"] footer,
+        body[data-theme="sunset"] .quotes-card h3,
+        body[data-theme="sunset"] .custom-card .c-name,
+        body[data-theme="sunset"] .checklist-col-title,
+        body[data-theme="sunset"] .place-card .p-name,
+        body[data-theme="sunset"] .scratch-section-title,
+        body[data-theme="sunset"] .scratch-compose-form h3,
+        body[data-theme="sunset"] .quiz-add-form h3,
+        body[data-theme="sunset"] .ttt-status,
+        body[data-theme="sunset"] .ttt-history-title,
+        body[data-theme="sunset"] .puzzle-leaderboard-title,
+        body[data-theme="sunset"] .memory-leaderboard-title,
+        body[data-theme="sunset"] .hl-leaderboard-title,
+        body[data-theme="sunset"] .ttt-score-card .ts-name,
+        body[data-theme="sunset"] .quiz-score-name,
+        body[data-theme="sunset"] .fl-letter-title,
+        body[data-theme="sunset"] .fl-compose-form h3,
+        body[data-theme="sunset"] .notif-header h3,
+        body[data-theme="sunset"] .place-add-modal h3,
+        body[data-theme="sunset"] .identity-modal h2,
+        body[data-theme="sunset"] .theme-modal h2,
+        body[data-theme="sunset"] .tl-content .tl-ttl { color: #8b3a0a !important; }
+        body[data-theme="sunset"] .time-block,
+        body[data-theme="sunset"] .stat-block,
+        body[data-theme="sunset"] .mini-block,
+        body[data-theme="sunset"] .puzzle-stat-block,
+        body[data-theme="sunset"] .memory-stat-block,
+        body[data-theme="sunset"] .hl-stat-block,
+        body[data-theme="sunset"] .fl-cd-block { background: linear-gradient(145deg, #ffc99e, #ff9c6e) !important; }
+        body[data-theme="sunset"] .time-block .num,
+        body[data-theme="sunset"] .stat-block .snum,
+        body[data-theme="sunset"] .mini-block .mn,
+        body[data-theme="sunset"] .ttt-score-card .ts-num,
+        body[data-theme="sunset"] .puzzle-stat-num,
+        body[data-theme="sunset"] .memory-stat-num,
+        body[data-theme="sunset"] .hl-stat-num,
+        body[data-theme="sunset"] .fl-cd-num,
+        body[data-theme="sunset"] .quiz-score-num,
+        body[data-theme="sunset"] .rel-human { color: #8b3a0a !important; }
+        body[data-theme="sunset"] .progress-bar,
+        body[data-theme="sunset"] .checklist-progress-bar { background: linear-gradient(90deg, #ff9c6e, #d2691e) !important; }
+
+        /* ===== MIDNIGHT THEME (DARK MODE) ===== */
+        body[data-theme="midnight"] {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 40%, #3d3d5e 100%) !important;
+        }
+        body[data-theme="midnight"] nav { background: rgba(26, 26, 46, 0.92) !important; border-bottom-color: rgba(192, 57, 107, 0.4) !important; }
+        body[data-theme="midnight"] .nav-btn { color: #e07fa0 !important; border-color: rgba(224, 127, 160, 0.4) !important; }
+        body[data-theme="midnight"] .nav-btn:hover { background: rgba(224, 127, 160, 0.15) !important; }
+        body[data-theme="midnight"] .nav-btn.active,
+        body[data-theme="midnight"] .save-btn,
+        body[data-theme="midnight"] .send-card-btn,
+        body[data-theme="midnight"] .add-event-btn,
+        body[data-theme="midnight"] .checklist-add-btn,
+        body[data-theme="midnight"] .quiz-add-btn,
+        body[data-theme="midnight"] .quiz-tab.active,
+        body[data-theme="midnight"] .scratch-tab.active,
+        body[data-theme="midnight"] .games-tab.active,
+        body[data-theme="midnight"] .album-tab.active,
+        body[data-theme="midnight"] .quiz-filter-btn.active,
+        body[data-theme="midnight"] .ttt-btn-primary,
+        body[data-theme="midnight"] .puzzle-btn-primary,
+        body[data-theme="midnight"] .memory-btn-primary,
+        body[data-theme="midnight"] .fl-send-btn,
+        body[data-theme="midnight"] .fl-tab.active,
+        body[data-theme="midnight"] .fl-unlock-btn,
+        body[data-theme="midnight"] .gallery-save-btn,
+        body[data-theme="midnight"] .quiz-comment-send-btn,
+        body[data-theme="midnight"] .comment-send-btn,
+        body[data-theme="midnight"] .place-save-btn,
+        body[data-theme="midnight"] .quiz-open-submit-btn,
+        body[data-theme="midnight"] .hl-btn-newgame {
+            background: linear-gradient(135deg, #e07fa0, #c0396b) !important;
+            color: #fff !important;
+        }
+        /* Dark cards */
+        body[data-theme="midnight"] .relation-card,
+        body[data-theme="midnight"] .card,
+        body[data-theme="midnight"] .scratch-compose-form,
+        body[data-theme="midnight"] .journal-form,
+        body[data-theme="midnight"] .msg-card,
+        body[data-theme="midnight"] .quiz-add-form,
+        body[data-theme="midnight"] .quiz-question-card,
+        body[data-theme="midnight"] .quiz-score-card,
+        body[data-theme="midnight"] .ttt-wrap,
+        body[data-theme="midnight"] .ttt-score-card,
+        body[data-theme="midnight"] .puzzle-wrap,
+        body[data-theme="midnight"] .memory-wrap,
+        body[data-theme="midnight"] .hl-wrap,
+        body[data-theme="midnight"] .custom-card,
+        body[data-theme="midnight"] .place-card,
+        body[data-theme="midnight"] .checklist-task,
+        body[data-theme="midnight"] .checklist-column,
+        body[data-theme="midnight"] .quotes-card,
+        body[data-theme="midnight"] .add-event-form,
+        body[data-theme="midnight"] .checklist-add-form,
+        body[data-theme="midnight"] .gallery-add-form,
+        body[data-theme="midnight"] .ttt-history,
+        body[data-theme="midnight"] .puzzle-leaderboard,
+        body[data-theme="midnight"] .memory-leaderboard,
+        body[data-theme="midnight"] .hl-leaderboard,
+        body[data-theme="midnight"] .fl-compose-form,
+        body[data-theme="midnight"] .fl-letter-card,
+        body[data-theme="midnight"] .tl-content,
+        body[data-theme="midnight"] .notif-dropdown,
+        body[data-theme="midnight"] .place-hint,
+        body[data-theme="midnight"] .discussion-info-banner {
+            background: rgba(45, 45, 74, 0.85) !important;
+            border-color: rgba(192, 57, 107, 0.3) !important;
+            color: #ffd6e8 !important;
+        }
+        body[data-theme="midnight"] header h1,
+        body[data-theme="midnight"] .page-title,
+        body[data-theme="midnight"] .card h2,
+        body[data-theme="midnight"] .relation-card h3,
+        body[data-theme="midnight"] footer,
+        body[data-theme="midnight"] .quotes-card h3,
+        body[data-theme="midnight"] .custom-card .c-name,
+        body[data-theme="midnight"] .checklist-col-title,
+        body[data-theme="midnight"] .place-card .p-name,
+        body[data-theme="midnight"] .scratch-section-title,
+        body[data-theme="midnight"] .scratch-compose-form h3,
+        body[data-theme="midnight"] .quiz-add-form h3,
+        body[data-theme="midnight"] .ttt-status,
+        body[data-theme="midnight"] .ttt-history-title,
+        body[data-theme="midnight"] .puzzle-leaderboard-title,
+        body[data-theme="midnight"] .memory-leaderboard-title,
+        body[data-theme="midnight"] .hl-leaderboard-title,
+        body[data-theme="midnight"] .ttt-score-card .ts-name,
+        body[data-theme="midnight"] .quiz-score-name,
+        body[data-theme="midnight"] .fl-letter-title,
+        body[data-theme="midnight"] .fl-compose-form h3,
+        body[data-theme="midnight"] .notif-header h3,
+        body[data-theme="midnight"] .tl-content .tl-ttl { color: #f48fb1 !important; }
+        body[data-theme="midnight"] .msg-body,
+        body[data-theme="midnight"] .quiz-q-text,
+        body[data-theme="midnight"] .checklist-task-text,
+        body[data-theme="midnight"] .place-card .p-desc,
+        body[data-theme="midnight"] .tl-content .tl-desc,
+        body[data-theme="midnight"] .fl-letter-content,
+        body[data-theme="midnight"] .quote-item,
+        body[data-theme="midnight"] .notif-item-text { color: #ffd6e8 !important; }
+        body[data-theme="midnight"] input,
+        body[data-theme="midnight"] textarea,
+        body[data-theme="midnight"] select {
+            background: rgba(26, 26, 46, 0.7) !important;
+            color: #ffd6e8 !important;
+            border-color: rgba(192, 57, 107, 0.4) !important;
+        }
+        body[data-theme="midnight"] input::placeholder,
+        body[data-theme="midnight"] textarea::placeholder { color: rgba(255, 214, 232, 0.5) !important; }
+        body[data-theme="midnight"] .quote-item { background: rgba(192, 57, 107, 0.18) !important; border-right-color: #e07fa0 !important; }
+        body[data-theme="midnight"] .ttt-cell { background: rgba(45, 45, 74, 0.9) !important; border-color: rgba(192, 57, 107, 0.4) !important; color: #fff; }
+        body[data-theme="midnight"] .quiz-option-btn { background: rgba(45, 45, 74, 0.7) !important; color: #ffd6e8 !important; border-color: rgba(192, 57, 107, 0.4) !important; }
+        body[data-theme="midnight"] .comment-item,
+        body[data-theme="midnight"] .quiz-author-comment { background: rgba(192, 57, 107, 0.15) !important; }
+        body[data-theme="midnight"] .ttt-history-item,
+        body[data-theme="midnight"] .puzzle-leaderboard-item,
+        body[data-theme="midnight"] .memory-leaderboard-item,
+        body[data-theme="midnight"] .hl-leaderboard-item { background: rgba(192, 57, 107, 0.15) !important; color: #ffd6e8 !important; }
+        body[data-theme="midnight"] .progress-bar,
+        body[data-theme="midnight"] .checklist-progress-bar { background: linear-gradient(90deg, #e07fa0, #f48fb1) !important; }
+        body[data-theme="midnight"] .notif-bell,
+        body[data-theme="midnight"] .theme-picker-btn,
+        body[data-theme="midnight"] .current-user-badge { background: rgba(45, 45, 74, 0.95) !important; border-color: rgba(192, 57, 107, 0.4) !important; color: #f48fb1 !important; }
+        body[data-theme="midnight"] .notif-item { background: rgba(192, 57, 107, 0.12) !important; }
+        body[data-theme="midnight"] .notif-item.unread { background: rgba(192, 57, 107, 0.25) !important; }
+
+        /* Theme Picker Button */
+        .theme-picker-btn {
+            position: fixed;
+            top: 80px;
+            right: 80px;
+            z-index: 250;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1.5px solid rgba(255, 182, 210, 0.6);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(192, 57, 107, 0.15);
+        }
+        .theme-picker-btn:hover {
+            background: rgba(255, 210, 230, 0.6);
+            transform: translateY(-2px) rotate(15deg);
+        }
+
+        /* Theme Modal */
+        .theme-modal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(90, 26, 53, 0.55);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            align-items: center; justify-content: center;
+        }
+        .theme-modal-overlay.open {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        .theme-modal {
+            background: linear-gradient(160deg, #fff5f9, #ffe4f0);
+            border: 1px solid rgba(255, 182, 210, 0.6);
+            border-radius: 28px;
+            padding: 32px 28px 28px;
+            width: min(440px, 90vw);
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(192, 57, 107, 0.3);
+        }
+        .theme-modal h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: #c0396b;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .theme-modal p {
+            font-size: 0.85rem;
+            color: #a0556e;
+            text-align: center;
+            margin-bottom: 22px;
+            letter-spacing: 1px;
+        }
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .theme-card {
+            border-radius: 18px;
+            padding: 20px 14px;
+            cursor: pointer;
+            transition: all 0.25s;
+            border: 3px solid transparent;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(192, 57, 107, 0.2);
+        }
+        .theme-card.selected {
+            border-color: #c0396b;
+            box-shadow: 0 0 0 3px rgba(192, 57, 107, 0.2);
+        }
+        .theme-card .theme-emoji {
+            font-size: 2.4rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .theme-card .theme-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+        .theme-card .theme-check {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #c0396b;
+            color: #fff;
+            border-radius: 50%;
+            width: 24px; height: 24px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+        .theme-card.selected .theme-check { display: flex; }
+
+        .theme-card-rose { background: linear-gradient(135deg, #fff0f5, #ffd6e8); color: #9b1c4a; }
+        .theme-card-lavender { background: linear-gradient(135deg, #f5f0ff, #e0d0ff); color: #4a2080; }
+        .theme-card-peach { background: linear-gradient(135deg, #fff5ed, #ffd9b8); color: #8b4513; }
+        .theme-card-ocean { background: linear-gradient(135deg, #e8f4f8, #b8dce8); color: #1a4a66; }
+        .theme-card-sunset { background: linear-gradient(135deg, #fff5e6, #ffc99e); color: #8b3a0a; }
+        .theme-card-midnight { background: linear-gradient(135deg, #2d2d4a, #1a1a2e); color: #ffd6e8; }
+
+        .theme-close-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .theme-close-btn:hover { opacity: 0.88; }
+
+        body {
+            background: linear-gradient(135deg, var(--theme-bg-1) 0%, var(--theme-bg-2) 40%, var(--theme-bg-3) 100%);
+        }
+
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, #fff0f5 0%, #ffe4f0 40%, #ffd6e8 100%);
@@ -871,6 +1456,262 @@
         .sc-reaction-chip:hover { background: rgba(255,255,255,.5); }
         .sc-reaction-chip .scrc-emoji { font-size: 1rem; }
         .sc-reaction-chip .scrc-who { font-size: .72rem; opacity: .9; }
+
+        /* ===== FUTURE LETTERS ===== */
+        .fl-compose-form {
+            background: rgba(255,255,255,.72);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,182,210,.55);
+            border-radius: 24px;
+            padding: 28px 32px;
+            box-shadow: 0 8px 30px rgba(192,57,107,.12);
+            margin-bottom: 30px;
+        }
+        .fl-compose-form h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #c0396b;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .fl-form-row {
+            display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+        }
+        .fl-form-row input, .fl-form-row select {
+            flex: 1; min-width: 140px; padding: 10px 14px;
+            border: 1px solid rgba(255,182,210,.7); border-radius: 12px;
+            background: rgba(255,240,248,.8); color: #7a2545;
+            font-size: .9rem; font-family: 'Lato', sans-serif; outline: none;
+        }
+        .fl-form-row input:focus, .fl-form-row select:focus { border-color: #c0396b; }
+        .fl-form-row input::placeholder { color: #c090a8; }
+        .fl-textarea {
+            width: 100%; min-height: 120px; padding: 12px 16px;
+            border: 1px solid rgba(255,182,210,.7); border-radius: 14px;
+            background: rgba(255,240,248,.8); color: #7a2545;
+            font-size: .95rem; font-family: 'Lato', sans-serif;
+            resize: vertical; outline: none; margin-bottom: 14px;
+            box-sizing: border-box;
+        }
+        .fl-textarea:focus { border-color: #c0396b; }
+        .fl-textarea::placeholder { color: #c090a8; }
+        .fl-send-btn {
+            display: block; width: 100%; padding: 13px;
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff; border: none; border-radius: 14px;
+            font-size: 1rem; font-family: 'Lato', sans-serif;
+            letter-spacing: 1px; cursor: pointer;
+            transition: opacity .2s, transform .15s;
+        }
+        .fl-send-btn:hover { opacity: .88; transform: translateY(-2px); }
+        .fl-send-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+        .fl-tabs {
+            display: flex; justify-content: center; gap: 10px;
+            flex-wrap: wrap; margin-bottom: 26px;
+        }
+        .fl-tab {
+            padding: 10px 22px; border: 1.5px solid rgba(255,182,210,.6);
+            border-radius: 50px; background: transparent; color: #c0396b;
+            font-family: 'Lato', sans-serif; font-size: .88rem;
+            letter-spacing: 1px; cursor: pointer; transition: all .25s;
+        }
+        .fl-tab:hover { background: rgba(255,182,210,.2); }
+        .fl-tab.active {
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff; border-color: transparent;
+            box-shadow: 0 4px 14px rgba(192,57,107,.28);
+        }
+        .fl-panel { display: none; }
+        .fl-panel.active { display: block; animation: fadeIn .3s ease; }
+
+        .fl-letter-card {
+            background: linear-gradient(135deg, #fff5f9, #ffe4f0);
+            border: 2px solid rgba(255,182,210,.5);
+            border-radius: 22px;
+            padding: 24px 26px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(192,57,107,.12);
+            position: relative;
+            transition: all .3s;
+            animation: fadeIn .4s ease;
+        }
+        .fl-letter-card.locked {
+            background: linear-gradient(135deg, #f8e8f0, #e8d0e0);
+            border: 2px dashed rgba(192,57,107,.4);
+        }
+        .fl-letter-card.unlocked-ready {
+            background: linear-gradient(135deg, #ffe4f0, #ffd6e8);
+            border: 2px solid #c0396b;
+            box-shadow: 0 12px 36px rgba(192,57,107,.3);
+            animation: readyPulse 2s ease-in-out infinite;
+        }
+        @keyframes readyPulse {
+            0%, 100% { box-shadow: 0 12px 36px rgba(192,57,107,.3); }
+            50% { box-shadow: 0 12px 48px rgba(192,57,107,.5); transform: scale(1.01); }
+        }
+
+        .fl-letter-header {
+            display: flex; justify-content: space-between;
+            align-items: flex-start; margin-bottom: 12px;
+            gap: 10px;
+        }
+        .fl-letter-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.7rem;
+            color: #c0396b;
+            line-height: 1.2;
+            flex: 1;
+        }
+        .fl-letter-actions {
+            display: flex; gap: 6px;
+        }
+        .fl-letter-del {
+            background: none; border: none;
+            color: #d080a0; font-size: .95rem;
+            cursor: pointer; transition: color .2s;
+        }
+        .fl-letter-del:hover { color: #c0396b; }
+
+        .fl-letter-meta {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .fl-meta-tag {
+            font-size: .72rem;
+            background: rgba(192,57,107,.12);
+            color: #c0396b;
+            border-radius: 8px;
+            padding: 3px 10px;
+            letter-spacing: .5px;
+        }
+        .fl-meta-tag.unlocked {
+            background: linear-gradient(135deg, #d4edda, #b8e3c3);
+            color: #1a5c2e;
+        }
+        .fl-meta-tag.locked {
+            background: rgba(192,57,107,.18);
+            color: #9b1c4a;
+        }
+
+        .fl-locked-content {
+            text-align: center;
+            padding: 30px 20px;
+            color: #9b1c4a;
+        }
+        .fl-locked-icon {
+            font-size: 3.4rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: lockShake 3s ease-in-out infinite;
+        }
+        @keyframes lockShake {
+            0%, 90%, 100% { transform: rotate(0deg); }
+            93% { transform: rotate(-8deg); }
+            96% { transform: rotate(8deg); }
+        }
+        .fl-countdown-box {
+            background: rgba(255,255,255,.6);
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin: 12px auto;
+            max-width: 320px;
+        }
+        .fl-countdown-grid {
+            display: flex; justify-content: center;
+            gap: 8px; flex-wrap: wrap; margin-top: 8px;
+        }
+        .fl-cd-block {
+            background: linear-gradient(145deg, #ffd6e8, #ffb3d1);
+            border-radius: 12px; padding: 8px 10px;
+            min-width: 56px;
+            box-shadow: 0 3px 10px rgba(192,57,107,.15);
+        }
+        .fl-cd-num {
+            font-size: 1.4rem; font-weight: 700; color: #9b1c4a;
+            display: block; line-height: 1;
+        }
+        .fl-cd-lbl {
+            font-size: .58rem; color: #b05070;
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 3px; display: block;
+        }
+        .fl-locked-msg {
+            font-size: .88rem;
+            color: #a0556e;
+            line-height: 1.6;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .fl-unlock-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 12px 26px;
+            background: linear-gradient(135deg, #e07fa0, #c0396b);
+            color: #fff; border: none; border-radius: 14px;
+            font-size: .95rem; font-family: 'Lato', sans-serif;
+            letter-spacing: 1px; cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 4px 14px rgba(192,57,107,.3);
+        }
+        .fl-unlock-btn:hover {
+            opacity: .9;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(192,57,107,.4);
+        }
+
+        .fl-letter-content {
+            font-size: .98rem;
+            color: #5a1a35;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            padding: 18px 20px;
+            background: rgba(255,255,255,.55);
+            border-radius: 14px;
+            border-left: 4px solid #c0396b;
+            margin-top: 12px;
+            font-family: 'Lato', sans-serif;
+        }
+        .fl-letter-footer {
+            font-size: .76rem;
+            color: #b07090;
+            margin-top: 12px;
+            text-align: right;
+            letter-spacing: .5px;
+            font-style: italic;
+        }
+        .fl-no-letters {
+            text-align: center;
+            color: #c090a8;
+            font-size: .9rem;
+            padding: 36px;
+            letter-spacing: 1px;
+        }
+
+        /* Letter unlock animation */
+        .fl-unlock-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(90, 26, 53, 0.6);
+            backdrop-filter: blur(12px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        .fl-unlock-overlay.open {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        .fl-unlock-envelope {
+            font-size: 6rem;
+            animation: envelopeOpen 1.4s ease forwards;
+        }
+        @keyframes envelopeOpen {
+            0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+            50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
 
         /* ===== HOME PAGE LAYOUT REORDER ===== */
         .home-cards-stack {
@@ -1834,6 +2675,52 @@
     </div>
 </div>
 
+<!-- THEME PICKER BUTTON -->
+<div class="theme-picker-btn" onclick="openThemeModal()" title="Change theme">
+    🎨
+</div>
+
+<!-- THEME MODAL -->
+<div class="theme-modal-overlay" id="theme-modal-overlay">
+    <div class="theme-modal">
+        <h2>Choose Your Theme 🎨</h2>
+        <p>Pick the vibe of your story</p>
+        <div class="theme-grid">
+            <div class="theme-card theme-card-rose" data-theme="rose" onclick="setTheme('rose')">
+                <div class="theme-check">✓</div>
+                <span class="theme-emoji">🌸</span>
+                <span class="theme-name">Rose Pink</span>
+            </div>
+            <div class="theme-card theme-card-lavender" data-theme="lavender" onclick="setTheme('lavender')">
+                <div class="theme-check">✓</div>
+                <span class="theme-emoji">💜</span>
+                <span class="theme-name">Lavender</span>
+            </div>
+            <div class="theme-card theme-card-peach" data-theme="peach" onclick="setTheme('peach')">
+                <div class="theme-check">✓</div>
+                <span class="theme-emoji">🍑</span>
+                <span class="theme-name">Peach Glow</span>
+            </div>
+            <div class="theme-card theme-card-ocean" data-theme="ocean" onclick="setTheme('ocean')">
+                <div class="theme-check">✓</div>
+                <span class="theme-emoji">🌊</span>
+                <span class="theme-name">Ocean Breeze</span>
+            </div>
+            <div class="theme-card theme-card-sunset" data-theme="sunset" onclick="setTheme('sunset')">
+                <div class="theme-check">✓</div>
+                <span class="theme-emoji">🌅</span>
+                <span class="theme-name">Sunset</span>
+            </div>
+            <div class="theme-card theme-card-midnight" data-theme="midnight" onclick="setTheme('midnight')">
+                <div class="theme-check">✓</div>
+                <span class="theme-emoji">🌙</span>
+                <span class="theme-name">Midnight</span>
+            </div>
+        </div>
+        <button class="theme-close-btn" onclick="closeThemeModal()">💾 Save & Close</button>
+    </div>
+</div>
+
 <!-- IDENTITY MODAL -->
 <div class="identity-overlay" id="identity-overlay" style="display:none;">
     <div class="identity-modal">
@@ -1851,11 +2738,12 @@
 <nav>
     <button class="nav-btn active" id="nav-home" onclick="showPage('home',this)">🏠 Home</button>
     <button class="nav-btn" id="nav-memories" onclick="showPage('memories',this)">💌 Memories</button>
+    <button class="nav-btn" id="nav-gallery" onclick="showPage('gallery',this)">📸 Gallery</button>
     <button class="nav-btn" id="nav-checklist" onclick="showPage('checklist',this)">✅ Checklist</button>
     <button class="nav-btn" id="nav-special" onclick="showPage('special',this)">🗓️ Special Dates</button>
     <button class="nav-btn" id="nav-places" onclick="showPage('places',this)">🗺️ Our Places</button>
-    <button class="nav-btn" id="nav-gallery" onclick="showPage('gallery',this)">📸 Gallery</button>
     <button class="nav-btn" id="nav-scratch" onclick="showPage('scratch',this)">🎴 Scratch Cards</button>
+    <button class="nav-btn" id="nav-letters" onclick="showPage('letters',this)">✉️ Letters</button>
     <button class="nav-btn" id="nav-quiz" onclick="showPage('quiz',this)">❓ Quiz</button>
     <button class="nav-btn" id="nav-games" onclick="showPage('games',this)">🎮 Games</button>
     <button class="nav-btn" id="nav-story" onclick="showPage('story',this)">👩‍❤️‍👨 Our Story</button>
@@ -2203,6 +3091,57 @@
         </div>
     </div>
 </div>
+<!-- ===== FUTURE LETTERS ===== -->
+<div id="page-letters" class="page">
+    <div class="page-wrap" style="max-width:860px;">
+        <p class="page-title">Letters from the Future ✉️</p>
+        <p class="page-sub">✨ Time capsule for our love story ✨</p>
+
+        <!-- Compose Form -->
+        <div class="fl-compose-form">
+            <h3>📝 Write a Letter to the Future</h3>
+            <div class="fl-form-row">
+                <input type="text" id="fl-title" placeholder="Letter title (e.g. Our wedding day 💒)" maxlength="80"/>
+                <select id="fl-to">
+                    <option value="yossr">👩 To Yossr</option>
+                    <option value="hamdi">👨 To Hamdi</option>
+                    <option value="both">💕 To Both of Us</option>
+                </select>
+            </div>
+            <div class="fl-form-row">
+                <input type="date" id="fl-unlock-date"/>
+                <input type="text" id="fl-occasion" placeholder="Occasion (e.g. Engagement, Anniversary)" maxlength="50"/>
+            </div>
+            <textarea class="fl-textarea" id="fl-content" placeholder="Write your letter to the future… 💕" maxlength="6000"></textarea>
+            <button class="fl-send-btn" id="fl-send-btn" onclick="sendFutureLetter()">✉️ Seal & Save Letter</button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="fl-tabs">
+            <button class="fl-tab active" onclick="showLettersTab('locked',this)">🔒 Locked</button>
+            <button class="fl-tab" onclick="showLettersTab('unlocked',this)">✅ Unlocked</button>
+            <button class="fl-tab" onclick="showLettersTab('mine',this)">📤 Letters I Wrote</button>
+        </div>
+
+        <!-- Panels -->
+        <div class="fl-panel active" id="fpanel-locked">
+            <div id="fl-locked-list"><p class="fl-no-letters">No locked letters yet… write your first time capsule 💌</p></div>
+        </div>
+
+        <div class="fl-panel" id="fpanel-unlocked">
+            <div id="fl-unlocked-list"><p class="fl-no-letters">No unlocked letters yet… patience, my love 💕</p></div>
+        </div>
+
+        <div class="fl-panel" id="fpanel-mine">
+            <div id="fl-mine-list"><p class="fl-no-letters">You haven't written any letters yet 💕</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- Unlock Animation Overlay -->
+<div class="fl-unlock-overlay" id="fl-unlock-overlay">
+    <div class="fl-unlock-envelope">💌</div>
+</div>
 <!-- ===== GAMES ===== -->
 <div id="page-games" class="page">
     <div class="page-wrap" style="max-width:900px;">
@@ -2461,6 +3400,35 @@
     if (!currentUser) showIdentityModal();
     updateBadge();
 
+    /* ===== THEME SYSTEM ===== */
+    const THEME_KEY = "hamdi-yossr-theme";
+    const savedTheme = localStorage.getItem(THEME_KEY) || "rose";
+    document.body.setAttribute("data-theme", savedTheme);
+
+    window.openThemeModal = function() {
+        const currentTheme = document.body.getAttribute("data-theme") || "rose";
+        document.querySelectorAll(".theme-card").forEach(c => {
+            c.classList.toggle("selected", c.dataset.theme === currentTheme);
+        });
+        document.getElementById("theme-modal-overlay").classList.add("open");
+    };
+
+    window.closeThemeModal = function() {
+        document.getElementById("theme-modal-overlay").classList.remove("open");
+    };
+
+    window.setTheme = function(themeName) {
+        document.body.setAttribute("data-theme", themeName);
+        localStorage.setItem(THEME_KEY, themeName);
+        document.querySelectorAll(".theme-card").forEach(c => {
+            c.classList.toggle("selected", c.dataset.theme === themeName);
+        });
+    };
+
+    document.getElementById("theme-modal-overlay").addEventListener("click", function(e) {
+        if (e.target === this) closeThemeModal();
+    });
+
     /* ============================================================
    ===== NOTIFICATIONS SYSTEM =====
    ============================================================ */
@@ -2505,7 +3473,8 @@
         const icons = {
             memory: '💌', gallery: '📸', scratch: '🎴', quiz: '❓',
             checklist: '✅', places: '🗺️', special: '🗓️',
-            quiz_answer: '💬', quiz_comment: '💭'
+            quiz_answer: '💬', quiz_comment: '💭', letters: '✉️',
+            games: '🎮'
         };
         return icons[type] || '🔔';
     }
@@ -3119,7 +4088,7 @@
             // Receiver can react (only on received revealed cards)
             const canReact = !isSent && c.revealed;
             const reactBtn = canReact
-                ? `<button class="sc-react-btn" onclick="toggleScReactionPicker('${c.id}')">😊+</button>
+                ? `<button class="sc-react-btn" onclick="toggleScReactionPicker('${c.id}')">😊 React</button>
                    <div class="sc-reaction-picker" id="sc-picker-${c.id}">
                      ${REACTION_EMOJIS.map(em => `<button onclick="addScReaction('${c.id}','${em}')">${em}</button>`).join("")}
                    </div>`
@@ -3767,6 +4736,286 @@ function renderQuizScores() {
     <p style="text-align:center;color:#a0556e;font-size:.78rem;letter-spacing:1px;margin-top:14px;">📌 Only multiple-choice questions count for scores. Open-ended questions are for sharing 💕</p>
     ${allQuizQuestions.length === 0 ? '<p class="quiz-empty">No questions yet — go add some! 💡</p>' : ''}`;
 }
+
+    /* ============================================================
+       ===== FUTURE LETTERS =====
+       ============================================================ */
+    const lettersRef = collection(db, "futureletters");
+    let allLetters = [];
+
+    window.showLettersTab = function(tab, btn) {
+        document.querySelectorAll(".fl-panel").forEach(p => p.classList.remove("active"));
+        document.querySelectorAll(".fl-tab").forEach(b => b.classList.remove("active"));
+        document.getElementById("fpanel-" + tab).classList.add("active");
+        btn.classList.add("active");
+        renderLetters();
+    };
+
+    onSnapshot(query(lettersRef, orderBy("unlockDate", "asc")), snapshot => {
+        allLetters = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderLetters();
+    });
+
+    // Set default unlock date to 1 month from today
+    setTimeout(() => {
+        const dateInput = document.getElementById("fl-unlock-date");
+        if (dateInput && !dateInput.value) {
+            const future = new Date();
+            future.setMonth(future.getMonth() + 1);
+            dateInput.value = future.toISOString().substring(0, 10);
+        }
+    }, 500);
+
+    window.sendFutureLetter = async function() {
+        if (!currentUser) { showIdentityModal(); return; }
+        const title = document.getElementById("fl-title").value.trim();
+        const to = document.getElementById("fl-to").value;
+        const unlockDate = document.getElementById("fl-unlock-date").value;
+        const occasion = document.getElementById("fl-occasion").value.trim();
+        const content = document.getElementById("fl-content").value.trim();
+
+        if (!title) { alert("Please give your letter a title 💕"); return; }
+        if (!unlockDate) { alert("Please choose an unlock date 📅"); return; }
+        if (!content) { alert("Please write your letter 💌"); return; }
+
+        const today = new Date().toISOString().substring(0, 10);
+        if (unlockDate <= today) {
+            alert("Unlock date must be in the future! 🔮");
+            return;
+        }
+
+        const btn = document.getElementById("fl-send-btn");
+        btn.disabled = true;
+        btn.textContent = "💌 Sealing...";
+        showSync();
+
+        try {
+            await addDoc(lettersRef, {
+                title, to, unlockDate, occasion, content,
+                from: currentUser,
+                createdAt: new Date().toISOString(),
+                unlocked: false,
+                unlockedBy: null,
+                unlockedAt: null
+            });
+            // Clear form
+            document.getElementById("fl-title").value = "";
+            document.getElementById("fl-occasion").value = "";
+            document.getElementById("fl-content").value = "";
+            // Reset date to next month
+            const future = new Date();
+            future.setMonth(future.getMonth() + 1);
+            document.getElementById("fl-unlock-date").value = future.toISOString().substring(0, 10);
+
+            // Notify recipient(s)
+            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+            const formattedDate = new Date(unlockDate).toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
+            if (to === "both") {
+                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+                await createNotification("letters", `${whoName} sealed a letter for both of you, opens ${formattedDate} 💌`, partner, "letters");
+            } else if (to !== currentUser) {
+                await createNotification("letters", `${whoName} sealed a letter for you, opens ${formattedDate} 💌`, to, "letters");
+            }
+        } catch (e) { alert("Error: " + e.message); }
+
+        btn.disabled = false;
+        btn.textContent = "✉️ Seal & Save Letter";
+        hideSync();
+    };
+
+    function isLetterUnlockableForUser(letter, user) {
+        if (letter.to !== user && letter.to !== "both") return false;
+        const today = new Date().toISOString().substring(0, 10);
+        return letter.unlockDate <= today;
+    }
+
+    function renderLetters() {
+        const me = currentUser || "hamdi";
+        const today = new Date().toISOString().substring(0, 10);
+
+        // Letters I can see (sent to me, both, or written by me)
+        const visible = allLetters.filter(l => l.to === me || l.to === "both" || l.from === me);
+
+        // Locked: not yet unlock-date, addressed to me/both
+        const locked = visible.filter(l => {
+            if (l.from === me && l.to !== me && l.to !== "both") return false; // hide my own outgoing in locked
+            return l.unlockDate > today && (l.to === me || l.to === "both");
+        });
+
+        // Unlocked: past unlock-date, addressed to me/both
+        const unlocked = visible.filter(l => {
+            if (l.from === me && l.to !== me && l.to !== "both") return false;
+            return l.unlockDate <= today && (l.to === me || l.to === "both");
+        });
+
+        // My letters (all I wrote)
+        const mine = allLetters.filter(l => l.from === me);
+
+        renderLetterList(locked, "fl-locked-list", "locked");
+        renderLetterList(unlocked, "fl-unlocked-list", "unlocked");
+        renderLetterList(mine, "fl-mine-list", "mine");
+    }
+
+    function renderLetterList(letters, containerId, mode) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        if (letters.length === 0) {
+            const msgs = {
+                locked: "No locked letters yet… write your first time capsule 💌",
+                unlocked: "No unlocked letters yet… patience, my love 💕",
+                mine: "You haven't written any letters yet 💕"
+            };
+            container.innerHTML = `<p class="fl-no-letters">${msgs[mode]}</p>`;
+            return;
+        }
+        container.innerHTML = letters.map(l => buildLetterCardHTML(l, mode)).join("");
+    }
+
+    function buildLetterCardHTML(letter, mode) {
+        const me = currentUser || "hamdi";
+        const today = new Date().toISOString().substring(0, 10);
+        const isLocked = letter.unlockDate > today;
+        const canOpen = !isLocked && (letter.to === me || letter.to === "both");
+        const isOwn = letter.from === me;
+
+        const fromIcon = letter.from === "hamdi" ? "👨" : "👩";
+        const fromName = letter.from === "hamdi" ? "Hamdi" : "Yossr";
+        let toLabel = "";
+        if (letter.to === "both") toLabel = "💕 Both of us";
+        else if (letter.to === "hamdi") toLabel = "👨 Hamdi";
+        else toLabel = "👩 Yossr";
+
+        const unlockDateFormatted = new Date(letter.unlockDate + "T00:00:00").toLocaleDateString("en-GB", {
+            weekday: "long", day: "2-digit", month: "long", year: "numeric"
+        });
+        const createdFormatted = letter.createdAt ? new Date(letter.createdAt).toLocaleDateString("en-GB", {
+            day: "2-digit", month: "short", year: "numeric"
+        }) : "";
+
+        const delBtn = isOwn ? `<button class="fl-letter-del" onclick="deleteLetter('${letter.id}')">🗑️</button>` : "";
+
+        // Locked view
+        if (isLocked) {
+            const diff = new Date(letter.unlockDate + "T00:00:00") - Date.now();
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const mins = Math.floor((diff % 3600000) / 60000);
+
+            const cardClass = mode === "mine" && isOwn ? "fl-letter-card locked" : "fl-letter-card locked";
+
+            return `<div class="${cardClass}">
+                <div class="fl-letter-header">
+                    <div class="fl-letter-title">${esc(letter.title)}</div>
+                    <div class="fl-letter-actions">${delBtn}</div>
+                </div>
+                <div class="fl-letter-meta">
+                    <span class="fl-meta-tag">${fromIcon} From ${fromName}</span>
+                    <span class="fl-meta-tag">→ ${toLabel}</span>
+                    ${letter.occasion ? `<span class="fl-meta-tag">🎉 ${esc(letter.occasion)}</span>` : ""}
+                    <span class="fl-meta-tag locked">🔒 Locked</span>
+                </div>
+                <div class="fl-locked-content">
+                    <span class="fl-locked-icon">🔒</span>
+                    <div style="font-size:.95rem;color:#9b1c4a;letter-spacing:.5px;margin-bottom:6px;">Opens on <strong>${unlockDateFormatted}</strong></div>
+                    <div class="fl-countdown-box">
+                        <div style="font-size:.78rem;color:#b07090;letter-spacing:1px;text-transform:uppercase;">Time remaining</div>
+                        <div class="fl-countdown-grid">
+                            <div class="fl-cd-block"><span class="fl-cd-num">${days}</span><span class="fl-cd-lbl">Days</span></div>
+                            <div class="fl-cd-block"><span class="fl-cd-num">${hours}</span><span class="fl-cd-lbl">Hours</span></div>
+                            <div class="fl-cd-block"><span class="fl-cd-num">${mins}</span><span class="fl-cd-lbl">Mins</span></div>
+                        </div>
+                    </div>
+                    <p class="fl-locked-msg">This letter is sealed in time… come back later 💕</p>
+                </div>
+            </div>`;
+        }
+
+        // Unlockable but not yet opened — show "Open" button
+        if (canOpen && !letter.unlocked) {
+            return `<div class="fl-letter-card unlocked-ready">
+                <div class="fl-letter-header">
+                    <div class="fl-letter-title">${esc(letter.title)}</div>
+                    <div class="fl-letter-actions">${delBtn}</div>
+                </div>
+                <div class="fl-letter-meta">
+                    <span class="fl-meta-tag">${fromIcon} From ${fromName}</span>
+                    <span class="fl-meta-tag">→ ${toLabel}</span>
+                    ${letter.occasion ? `<span class="fl-meta-tag">🎉 ${esc(letter.occasion)}</span>` : ""}
+                    <span class="fl-meta-tag unlocked">✨ Ready to Open!</span>
+                </div>
+                <div style="text-align:center;padding:20px;">
+                    <div style="font-size:3.5rem;margin-bottom:8px;animation:lockShake 1.5s ease-in-out infinite;">💌</div>
+                    <div style="font-size:1rem;color:#c0396b;font-weight:700;margin-bottom:14px;letter-spacing:.5px;">A letter from the past awaits you 🌹</div>
+                    <button class="fl-unlock-btn" onclick="openLetter('${letter.id}')">✉️ Open This Letter</button>
+                </div>
+            </div>`;
+        }
+
+        // Already opened — show full content
+        const unlockedByName = letter.unlockedBy === "hamdi" ? "👨 Hamdi" : letter.unlockedBy === "yossr" ? "👩 Yossr" : "";
+        const unlockedAtFormatted = letter.unlockedAt ? new Date(letter.unlockedAt).toLocaleDateString("en-GB", {
+            day: "2-digit", month: "short", year: "numeric"
+        }) : "";
+
+        return `<div class="fl-letter-card">
+            <div class="fl-letter-header">
+                <div class="fl-letter-title">${esc(letter.title)}</div>
+                <div class="fl-letter-actions">${delBtn}</div>
+            </div>
+            <div class="fl-letter-meta">
+                <span class="fl-meta-tag">${fromIcon} From ${fromName}</span>
+                <span class="fl-meta-tag">→ ${toLabel}</span>
+                ${letter.occasion ? `<span class="fl-meta-tag">🎉 ${esc(letter.occasion)}</span>` : ""}
+                <span class="fl-meta-tag unlocked">✅ Unlocked</span>
+            </div>
+            <div class="fl-letter-content">${esc(letter.content)}</div>
+            <div class="fl-letter-footer">
+                ✍️ Written ${createdFormatted}
+                ${unlockedByName ? `· Opened by ${unlockedByName} on ${unlockedAtFormatted}` : ""}
+            </div>
+        </div>`;
+    }
+
+    window.openLetter = async function(letterId) {
+        if (!currentUser) { showIdentityModal(); return; }
+        // Show envelope animation
+        const overlay = document.getElementById("fl-unlock-overlay");
+        if (overlay) {
+            overlay.classList.add("open");
+            setTimeout(() => overlay.classList.remove("open"), 1600);
+        }
+        showSync();
+        try {
+            await updateDoc(doc(db, "futureletters", letterId), {
+                unlocked: true,
+                unlockedBy: currentUser,
+                unlockedAt: new Date().toISOString()
+            });
+            // Notify the author
+            const letter = allLetters.find(l => l.id === letterId);
+            if (letter && letter.from !== currentUser) {
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                await createNotification("letters", `${whoName} opened your letter "${letter.title}" 💌✨`, letter.from, "letters");
+            }
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.deleteLetter = async function(letterId) {
+        if (!confirm("Delete this letter forever? This cannot be undone 💔")) return;
+        showSync();
+        try {
+            await deleteDoc(doc(db, "futureletters", letterId));
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    // Update locked countdowns every minute
+    setInterval(() => {
+        if (document.getElementById("page-letters")?.classList.contains("active")) {
+            renderLetters();
+        }
+    }, 60000);
 
     /* ============================================================
        ===== GAMES SYSTEM =====
