@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+    <!-- ===== PWA — Installable app ===== -->
+    <link rel="manifest" href="manifest.json"/>
+    <meta name="theme-color" content="#c0396b"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+    <meta name="apple-mobile-web-app-title" content="H & Y"/>
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&display=swap');
 
@@ -2737,6 +2747,8 @@
     </style>
 </head>
 <body>
+<!-- ===== PWA INSTALL BUTTON ===== -->
+<button id="install-prompt" onclick="installPWA()" style="display:none;position:fixed;bottom:20px;right:140px;z-index:250;background:linear-gradient(135deg,#e07fa0,#c0396b);color:#fff;border:none;border-radius:50px;padding:10px 18px;font-family:'Lato',sans-serif;font-size:0.85rem;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 14px rgba(192,57,107,0.3);animation:notifPulse 2s ease-in-out infinite;">📲 Install App</button>
 <div id="particles"></div>
 <div class="sync-indicator" id="sync-indicator">💾 Saving...</div>
 
@@ -6157,6 +6169,43 @@ function renderQuizScores() {
         if(!e.target.closest('.reaction-picker')&&!e.target.closest('.react-btn')&&!e.target.closest('.reaction-chip'))document.querySelectorAll('.reaction-picker.open').forEach(p=>p.classList.remove('open'));
         if(!e.target.closest('.comment-reaction-picker')&&!e.target.closest('.comment-react-btn')&&!e.target.closest('.comment-reaction-chip'))document.querySelectorAll('.comment-reaction-picker.open').forEach(p=>p.classList.remove('open'));
         if(!e.target.closest('.sc-reaction-picker')&&!e.target.closest('.sc-react-btn')&&!e.target.closest('.sc-reaction-chip'))document.querySelectorAll('.sc-reaction-picker.open').forEach(p=>p.classList.remove('open'));
+    });
+</script>
+<!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
+<script>
+    // Enregistrer le service worker
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("sw.js")
+                .then(reg => console.log("✅ PWA prête :", reg.scope))
+                .catch(err => console.warn("❌ SW erreur :", err));
+        });
+    }
+
+    // Bouton d'installation Android/Chrome
+    let deferredInstallPrompt = null;
+    const installBtn = document.getElementById("install-prompt");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        if (installBtn) installBtn.style.display = "block";
+    });
+
+    window.installPWA = async function () {
+        if (!deferredInstallPrompt) return;
+        deferredInstallPrompt.prompt();
+        const { outcome } = await deferredInstallPrompt.userChoice;
+        if (outcome === "accepted" && installBtn) {
+            installBtn.style.display = "none";
+        }
+        deferredInstallPrompt = null;
+    };
+
+    // Cacher le bouton après installation
+    window.addEventListener("appinstalled", () => {
+        if (installBtn) installBtn.style.display = "none";
+        deferredInstallPrompt = null;
     });
 </script>
 </body>
