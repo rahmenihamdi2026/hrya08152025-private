@@ -1,5 +1,34 @@
 // Service Worker — Hamdi & Yossr 💍
-const CACHE_NAME = "hamdi-yossr-v1";
+
+// ===== FCM Push (notif w l app msakra) =====
+importScripts("https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/11.6.0/firebase-messaging-compat.js");
+
+firebase.initializeApp({
+  apiKey: "AIzaSyDT2Qb4FAQzM0jwompq7FZQCLFUM4VMaYs",
+  authDomain: "hamdi-yossr.firebaseapp.com",
+  projectId: "hamdi-yossr",
+  storageBucket: "hamdi-yossr.firebasestorage.app",
+  messagingSenderId: "850872869440",
+  appId: "1:850872869440:web:5aedd5c8b1dc7e9d4f35a5"
+});
+
+firebase.messaging().onBackgroundMessage(payload => {
+  const n = payload.notification || {};
+  self.registration.showNotification(n.title || "Hamdi & Yossr 💍", {
+    body: n.body || "",
+    icon: "./icons/icon-192.png",
+    badge: "./icons/icon-192.png"
+  });
+});
+
+// Ki to89oz 3al notif → te7el l app
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+  event.waitUntil(clients.openWindow("./index.html"));
+});
+
+const CACHE_NAME = "hamdi-yossr-v2";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
