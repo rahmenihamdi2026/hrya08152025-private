@@ -3465,6 +3465,28 @@
     });
     const db = getFirestore(app);
 
+    /* ===== PUSH (Vercel backend) ===== */
+    // ⚠️ Bdel PUSH_ENDPOINT b URL Vercel mte3ek wa9t el deploy
+    const PUSH_ENDPOINT = "https://hamdi-yossr-push.vercel.app/api/send";
+    const VAPID_PUBLIC_KEY = "BNY7bq9dpqUNBdl_bwBdBt8X5Kt5RIxzuDXbniSYqU7ctq-AELyC1Ur-dX9IMNbw5oNnTTZSnObuoqyxcu_PO8A";
+
+    async function registerForPush() {
+        try {
+            if (!currentUser || !("Notification" in window)) return;
+            const perm = await Notification.requestPermission();
+            if (perm !== "granted") return;
+            const { getMessaging, getToken } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-messaging.js");
+            const { setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+            const messaging = getMessaging(app);
+            const reg = await navigator.serviceWorker.ready;
+            const token = await getToken(messaging, { vapidKey: VAPID_PUBLIC_KEY, serviceWorkerRegistration: reg });
+            if (token) {
+                await setDoc(doc(db, "fcmTokens", currentUser), { token, updatedAt: new Date().toISOString() });
+            }
+        } catch (e) { console.warn("Push register error:", e); }
+    }
+    window.registerForPush = registerForPush;
+
     /* ===== IDENTITY ===== */
     const ID_KEY = "hamdi-yossr-identity";
     let currentUser = localStorage.getItem(ID_KEY);
@@ -3486,9 +3508,11 @@
     updateNavBadges();
     renderMyQuestionsPanel();
     renderAnswerPanel();
+    registerForPush();
 };
     window.changeIdentity = function() { showIdentityModal(); };
     if (!currentUser) showIdentityModal();
+    else registerForPush();
     updateBadge();
 
     /* ===== THEME SYSTEM ===== */
@@ -3634,6 +3658,12 @@
                 read: false,
                 createdAt: new Date().toISOString()
             });
+            // Push l partner 7atta ken l app msakra
+            fetch(PUSH_ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ targetUser, message })
+            }).catch(() => {});
         } catch (e) { console.error("Notification error:", e); }
     }
 
