@@ -3514,18 +3514,20 @@
     else registerForPush();
     // ✅ Foreground notifications (app ma7loula)
     import("https://www.gstatic.com/firebasejs/11.6.0/firebase-messaging.js")
-        .then(({ getMessaging, onMessage }) => {
-            const messaging = getMessaging(app);
-            onMessage(messaging, (payload) => {
-                const d = payload.data || {};
-                if (Notification.permission === "granted") {
-                    new Notification(d.title || "Hamdi & Yossr 💍", {
-                        body: d.body || "",
-                        icon: "./icons/icon-192.png"
-                    });
-                }
-            });
-        }).catch(() => {});
+    .then(({ getMessaging, onMessage }) => {
+        const messaging = getMessaging(app);
+        onMessage(messaging, (payload) => {
+            const d = payload.data || {};
+            if (Notification.permission === "granted") {
+                new Notification(d.title || "Hamdi & Yossr 💍", {
+                    body: d.body || "",
+                    icon: "./icons/icon-192.png"
+                });
+            }
+            renderNotifications();
+            updateNavBadges();
+        });
+    }).catch(() => {});
     updateBadge();
 
     /* ===== THEME SYSTEM ===== */
