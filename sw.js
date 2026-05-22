@@ -14,9 +14,9 @@ firebase.initializeApp({
 });
 
 firebase.messaging().onBackgroundMessage(payload => {
-  const n = payload.notification || {};
-  self.registration.showNotification(n.title || "Hamdi & Yossr 💍", {
-    body: n.body || "",
+  const d = payload.data || {};
+  self.registration.showNotification(d.title || "Hamdi & Yossr 💍", {
+    body: d.body || "",
     icon: "./icons/icon-192.png",
     badge: "./icons/icon-192.png"
   });
@@ -28,7 +28,7 @@ self.addEventListener("notificationclick", event => {
   event.waitUntil(clients.openWindow("./index.html"));
 });
 
-const CACHE_NAME = "hamdi-yossr-v3";
+const CACHE_NAME = "hamdi-yossr-v4";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
