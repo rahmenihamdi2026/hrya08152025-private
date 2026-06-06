@@ -4960,19 +4960,19 @@ function renderQuizScores() {
 
     function isLetterUnlockableForUser(letter, user) {
         if (letter.to !== user) return false;
-        const today = new Date().toISOString().substring(0, 10);
-        return letter.unlockDate <= today;
+        return Date.now() >= new Date(letter.unlockDate + "T00:00:00").getTime();
     }
 
     function renderLetters() {
         const me = currentUser || "hamdi";
-        const today = new Date().toISOString().substring(0, 10);
+        const nowMs = Date.now();
+        const unlockMs = l => new Date(l.unlockDate + "T00:00:00").getTime();
 
         // Locked: addressed to me, not yet unlock-date
-        const locked = allLetters.filter(l => l.to === me && l.unlockDate > today);
+        const locked = allLetters.filter(l => l.to === me && nowMs < unlockMs(l));
 
         // Unlocked: addressed to me, past unlock-date
-        const unlocked = allLetters.filter(l => l.to === me && l.unlockDate <= today);
+        const unlocked = allLetters.filter(l => l.to === me && nowMs >= unlockMs(l));
 
         // My letters (all I wrote)
         const mine = allLetters.filter(l => l.from === me);
@@ -4999,8 +4999,7 @@ function renderQuizScores() {
 
     function buildLetterCardHTML(letter, mode) {
         const me = currentUser || "hamdi";
-        const today = new Date().toISOString().substring(0, 10);
-        const isLocked = letter.unlockDate > today;
+        const isLocked = Date.now() < new Date(letter.unlockDate + "T00:00:00").getTime();
         const canOpen = !isLocked && letter.to === me;
         const isOwn = letter.from === me;
 
