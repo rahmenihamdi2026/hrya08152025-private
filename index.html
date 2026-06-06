@@ -3753,7 +3753,11 @@
     function renderCountdown(target, cntId, progId, daysId, total) {
         const diff = target - Date.now();
         if (diff <= 0) {
-            document.getElementById(cntId).innerHTML = '<span style="font-size:1.4rem;color:#c0396b">🎉 Today is the Day!</span>';
+            const dayMs = 86400000;
+            const passedToday = diff > -dayMs;
+            document.getElementById(cntId).innerHTML = passedToday
+                ? '<span style="font-size:1.4rem;color:#c0396b">🎉 Today is the Day!</span>'
+                : '<span style="font-size:1.1rem;color:#c0396b">💕 Celebrated on '+fmtDate(target)+'</span>';
             document.getElementById(progId).style.width = "100%";
             document.getElementById(daysId).textContent = "";
             return true;
