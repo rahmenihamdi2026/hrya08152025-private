@@ -28,7 +28,7 @@ self.addEventListener("notificationclick", event => {
   event.waitUntil(clients.openWindow("./index.html"));
 });
 
-const CACHE_NAME = "hamdi-yossr-v9";
+const CACHE_NAME = "hamdi-yossr-v10";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
