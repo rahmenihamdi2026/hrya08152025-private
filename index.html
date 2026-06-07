@@ -3228,7 +3228,7 @@
                 </select>
             </div>
             <div class="fl-form-row">
-                <input type="date" id="fl-unlock-date"/>
+                <input type="datetime-local" id="fl-unlock-date"/>
                 <input type="text" id="fl-occasion" placeholder="Occasion (e.g. Engagement, Anniversary)" maxlength="50"/>
             </div>
             <textarea class="fl-textarea" id="fl-content" placeholder="Write your letter to the future… 💕" maxlength="6000"></textarea>
@@ -4926,15 +4926,22 @@ function renderQuizScores() {
         renderLetters();
     });
 
-    // Set default unlock date to 1 month from today
+    // Helper: format a Date as a datetime-local value (local time, "YYYY-MM-DDTHH:MM")
+    function toLocalDatetimeValue(d) {
+        const pad = n => String(n).padStart(2, "0");
+        return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate())
+             + "T" + pad(d.getHours()) + ":" + pad(d.getMinutes());
+    }
+
+    // Set default unlock datetime to now
     setTimeout(() => {
         const dateInput = document.getElementById("fl-unlock-date");
         if (dateInput && !dateInput.value) {
-            const future = new Date();
-            future.setMonth(future.getMonth() + 1);
-            dateInput.value = future.toISOString().substring(0, 10);
+            dateInput.value = toLocalDatetimeValue(new Date());
         }
     }, 500);
+
+    let editingLetterId = null;
 
     window.sendFutureLetter = async function() {
         if (!currentUser) { showIdentityModal(); return; }
@@ -4945,44 +4952,49 @@ function renderQuizScores() {
         const content = document.getElementById("fl-content").value.trim();
 
         if (!title) { alert("Please give your letter a title 💕"); return; }
-        if (!unlockDate) { alert("Please choose an unlock date 📅"); return; }
+        if (!unlockDate) { alert("Please choose an unlock date & time 📅"); return; }
         if (!content) { alert("Please write your letter 💌"); return; }
 
-        const today = new Date().toISOString().substring(0, 10);
-        if (unlockDate <= today) {
-            alert("Unlock date must be in the future! 🔮");
+        // Allow today / now — only reject clearly past times (60s grace)
+        if (new Date(unlockDate).getTime() < Date.now() - 60000) {
+            alert("Unlock time can't be in the past! 🔮");
             return;
         }
 
         const btn = document.getElementById("fl-send-btn");
         btn.disabled = true;
-        btn.textContent = "💌 Sealing...";
+        btn.textContent = editingLetterId ? "✏️ Updating..." : "💌 Sealing...";
         showSync();
 
         try {
-            await addDoc(lettersRef, {
-                title, to, unlockDate, occasion, content,
-                from: currentUser,
-                createdAt: new Date().toISOString(),
-                unlocked: false,
-                unlockedBy: null,
-                unlockedAt: null
-            });
+            if (editingLetterId) {
+                // Update an existing letter — reset notify flag so it re-alerts at the new time
+                await updateDoc(doc(db, "futureletters", editingLetterId), {
+                    title, to, unlockDate, occasion, content, unlockNotified: false
+                });
+                editingLetterId = null;
+            } else {
+                await addDoc(lettersRef, {
+                    title, to, unlockDate, occasion, content,
+                    from: currentUser,
+                    createdAt: new Date().toISOString(),
+                    unlocked: false,
+                    unlockedBy: null,
+                    unlockedAt: null,
+                    unlockNotified: false
+                });
+                // Notify recipient (only on first creation)
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                const formattedDate = letterUnlockDate({ unlockDate }).toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
+                if (to !== currentUser) {
+                    await createNotification("letters", `${whoName} sealed a letter for you, opens ${formattedDate} 💌`, to, "letters");
+                }
+            }
             // Clear form
             document.getElementById("fl-title").value = "";
             document.getElementById("fl-occasion").value = "";
             document.getElementById("fl-content").value = "";
-            // Reset date to next month
-            const future = new Date();
-            future.setMonth(future.getMonth() + 1);
-            document.getElementById("fl-unlock-date").value = future.toISOString().substring(0, 10);
-
-            // Notify recipient
-            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            const formattedDate = new Date(unlockDate).toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
-            if (to !== currentUser) {
-                await createNotification("letters", `${whoName} sealed a letter for you, opens ${formattedDate} 💌`, to, "letters");
-            }
+            document.getElementById("fl-unlock-date").value = toLocalDatetimeValue(new Date());
         } catch (e) { alert("Error: " + e.message); }
 
         btn.disabled = false;
@@ -4990,15 +5002,37 @@ function renderQuizScores() {
         hideSync();
     };
 
+    // Load a letter back into the form for editing
+    window.editLetter = function(letterId) {
+        const letter = allLetters.find(l => l.id === letterId);
+        if (!letter) return;
+        editingLetterId = letterId;
+        document.getElementById("fl-title").value = letter.title || "";
+        document.getElementById("fl-to").value = letter.to || "yossr";
+        document.getElementById("fl-unlock-date").value = toLocalDatetimeValue(letterUnlockDate(letter));
+        document.getElementById("fl-occasion").value = letter.occasion || "";
+        document.getElementById("fl-content").value = letter.content || "";
+        document.getElementById("fl-send-btn").textContent = "✏️ Update Letter";
+        document.querySelector(".fl-compose-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    function letterUnlockDate(letter) {
+        const v = letter.unlockDate || "";
+        // Old letters stored a date only (+ optional separate unlockTime); new ones store a full datetime
+        if (v.length <= 10) return new Date(v + "T" + (letter.unlockTime || "00:00:00"));
+        return new Date(v);
+    }
+    function letterUnlockMs(letter) { return letterUnlockDate(letter).getTime(); }
+
     function isLetterUnlockableForUser(letter, user) {
         if (letter.to !== user) return false;
-        return Date.now() >= new Date(letter.unlockDate + "T00:00:00").getTime();
+        return Date.now() >= letterUnlockMs(letter);
     }
 
     function renderLetters() {
         const me = currentUser || "hamdi";
         const nowMs = Date.now();
-        const unlockMs = l => new Date(l.unlockDate + "T00:00:00").getTime();
+        const unlockMs = l => letterUnlockMs(l);
 
         // Locked: addressed to me, not yet unlock-date
         const locked = allLetters.filter(l => l.to === me && nowMs < unlockMs(l));
@@ -5031,7 +5065,7 @@ function renderQuizScores() {
 
     function buildLetterCardHTML(letter, mode) {
         const me = currentUser || "hamdi";
-        const isLocked = Date.now() < new Date(letter.unlockDate + "T00:00:00").getTime();
+        const isLocked = Date.now() < letterUnlockMs(letter);
         const canOpen = !isLocked && letter.to === me;
         const isOwn = letter.from === me;
 
@@ -5039,18 +5073,19 @@ function renderQuizScores() {
         const fromName = letter.from === "hamdi" ? "Hamdi" : "Yossr";
         const toLabel = letter.to === "hamdi" ? "👨 Hamdi" : "👩 Yossr";
 
-        const unlockDateFormatted = new Date(letter.unlockDate + "T00:00:00").toLocaleDateString("en-GB", {
+        const unlockDateFormatted = letterUnlockDate(letter).toLocaleDateString("en-GB", {
             weekday: "long", day: "2-digit", month: "long", year: "numeric"
-        });
+        }) + " · " + letterUnlockDate(letter).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
         const createdFormatted = letter.createdAt ? new Date(letter.createdAt).toLocaleDateString("en-GB", {
             day: "2-digit", month: "short", year: "numeric"
         }) : "";
 
-        const delBtn = isOwn ? `<button class="fl-letter-del" onclick="deleteLetter('${letter.id}')">🗑️</button>` : "";
+        const editBtn = isOwn ? `<button class="fl-letter-del" onclick="editLetter('${letter.id}')" title="Edit">✏️</button>` : "";
+        const delBtn = isOwn ? `<button class="fl-letter-del" onclick="deleteLetter('${letter.id}')" title="Delete">🗑️</button>` : "";
 
         // Locked view
         if (isLocked) {
-            const diff = new Date(letter.unlockDate + "T00:00:00") - Date.now();
+            const diff = letterUnlockMs(letter) - Date.now();
             const days = Math.floor(diff / 86400000);
             const hours = Math.floor((diff % 86400000) / 3600000);
             const mins = Math.floor((diff % 3600000) / 60000);
@@ -5060,7 +5095,7 @@ function renderQuizScores() {
             return `<div class="${cardClass}">
                 <div class="fl-letter-header">
                     <div class="fl-letter-title">${esc(letter.title)}</div>
-                    <div class="fl-letter-actions">${delBtn}</div>
+                    <div class="fl-letter-actions">${editBtn}${delBtn}</div>
                 </div>
                 <div class="fl-letter-meta">
                     <span class="fl-meta-tag">${fromIcon} From ${fromName}</span>
@@ -5089,7 +5124,7 @@ function renderQuizScores() {
             return `<div class="fl-letter-card unlocked-ready">
                 <div class="fl-letter-header">
                     <div class="fl-letter-title">${esc(letter.title)}</div>
-                    <div class="fl-letter-actions">${delBtn}</div>
+                    <div class="fl-letter-actions">${editBtn}${delBtn}</div>
                 </div>
                 <div class="fl-letter-meta">
                     <span class="fl-meta-tag">${fromIcon} From ${fromName}</span>
@@ -5114,7 +5149,7 @@ function renderQuizScores() {
         return `<div class="fl-letter-card">
             <div class="fl-letter-header">
                 <div class="fl-letter-title">${esc(letter.title)}</div>
-                <div class="fl-letter-actions">${delBtn}</div>
+                <div class="fl-letter-actions">${editBtn}${delBtn}</div>
             </div>
             <div class="fl-letter-meta">
                 <span class="fl-meta-tag">${fromIcon} From ${fromName}</span>
@@ -5178,6 +5213,45 @@ function renderQuizScores() {
             renderLetters();
         }
     }, 60000);
+
+    // ===== Letter unlock notifications =====
+    // Any open client (sender or recipient) fires the alert when a letter's time arrives.
+    // unlockNotified (in Firestore) prevents the other client from sending a duplicate.
+    const _letterNotifiedLocal = new Set();
+    async function checkLetterUnlocks() {
+        if (!allLetters.length) return;
+        const nowMs = Date.now();
+        for (const letter of allLetters) {
+            if (letter.unlocked || letter.unlockNotified) continue;
+            if (_letterNotifiedLocal.has(letter.id)) continue;
+            if (nowMs < letterUnlockMs(letter)) continue;
+            _letterNotifiedLocal.add(letter.id);
+            try {
+                await updateDoc(doc(db, "futureletters", letter.id), { unlockNotified: true });
+                // In-app notification for the recipient (works even if recipient === current user)
+                await addDoc(notificationsRef, {
+                    type: "letters",
+                    message: `📬 Your letter "${letter.title}" is ready to open! 💌`,
+                    targetUser: letter.to,
+                    page: "letters",
+                    createdBy: letter.from || "system",
+                    read: false,
+                    createdAt: new Date().toISOString()
+                });
+                // Phone push (FCM) — fires even if the recipient's app is closed
+                fetch(PUSH_ENDPOINT, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        targetUser: letter.to,
+                        message: `📬 You have a letter ready to open: "${letter.title}" 💌`
+                    })
+                }).catch(() => {});
+            } catch (e) { console.error("Letter unlock notify error:", e); }
+        }
+    }
+    setInterval(checkLetterUnlocks, 30000);
+    setTimeout(checkLetterUnlocks, 5000);
 
     /* ============================================================
        ===== GAMES SYSTEM =====
