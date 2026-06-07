@@ -1682,7 +1682,35 @@
             border-left: 4px solid #c0396b;
             margin-top: 12px;
             font-family: 'Lato', sans-serif;
+            overflow: hidden;
+            max-height: 2000px;
+            opacity: 1;
+            transition: max-height .45s ease, opacity .3s ease, padding .3s ease, margin .3s ease;
         }
+
+        .fl-letter-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-top: 0;
+            border-left-color: transparent;
+        }
+        .fl-readmore-btn {
+            background: rgba(192,57,107,.1);
+            color: #c0396b;
+            border: 1px solid rgba(192,57,107,.35);
+            border-radius: 20px;
+            padding: 7px 18px;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            letter-spacing: .5px;
+            transition: background .2s ease;
+        }
+        .fl-readmore-btn:hover { background: rgba(192,57,107,.2); }
+
         .fl-letter-footer {
             font-size: .76rem;
             color: #b07090;
@@ -5094,7 +5122,8 @@ function renderQuizScores() {
                 ${letter.occasion ? `<span class="fl-meta-tag">🎉 ${esc(letter.occasion)}</span>` : ""}
                 <span class="fl-meta-tag unlocked">✅ Unlocked</span>
             </div>
-            <div class="fl-letter-content">${esc(letter.content)}</div>
+            <div class="fl-letter-content collapsed" id="flc-${letter.id}">${esc(letter.content)}</div>
+            <button class="fl-readmore-btn" onclick="toggleLetterContent('${letter.id}', this)">📖 Read letter</button>
             <div class="fl-letter-footer">
                 ✍️ Written ${createdFormatted}
                 ${unlockedByName ? `· Opened by ${unlockedByName} on ${unlockedAtFormatted}` : ""}
@@ -5125,6 +5154,13 @@ function renderQuizScores() {
             }
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
+    };
+
+    window.toggleLetterContent = function(id, btn) {
+        const el = document.getElementById("flc-" + id);
+        if (!el) return;
+        const isCollapsed = el.classList.toggle("collapsed");
+        btn.textContent = isCollapsed ? "📖 Read letter" : "🔼 Hide letter";
     };
 
     window.deleteLetter = async function(letterId) {
