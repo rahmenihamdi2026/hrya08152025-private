@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v12"/>
+    <meta name="app-version" content="v13"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -85,6 +85,7 @@
         body[data-theme="lavender"] .fl-letter-title,
         body[data-theme="lavender"] .fl-compose-form h3,
         body[data-theme="lavender"] .notif-header h3,
+        body[data-theme="lavender"] .pin-modal h2,
         body[data-theme="lavender"] .place-add-modal h3,
         body[data-theme="lavender"] .identity-modal h2,
         body[data-theme="lavender"] .theme-modal h2,
@@ -163,6 +164,7 @@
         body[data-theme="peach"] .fl-letter-title,
         body[data-theme="peach"] .fl-compose-form h3,
         body[data-theme="peach"] .notif-header h3,
+        body[data-theme="peach"] .pin-modal h2,
         body[data-theme="peach"] .place-add-modal h3,
         body[data-theme="peach"] .identity-modal h2,
         body[data-theme="peach"] .theme-modal h2,
@@ -241,6 +243,7 @@
         body[data-theme="ocean"] .fl-letter-title,
         body[data-theme="ocean"] .fl-compose-form h3,
         body[data-theme="ocean"] .notif-header h3,
+        body[data-theme="ocean"] .pin-modal h2,
         body[data-theme="ocean"] .place-add-modal h3,
         body[data-theme="ocean"] .identity-modal h2,
         body[data-theme="ocean"] .theme-modal h2,
@@ -319,6 +322,7 @@
         body[data-theme="sunset"] .fl-letter-title,
         body[data-theme="sunset"] .fl-compose-form h3,
         body[data-theme="sunset"] .notif-header h3,
+        body[data-theme="sunset"] .pin-modal h2,
         body[data-theme="sunset"] .place-add-modal h3,
         body[data-theme="sunset"] .identity-modal h2,
         body[data-theme="sunset"] .theme-modal h2,
@@ -404,6 +408,7 @@
         body[data-theme="midnight"] .fl-compose-form,
         body[data-theme="midnight"] .fl-letter-card,
         body[data-theme="midnight"] .tl-content,
+        body[data-theme="midnight"] .pin-modal,
         body[data-theme="midnight"] .notif-dropdown,
         body[data-theme="midnight"] .place-hint,
         body[data-theme="midnight"] .discussion-info-banner {
@@ -433,6 +438,7 @@
         body[data-theme="midnight"] .fl-letter-title,
         body[data-theme="midnight"] .fl-compose-form h3,
         body[data-theme="midnight"] .notif-header h3,
+        body[data-theme="midnight"] .pin-modal h2,
         body[data-theme="midnight"] .tl-content .tl-ttl { color: #f48fb1 !important; }
         body[data-theme="midnight"] .msg-body,
         body[data-theme="midnight"] .quiz-q-text,
@@ -466,11 +472,65 @@
         body[data-theme="midnight"] .cl-badge { background: rgba(192, 57, 107, 0.18) !important; color: #ffd6e8 !important; }
         body[data-theme="midnight"] .notif-bell,
         body[data-theme="midnight"] .theme-picker-btn,
+        body[data-theme="midnight"] .lock-btn,
         body[data-theme="midnight"] .current-user-badge { background: rgba(45, 45, 74, 0.95) !important; border-color: rgba(192, 57, 107, 0.4) !important; color: #f48fb1 !important; }
         body[data-theme="midnight"] .notif-item { background: rgba(192, 57, 107, 0.12) !important; }
+        body[data-theme="midnight"] .pin-key { background: rgba(45, 45, 74, 0.9) !important; border-color: rgba(192, 57, 107, 0.4) !important; color: #f48fb1 !important; }
+        body[data-theme="midnight"] .sec-btn { background: rgba(45, 45, 74, 0.8) !important; border-color: rgba(192, 57, 107, 0.4) !important; color: #ffd6e8 !important; }
         body[data-theme="midnight"] .notif-item.unread { background: rgba(192, 57, 107, 0.25) !important; }
 
         /* Theme Picker Button */
+        /* ===== PIN LOCK ===== */
+        .pin-overlay {
+            position: fixed; inset: 0; z-index: 10001;
+            background: linear-gradient(160deg, rgba(90, 26, 53, .78), rgba(192, 57, 107, .58));
+            backdrop-filter: blur(18px);
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .pin-overlay.hidden { display: none; }
+        .pin-modal {
+            background: linear-gradient(160deg, #fff5f9, #ffe4f0);
+            border: 1px solid rgba(255, 182, 210, .6); border-radius: 28px;
+            padding: 30px 26px 24px; width: min(350px, 92vw); text-align: center;
+            box-shadow: 0 20px 60px rgba(192, 57, 107, .35); animation: fadeIn .35s ease;
+        }
+        .pin-emoji { font-size: 2.5rem; margin-bottom: 4px; }
+        .pin-modal h2 { font-family: 'Great Vibes', cursive; font-size: 2rem; color: #c0396b; margin-bottom: 4px; }
+        .pin-sub { font-size: .8rem; color: #a0556e; letter-spacing: 1px; margin-bottom: 18px; line-height: 1.5; }
+        .pin-dots { display: flex; justify-content: center; gap: 14px; margin-bottom: 8px; }
+        .pin-dot { width: 15px; height: 15px; border-radius: 50%; border: 2px solid rgba(192, 57, 107, .45); transition: all .2s; }
+        .pin-dot.filled { background: linear-gradient(135deg, #e07fa0, #c0396b); border-color: #c0396b; transform: scale(1.15); }
+        .pin-error { min-height: 20px; font-size: .76rem; color: #c0392b; letter-spacing: .5px; margin-bottom: 8px; }
+        .pin-error.ok { color: #2e7d32; }
+        .pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 4px auto 0; max-width: 250px; }
+        .pin-key {
+            background: rgba(255, 255, 255, .85); border: 1px solid rgba(255, 182, 210, .6);
+            border-radius: 50%; aspect-ratio: 1 / 1; font-size: 1.45rem; color: #9b1c4a;
+            font-family: 'Lato', sans-serif; cursor: pointer; transition: all .15s;
+            display: flex; align-items: center; justify-content: center; user-select: none;
+        }
+        .pin-key:hover { background: rgba(255, 210, 230, .7); }
+        .pin-key:active { transform: scale(.92); background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; }
+        .pin-key-back { font-size: 1.15rem; }
+        .pin-cancel-btn { margin-top: 15px; background: none; border: none; color: #b07090; font-size: .8rem; letter-spacing: 1px; cursor: pointer; font-family: 'Lato', sans-serif; }
+        .pin-cancel-btn:hover { color: #c0396b; }
+        .pin-shake { animation: pinShake .45s; }
+        @keyframes pinShake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(10px); } 60% { transform: translateX(-7px); } 80% { transform: translateX(7px); } }
+        /* Security modal */
+        .sec-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+        .sec-btn { padding: 12px 18px; border-radius: 14px; border: 1px solid rgba(255, 182, 210, .6); background: rgba(255, 255, 255, .75); color: #9b1c4a; font-size: .92rem; font-family: 'Lato', sans-serif; letter-spacing: .5px; cursor: pointer; transition: all .2s; }
+        .sec-btn:hover { background: rgba(255, 210, 230, .6); transform: translateY(-2px); }
+        .sec-note { font-size: .72rem; color: #b07090; margin-top: 14px; letter-spacing: .5px; line-height: 1.6; }
+        .lock-btn {
+            position: fixed; top: 80px; right: 140px; z-index: 250;
+            background: rgba(255, 255, 255, 0.95); border: 1.5px solid rgba(255, 182, 210, 0.6);
+            border-radius: 50%; width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.35rem; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 14px rgba(192, 57, 107, 0.15);
+        }
+        .lock-btn:hover { background: rgba(255, 210, 230, 0.6); transform: translateY(-2px); }
+
         .theme-picker-btn {
             position: fixed;
             top: 80px;
@@ -2606,9 +2666,14 @@
                 bottom: 20px !important;
                 right: 80px !important;
             }
-            #install-prompt {
+            .lock-btn {
+                top: auto !important;
                 bottom: 20px !important;
                 right: 140px !important;
+            }
+            #install-prompt {
+                bottom: 20px !important;
+                right: 200px !important;
             }
         }
         @media (max-width: 480px) {
@@ -2626,6 +2691,15 @@
                 bottom: 15px !important;
                 right: 70px !important;
             }
+            .lock-btn {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.15rem !important;
+                bottom: 15px !important;
+                right: 125px !important;
+            }
+            .pin-key { font-size: 1.3rem; }
+            .pin-keypad { max-width: 230px; gap: 10px; }
         }
         /* ===== FIX MOBILE - Theme & Notification buttons ===== */
         @media (max-width: 768px) {
@@ -2639,9 +2713,14 @@
                 bottom: 20px !important;
                 right: 80px !important;
             }
-            #install-prompt {
+            .lock-btn {
+                top: auto !important;
                 bottom: 20px !important;
                 right: 140px !important;
+            }
+            #install-prompt {
+                bottom: 20px !important;
+                right: 200px !important;
             }
         }
         @media (max-width: 480px) {
@@ -2659,6 +2738,15 @@
                 bottom: 15px !important;
                 right: 70px !important;
             }
+            .lock-btn {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.15rem !important;
+                bottom: 15px !important;
+                right: 125px !important;
+            }
+            .pin-key { font-size: 1.3rem; }
+            .pin-keypad { max-width: 230px; gap: 10px; }
         }
         /* ===== FIX MOBILE - Quiz options grid ===== */
         @media (max-width: 768px) {
@@ -2678,6 +2766,32 @@
     </style>
 </head>
 <body>
+<!-- ===== PIN LOCK (shown until the right PIN is entered) ===== -->
+<div class="pin-overlay" id="pin-overlay">
+    <div class="pin-modal" id="pin-modal">
+        <div class="pin-emoji" id="pin-emoji">🔒</div>
+        <h2 id="pin-title">Our Private World</h2>
+        <p class="pin-sub" id="pin-sub">Enter your PIN 💕</p>
+        <div class="pin-dots" id="pin-dots"></div>
+        <p class="pin-error" id="pin-error"></p>
+        <div class="pin-keypad" id="pin-keypad"></div>
+        <button class="pin-cancel-btn" id="pin-cancel-btn" onclick="cancelPinFlow()" style="display:none;">Cancel</button>
+    </div>
+</div>
+
+<!-- ===== SECURITY MODAL ===== -->
+<div class="theme-modal-overlay" id="security-modal-overlay">
+    <div class="theme-modal">
+        <h2>Security 🔐</h2>
+        <p>Keep our story private</p>
+        <div class="sec-actions">
+            <button class="sec-btn" onclick="startChangePin()">🔑 Change the PIN</button>
+            <button class="sec-btn" onclick="lockAppNow()">🔒 Lock the app now</button>
+        </div>
+        <p class="sec-note">The PIN is shared — changing it will ask every device to enter the new one 💕</p>
+    </div>
+</div>
+
 <!-- ===== PWA INSTALL BUTTON ===== -->
 <button id="install-prompt" onclick="installPWA()" style="display:none;position:fixed;bottom:20px;right:140px;z-index:250;background:linear-gradient(135deg,#e07fa0,#c0396b);color:#fff;border:none;border-radius:50px;padding:10px 18px;font-family:'Lato',sans-serif;font-size:0.85rem;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 14px rgba(192,57,107,0.3);animation:notifPulse 2s ease-in-out infinite;">📲 Install App</button>
 <div id="particles"></div>
@@ -2702,6 +2816,11 @@
 <!-- THEME PICKER BUTTON -->
 <div class="theme-picker-btn" onclick="openThemeModal()" title="Change theme">
     🎨
+</div>
+
+<!-- SECURITY BUTTON -->
+<div class="lock-btn" onclick="openSecurityModal()" title="Security &amp; PIN">
+    🔐
 </div>
 
 <!-- THEME MODAL -->
@@ -3366,6 +3485,18 @@
     });
     const db = getFirestore(app);
 
+    /* ===== ANONYMOUS SIGN-IN (needed by the Firestore security rules) =====
+       Works both with the old open rules and with the new ones.
+       Enable it first: Firebase console > Authentication > Anonymous. */
+    try {
+        const { getAuth, signInAnonymously } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js");
+        const auth = getAuth(app);
+        await Promise.race([
+            signInAnonymously(auth),
+            new Promise(r => setTimeout(r, 6000))   // never block the app forever
+        ]);
+    } catch (e) { console.warn("Anonymous sign-in unavailable:", e && (e.code || e.message)); }
+
     /* ===== PUSH (Vercel backend) ===== */
     const PUSH_ENDPOINT = "https://hamdi-yossr-push.vercel.app/api/send";
     const VAPID_PUBLIC_KEY = "BNY7bq9dpqUNBdI_bwBdBt8X5Kt5RIxzuDXbniSYqU7ctq-AELyC1Ur-dX9IMNbw5oNnTTZSnObuoqyxcu_PO8A";
@@ -3430,6 +3561,290 @@
         });
     }).catch(() => {});
     updateBadge();
+
+    /* ============================================================
+       ===== PIN LOCK (v13 — SHA-256 hash stored in Firestore) =====
+       Firestore: settings/security { pinHash, updatedAt, updatedBy }
+       ============================================================ */
+    const PIN_DOC = doc(db, "settings", "security");
+    const PIN_SALT = "hamdi-yossr-15082025";   // change it and every PIN must be re-created
+    const PIN_LEN = 4;
+    const PIN_UNLOCK_KEY = "hy-pin-unlock";
+    const PIN_UNLOCK_DAYS = 60;                // how long a device stays unlocked
+    const PIN_TRIES_KEY = "hy-pin-tries";
+    const PIN_UNTIL_KEY = "hy-pin-until";
+    const PIN_MAX_TRIES = 5;
+    const PIN_COOLDOWN_MS = 60000;
+
+    let pinMode = "unlock";        // unlock | setup | setup2 | current | new | new2
+    let pinBuffer = "";
+    let pinFirst = "";
+    let pinHashRemote = null;
+    let pinBusy = false;
+    let pinCooldownTimer = null;
+
+    async function sha256Hex(txt) {
+        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt));
+        return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+    function hashPin(pin) { return sha256Hex(PIN_SALT + "|" + pin); }
+
+    function pinEl(id) { return document.getElementById(id); }
+    function renderPinDots() {
+        const wrap = pinEl("pin-dots");
+        if (!wrap) return;
+        let html = "";
+        for (let i = 0; i < PIN_LEN; i++) html += `<span class="pin-dot${i < pinBuffer.length ? " filled" : ""}"></span>`;
+        wrap.innerHTML = html;
+    }
+    function pinError(msg, ok) {
+        const el = pinEl("pin-error");
+        if (!el) return;
+        el.textContent = msg || "";
+        el.classList.toggle("ok", !!ok);
+        if (msg && !ok) {
+            const modal = pinEl("pin-modal");
+            modal.classList.remove("pin-shake");
+            void modal.offsetWidth;
+            modal.classList.add("pin-shake");
+        }
+    }
+    function buildPinKeypad() {
+        const kp = pinEl("pin-keypad");
+        if (!kp) return;
+        const keys = ["1","2","3","4","5","6","7","8","9","","0","⌫"];
+        kp.innerHTML = keys.map(k => k === ""
+            ? "<span></span>"
+            : `<button class="pin-key${k === "⌫" ? " pin-key-back" : ""}" onclick="pinPress('${k}')">${k}</button>`
+        ).join("");
+    }
+
+    const PIN_SCREENS = {
+        unlock:  { emoji: "🔒", title: "Our Private World", sub: "Enter your PIN 💕", cancel: false },
+        setup:   { emoji: "✨", title: "Create a PIN",      sub: "Choose 4 digits to protect our story", cancel: false },
+        setup2:  { emoji: "🔁", title: "Confirm the PIN",   sub: "Type the same 4 digits again", cancel: false },
+        current: { emoji: "🔑", title: "Current PIN",       sub: "Enter your current PIN first", cancel: true },
+        new:     { emoji: "✨", title: "New PIN",           sub: "Choose the new 4 digits", cancel: true },
+        new2:    { emoji: "🔁", title: "Confirm New PIN",   sub: "Type the new PIN again", cancel: true }
+    };
+    function setPinMode(mode) {
+        pinMode = mode;
+        pinBuffer = "";
+        const s = PIN_SCREENS[mode] || PIN_SCREENS.unlock;
+        pinEl("pin-emoji").textContent = s.emoji;
+        pinEl("pin-title").textContent = s.title;
+        pinEl("pin-sub").textContent = s.sub;
+        pinEl("pin-cancel-btn").style.display = s.cancel ? "block" : "none";
+        pinEl("pin-keypad").style.display = "grid";
+        pinEl("pin-dots").style.display = "flex";
+        pinError("");
+        renderPinDots();
+    }
+    function showPinOverlay() {
+        pinEl("pin-overlay").classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+    }
+    function hidePinOverlay() {
+        pinEl("pin-overlay").classList.add("hidden");
+        document.body.style.overflow = "";
+    }
+    function pinFatal(msg) {
+        pinEl("pin-emoji").textContent = "😔";
+        pinEl("pin-title").textContent = "Can't unlock";
+        pinEl("pin-sub").textContent = msg;
+        pinEl("pin-keypad").style.display = "none";
+        pinEl("pin-dots").style.display = "none";
+        pinEl("pin-cancel-btn").style.display = "none";
+    }
+
+    /* --- device unlock token --- */
+    function readUnlockToken() {
+        try {
+            const o = JSON.parse(localStorage.getItem(PIN_UNLOCK_KEY) || "null");
+            if (!o || !o.t || !o.fp) return null;
+            if (Date.now() - o.t > PIN_UNLOCK_DAYS * 86400000) { localStorage.removeItem(PIN_UNLOCK_KEY); return null; }
+            return o;
+        } catch (e) { return null; }
+    }
+    function writeUnlockToken(hash) {
+        localStorage.setItem(PIN_UNLOCK_KEY, JSON.stringify({ t: Date.now(), fp: hash.slice(0, 12) }));
+    }
+
+    /* --- brute force cooldown --- */
+    function pinCooldownLeft() {
+        const until = Number(localStorage.getItem(PIN_UNTIL_KEY) || 0);
+        return until > Date.now() ? until - Date.now() : 0;
+    }
+    function startCooldownTicker() {
+        clearInterval(pinCooldownTimer);
+        pinCooldownTimer = setInterval(() => {
+            const left = pinCooldownLeft();
+            if (left <= 0) { clearInterval(pinCooldownTimer); pinError(""); return; }
+            pinError(`Too many attempts — wait ${Math.ceil(left / 1000)}s ⏳`);
+        }, 1000);
+        pinError(`Too many attempts — wait ${Math.ceil(pinCooldownLeft() / 1000)}s ⏳`);
+    }
+    function registerWrongTry() {
+        const tries = Number(localStorage.getItem(PIN_TRIES_KEY) || 0) + 1;
+        localStorage.setItem(PIN_TRIES_KEY, tries);
+        if (tries >= PIN_MAX_TRIES) {
+            localStorage.setItem(PIN_UNTIL_KEY, Date.now() + PIN_COOLDOWN_MS);
+            localStorage.setItem(PIN_TRIES_KEY, 0);
+            startCooldownTicker();
+            return true;
+        }
+        pinError(`Wrong PIN — ${PIN_MAX_TRIES - tries} attempt${PIN_MAX_TRIES - tries > 1 ? "s" : ""} left 💔`);
+        return false;
+    }
+    function clearTries() {
+        localStorage.setItem(PIN_TRIES_KEY, 0);
+        localStorage.removeItem(PIN_UNTIL_KEY);
+        clearInterval(pinCooldownTimer);
+    }
+
+    /* --- save a new PIN --- */
+    async function savePinHash(pin) {
+        const { setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+        const h = await hashPin(pin);
+        await setDoc(PIN_DOC, {
+            pinHash: h,
+            updatedAt: new Date().toISOString(),
+            updatedBy: currentUser || "unknown"
+        }, { merge: true });
+        pinHashRemote = h;
+        writeUnlockToken(h);
+        return h;
+    }
+
+    /* --- keypad --- */
+    window.pinPress = function(key) {
+        if (pinBusy) return;
+        if (pinCooldownLeft() > 0) { startCooldownTicker(); return; }
+        if (key === "⌫") pinBuffer = pinBuffer.slice(0, -1);
+        else if (pinBuffer.length < PIN_LEN) pinBuffer += key;
+        renderPinDots();
+        if (pinBuffer.length === PIN_LEN) setTimeout(submitPin, 150);
+    };
+
+    async function submitPin() {
+        if (pinBusy || pinBuffer.length !== PIN_LEN) return;
+        const pin = pinBuffer;
+        pinBusy = true;
+        try {
+            if (pinMode === "setup") {
+                pinFirst = pin; pinBusy = false; setPinMode("setup2"); return;
+            }
+            if (pinMode === "setup2") {
+                if (pin !== pinFirst) { pinBusy = false; setPinMode("setup"); pinError("The two PINs don't match — try again 💔"); return; }
+                pinEl("pin-sub").textContent = "Saving…";
+                await savePinHash(pin);
+                clearTries();
+                pinError("PIN created 💕", true);
+                setTimeout(hidePinOverlay, 600);
+                pinBusy = false; return;
+            }
+            if (pinMode === "unlock" || pinMode === "current") {
+                const h = await hashPin(pin);
+                if (h !== pinHashRemote) {
+                    pinBuffer = ""; renderPinDots(); registerWrongTry(); pinBusy = false; return;
+                }
+                clearTries();
+                if (pinMode === "current") { pinBusy = false; setPinMode("new"); return; }
+                writeUnlockToken(h);
+                pinError("Welcome back 💕", true);
+                setTimeout(hidePinOverlay, 400);
+                pinBusy = false; return;
+            }
+            if (pinMode === "new") {
+                pinFirst = pin; pinBusy = false; setPinMode("new2"); return;
+            }
+            if (pinMode === "new2") {
+                if (pin !== pinFirst) { pinBusy = false; setPinMode("new"); pinError("The two PINs don't match — try again 💔"); return; }
+                pinEl("pin-sub").textContent = "Saving…";
+                await savePinHash(pin);
+                clearTries();
+                pinError("PIN updated 💕", true);
+                setTimeout(hidePinOverlay, 700);
+                pinBusy = false; return;
+            }
+        } catch (e) {
+            pinBusy = false;
+            pinBuffer = ""; renderPinDots();
+            pinError("Error: " + (e && e.message ? e.message : e));
+        }
+    }
+
+    window.cancelPinFlow = function() {
+        pinBusy = false;
+        hidePinOverlay();
+        setPinMode("unlock");
+    };
+
+    /* --- security modal --- */
+    window.openSecurityModal = function() {
+        document.getElementById("security-modal-overlay").classList.add("open");
+    };
+    window.closeSecurityModal = function() {
+        document.getElementById("security-modal-overlay").classList.remove("open");
+    };
+    document.getElementById("security-modal-overlay").addEventListener("click", function(e) {
+        if (e.target === this) closeSecurityModal();
+    });
+    window.startChangePin = function() {
+        closeSecurityModal();
+        if (!pinHashRemote) { alert("No PIN is set yet 💕"); return; }
+        setPinMode("current");
+        showPinOverlay();
+    };
+    window.lockAppNow = function() {
+        closeSecurityModal();
+        localStorage.removeItem(PIN_UNLOCK_KEY);
+        setPinMode("unlock");
+        showPinOverlay();
+    };
+
+    /* --- physical keyboard --- */
+    document.addEventListener("keydown", function(e) {
+        const ov = document.getElementById("pin-overlay");
+        if (!ov || ov.classList.contains("hidden")) return;
+        if (e.key >= "0" && e.key <= "9") { e.preventDefault(); window.pinPress(e.key); }
+        else if (e.key === "Backspace") { e.preventDefault(); window.pinPress("⌫"); }
+    });
+
+    /* --- startup --- */
+    async function initPinLock() {
+        buildPinKeypad();
+        renderPinDots();
+        const token = readUnlockToken();
+        if (token) {
+            hidePinOverlay();
+            // background check: if the PIN changed elsewhere, ask again
+            try {
+                const snap = await getDoc(PIN_DOC);
+                const h = snap.exists() ? snap.data().pinHash : null;
+                pinHashRemote = h || null;
+                if (h && token.fp !== h.slice(0, 12)) {
+                    localStorage.removeItem(PIN_UNLOCK_KEY);
+                    setPinMode("unlock");
+                    showPinOverlay();
+                }
+            } catch (e) { /* offline: stay unlocked on this device */ }
+            return;
+        }
+        if (!window.crypto || !crypto.subtle) { pinFatal("This app must be opened over https 🔒"); return; }
+        try {
+            const snap = await getDoc(PIN_DOC);
+            pinHashRemote = snap.exists() ? (snap.data().pinHash || null) : null;
+        } catch (e) {
+            pinFatal("Connect to the internet once to unlock 💕");
+            return;
+        }
+        setPinMode(pinHashRemote ? "unlock" : "setup");
+        showPinOverlay();
+        if (pinCooldownLeft() > 0) startCooldownTicker();
+    }
+    document.body.style.overflow = "hidden";
+    initPinLock();
 
     /* ===== THEME SYSTEM ===== */
     const THEME_KEY = "hamdi-yossr-theme";
