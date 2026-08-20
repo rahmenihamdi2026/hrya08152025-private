@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v11"/>
+    <meta name="app-version" content="v12"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -900,14 +900,6 @@
         .stat-block .snum { font-size: 1.7rem; font-weight: 700; color: #9b1c4a; display: block; line-height: 1; }
         .stat-block .slbl { font-size: .62rem; color: #b05070; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; display: block; }
 
-        .quotes-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 20px 40px; }
-        .quotes-card {
-            background: rgba(255, 255, 255, .60); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 182, 210, .45); border-radius: 22px;
-            padding: 28px 36px; width: min(380px, 90vw);
-            box-shadow: 0 8px 28px rgba(192, 57, 107, .10);
-        }
-        .quotes-card h3 { font-family: 'Great Vibes', cursive; font-size: 1.6rem; color: #c0396b; text-align: center; margin-bottom: 16px; }
         .quote-item {
             direction: rtl; text-align: right; font-size: 1rem; color: #7a2545;
             line-height: 1.8; padding: 10px 14px; margin-bottom: 10px;
@@ -1067,10 +1059,30 @@
         .tl-item { display: flex; justify-content: flex-end; padding-right: calc(50% + 24px); margin-bottom: 28px; position: relative; }
         .tl-item:nth-child(even) { justify-content: flex-start; padding-right: 0; padding-left: calc(50% + 24px); }
         .tl-dot { position: absolute; left: 50%; top: 18px; width: 14px; height: 14px; background: #c0396b; border-radius: 50%; transform: translateX(-50%); border: 3px solid #fff; box-shadow: 0 0 0 3px rgba(192, 57, 107, .3); }
-        .tl-content { background: rgba(255, 255, 255, .8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 182, 210, .5); border-radius: 18px; padding: 16px 20px; max-width: 320px; box-shadow: 0 4px 16px rgba(192, 57, 107, .10); }
+        .tl-content { background: rgba(255, 255, 255, .8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 182, 210, .5); border-radius: 18px; padding: 16px 20px; max-width: 380px; box-shadow: 0 4px 16px rgba(192, 57, 107, .10); transition: box-shadow .25s, border-color .25s; }
         .tl-content .tl-date { font-size: .75rem; color: #e07fa0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
         .tl-content .tl-ttl { font-family: 'Great Vibes', cursive; font-size: 1.5rem; color: #c0396b; margin-bottom: 4px; }
         .tl-content .tl-desc { font-size: .88rem; color: #7a2545; line-height: 1.6; }
+        /* --- Timeline: unlockable words --- */
+        .tl-content.tl-clickable { cursor: pointer; }
+        .tl-content.tl-clickable:hover { border-color: rgba(192, 57, 107, .55); box-shadow: 0 8px 26px rgba(192, 57, 107, .20); }
+        .tl-content.open { border-color: rgba(192, 57, 107, .55); box-shadow: 0 8px 26px rgba(192, 57, 107, .18); }
+        .tl-quotes-hint {
+            display: inline-block; margin-top: 12px; padding: 6px 14px;
+            background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff;
+            border-radius: 50px; font-size: .76rem; letter-spacing: .5px;
+            box-shadow: 0 3px 10px rgba(192, 57, 107, .22);
+        }
+        .tl-locked-note {
+            margin-top: 12px; padding: 9px 14px; font-size: .76rem;
+            color: #a0556e; letter-spacing: .5px; text-align: center;
+            background: rgba(255, 182, 210, .22); border: 1px dashed rgba(192, 57, 107, .35);
+            border-radius: 12px; line-height: 1.5;
+        }
+        .tl-quotes { max-height: 0; overflow: hidden; opacity: 0; transition: max-height .5s ease, opacity .35s ease, margin-top .3s ease; }
+        .tl-content.open .tl-quotes { max-height: 1400px; opacity: 1; margin-top: 12px; }
+        .tl-quotes .quote-item { margin-bottom: 8px; font-size: .95rem; }
+        .tl-quotes .quote-item:last-child { margin-bottom: 0; }
         @media (max-width: 600px) {
             .timeline::before { left: 20px; }
             .tl-item, .tl-item:nth-child(even) { justify-content: flex-start; padding-right: 0; padding-left: 44px; }
@@ -2796,25 +2808,6 @@
             <p class="days-left" id="wed-days"></p>
         </div>
     </div>
-    <div class="quotes-section" id="quotes-section" style="display:none;">
-        <div class="quotes-card" id="quotes-eng" style="display:none;">
-            <h3>💍 Engagement</h3>
-            <div class="quote-item">ربي كتبك لي وإنت أغلى رزق من عندو</div>
-            <div class="quote-item">اليوم بش نرى برشة حاجات في عينيك</div>
-            <div class="quote-item">نحس روحي نحلم وغدوة الحلمة تولي حقيقة</div>
-            <div class="quote-item">يا رب بارك في يومنا واجمع بيننا في الخير</div>
-            <div class="quote-item">ديمة حمدلله Yossr</div>
-        </div>
-        <div class="quotes-card" id="quotes-wed" style="display:none;">
-            <h3>👰🤵 Wedding</h3>
-            <div class="quote-item">حاضر بش تكون بجنبي ديمة</div>
-            <div class="quote-item">كل يوم نحبك أكثر وأكثر أما اللحظة هذي أكثر ملي تعدى برشة، ربي جمعنا Yossr</div>
-            <div class="quote-item">ربي يجعلك قرة عين ويرزقنا كان الخير وبنوتة كيفك</div>
-            <div class="quote-item">طو باش نخلص الكريدي هههه حمدلله في حلال كما وعدنا بعضنا</div>
-            <div class="quote-item">ربي ينعم علينا بخير وبركة إنت من قبل امنة أما من لحظة هذي الامانة بجنبي ديمة وفي عينيا ديمة</div>
-            <div class="quote-item">غدوة نصلي بيك</div>
-        </div>
-    </div>
     <footer>Forever & Always 💕</footer>
 </div>
 
@@ -3639,15 +3632,98 @@
         if (id === 'quiz') renderQuizScores();
     };
 
-    /* ===== TIMELINE ===== */
+    /* ============================================================
+       ===== TIMELINE (v12 — our words unlock on the big day) =====
+       ============================================================ */
     const tlEvents = [
-        {date:"15 Aug 2025",title:"We Met 💕",desc:"The day our story began ✨",emoji:"🌹"},
-        {date:"11 Jul 2026",title:"Engagement 💍",desc:"The day Hamdi proposed to Yossr",emoji:"💍"},
-        {date:"20 May 2027",title:"Wedding Day 👰🤵",desc:"Forever begins here",emoji:"🎊"}
+        {
+            date: "15 Aug 2025", ts: "2025-08-15T00:00:00",
+            title: "We Met 💕", desc: "The day our story began ✨", emoji: "🌹",
+            quotes: []
+        },
+        {
+            date: "11 Jul 2026", ts: "2026-07-11T00:00:00",
+            title: "Engagement 💍", desc: "The day Hamdi proposed to Yossr", emoji: "💍",
+            quotes: [
+                "ربي كتبك لي وإنت أغلى رزق من عندو",
+                "اليوم بش نرى برشة حاجات في عينيك",
+                "نحس روحي نحلم وغدوة الحلمة تولي حقيقة",
+                "يا رب بارك في يومنا واجمع بيننا في الخير",
+                "ديمة حمدلله Yossr"
+            ]
+        },
+        {
+            date: "20 May 2027", ts: "2027-05-20T00:00:00",
+            title: "Wedding Day 👰🤵", desc: "Forever begins here", emoji: "🎊",
+            quotes: [
+                "حاضر بش تكون بجنبي ديمة",
+                "كل يوم نحبك أكثر وأكثر أما اللحظة هذي أكثر ملي تعدى برشة، ربي جمعنا Yossr",
+                "ربي يجعلك قرة عين ويرزقنا كان الخير وبنوتة كيفك",
+                "طو باش نخلص الكريدي هههه حمدلله في حلال كما وعدنا بعضنا",
+                "ربي ينعم علينا بخير وبركة إنت من قبل امنة أما من لحظة هذي الامانة بجنبي ديمة وفي عينيا ديمة",
+                "غدوة نصلي بيك"
+            ]
+        }
     ];
-    document.getElementById("timeline").innerHTML = tlEvents.map(e =>
-        `<div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="tl-date">${e.date}</div><div class="tl-ttl">${e.emoji} ${e.title}</div><div class="tl-desc">${e.desc}</div></div></div>`
-    ).join("");
+    const tlOpen = new Set();   // keeps cards open across re-renders
+
+    function tlIsUnlocked(e) { return Date.now() >= new Date(e.ts).getTime(); }
+
+    function renderTimeline() {
+        const wrap = document.getElementById("timeline");
+        if (!wrap) return;
+        wrap.innerHTML = tlEvents.map((e, i) => {
+            const hasQuotes = e.quotes && e.quotes.length > 0;
+            const unlocked = tlIsUnlocked(e);
+            let extra = "", cls = "tl-content", click = "";
+
+            if (hasQuotes && unlocked) {
+                const closedTxt = `💌 Tap to read our words (${e.quotes.length})`;
+                const openTxt = "🔼 Hide our words";
+                const isOpen = tlOpen.has(i);
+                cls += " tl-clickable" + (isOpen ? " open" : "");
+                click = ` onclick="toggleTimelineQuotes(${i})"`;
+                extra = `<div class="tl-quotes-hint" data-closed="${closedTxt}" data-open="${openTxt}">${isOpen ? openTxt : closedTxt}</div>
+                    <div class="tl-quotes">${e.quotes.map(q => `<div class="quote-item">${esc(q)}</div>`).join("")}</div>`;
+            } else if (hasQuotes) {
+                extra = `<div class="tl-locked-note" id="tl-lock-${i}">🔒 Our words unlock on ${e.date} 💕</div>`;
+            }
+
+            return `<div class="tl-item"><div class="tl-dot"></div>` +
+                `<div class="${cls}" id="tl-content-${i}"${click}>` +
+                `<div class="tl-date">${e.date}</div>` +
+                `<div class="tl-ttl">${e.emoji} ${e.title}</div>` +
+                `<div class="tl-desc">${e.desc}</div>${extra}</div></div>`;
+        }).join("");
+    }
+
+    window.toggleTimelineQuotes = function(i) {
+        const card = document.getElementById("tl-content-" + i);
+        if (!card) return;
+        const willOpen = !card.classList.contains("open");
+        card.classList.toggle("open", willOpen);
+        if (willOpen) tlOpen.add(i); else tlOpen.delete(i);
+        const hint = card.querySelector(".tl-quotes-hint");
+        if (hint) hint.textContent = willOpen ? hint.dataset.open : hint.dataset.closed;
+    };
+
+    // Live countdown on locked cards + auto-reveal the day it unlocks
+    function updateTimelineLocks() {
+        let needsRender = false;
+        tlEvents.forEach((e, i) => {
+            if (!e.quotes || !e.quotes.length) return;
+            const lockEl = document.getElementById("tl-lock-" + i);
+            if (!lockEl) return;
+            const ms = new Date(e.ts).getTime() - Date.now();
+            if (ms <= 0) { needsRender = true; return; }
+            const d = Math.ceil(ms / 86400000);
+            lockEl.textContent = `🔒 Our words unlock on ${e.date} · in ${d} day${d !== 1 ? "s" : ""} 💕`;
+        });
+        if (needsRender) renderTimeline();
+    }
+
+    renderTimeline();
+    updateTimelineLocks();
 
     /* ===== COUNTDOWNS ===== */
     const engTarget = new Date("2026-07-11T00:00:00");
@@ -3720,13 +3796,13 @@
         parts.push(dd+" day"+(dd!==1?"s":""));
         document.getElementById("rel-human").textContent="💕 "+parts.join(", ");
     }
+    let tickCount = 0;
     function tick() {
-        const e=renderCountdown(engTarget,"eng-countdown","eng-progress","eng-days",ENG_TOTAL);
-        const w=renderCountdown(wedTarget,"wed-countdown","wed-progress","wed-days",WED_TOTAL);
-        document.getElementById("quotes-eng").style.display=e?"block":"none";
-        document.getElementById("quotes-wed").style.display=w?"block":"none";
-        document.getElementById("quotes-section").style.display=(e||w)?"flex":"none";
+        renderCountdown(engTarget,"eng-countdown","eng-progress","eng-days",ENG_TOTAL);
+        renderCountdown(wedTarget,"wed-countdown","wed-progress","wed-days",WED_TOTAL);
         updateRelation(); tickCustom();
+        // refresh the locked timeline cards once a minute
+        if (tickCount++ % 60 === 0) updateTimelineLocks();
     }
     tick(); setInterval(tick,1000);
 
@@ -3906,7 +3982,7 @@
     window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});}catch(e){alert("Error: "+e.message);}hideSync();};
 
     /* ============================================================
-       ===== CHECKLIST (v11 — status select, edit, dates & budget) =====
+       ===== CHECKLIST (v12 — status select, edit, dates & budget) =====
        ============================================================ */
     const checklistRef = collection(db, "checklist");
     const CL_CURRENCY = "TND";                 // change here to switch currency
