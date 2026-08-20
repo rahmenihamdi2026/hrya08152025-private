@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v13"/>
+    <meta name="app-version" content="v14"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -2788,7 +2788,7 @@
             <button class="sec-btn" onclick="startChangePin()">🔑 Change the PIN</button>
             <button class="sec-btn" onclick="lockAppNow()">🔒 Lock the app now</button>
         </div>
-        <p class="sec-note">The PIN is shared — changing it will ask every device to enter the new one 💕</p>
+        <p class="sec-note">The PIN is asked every time the app opens 🔒<br>Changing it will ask every device for the new one 💕</p>
     </div>
 </div>
 
@@ -3563,14 +3563,16 @@
     updateBadge();
 
     /* ============================================================
-       ===== PIN LOCK (v13 — SHA-256 hash stored in Firestore) =====
+       ===== PIN LOCK (v14 — SHA-256 hash stored in Firestore) =====
        Firestore: settings/security { pinHash, updatedAt, updatedBy }
        ============================================================ */
     const PIN_DOC = doc(db, "settings", "security");
     const PIN_SALT = "hamdi-yossr-15082025";   // change it and every PIN must be re-created
     const PIN_LEN = 4;
     const PIN_UNLOCK_KEY = "hy-pin-unlock";
-    const PIN_UNLOCK_DAYS = 60;                // how long a device stays unlocked
+    const PIN_HASH_KEY = "hy-pin-hash";        // cached hash, so the PIN also works offline
+    const PIN_REMEMBER_DAYS = 0;               // 0 = ask the PIN every time the app opens
+                                               // put 30 here to remember a device for 30 days
     const PIN_TRIES_KEY = "hy-pin-tries";
     const PIN_UNTIL_KEY = "hy-pin-until";
     const PIN_MAX_TRIES = 5;
@@ -3657,17 +3659,28 @@
         pinEl("pin-cancel-btn").style.display = "none";
     }
 
-    /* --- device unlock token --- */
+    /* --- device unlock token ---
+       PIN_REMEMBER_DAYS = 0  -> sessionStorage: cleared as soon as the app is closed,
+                                 but kept on a simple page reload (so editing a memory
+                                 doesn't ask for the PIN again). */
+    function pinStore() { return PIN_REMEMBER_DAYS > 0 ? localStorage : sessionStorage; }
     function readUnlockToken() {
         try {
-            const o = JSON.parse(localStorage.getItem(PIN_UNLOCK_KEY) || "null");
+            const o = JSON.parse(pinStore().getItem(PIN_UNLOCK_KEY) || "null");
             if (!o || !o.t || !o.fp) return null;
-            if (Date.now() - o.t > PIN_UNLOCK_DAYS * 86400000) { localStorage.removeItem(PIN_UNLOCK_KEY); return null; }
+            if (PIN_REMEMBER_DAYS > 0 && Date.now() - o.t > PIN_REMEMBER_DAYS * 86400000) {
+                clearUnlockToken(); return null;
+            }
             return o;
         } catch (e) { return null; }
     }
     function writeUnlockToken(hash) {
-        localStorage.setItem(PIN_UNLOCK_KEY, JSON.stringify({ t: Date.now(), fp: hash.slice(0, 12) }));
+        try { pinStore().setItem(PIN_UNLOCK_KEY, JSON.stringify({ t: Date.now(), fp: hash.slice(0, 12) })); }
+        catch (e) { /* private mode */ }
+    }
+    function clearUnlockToken() {
+        try { sessionStorage.removeItem(PIN_UNLOCK_KEY); } catch (e) {}
+        try { localStorage.removeItem(PIN_UNLOCK_KEY); } catch (e) {}
     }
 
     /* --- brute force cooldown --- */
@@ -3712,6 +3725,7 @@
             updatedBy: currentUser || "unknown"
         }, { merge: true });
         pinHashRemote = h;
+        try { localStorage.setItem(PIN_HASH_KEY, h); } catch (e) {}
         writeUnlockToken(h);
         return h;
     }
@@ -3798,7 +3812,7 @@
     };
     window.lockAppNow = function() {
         closeSecurityModal();
-        localStorage.removeItem(PIN_UNLOCK_KEY);
+        clearUnlockToken();
         setPinMode("unlock");
         showPinOverlay();
     };
@@ -3823,21 +3837,24 @@
                 const snap = await getDoc(PIN_DOC);
                 const h = snap.exists() ? snap.data().pinHash : null;
                 pinHashRemote = h || null;
+                if (h) { try { localStorage.setItem(PIN_HASH_KEY, h); } catch (e2) {} }
                 if (h && token.fp !== h.slice(0, 12)) {
-                    localStorage.removeItem(PIN_UNLOCK_KEY);
+                    clearUnlockToken();
                     setPinMode("unlock");
                     showPinOverlay();
                 }
-            } catch (e) { /* offline: stay unlocked on this device */ }
+            } catch (e) { /* offline: stay unlocked for this session */ }
             return;
         }
         if (!window.crypto || !crypto.subtle) { pinFatal("This app must be opened over https 🔒"); return; }
         try {
             const snap = await getDoc(PIN_DOC);
             pinHashRemote = snap.exists() ? (snap.data().pinHash || null) : null;
+            if (pinHashRemote) { try { localStorage.setItem(PIN_HASH_KEY, pinHashRemote); } catch (e2) {} }
         } catch (e) {
-            pinFatal("Connect to the internet once to unlock 💕");
-            return;
+            // Offline: fall back to the hash cached on this device
+            try { pinHashRemote = localStorage.getItem(PIN_HASH_KEY); } catch (e2) { pinHashRemote = null; }
+            if (!pinHashRemote) { pinFatal("Connect to the internet once to unlock 💕"); return; }
         }
         setPinMode(pinHashRemote ? "unlock" : "setup");
         showPinOverlay();
