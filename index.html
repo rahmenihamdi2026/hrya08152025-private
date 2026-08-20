@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v14"/>
+    <meta name="app-version" content="v16"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -59,6 +59,8 @@
         body[data-theme="lavender"] .comment-send-btn,
         body[data-theme="lavender"] .place-save-btn,
         body[data-theme="lavender"] .quiz-open-submit-btn,
+        body[data-theme="lavender"] .book-btn,
+        body[data-theme="lavender"] .pdf-go-btn,
         body[data-theme="lavender"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #9b7fc4, #7b4fa5) !important;
             color: #fff !important;
@@ -138,6 +140,8 @@
         body[data-theme="peach"] .comment-send-btn,
         body[data-theme="peach"] .place-save-btn,
         body[data-theme="peach"] .quiz-open-submit-btn,
+        body[data-theme="peach"] .book-btn,
+        body[data-theme="peach"] .pdf-go-btn,
         body[data-theme="peach"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #d4a574, #c0784e) !important;
             color: #fff !important;
@@ -217,6 +221,8 @@
         body[data-theme="ocean"] .comment-send-btn,
         body[data-theme="ocean"] .place-save-btn,
         body[data-theme="ocean"] .quiz-open-submit-btn,
+        body[data-theme="ocean"] .book-btn,
+        body[data-theme="ocean"] .pdf-go-btn,
         body[data-theme="ocean"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #5a9bb8, #2d6e8c) !important;
             color: #fff !important;
@@ -296,6 +302,8 @@
         body[data-theme="sunset"] .comment-send-btn,
         body[data-theme="sunset"] .place-save-btn,
         body[data-theme="sunset"] .quiz-open-submit-btn,
+        body[data-theme="sunset"] .book-btn,
+        body[data-theme="sunset"] .pdf-go-btn,
         body[data-theme="sunset"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #ff8c5a, #d2691e) !important;
             color: #fff !important;
@@ -376,6 +384,8 @@
         body[data-theme="midnight"] .comment-send-btn,
         body[data-theme="midnight"] .place-save-btn,
         body[data-theme="midnight"] .quiz-open-submit-btn,
+        body[data-theme="midnight"] .book-btn,
+        body[data-theme="midnight"] .pdf-go-btn,
         body[data-theme="midnight"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #e07fa0, #c0396b) !important;
             color: #fff !important;
@@ -480,6 +490,100 @@
         body[data-theme="midnight"] .notif-item.unread { background: rgba(192, 57, 107, 0.25) !important; }
 
         /* Theme Picker Button */
+        /* ============================================================
+           ===== PDF MEMORY BOOK =====
+           Self-contained styles: no backdrop-filter, no CSS vars,
+           no theme overrides -> html2canvas renders them reliably.
+           ============================================================ */
+        #pdf-root { position: absolute; left: -12000px; top: 0; width: 794px; z-index: -1; }
+        .pdfp { width: 794px; height: 1123px; background: #fffafc; position: relative; overflow: hidden; font-family: 'Lato', sans-serif; color: #5a1a35; box-sizing: border-box; }
+        .pdfp-edge { position: absolute; left: 0; top: 0; bottom: 0; width: 12px; background: linear-gradient(180deg, #f9b8d0, #c0396b); }
+        .pdfp-body { position: absolute; left: 52px; top: 44px; width: 700px; height: 1005px; overflow: hidden; }
+        .pdfp-foot { position: absolute; left: 52px; right: 40px; bottom: 22px; display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #c090a8; letter-spacing: 1.4px; border-top: 1px solid #f4d6e3; padding-top: 8px; }
+        /* --- cover --- */
+        .pdfp-cover { background: linear-gradient(160deg, #fff2f7 0%, #ffe0ee 45%, #ffcbe2 100%); }
+        .pdfb-cover { text-align: center; padding-top: 120px; }
+        .pdfb-cover-ring { font-size: 62px; margin-bottom: 6px; }
+        .pdfb-cover h1 { font-family: 'Great Vibes', cursive; font-size: 78px; color: #c0396b; line-height: 1.15; font-weight: 400; }
+        .pdfb-cover-sub { font-size: 15px; letter-spacing: 8px; text-transform: uppercase; color: #b05070; margin-top: 10px; }
+        .pdfb-cover-rule { width: 180px; height: 2px; background: linear-gradient(90deg, transparent, #c0396b, transparent); margin: 26px auto; }
+        .pdfb-cover-since { font-family: 'Great Vibes', cursive; font-size: 34px; color: #9b1c4a; margin-bottom: 4px; }
+        .pdfb-cover-date { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #b05070; }
+        .pdfb-cover-stats { display: flex; justify-content: center; gap: 14px; margin-top: 44px; flex-wrap: wrap; }
+        .pdfb-cs { background: rgba(255,255,255,.72); border: 1px solid rgba(192,57,107,.18); border-radius: 18px; padding: 14px 18px 11px; min-width: 104px; }
+        .pdfb-cs-n { display: block; font-size: 27px; font-weight: 700; color: #9b1c4a; line-height: 1; }
+        .pdfb-cs-l { display: block; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #b05070; margin-top: 6px; }
+        .pdfb-cover-hearts { font-size: 20px; letter-spacing: 8px; color: #e07fa0; margin-top: 46px; }
+        .pdfb-cover-foot { position: absolute; left: 0; right: 0; bottom: 54px; text-align: center; font-size: 11px; color: #b07090; letter-spacing: 2px; }
+        /* --- section headers --- */
+        .pdfb-sec { display: flex; align-items: center; gap: 16px; padding: 16px 20px; margin-bottom: 22px; background: linear-gradient(135deg, #ffd9e8, #ffc2da); border-radius: 18px; border-left: 6px solid #c0396b; }
+        .pdfb-sec-emoji { font-size: 34px; line-height: 1; }
+        .pdfb-sec-title { font-family: 'Great Vibes', cursive; font-size: 36px; color: #9b1c4a; line-height: 1.1; }
+        .pdfb-sec-sub { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #b05070; margin-top: 2px; }
+        .pdfb-run { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #c090a8; border-bottom: 1px solid #f4d6e3; padding-bottom: 8px; margin-bottom: 18px; }
+        .pdfb-run span { opacity: .7; }
+        /* --- generic card --- */
+        .pdfb-card { background: #fff; border: 1px solid #f6d7e4; border-left: 4px solid #e07fa0; border-radius: 14px; padding: 14px 18px; margin-bottom: 13px; }
+        .pdfb-card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 7px; }
+        .pdfb-tag { font-size: 10px; letter-spacing: 1px; background: #ffe4f0; color: #9b1c4a; border-radius: 40px; padding: 3px 10px; white-space: nowrap; }
+        .pdfb-tag-alt { background: #f3e6ff; color: #5a2080; }
+        .pdfb-tag-gold { background: #fff0cc; color: #8a6520; }
+        .pdfb-date { font-size: 10px; color: #b07090; letter-spacing: 1.2px; white-space: nowrap; }
+        .pdfb-title { font-size: 16px; font-weight: 700; color: #9b1c4a; margin-bottom: 7px; line-height: 1.35; }
+        .pdfb-text { font-size: 12.5px; line-height: 1.75; color: #5a1a35; white-space: pre-wrap; word-break: break-word; }
+        .pdfb-muted { font-size: 11px; color: #b07090; letter-spacing: .6px; margin-top: 7px; }
+        .pdfb-photo { display: block; max-width: 450px; max-height: 270px; width: auto; height: auto; margin: 11px auto; border-radius: 12px; background: #fdf2f7; border: 1px solid #f6d7e4; }
+        .pdfb-react { margin-top: 9px; font-size: 13px; }
+        .pdfb-react span { background: #ffeef5; border-radius: 40px; padding: 3px 10px; margin-right: 6px; }
+        .pdfb-comments { margin-top: 10px; border-top: 1px dashed #f2cddd; padding-top: 9px; }
+        .pdfb-comment { font-size: 11.5px; line-height: 1.6; color: #6a2040; margin-bottom: 5px; }
+        .pdfb-comment b { color: #c0396b; }
+        .pdfb-comment i { color: #c090a8; font-style: normal; font-size: 10px; margin-left: 5px; }
+        .pdfb-quote { direction: rtl; text-align: right; font-size: 14px; color: #7a2545; line-height: 1.95; padding: 9px 14px; margin-top: 8px; background: #fff0f6; border-radius: 12px; border-right: 3px solid #e07fa0; }
+        /* --- gallery grid --- */
+        .pdfb-album { font-family: 'Great Vibes', cursive; font-size: 26px; color: #c0396b; margin: 6px 0 12px; border-bottom: 1px solid #f4d6e3; padding-bottom: 6px; }
+        .pdfb-row { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+        .pdfb-gitem { width: 343px; background: #fff; border: 1px solid #f6d7e4; border-radius: 14px; padding: 8px; }
+        .pdfb-gitem img { display: block; max-width: 100%; max-height: 250px; width: auto; height: auto; margin: 0 auto; border-radius: 10px; background: #fdf2f7; }
+        .pdfb-cap { font-size: 11px; color: #7a2545; margin-top: 7px; line-height: 1.45; min-height: 15px; }
+        .pdfb-cap span { color: #c090a8; }
+        /* --- table (checklist) --- */
+        .pdfb-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+        .pdfb-table th { background: #ffe4f0; color: #9b1c4a; font-size: 10px; letter-spacing: 1.4px; text-transform: uppercase; padding: 8px 10px; text-align: left; }
+        .pdfb-table td { font-size: 11.5px; color: #5a1a35; padding: 8px 10px; border-bottom: 1px solid #f6e2ec; vertical-align: top; }
+        .pdfb-table tr:nth-child(even) td { background: #fffafc; }
+        .pdfb-money { color: #8a6520; font-weight: 700; white-space: nowrap; }
+        /* --- stats --- */
+        .pdfb-stats { display: flex; flex-wrap: wrap; gap: 12px; }
+        .pdfb-stat { width: 160px; background: linear-gradient(145deg, #ffdcea, #ffc0da); border-radius: 16px; padding: 15px 14px 12px; text-align: center; }
+        .pdfb-stat-n { display: block; font-size: 25px; font-weight: 700; color: #9b1c4a; line-height: 1; }
+        .pdfb-stat-l { display: block; font-size: 9.5px; letter-spacing: 1.6px; text-transform: uppercase; color: #b05070; margin-top: 6px; }
+        .pdfb-end { text-align: center; padding-top: 250px; }
+        .pdfb-end h2 { font-family: 'Great Vibes', cursive; font-size: 58px; color: #c0396b; font-weight: 400; }
+        .pdfb-end p { font-size: 13px; color: #a0556e; letter-spacing: 2px; margin-top: 14px; line-height: 2; }
+        .pdfb-empty { font-size: 12px; color: #c090a8; letter-spacing: 1px; padding: 14px 2px; }
+
+        /* ===== Memory book card (Home) + export modal ===== */
+        .book-btn { margin-top: 14px; padding: 11px 24px; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border: none; border-radius: 50px; font-size: .9rem; font-family: 'Lato', sans-serif; letter-spacing: 1px; cursor: pointer; transition: all .25s; box-shadow: 0 4px 14px rgba(192, 57, 107, .22); }
+        .book-btn:hover { opacity: .9; transform: translateY(-2px); }
+        .pdf-modal { width: min(430px, 92vw) !important; max-height: 88vh; overflow-y: auto; }
+        .pdf-check-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; text-align: left; margin: 4px 0 14px; }
+        .pdf-check { display: flex; align-items: center; gap: 7px; font-size: .8rem; color: #7a2545; cursor: pointer; padding: 5px 7px; border-radius: 10px; transition: background .2s; }
+        .pdf-check:hover { background: rgba(255, 210, 230, .4); }
+        .pdf-check input { width: 15px; height: 15px; accent-color: #c0396b; cursor: pointer; flex: none; }
+        .pdf-fields { display: flex; gap: 8px; flex-wrap: wrap; text-align: left; margin-bottom: 12px; }
+        .pdf-field { flex: 1; min-width: 118px; display: flex; flex-direction: column; gap: 3px; }
+        .pdf-field label { font-size: .64rem; text-transform: uppercase; letter-spacing: 1px; color: #b07090; }
+        .pdf-field input, .pdf-field select { width: 100%; padding: 7px 9px; border: 1px solid rgba(255, 182, 210, .7); border-radius: 10px; background: rgba(255, 240, 248, .85); color: #7a2545; font-size: .82rem; font-family: 'Lato', sans-serif; outline: none; }
+        .pdf-go-btn { width: 100%; padding: 12px 18px; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border: none; border-radius: 14px; font-size: .95rem; font-family: 'Lato', sans-serif; letter-spacing: 1px; cursor: pointer; transition: opacity .2s; }
+        .pdf-go-btn:hover { opacity: .88; }
+        .pdf-go-btn:disabled { opacity: .55; cursor: not-allowed; }
+        .pdf-progress { margin-top: 14px; }
+        .pdf-bar-wrap { background: rgba(255, 182, 210, .35); border-radius: 50px; height: 8px; overflow: hidden; }
+        .pdf-bar { height: 100%; width: 0%; border-radius: 50px; background: linear-gradient(90deg, #f48fb1, #c0396b); transition: width .3s ease; }
+        .pdf-status { font-size: .76rem; color: #a0556e; letter-spacing: .8px; margin-top: 8px; line-height: 1.5; }
+        .pdf-hint { font-size: .68rem; color: #b07090; letter-spacing: .5px; margin-top: 12px; line-height: 1.6; }
+
         /* ===== PIN LOCK ===== */
         .pin-overlay {
             position: fixed; inset: 0; z-index: 10001;
@@ -2779,6 +2883,40 @@
     </div>
 </div>
 
+<!-- ===== PDF EXPORT MODAL ===== -->
+<div class="theme-modal-overlay" id="export-modal-overlay">
+    <div class="theme-modal pdf-modal">
+        <h2>Our Memory Book 📖</h2>
+        <p>Pick what goes into the PDF</p>
+        <div class="pdf-check-list">
+            <label class="pdf-check"><input type="checkbox" id="pdfc-story" checked/><span>👩‍❤️‍👨 Our Story</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-memories" checked/><span>💌 Memories</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-gallery" checked/><span>📸 Gallery</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-places" checked/><span>🗺️ Our Places</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-letters" checked/><span>✉️ Letters</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-quiz" checked/><span>❓ Quiz</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-scratch" checked/><span>🎴 Scratch Cards</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-special"/><span>🗓️ Special Dates</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-checklist"/><span>✅ Checklist</span></label>
+            <label class="pdf-check"><input type="checkbox" id="pdfc-stats" checked/><span>🏆 Our Numbers</span></label>
+        </div>
+        <div class="pdf-fields">
+            <div class="pdf-field"><label>From (optional)</label><input type="date" id="pdf-from"/></div>
+            <div class="pdf-field"><label>To (optional)</label><input type="date" id="pdf-to"/></div>
+        </div>
+        <div class="pdf-fields">
+            <div class="pdf-field"><label>Album</label><select id="pdf-album"><option value="all">All albums</option></select></div>
+            <div class="pdf-field"><label>Photos</label><select id="pdf-photos"><option value="1">Include photos</option><option value="0">Text only (light)</option></select></div>
+        </div>
+        <button class="pdf-go-btn" id="pdf-go-btn" onclick="generateMemoryBook()">📖 Create the PDF</button>
+        <div class="pdf-progress" id="pdf-progress" style="display:none;">
+            <div class="pdf-bar-wrap"><div class="pdf-bar" id="pdf-bar"></div></div>
+            <div class="pdf-status" id="pdf-status"></div>
+        </div>
+        <p class="pdf-hint">💡 With many photos this takes a minute or two — a computer handles it better than a phone. Keep this tab open until the file is downloaded.</p>
+    </div>
+</div>
+
 <!-- ===== SECURITY MODAL ===== -->
 <div class="theme-modal-overlay" id="security-modal-overlay">
     <div class="theme-modal">
@@ -2925,6 +3063,12 @@
             <div class="countdown" id="wed-countdown"></div>
             <div class="progress-wrap"><div class="progress-bar" id="wed-progress"></div></div>
             <p class="days-left" id="wed-days"></p>
+        </div>
+        <div class="card">
+            <div class="icon">📖</div>
+            <h2>Our Memory Book</h2>
+            <p class="event-date">Everything we saved, in one PDF</p>
+            <button class="book-btn" onclick="openExportModal()">📖 Create our book</button>
         </div>
     </div>
     <footer>Forever & Always 💕</footer>
@@ -4303,7 +4447,9 @@
 
     /* ===== MEMORIES ===== */
     const memoriesRef=collection(db,"memories");
+    let allMemories=[];
     onSnapshot(query(memoriesRef,orderBy("date","desc")),snapshot=>{
+        allMemories=snapshot.docs.map(d=>({id:d.id,...d.data()}));
         const container=document.getElementById("messages-list");
         if(snapshot.empty){container.innerHTML='<p class="no-messages">No memories saved yet… write your first one 💕</p>';return;}
         container.innerHTML=snapshot.docs.map(docSnap=>{
@@ -6789,6 +6935,526 @@ function renderQuizScores() {
             </div>`;
         }).join("");
     }
+
+    /* ============================================================
+       ===== PDF MEMORY BOOK (v16) =====
+       Builds an A4 book off-screen, snapshots every page with
+       html2canvas (so Arabic renders perfectly) and assembles
+       the PDF with jsPDF. Always built from the live data.
+       ============================================================ */
+    const PDF_JSPDF_URL = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    const PDF_H2C_URL = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+    const BOOK_W = 794, BOOK_H = 1123;
+
+    let bookRoot = null, bookPages = [], bookBody = null, bookSection = null, bookBusy = false;
+
+    function pdfLoadScript(src) {
+        return new Promise((resolve, reject) => {
+            if (document.querySelector('script[data-lib="' + src + '"]')) return resolve();
+            const s = document.createElement("script");
+            s.src = src;
+            s.setAttribute("data-lib", src);
+            s.onload = () => resolve();
+            s.onerror = () => reject(new Error("Could not load a library — check your connection"));
+            document.head.appendChild(s);
+        });
+    }
+    const pdfSleep = ms => new Promise(r => setTimeout(r, ms));
+
+    /* ---------- tiny helpers ---------- */
+    function pdfWho(u) { return u === "yossr" ? "👩 Yossr" : "👨 Hamdi"; }
+    function pdfDay(v) {
+        if (!v) return "";
+        const d = String(v).length <= 10 ? new Date(v + "T00:00:00") : new Date(v);
+        if (isNaN(d.getTime())) return String(v);
+        return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    }
+    function pdfDayLong(d) { return d.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" }); }
+    function pdfKey(v) { return v ? String(v).slice(0, 10) : ""; }
+    function pdfInRange(dateStr, from, to) {
+        const k = pdfKey(dateStr);
+        if (!k) return true;
+        if (from && k < from) return false;
+        if (to && k > to) return false;
+        return true;
+    }
+
+    /* ---------- page builder ---------- */
+    function bookInit() {
+        bookRoot = document.createElement("div");
+        bookRoot.id = "pdf-root";
+        document.body.appendChild(bookRoot);
+        bookPages = [];
+        bookSection = null;
+    }
+    function bookNewPage(cover) {
+        const p = document.createElement("div");
+        p.className = "pdfp" + (cover ? " pdfp-cover" : "");
+        p.innerHTML = '<div class="pdfp-edge"></div><div class="pdfp-body"></div>';
+        bookRoot.appendChild(p);
+        bookPages.push(p);
+        bookBody = p.querySelector(".pdfp-body");
+        return p;
+    }
+    function bookRunHead() {
+        if (!bookSection) return;
+        const h = document.createElement("div");
+        h.className = "pdfb-run";
+        h.innerHTML = bookSection.emoji + " " + esc(bookSection.title) + " <span>(continued)</span>";
+        bookBody.appendChild(h);
+    }
+    function bookSectionStart(emoji, title, sub) {
+        bookSection = { emoji, title };
+        bookNewPage();
+        const h = document.createElement("div");
+        h.className = "pdfb-sec";
+        h.innerHTML = '<span class="pdfb-sec-emoji">' + emoji + '</span><div><div class="pdfb-sec-title">' +
+            esc(title) + '</div><div class="pdfb-sec-sub">' + esc(sub || "") + '</div></div>';
+        bookBody.appendChild(h);
+    }
+    function bookAdd(html) {
+        const holder = document.createElement("div");
+        holder.innerHTML = String(html).trim();
+        const node = holder.firstElementChild;
+        if (!node) return;
+        bookBody.appendChild(node);
+        if (bookBody.scrollHeight > bookBody.clientHeight) {
+            bookBody.removeChild(node);
+            bookNewPage();
+            bookRunHead();
+            bookBody.appendChild(node);   // even if taller than a page, it stays here
+        }
+    }
+    function bookFooters(created) {
+        const total = bookPages.length;
+        bookPages.forEach((p, i) => {
+            if (i === 0) return;   // no footer on the cover
+            const f = document.createElement("div");
+            f.className = "pdfp-foot";
+            f.innerHTML = '<span>Hamdi &amp; Yossr 💍 · ' + esc(created) + '</span><span>' + (i + 1) + ' / ' + total + '</span>';
+            p.appendChild(f);
+        });
+    }
+
+    /* ---------- content blocks ---------- */
+    function pdfCoverHTML(stats, created, opts) {
+        const range = (opts.from || opts.to)
+            ? "Period: " + (opts.from ? pdfDay(opts.from) : "the beginning") + " → " + (opts.to ? pdfDay(opts.to) : "today")
+            : "Every moment, from day one";
+        return '<div class="pdfb-cover">' +
+            '<div class="pdfb-cover-ring">💍</div>' +
+            '<h1>Hamdi &amp; Yossr</h1>' +
+            '<div class="pdfb-cover-sub">Our Memory Book</div>' +
+            '<div class="pdfb-cover-rule"></div>' +
+            '<div class="pdfb-cover-since">Together since</div>' +
+            '<div class="pdfb-cover-date">15 August 2025</div>' +
+            '<div class="pdfb-cover-stats">' +
+                '<div class="pdfb-cs"><span class="pdfb-cs-n">' + stats.days + '</span><span class="pdfb-cs-l">Days</span></div>' +
+                '<div class="pdfb-cs"><span class="pdfb-cs-n">' + stats.memories + '</span><span class="pdfb-cs-l">Memories</span></div>' +
+                '<div class="pdfb-cs"><span class="pdfb-cs-n">' + stats.photos + '</span><span class="pdfb-cs-l">Photos</span></div>' +
+                '<div class="pdfb-cs"><span class="pdfb-cs-n">' + stats.places + '</span><span class="pdfb-cs-l">Places</span></div>' +
+            '</div>' +
+            '<div class="pdfb-cover-hearts">🌸 ❤️ 🌸</div>' +
+            '<div class="pdfb-cover-foot">' + esc(range) + ' · Created on ' + esc(created) + '</div>' +
+            '</div>';
+    }
+    function pdfStoryHTML(e, unlocked) {
+        let quotes = "";
+        if (unlocked && e.quotes && e.quotes.length) {
+            quotes = e.quotes.map(q => '<div class="pdfb-quote">' + esc(q) + '</div>').join("");
+        } else if (e.quotes && e.quotes.length) {
+            quotes = '<div class="pdfb-muted">🔒 Our words for this day are still sealed until ' + esc(e.date) + '</div>';
+        }
+        return '<div class="pdfb-card">' +
+            '<div class="pdfb-card-top"><span class="pdfb-tag">' + e.emoji + '</span><span class="pdfb-date">' + esc(e.date) + '</span></div>' +
+            '<div class="pdfb-title">' + esc(e.title) + '</div>' +
+            '<div class="pdfb-text">' + esc(e.desc) + '</div>' + quotes +
+            '</div>';
+    }
+    function pdfMemoryHTML(m, withPhotos) {
+        const reactions = m.reactions || {};
+        let react = "";
+        if (reactions.hamdi) react += '<span>' + reactions.hamdi + ' 👨</span>';
+        if (reactions.yossr) react += '<span>' + reactions.yossr + ' 👩</span>';
+        const comments = (m.comments || []).map(c =>
+            '<div class="pdfb-comment"><b>' + pdfWho(c.author) + '</b> ' + esc(c.text) +
+            (c.time ? '<i>' + esc(c.time) + '</i>' : '') + '</div>').join("");
+        const photo = (withPhotos && m.image) ? '<img class="pdfb-photo" src="' + m.image + '" alt=""/>' : "";
+        return '<div class="pdfb-card">' +
+            '<div class="pdfb-card-top"><span class="pdfb-tag">' + pdfWho(m.createdBy) + '</span>' +
+            '<span class="pdfb-date">📅 ' + esc(pdfDay(m.date || m.savedAt)) + '</span></div>' +
+            (m.label ? '<div class="pdfb-title">' + esc(m.label) + '</div>' : '') +
+            photo +
+            (m.text ? '<div class="pdfb-text">' + esc(m.text) + '</div>' : '') +
+            (react ? '<div class="pdfb-react">' + react + '</div>' : '') +
+            (comments ? '<div class="pdfb-comments">' + comments + '</div>' : '') +
+            '</div>';
+    }
+    function pdfPhotoRowHTML(pair, withPhotos) {
+        const cells = pair.map(p => {
+            const img = withPhotos
+                ? '<img src="' + p.image + '" alt=""/>'
+                : '<div style="height:228px;background:#fdf2f7;border-radius:10px;"></div>';
+            return '<div class="pdfb-gitem">' + img +
+                '<div class="pdfb-cap">' + (p.caption ? esc(p.caption) : '<span>No caption</span>') +
+                ' <span>· ' + esc(pdfWho(p.addedBy)) + '</span></div></div>';
+        }).join("");
+        return '<div class="pdfb-row">' + cells + '</div>';
+    }
+    function pdfPlaceHTML(p) {
+        return '<div class="pdfb-card">' +
+            '<div class="pdfb-card-top"><span class="pdfb-tag">' + (p.emoji || "📍") + ' ' + esc(p.name) + '</span>' +
+            '<span class="pdfb-date">' + esc(pdfWho(p.addedBy)) + '</span></div>' +
+            (p.desc ? '<div class="pdfb-text">' + esc(p.desc) + '</div>' : '') +
+            '<div class="pdfb-muted">📍 ' + Number(p.lat).toFixed(4) + ', ' + Number(p.lng).toFixed(4) +
+            (p.addedAt ? ' · added ' + esc(pdfDay(p.addedAt)) : '') + '</div>' +
+            '</div>';
+    }
+    function pdfLetterHTML(l) {
+        return '<div class="pdfb-card">' +
+            '<div class="pdfb-card-top"><span class="pdfb-tag">' + pdfWho(l.from) + ' → ' + pdfWho(l.to) + '</span>' +
+            '<span class="pdfb-date">🔓 ' + esc(pdfDay(l.unlockDate)) + '</span></div>' +
+            '<div class="pdfb-title">' + esc(l.title || "Letter") + '</div>' +
+            (l.occasion ? '<div class="pdfb-muted">🎉 ' + esc(l.occasion) + '</div>' : '') +
+            '<div class="pdfb-text" style="margin-top:8px;">' + esc(l.content || "") + '</div>' +
+            '<div class="pdfb-muted">✍️ Written ' + esc(pdfDay(l.createdAt)) + '</div>' +
+            '</div>';
+    }
+    function pdfQuizHTML(q) {
+        const isOpen = q.type === "open";
+        const answers = q.answers || {};
+        let body = "";
+        if (isOpen) {
+            ["hamdi", "yossr"].forEach(u => {
+                if (answers[u] && (answers[u].text || answers[u].answer)) {
+                    body += '<div class="pdfb-comment"><b>' + pdfWho(u) + '</b> ' + esc(answers[u].text || answers[u].answer) + '</div>';
+                }
+            });
+            if (!body) body = '<div class="pdfb-muted">Not answered yet</div>';
+        } else {
+            const opts = q.options || {};
+            body = ["a", "b", "c", "d"].filter(l => opts[l]).map(l => {
+                const good = l === q.correct;
+                return '<div class="pdfb-comment"' + (good ? ' style="color:#2e7d32;font-weight:700;"' : '') + '>' +
+                    l.toUpperCase() + '. ' + esc(opts[l]) + (good ? ' ✅' : '') + '</div>';
+            }).join("");
+            ["hamdi", "yossr"].forEach(u => {
+                if (answers[u] && answers[u].answer) {
+                    const ok = answers[u].answer === q.correct;
+                    body += '<div class="pdfb-comment"><b>' + pdfWho(u) + '</b> answered ' +
+                        esc(opts[answers[u].answer] || answers[u].answer) + (ok ? ' ✅' : ' ❌') + '</div>';
+                }
+            });
+        }
+        const talk = (q.authorComments || []).map(c =>
+            '<div class="pdfb-comment"><b>' + pdfWho(c.author) + '</b> ' + esc(c.text) + '</div>').join("");
+        return '<div class="pdfb-card">' +
+            '<div class="pdfb-card-top"><span class="pdfb-tag' + (isOpen ? ' pdfb-tag-alt' : '') + '">' +
+            (isOpen ? '✍️ Open' : '📝 Quiz') + ' · about ' + pdfWho(q.about) + '</span>' +
+            '<span class="pdfb-date">' + esc(pdfDay(q.createdAt)) + '</span></div>' +
+            '<div class="pdfb-title">' + esc(q.question) + '</div>' +
+            '<div class="pdfb-comments" style="border-top:none;padding-top:2px;">' + body + '</div>' +
+            (talk ? '<div class="pdfb-comments">' + talk + '</div>' : '') +
+            '</div>';
+    }
+    function pdfScratchHTML(c) {
+        return '<div class="pdfb-card">' +
+            '<div class="pdfb-card-top"><span class="pdfb-tag">' + pdfWho(c.from) + ' → ' + pdfWho(c.to) + '</span>' +
+            '<span class="pdfb-date">' + esc(pdfDay(c.sentAt)) + '</span></div>' +
+            '<div class="pdfb-title">' + (c.emoji || "💕") + '</div>' +
+            '<div class="pdfb-text">' + esc(c.message) + '</div>' +
+            '</div>';
+    }
+    function pdfChecklistTableHTML(rows) {
+        const body = rows.map(t =>
+            '<tr><td>' + esc(t.text) + '</td>' +
+            '<td>' + (t.plannedDate ? esc(clFmtDate(t.plannedDate)) : '—') + '</td>' +
+            '<td>' + (t.dueDate ? esc(clFmtDate(t.dueDate)) : '—') + '</td>' +
+            '<td class="pdfb-money">' + (Number(t.budget) > 0 ? esc(clMoney(t.budget)) : '—') + '</td></tr>'
+        ).join("");
+        return '<table class="pdfb-table"><thead><tr><th>Task</th><th>Start</th><th>Due</th><th>Budget</th></tr></thead>' +
+            '<tbody>' + body + '</tbody></table>';
+    }
+    function pdfStatBlock(n, l) {
+        return '<div class="pdfb-stat"><span class="pdfb-stat-n">' + n + '</span><span class="pdfb-stat-l">' + esc(l) + '</span></div>';
+    }
+
+    /* ---------- data gathering ---------- */
+    function pdfCollect(opts) {
+        const from = opts.from, to = opts.to;
+        const memories = allMemories.filter(m => pdfInRange(m.date || m.savedAt, from, to));
+        let photos = galleryAllPhotos.filter(p => pdfInRange(p.addedAt, from, to));
+        if (opts.album && opts.album !== "all") photos = photos.filter(p => (p.album || "") === opts.album);
+        const nowMs = Date.now();
+        const lettersAll = allLetters.filter(l => pdfInRange(l.createdAt, from, to));
+        const letters = lettersAll.filter(l => nowMs >= letterUnlockMs(l));
+        const sealed = lettersAll.length - letters.length;
+        const quiz = allQuizQuestions.filter(q => pdfInRange(q.createdAt, from, to));
+        const scratchAll = scratchCardsData.filter(c => pdfInRange(c.sentAt, from, to));
+        const scratch = scratchAll.filter(c => c.revealed);
+        const notScratched = scratchAll.length - scratch.length;
+        const places = placesData.filter(p => pdfInRange(p.addedAt, from, to));
+        return { memories, photos, letters, sealed, quiz, scratch, notScratched, places };
+    }
+
+    /* ---------- modal ---------- */
+    window.openExportModal = function() {
+        const sel = document.getElementById("pdf-album");
+        if (sel) {
+            const albums = [...new Set(galleryAllPhotos.map(p => p.album).filter(Boolean))];
+            sel.innerHTML = '<option value="all">All albums (' + galleryAllPhotos.length + ' photos)</option>' +
+                albums.map(a => '<option value="' + esc(a) + '">' + esc(a) + ' (' +
+                    galleryAllPhotos.filter(p => p.album === a).length + ')</option>').join("");
+        }
+        document.getElementById("pdf-progress").style.display = "none";
+        document.getElementById("export-modal-overlay").classList.add("open");
+    };
+    window.closeExportModal = function() {
+        if (bookBusy) return;
+        document.getElementById("export-modal-overlay").classList.remove("open");
+    };
+    document.getElementById("export-modal-overlay").addEventListener("click", function(e) {
+        if (e.target === this) closeExportModal();
+    });
+    function pdfProgress(pct, msg) {
+        const bar = document.getElementById("pdf-bar");
+        const st = document.getElementById("pdf-status");
+        if (bar) bar.style.width = Math.max(0, Math.min(100, pct)) + "%";
+        if (st) st.textContent = msg || "";
+    }
+
+    /* ---------- main ---------- */
+    window.generateMemoryBook = async function() {
+        if (bookBusy) return;
+        const btn = document.getElementById("pdf-go-btn");
+        const opts = {
+            story: document.getElementById("pdfc-story").checked,
+            memories: document.getElementById("pdfc-memories").checked,
+            gallery: document.getElementById("pdfc-gallery").checked,
+            places: document.getElementById("pdfc-places").checked,
+            letters: document.getElementById("pdfc-letters").checked,
+            quiz: document.getElementById("pdfc-quiz").checked,
+            scratch: document.getElementById("pdfc-scratch").checked,
+            special: document.getElementById("pdfc-special").checked,
+            checklist: document.getElementById("pdfc-checklist").checked,
+            stats: document.getElementById("pdfc-stats").checked,
+            from: document.getElementById("pdf-from").value || "",
+            to: document.getElementById("pdf-to").value || "",
+            album: document.getElementById("pdf-album").value || "all",
+            photos: document.getElementById("pdf-photos").value === "1"
+        };
+        const PDF_SECTIONS = ["story", "memories", "gallery", "places", "letters", "quiz", "scratch", "special", "checklist", "stats"];
+        if (!PDF_SECTIONS.some(k => opts[k])) {
+            alert("Pick at least one section 💕");
+            return;
+        }
+
+        bookBusy = true;
+        btn.disabled = true;
+        btn.textContent = "📖 Working…";
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";   // the book lives off-screen: no stray scrollbar
+        window.scrollTo(0, 0);
+        document.getElementById("pdf-progress").style.display = "block";
+        pdfProgress(2, "Loading the tools…");
+
+        try {
+            await pdfLoadScript(PDF_H2C_URL);
+            await pdfLoadScript(PDF_JSPDF_URL);
+            const html2canvas = window.html2canvas;
+            const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+            if (!html2canvas || !jsPDFCtor) throw new Error("PDF tools unavailable");
+
+            pdfProgress(6, "Gathering our memories…");
+            const data = pdfCollect(opts);
+            const now = new Date();
+            const created = pdfDayLong(now);
+            const daysTogether = Math.floor((Date.now() - relStart.getTime()) / 86400000);
+
+            bookInit();
+
+            /* ---- cover ---- */
+            bookNewPage(true);
+            bookBody.innerHTML = pdfCoverHTML({
+                days: daysTogether,
+                memories: data.memories.length,
+                photos: data.photos.length,
+                places: data.places.length
+            }, created, opts);
+
+            /* ---- our story ---- */
+            if (opts.story) {
+                bookSectionStart("👩‍❤️‍👨", "Our Story", "Every step of our journey");
+                tlEvents.forEach(e => bookAdd(pdfStoryHTML(e, Date.now() >= new Date(e.ts).getTime())));
+            }
+
+            /* ---- memories ---- */
+            if (opts.memories) {
+                bookSectionStart("💌", "Our Memories", data.memories.length + " moment" + (data.memories.length !== 1 ? "s" : "") + " saved forever");
+                if (!data.memories.length) bookAdd('<div class="pdfb-empty">No memory in this period 🌸</div>');
+                const sorted = [...data.memories].sort((a, b) => pdfKey(a.date || a.savedAt) < pdfKey(b.date || b.savedAt) ? -1 : 1);
+                sorted.forEach(m => bookAdd(pdfMemoryHTML(m, opts.photos)));
+            }
+
+            /* ---- gallery ---- */
+            if (opts.gallery) {
+                bookSectionStart("📸", "Our Gallery", data.photos.length + " photo" + (data.photos.length !== 1 ? "s" : ""));
+                if (!data.photos.length) bookAdd('<div class="pdfb-empty">No photo in this selection 🌸</div>');
+                const byAlbum = {};
+                data.photos.forEach(p => { const a = p.album || "Other ✨"; (byAlbum[a] = byAlbum[a] || []).push(p); });
+                Object.keys(byAlbum).sort().forEach(album => {
+                    const list = byAlbum[album];
+                    bookAdd('<div class="pdfb-album">' + esc(album) + ' — ' + list.length + '</div>');
+                    for (let i = 0; i < list.length; i += 2) bookAdd(pdfPhotoRowHTML(list.slice(i, i + 2), opts.photos));
+                });
+            }
+
+            /* ---- places ---- */
+            if (opts.places) {
+                bookSectionStart("🗺️", "Our Places", data.places.length + " spot" + (data.places.length !== 1 ? "s" : "") + " that belong to us");
+                if (!data.places.length) bookAdd('<div class="pdfb-empty">No place saved yet 🌹</div>');
+                data.places.forEach(p => bookAdd(pdfPlaceHTML(p)));
+            }
+
+            /* ---- letters ---- */
+            if (opts.letters) {
+                bookSectionStart("✉️", "Letters from the Future", data.letters.length + " opened letter" + (data.letters.length !== 1 ? "s" : ""));
+                if (data.sealed > 0) bookAdd('<div class="pdfb-empty">🔒 ' + data.sealed + ' letter' + (data.sealed > 1 ? 's are' : ' is') + ' still sealed — they stay a secret 💕</div>');
+                if (!data.letters.length) bookAdd('<div class="pdfb-empty">No letter opened yet 💌</div>');
+                [...data.letters].sort((a, b) => letterUnlockMs(a) - letterUnlockMs(b)).forEach(l => bookAdd(pdfLetterHTML(l)));
+            }
+
+            /* ---- quiz ---- */
+            if (opts.quiz) {
+                bookSectionStart("❓", "Do You Know Me?", data.quiz.length + " question" + (data.quiz.length !== 1 ? "s" : ""));
+                if (!data.quiz.length) bookAdd('<div class="pdfb-empty">No question yet 💡</div>');
+                data.quiz.forEach(q => bookAdd(pdfQuizHTML(q)));
+            }
+
+            /* ---- scratch cards ---- */
+            if (opts.scratch) {
+                bookSectionStart("🎴", "Scratch Cards", data.scratch.length + " secret message" + (data.scratch.length !== 1 ? "s" : "") + " revealed");
+                if (data.notScratched > 0) bookAdd('<div class="pdfb-empty">🪙 ' + data.notScratched + ' card' + (data.notScratched > 1 ? 's are' : ' is') + ' still waiting to be scratched</div>');
+                if (!data.scratch.length) bookAdd('<div class="pdfb-empty">No card revealed yet 🌹</div>');
+                data.scratch.forEach(c => bookAdd(pdfScratchHTML(c)));
+            }
+
+            /* ---- special dates ---- */
+            if (opts.special) {
+                const evs = loadEvents();
+                bookSectionStart("🗓️", "Special Dates", evs.length + " date" + (evs.length !== 1 ? "s" : "") + " that matter");
+                if (!evs.length) bookAdd('<div class="pdfb-empty">No special date saved on this device 🌸</div>');
+                evs.forEach(ev => bookAdd('<div class="pdfb-card"><div class="pdfb-card-top">' +
+                    '<span class="pdfb-tag">' + (ev.emoji || "🗓️") + ' ' + esc(ev.name) + '</span>' +
+                    '<span class="pdfb-date">' + esc(pdfDay(ev.date)) + '</span></div></div>'));
+            }
+
+            /* ---- checklist & budget ---- */
+            if (opts.checklist) {
+                let total = 0, done = 0;
+                checklistData.forEach(t => {
+                    const b = Number(t.budget) || 0;
+                    total += b;
+                    if ((t.status || "todo") === "done") done += b;
+                });
+                bookSectionStart("✅", "Wedding Checklist", checklistData.length + " task" + (checklistData.length !== 1 ? "s" : ""));
+                ["todo", "inprogress", "done"].forEach(st => {
+                    const rows = checklistData.filter(t => (t.status || "todo") === st);
+                    if (!rows.length) return;
+                    bookAdd('<div class="pdfb-album">' + esc(CL_STATUS_LABEL[st]) + ' — ' + rows.length + '</div>');
+                    for (let i = 0; i < rows.length; i += 8) bookAdd(pdfChecklistTableHTML(rows.slice(i, i + 8)));
+                });
+                bookAdd('<div class="pdfb-stats" style="margin-top:10px;">' +
+                    pdfStatBlock(clMoney(total), "Total budget") +
+                    pdfStatBlock(clMoney(done), "Already done") +
+                    pdfStatBlock(clMoney(total - done), "Remaining") + '</div>');
+            }
+
+            /* ---- our numbers ---- */
+            if (opts.stats) {
+                const tttH = tttHistory.filter(g => g.winner === "hamdi").length;
+                const tttY = tttHistory.filter(g => g.winner === "yossr").length;
+                const comments = allMemories.reduce((n, m) => n + ((m.comments || []).length), 0);
+                bookSectionStart("🏆", "Our Numbers", "The story in figures");
+                bookAdd('<div class="pdfb-stats">' +
+                    pdfStatBlock(daysTogether, "Days together") +
+                    pdfStatBlock(allMemories.length, "Memories") +
+                    pdfStatBlock(galleryAllPhotos.length, "Photos") +
+                    pdfStatBlock(placesData.length, "Places") +
+                    pdfStatBlock(comments, "Comments") +
+                    pdfStatBlock(allLetters.length, "Letters") +
+                    pdfStatBlock(allQuizQuestions.length, "Quiz questions") +
+                    pdfStatBlock(scratchCardsData.length, "Scratch cards") +
+                    pdfStatBlock(tttHistory.length, "Games played") +
+                    pdfStatBlock(tttH + " – " + tttY, "Tic Tac Toe H–Y") +
+                    pdfStatBlock(puzzleAllScores.length, "Puzzles solved") +
+                    pdfStatBlock(memoryAllScores.length, "Memory wins") +
+                    '</div>');
+            }
+
+            /* ---- last page ---- */
+            bookSection = null;
+            bookNewPage();
+            bookBody.innerHTML = '<div class="pdfb-end"><h2>Forever &amp; Always</h2>' +
+                '<p>💍 Engagement · ' + esc(pdfDayLong(engTarget)) + '<br>' +
+                '👰🤵 Wedding · ' + esc(pdfDayLong(wedTarget)) + '<br><br>' +
+                'Made with love on ' + esc(created) + '</p>' +
+                '<div style="font-size:26px;letter-spacing:10px;color:#e07fa0;margin-top:26px;">🌸 ❤️ 🌸</div></div>';
+
+            bookFooters(created);
+
+            /* ---- wait for fonts + images ---- */
+            pdfProgress(12, "Preparing " + bookPages.length + " pages…");
+            if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch (e) {} }
+            const imgs = [...bookRoot.querySelectorAll("img")];
+            await Promise.all(imgs.map(im => im.complete ? Promise.resolve()
+                : new Promise(r => { im.onload = r; im.onerror = r; })));
+            await pdfSleep(120);
+
+            /* ---- render ---- */
+            const pdf = new jsPDFCtor({ unit: "mm", format: "a4", orientation: "portrait", compress: true });
+            pdf.setProperties({ title: "Hamdi & Yossr — Our Memory Book", author: pdfWho(currentUser), subject: "Our love story" });
+            const scale = window.innerWidth < 700 ? 1.5 : 2;
+
+            for (let i = 0; i < bookPages.length; i++) {
+                const canvas = await html2canvas(bookPages[i], {
+                    scale: scale,
+                    backgroundColor: "#ffffff",
+                    logging: false,
+                    useCORS: true,
+                    width: BOOK_W,
+                    height: BOOK_H,
+                    windowWidth: BOOK_W,
+                    windowHeight: BOOK_H,
+                    scrollX: 0,
+                    scrollY: 0,
+                    // only clone the book, never the whole app -> much faster
+                    ignoreElements: el => el.parentElement === document.body && el.id !== "pdf-root"
+                });
+                if (i > 0) pdf.addPage();
+                pdf.addImage(canvas.toDataURL("image/jpeg", 0.86), "JPEG", 0, 0, 210, 297);
+                canvas.width = canvas.height = 0;   // free the memory right away
+                pdfProgress(12 + Math.round(((i + 1) / bookPages.length) * 86), "Page " + (i + 1) + " of " + bookPages.length + " 💕");
+                await pdfSleep(15);
+            }
+
+            const stamp = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" +
+                String(now.getDate()).padStart(2, "0") + "-" +
+                String(now.getHours()).padStart(2, "0") + String(now.getMinutes()).padStart(2, "0");
+            pdf.save("Hamdi-Yossr-Memory-Book-" + stamp + ".pdf");
+            pdfProgress(100, "✅ Done — " + bookPages.length + " pages saved to your downloads 💕");
+        } catch (err) {
+            console.error(err);
+            pdfProgress(0, "😔 " + (err && err.message ? err.message : "Something went wrong"));
+        } finally {
+            if (bookRoot) { bookRoot.remove(); bookRoot = null; }
+            bookPages = []; bookBody = null; bookSection = null;
+            document.body.style.overflow = prevOverflow;
+            bookBusy = false;
+            btn.disabled = false;
+            btn.textContent = "📖 Create the PDF";
+        }
+    };
 
     /* ===== PARTICLES ===== */
     const emojis=["❤️","🩷","💕","🤍","🥰","😍","⭐️","🌹","🌸","💐","🦋"];const pc=document.getElementById("particles");
