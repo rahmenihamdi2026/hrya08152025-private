@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v17"/>
+    <meta name="app-version" content="v18"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -60,6 +60,8 @@
         body[data-theme="lavender"] .place-save-btn,
         body[data-theme="lavender"] .quiz-open-submit-btn,
         body[data-theme="lavender"] .cl-tab.active,
+        body[data-theme="lavender"] .cl-chip.on,
+        body[data-theme="lavender"] .cl-panel-btn,
         body[data-theme="lavender"] .cl-add-idea-btn,
         body[data-theme="lavender"] .cl-vote.voted,
         body[data-theme="lavender"] .book-btn,
@@ -144,6 +146,8 @@
         body[data-theme="peach"] .place-save-btn,
         body[data-theme="peach"] .quiz-open-submit-btn,
         body[data-theme="peach"] .cl-tab.active,
+        body[data-theme="peach"] .cl-chip.on,
+        body[data-theme="peach"] .cl-panel-btn,
         body[data-theme="peach"] .cl-add-idea-btn,
         body[data-theme="peach"] .cl-vote.voted,
         body[data-theme="peach"] .book-btn,
@@ -228,6 +232,8 @@
         body[data-theme="ocean"] .place-save-btn,
         body[data-theme="ocean"] .quiz-open-submit-btn,
         body[data-theme="ocean"] .cl-tab.active,
+        body[data-theme="ocean"] .cl-chip.on,
+        body[data-theme="ocean"] .cl-panel-btn,
         body[data-theme="ocean"] .cl-add-idea-btn,
         body[data-theme="ocean"] .cl-vote.voted,
         body[data-theme="ocean"] .book-btn,
@@ -312,6 +318,8 @@
         body[data-theme="sunset"] .place-save-btn,
         body[data-theme="sunset"] .quiz-open-submit-btn,
         body[data-theme="sunset"] .cl-tab.active,
+        body[data-theme="sunset"] .cl-chip.on,
+        body[data-theme="sunset"] .cl-panel-btn,
         body[data-theme="sunset"] .cl-add-idea-btn,
         body[data-theme="sunset"] .cl-vote.voted,
         body[data-theme="sunset"] .book-btn,
@@ -397,6 +405,8 @@
         body[data-theme="midnight"] .place-save-btn,
         body[data-theme="midnight"] .quiz-open-submit-btn,
         body[data-theme="midnight"] .cl-tab.active,
+        body[data-theme="midnight"] .cl-chip.on,
+        body[data-theme="midnight"] .cl-panel-btn,
         body[data-theme="midnight"] .cl-add-idea-btn,
         body[data-theme="midnight"] .cl-vote.voted,
         body[data-theme="midnight"] .book-btn,
@@ -1432,6 +1442,85 @@
         .cl-idea-budget { width: 100%; margin-top: 5px; padding: 4px; border-radius: 8px; border: 1px solid rgba(255, 205, 110, .7); background: rgba(255, 240, 200, .5); color: #8a6520; font-size: .66rem; font-family: 'Lato', sans-serif; cursor: pointer; }
         .cl-ideas-empty { font-size: .74rem; color: #c090a8; letter-spacing: .5px; text-align: center; padding: 10px 4px; }
         @media (max-width: 480px) { .cl-idea-img { height: 110px; } }
+        /* --- alerts & filters --- */
+        .cl-alerts { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
+        .cl-alert-chip { padding: 7px 15px; border-radius: 50px; border: 1px solid rgba(255, 182, 210, .6); background: rgba(255, 255, 255, .8); color: #9b1c4a; font-size: .78rem; font-family: 'Lato', sans-serif; cursor: pointer; transition: all .2s; letter-spacing: .3px; }
+        .cl-alert-chip:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(192, 57, 107, .18); }
+        .cl-alert-chip.danger { background: rgba(220, 60, 90, .14); border-color: rgba(220, 60, 90, .4); color: #a01030; font-weight: 700; }
+        .cl-alert-chip.warn { background: rgba(255, 180, 80, .2); border-color: rgba(200, 140, 40, .35); color: #8a5520; }
+        .cl-alert-chip.clear { background: rgba(255, 240, 248, .9); color: #b07090; }
+        .cl-filter-bar { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; background: rgba(255, 255, 255, .6); border: 1px solid rgba(255, 182, 210, .45); border-radius: 16px; padding: 10px 14px; margin-bottom: 16px; }
+        .cl-filter-bar input, .cl-filter-bar select { padding: 8px 12px; border: 1px solid rgba(255, 182, 210, .65); border-radius: 10px; background: rgba(255, 240, 248, .85); color: #7a2545; font-size: .84rem; font-family: 'Lato', sans-serif; outline: none; }
+        .cl-filter-bar input { flex: 2; min-width: 150px; }
+        .cl-filter-bar select { flex: 1; min-width: 132px; cursor: pointer; }
+        .cl-filter-bar input:focus, .cl-filter-bar select:focus { border-color: #c0396b; }
+        /* --- task extras --- */
+        .checklist-task.pinned { border-left-width: 5px; box-shadow: 0 5px 16px rgba(192, 57, 107, .16); }
+        .checklist-task-btn.pin-on { color: #e0a020; }
+        .cl-badge-cat { background: rgba(200, 170, 255, .28); color: #5a2080; }
+        .cl-pay-mini { margin-top: 9px; }
+        .cl-pay-bar { background: rgba(255, 182, 210, .35); border-radius: 50px; height: 5px; overflow: hidden; }
+        .cl-pay-bar span { display: block; height: 100%; border-radius: 50px; background: linear-gradient(90deg, #f0c060, #d09020); transition: width .4s ease; }
+        .cl-pay-txt { font-size: .7rem; color: #8a6520; letter-spacing: .3px; margin-top: 4px; }
+        .cl-vendor { font-size: .74rem; color: #7a2545; margin-top: 7px; letter-spacing: .2px; }
+        .cl-vendor a { color: #c0396b; text-decoration: none; }
+        .cl-chips { display: flex; gap: 6px; margin-top: 9px; }
+        .cl-chip { flex: 1; padding: 6px 4px; border-radius: 10px; border: 1px solid rgba(255, 182, 210, .55); background: rgba(255, 240, 248, .7); color: #9b1c4a; font-size: .76rem; font-family: 'Lato', sans-serif; cursor: pointer; transition: all .2s; }
+        .cl-chip:hover { background: rgba(255, 214, 232, .8); }
+        .cl-chip.on { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border-color: transparent; }
+        /* --- expandable panels --- */
+        .cl-panel { margin-top: 10px; padding-top: 11px; border-top: 1px solid rgba(255, 182, 210, .4); animation: fadeIn .25s ease; }
+        .cl-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 9px; }
+        .cl-panel-ttl { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.1px; color: #b07090; }
+        .cl-panel-btn { padding: 5px 12px; border-radius: 50px; border: none; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; font-size: .72rem; font-family: 'Lato', sans-serif; cursor: pointer; letter-spacing: .4px; white-space: nowrap; }
+        .cl-panel-btn:disabled { opacity: .55; cursor: wait; }
+        .cl-panel-empty { font-size: .74rem; color: #c090a8; letter-spacing: .5px; text-align: center; padding: 9px 4px; }
+        .cl-panel-note { font-size: .74rem; color: #8a6520; margin: 6px 0 8px; }
+        .cl-panel-form { display: flex; gap: 6px; margin-top: 9px; flex-wrap: wrap; }
+        .cl-panel-input { flex: 1; min-width: 90px; padding: 7px 10px; border: 1px solid rgba(255, 182, 210, .65); border-radius: 9px; background: rgba(255, 240, 248, .85); color: #7a2545; font-size: .8rem; font-family: 'Lato', sans-serif; outline: none; }
+        .cl-panel-input:focus { border-color: #c0396b; }
+        /* subtasks */
+        .cl-sub-bar { background: rgba(255, 182, 210, .3); border-radius: 50px; height: 5px; overflow: hidden; margin-bottom: 9px; }
+        .cl-sub-bar span { display: block; height: 100%; border-radius: 50px; background: linear-gradient(90deg, #f48fb1, #c0396b); transition: width .4s ease; }
+        .cl-sub { display: flex; align-items: center; gap: 7px; padding: 4px 0; }
+        .cl-sub-check { background: none; border: none; font-size: .9rem; cursor: pointer; padding: 0; line-height: 1; }
+        .cl-sub-txt { flex: 1; font-size: .82rem; color: #5a1a35; word-break: break-word; }
+        .cl-sub.done .cl-sub-txt { text-decoration: line-through; color: #b08098; }
+        .cl-sub-del { background: none; border: none; color: #d0a0b8; font-size: .72rem; cursor: pointer; padding: 2px 4px; }
+        .cl-sub-del:hover { color: #c0396b; }
+        /* payments */
+        .cl-pay-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px dashed rgba(255, 182, 210, .35); }
+        .cl-pay-amt { font-size: .84rem; font-weight: 700; color: #8a6520; white-space: nowrap; }
+        .cl-pay-meta { flex: 1; font-size: .72rem; color: #b07090; }
+        /* chat */
+        .cl-msg-list { max-height: 210px; overflow-y: auto; }
+        .cl-msg { background: rgba(255, 240, 248, .8); border-radius: 12px; padding: 7px 11px; margin-bottom: 6px; }
+        .cl-msg.mine { background: rgba(255, 214, 232, .75); }
+        .cl-msg-who { font-size: .7rem; color: #c0396b; letter-spacing: .3px; }
+        .cl-msg-who span { color: #c090a8; margin-left: 5px; }
+        .cl-msg-txt { font-size: .82rem; color: #5a1a35; line-height: 1.5; margin-top: 2px; word-break: break-word; }
+        /* budget goal + categories */
+        .cl-goal { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255, 182, 210, .4); }
+        .cl-goal-form { display: flex; gap: 8px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+        .cl-goal-form label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1px; color: #b07090; }
+        .cl-goal-form input { width: 130px; padding: 7px 11px; border: 1px solid rgba(255, 182, 210, .65); border-radius: 10px; background: rgba(255, 240, 248, .85); color: #7a2545; font-size: .85rem; font-family: 'Lato', sans-serif; outline: none; text-align: center; }
+        .cl-goal-bar-wrap { background: rgba(255, 182, 210, .3); border-radius: 50px; height: 9px; overflow: hidden; }
+        .cl-goal-bar { height: 100%; width: 0%; border-radius: 50px; background: linear-gradient(90deg, #8fd48f, #4caf50); transition: width .5s ease; }
+        .cl-goal-bar.over { background: linear-gradient(90deg, #f08080, #c0392b); }
+        .cl-goal-txt { font-size: .76rem; color: #a0556e; margin-top: 8px; letter-spacing: .4px; }
+        .cl-cat-chart { margin-top: 16px; text-align: left; }
+        .cl-cat-ttl { font-size: .68rem; text-transform: uppercase; letter-spacing: 1.4px; color: #b07090; margin-bottom: 9px; text-align: center; }
+        .cl-cat-row { display: flex; align-items: center; gap: 9px; margin-bottom: 7px; }
+        .cl-cat-name { width: 145px; font-size: .76rem; color: #7a2545; flex: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cl-cat-bar { flex: 1; background: rgba(255, 182, 210, .25); border-radius: 50px; height: 12px; overflow: hidden; }
+        .cl-cat-fill { display: block; height: 100%; border-radius: 50px; background: linear-gradient(90deg, #f9b8d0, #e07fa0); position: relative; }
+        .cl-cat-paid { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 50px; background: linear-gradient(90deg, #f0c060, #d09020); }
+        .cl-cat-val { width: 96px; text-align: right; font-size: .74rem; color: #8a6520; font-weight: 700; flex: none; }
+        @media (max-width: 480px) {
+            .cl-cat-name { width: 96px; font-size: .7rem; }
+            .cl-cat-val { width: 78px; font-size: .68rem; }
+        }
+
         /* --- idea lightbox --- */
         .idea-lightbox { position: fixed; inset: 0; z-index: 9500; background: rgba(60, 10, 30, .88); display: none; align-items: center; justify-content: center; padding: 24px; cursor: zoom-out; }
         .idea-lightbox.open { display: flex; }
@@ -3204,6 +3293,10 @@
                     <label class="cl-field-lbl">Status</label>
                     <select id="cl-status-select"><option value="todo">📋 To Do</option><option value="inprogress">⏳ In Progress</option><option value="done">✅ Done</option></select>
                 </div>
+                <div class="cl-add-field" style="max-width:190px;">
+                    <label class="cl-field-lbl">🏷️ Category</label>
+                    <select id="cl-cat-select"></select>
+                </div>
             </div>
             <div class="cl-add-row">
                 <div class="cl-add-field">
@@ -3221,6 +3314,21 @@
             </div>
             <button class="checklist-add-btn" onclick="addChecklistTask()">+ Add Task</button>
         </div>
+        <div class="cl-alerts" id="cl-alerts" style="display:none;"></div>
+
+        <div class="cl-filter-bar">
+            <input type="text" id="cl-search-input" placeholder="🔍 Search a task, a shop, a step…" oninput="clSetSearch(this.value)"/>
+            <select id="cl-cat-filter" onchange="clSetCat(this.value)"></select>
+            <select id="cl-quick-select" onchange="clSetQuick(this.value)">
+                <option value="all">All tasks</option>
+                <option value="overdue">⚠️ Overdue</option>
+                <option value="soon">🔔 Due this week</option>
+                <option value="pinned">⭐ Pinned</option>
+                <option value="budget">💰 With a budget</option>
+                <option value="unpaid">🧾 Still to pay</option>
+            </select>
+        </div>
+
         <div class="cl-tabs" id="cl-tabs">
             <button class="cl-tab active" id="cl-tab-todo" onclick="showChecklistTab('todo')">📋 To Do <span class="cl-tab-count" id="cl-tabc-todo">0</span></button>
             <button class="cl-tab" id="cl-tab-inprogress" onclick="showChecklistTab('inprogress')">⏳ In Progress <span class="cl-tab-count" id="cl-tabc-inprogress">0</span></button>
@@ -3252,14 +3360,25 @@
                 </div>
                 <div class="checklist-budget-block">
                     <span class="checklist-budget-num" id="cl-budget-done">0</span>
-                    <span class="checklist-budget-lbl">✅ Done</span>
+                    <span class="checklist-budget-lbl">💰 Paid</span>
                 </div>
                 <div class="checklist-budget-block">
                     <span class="checklist-budget-num" id="cl-budget-remaining">0</span>
-                    <span class="checklist-budget-lbl">Remaining</span>
+                    <span class="checklist-budget-lbl">Left to pay</span>
                 </div>
             </div>
             <p class="checklist-budget-note" id="cl-budget-note">No budget added yet 🌸</p>
+
+            <div class="cl-goal">
+                <div class="cl-goal-form">
+                    <label>🎯 Budget goal</label>
+                    <input type="number" min="0" step="1" id="cl-goal-input" placeholder="45000"/>
+                    <button class="cl-panel-btn" onclick="clSaveGoal()">Save</button>
+                </div>
+                <div class="cl-goal-bar-wrap"><div class="cl-goal-bar" id="cl-goal-bar"></div></div>
+                <div class="cl-goal-txt" id="cl-goal-txt">Set a global budget goal to follow your spending ✨</div>
+                <div class="cl-cat-chart" id="cl-cat-chart" style="display:none;"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -4634,25 +4753,44 @@
     window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});}catch(e){alert("Error: "+e.message);}hideSync();};
 
     /* ============================================================
-       ===== CHECKLIST (v17 — status select, edit, dates & budget) =====
+       ===== CHECKLIST (v18) =====
+       Status select · edit · dates · categories · pin · search &
+       filters · overdue alerts · photo ideas + votes · subtasks ·
+       payments (paid vs total) · task chat · vendor · budget goal
        ============================================================ */
     const checklistRef = collection(db, "checklist");
+    const taskIdeasRef = collection(db, "taskideas");
+    const clSettingsDoc = doc(db, "settings", "checklist");
     const CL_CURRENCY = "TND";                 // change here to switch currency
     const CL_STATUSES = ["todo", "inprogress", "done"];
     const CL_STATUS_LABEL = { todo: "📋 To Do", inprogress: "⏳ In Progress", done: "✅ Done" };
+    const CL_CATEGORIES = [
+        { id: "venue",     label: "🏛️ Venue & Hall" },
+        { id: "catering",  label: "🍽️ Catering" },
+        { id: "clothes",   label: "👗 Clothes & Beauty" },
+        { id: "jewelry",   label: "💍 Jewelry" },
+        { id: "furniture", label: "🛋️ Furniture" },
+        { id: "home",      label: "🏠 Home & Kitchen" },
+        { id: "photo",     label: "📸 Photo & Video" },
+        { id: "music",     label: "🎶 Music & Party" },
+        { id: "papers",    label: "📄 Papers & Admin" },
+        { id: "other",     label: "✨ Other" }
+    ];
+    const CL_CAT_LABEL = {};
+    CL_CATEGORIES.forEach(c => CL_CAT_LABEL[c.id] = c.label);
+
     let checklistData = [];
+    let taskIdeas = [];                    // { taskId, image, label, price, addedBy, addedAt, votes }
     let editingTaskId = null;
     let clActiveTab = "todo";              // mobile: which column is on screen
-    const taskIdeasRef = collection(db, "taskideas");
-    let taskIdeas = [];                    // { taskId, image, label, price, addedBy, addedAt, votes }
-    let openIdeaTasks = new Set();         // tasks whose idea panel is open
+    let clSearch = "", clFilterCat = "all", clFilterQuick = "all";
+    let clBudgetGoal = 0;
+    let clPanels = {};                     // taskId -> "ideas" | "subs" | "pay" | "chat" | null
     let ideaTargetTask = null;             // task waiting for a picked file
 
-    // show the currency everywhere in the UI
     document.querySelectorAll(".cl-currency-lbl").forEach(el => el.textContent = CL_CURRENCY);
 
-    function clEsc(s){if(!s)return"";return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-
+    /* ---------- helpers ---------- */
     function clMoney(n) {
         const v = Number(n) || 0;
         return v.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + " " + CL_CURRENCY;
@@ -4674,6 +4812,21 @@
         s = String(s || "");
         return s.length > n ? s.slice(0, n) + "…" : s;
     }
+    function clPlusDays(n) {
+        const d = new Date();
+        d.setDate(d.getDate() + n);
+        return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+    function clCat(t) { return CL_CAT_LABEL[t.category] ? t.category : "other"; }
+    function clPaid(t) { return (t.payments || []).reduce((n, p) => n + (Number(p.amount) || 0), 0); }
+    function clSubDone(t) { return (t.subtasks || []).filter(s => s.done).length; }
+    function clOverdue(t) { return (t.status || "todo") !== "done" && t.dueDate && t.dueDate < localToday(); }
+    function clDueSoon(t) {
+        if ((t.status || "todo") === "done" || !t.dueDate) return false;
+        const today = localToday();
+        return t.dueDate >= today && t.dueDate <= clPlusDays(7);
+    }
+    function clUid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
     let clToastTimer = null;
     function clToast(msg) {
@@ -4684,6 +4837,11 @@
         clearTimeout(clToastTimer);
         clToastTimer = setTimeout(() => el.classList.remove("show"), 2600);
     }
+    function clNotify(msg) {
+        const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+        return createNotification("checklist", msg, partner, "checklist");
+    }
+    function clWho() { return currentUser === "hamdi" ? "Hamdi" : "Yossr"; }
 
     window.showChecklistTab = function(tab) {
         if (!CL_STATUSES.includes(tab)) return;
@@ -4696,32 +4854,76 @@
         });
     };
 
+    /* ---------- live data ---------- */
     onSnapshot(query(checklistRef, orderBy("createdAt", "asc")), snapshot => {
         checklistData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         renderChecklist();
+        clDueReminders();
     });
-
     onSnapshot(query(taskIdeasRef, orderBy("addedAt", "asc")), snapshot => {
         taskIdeas = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         renderChecklist();
+    });
+    onSnapshot(clSettingsDoc, snap => {
+        clBudgetGoal = snap.exists() ? (Number(snap.data().budgetGoal) || 0) : 0;
+        const input = document.getElementById("cl-goal-input");
+        if (input && document.activeElement !== input) input.value = clBudgetGoal || "";
+        renderChecklistBudget();
     });
 
     function ideasOf(taskId) { return taskIdeas.filter(i => i.taskId === taskId); }
     function ideaVotes(idea) { return Object.keys(idea.votes || {}).filter(u => idea.votes[u]); }
     function bestIdeaOf(taskId) {
-        const list = ideasOf(taskId);
         let best = null, bestN = 0;
-        list.forEach(i => { const n = ideaVotes(i).length; if (n > bestN) { best = i; bestN = n; } });
+        ideasOf(taskId).forEach(i => { const n = ideaVotes(i).length; if (n > bestN) { best = i; bestN = n; } });
         return bestN > 0 ? best : null;
     }
 
+    /* ---------- filters ---------- */
+    window.clSetSearch = function(v) { clSearch = String(v || "").toLowerCase().trim(); renderChecklist(); };
+    window.clSetCat = function(v) { clFilterCat = v; renderChecklist(); };
+    window.clSetQuick = function(v) {
+        clFilterQuick = v;
+        const sel = document.getElementById("cl-quick-select");
+        if (sel && sel.value !== v) sel.value = v;
+        renderChecklist();
+    };
+    window.clClearFilters = function() {
+        clSearch = ""; clFilterCat = "all"; clFilterQuick = "all";
+        const s = document.getElementById("cl-search-input");
+        if (s) s.value = "";
+        const c = document.getElementById("cl-cat-filter");
+        if (c) c.value = "all";
+        const q = document.getElementById("cl-quick-select");
+        if (q) q.value = "all";
+        renderChecklist();
+    };
+    function clMatches(t) {
+        if (clFilterCat !== "all" && clCat(t) !== clFilterCat) return false;
+        if (clFilterQuick === "overdue" && !clOverdue(t)) return false;
+        if (clFilterQuick === "soon" && !clDueSoon(t)) return false;
+        if (clFilterQuick === "pinned" && !t.pinned) return false;
+        if (clFilterQuick === "budget" && !(Number(t.budget) > 0)) return false;
+        if (clFilterQuick === "unpaid" && !(Number(t.budget) > 0 && clPaid(t) < Number(t.budget))) return false;
+        if (clSearch) {
+            const hay = [t.text, t.vendorName, CL_CAT_LABEL[clCat(t)], (t.subtasks || []).map(s => s.text).join(" ")]
+                .join(" ").toLowerCase();
+            if (!hay.includes(clSearch)) return false;
+        }
+        return true;
+    }
+
+    /* ---------- render ---------- */
     function renderChecklist() {
+        const visible = checklistData.filter(clMatches);
         const buckets = { todo: [], inprogress: [], done: [] };
-        checklistData.forEach(t => {
-            const s = CL_STATUSES.includes(t.status) ? t.status : "todo";
-            buckets[s].push(t);
-        });
-        const emptyMsgs = { todo: "No tasks yet 🌸", inprogress: "Nothing in progress 💕", done: "Nothing completed yet ✨" };
+        visible.forEach(t => buckets[CL_STATUSES.includes(t.status) ? t.status : "todo"].push(t));
+        const emptyMsgs = {
+            todo: "No tasks yet 🌸",
+            inprogress: "Nothing in progress 💕",
+            done: "Nothing completed yet ✨"
+        };
+        const filtering = clSearch || clFilterCat !== "all" || clFilterQuick !== "all";
 
         CL_STATUSES.forEach(status => {
             const container = document.getElementById("tasks-" + status);
@@ -4731,97 +4933,211 @@
             if (countEl) countEl.textContent = tasks.length;
             if (tabCountEl) tabCountEl.textContent = tasks.length;
             if (!container) return;
-            if (tasks.length === 0) {
-                container.innerHTML = `<p class="checklist-empty">${emptyMsgs[status]}</p>`;
+            if (!tasks.length) {
+                container.innerHTML = '<p class="checklist-empty">' + (filtering ? "Nothing matches this filter 🔍" : emptyMsgs[status]) + '</p>';
                 return;
             }
-            // Sort: closest due date first, then creation order
             tasks.sort((a, b) => {
-                const da = a.dueDate || "9999-12-31";
-                const db2 = b.dueDate || "9999-12-31";
+                if (!!b.pinned !== !!a.pinned) return b.pinned ? 1 : -1;
+                const da = a.dueDate || "9999-12-31", db2 = b.dueDate || "9999-12-31";
                 if (da !== db2) return da < db2 ? -1 : 1;
                 return (a.createdAt || "") < (b.createdAt || "") ? -1 : 1;
             });
             container.innerHTML = tasks.map(t =>
-                t.id === editingTaskId ? buildTaskEditHTML(t) : buildTaskHTML(t, status)
+                t.id === editingTaskId ? buildTaskEditHTML(t) : buildTaskHTML(t)
             ).join("");
         });
 
-        // Progress bar
         const total = checklistData.length;
-        const done = buckets.done.length;
-        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        const doneN = checklistData.filter(t => (t.status || "todo") === "done").length;
+        const pct = total ? Math.round((doneN / total) * 100) : 0;
         const bar = document.getElementById("cl-progress-bar");
         const lbl = document.getElementById("cl-progress-label");
         if (bar) bar.style.width = pct + "%";
-        if (lbl) lbl.textContent = total === 0 ? "Add your first task 🌸" : `${done} of ${total} tasks completed (${pct}%) 💕`;
+        if (lbl) lbl.textContent = total === 0 ? "Add your first task 🌸" : `${doneN} of ${total} tasks completed (${pct}%) 💕`;
 
+        renderClAlerts();
         renderChecklistBudget();
     }
 
-    function buildTaskHTML(t, status) {
-        const badges = [];
-        if (t.plannedDate) badges.push(`<span class="cl-badge cl-badge-plan">🗓️ Start: ${clFmtDate(t.plannedDate)}</span>`);
-        if (t.dueDate) {
-            const state = clDueState(t);
-            const warn = state === " overdue" ? " ⚠️" : state === " due-today" ? " 🔔" : "";
-            badges.push(`<span class="cl-badge cl-badge-due${state}">⏰ Due: ${clFmtDate(t.dueDate)}${warn}</span>`);
+    function renderClAlerts() {
+        const box = document.getElementById("cl-alerts");
+        if (!box) return;
+        const overdue = checklistData.filter(clOverdue).length;
+        const soon = checklistData.filter(clDueSoon).length;
+        const unpaid = checklistData.filter(t => Number(t.budget) > 0 && clPaid(t) < Number(t.budget)).length;
+        const chips = [];
+        if (overdue) chips.push(`<button class="cl-alert-chip danger" onclick="clSetQuick('overdue')">⚠️ ${overdue} overdue</button>`);
+        if (soon) chips.push(`<button class="cl-alert-chip warn" onclick="clSetQuick('soon')">🔔 ${soon} due this week</button>`);
+        if (unpaid) chips.push(`<button class="cl-alert-chip" onclick="clSetQuick('unpaid')">💰 ${unpaid} still to pay</button>`);
+        if (clFilterQuick !== "all" || clFilterCat !== "all" || clSearch) {
+            chips.push(`<button class="cl-alert-chip clear" onclick="clClearFilters()">✕ Clear filters</button>`);
         }
-        if (Number(t.budget) > 0) badges.push(`<span class="cl-badge cl-badge-budget">💰 ${clMoney(t.budget)}</span>`);
+        box.innerHTML = chips.join("");
+        box.style.display = chips.length ? "flex" : "none";
+    }
+
+    function buildTaskHTML(t) {
+        const status = CL_STATUSES.includes(t.status) ? t.status : "todo";
+        const cat = clCat(t);
+        const budget = Number(t.budget) || 0;
+        const paid = clPaid(t);
+        const ideas = ideasOf(t.id);
+        const subs = t.subtasks || [];
+        const chat = t.comments || [];
+
+        const badges = [`<span class="cl-badge cl-badge-cat">${CL_CAT_LABEL[cat]}</span>`];
+        if (t.plannedDate) badges.push(`<span class="cl-badge cl-badge-plan">🗓️ ${clFmtDate(t.plannedDate)}</span>`);
+        if (t.dueDate) {
+            const st = clDueState(t);
+            const warn = st === " overdue" ? " ⚠️" : st === " due-today" ? " 🔔" : "";
+            badges.push(`<span class="cl-badge cl-badge-due${st}">⏰ ${clFmtDate(t.dueDate)}${warn}</span>`);
+        }
+        if (budget > 0) badges.push(`<span class="cl-badge cl-badge-budget">💰 ${clMoney(budget)}</span>`);
+
+        let payBar = "";
+        if (budget > 0) {
+            const p = Math.min(100, Math.round((paid / budget) * 100));
+            const left = Math.max(0, budget - paid);
+            payBar = `<div class="cl-pay-mini">
+                <div class="cl-pay-bar"><span style="width:${p}%"></span></div>
+                <div class="cl-pay-txt">${paid > 0 ? "Paid " + clMoney(paid) + " · " : ""}${left > 0 ? "left " + clMoney(left) : "fully paid ✅"}</div>
+            </div>`;
+        }
+
+        const vendor = t.vendorName ? `<div class="cl-vendor">🏪 ${esc(t.vendorName)}${t.vendorPhone ? ` · <a href="tel:${esc(t.vendorPhone)}">📞 ${esc(t.vendorPhone)}</a>` : ""}${t.vendorPlaceId ? ` · <a href="javascript:void(0)" onclick="clShowVendorPlace('${t.vendorPlaceId}')">📍 map</a>` : ""}</div>` : "";
 
         const options = CL_STATUSES.map(s =>
-            `<option value="${s}"${s === status ? " selected" : ""}>${CL_STATUS_LABEL[s]}</option>`
-        ).join("");
+            `<option value="${s}"${s === status ? " selected" : ""}>${CL_STATUS_LABEL[s]}</option>`).join("");
 
-        return `<div class="checklist-task checklist-status-${status}" id="task-${t.id}">
+        const chips = [
+            `<button class="cl-chip${clPanels[t.id] === "ideas" ? " on" : ""}" onclick="clTogglePanel('${t.id}','ideas')">🖼️ ${ideas.length || ""}</button>`,
+            `<button class="cl-chip${clPanels[t.id] === "subs" ? " on" : ""}" onclick="clTogglePanel('${t.id}','subs')">☑️ ${subs.length ? clSubDone(t) + "/" + subs.length : ""}</button>`,
+            `<button class="cl-chip${clPanels[t.id] === "pay" ? " on" : ""}" onclick="clTogglePanel('${t.id}','pay')">💰 ${(t.payments || []).length || ""}</button>`,
+            `<button class="cl-chip${clPanels[t.id] === "chat" ? " on" : ""}" onclick="clTogglePanel('${t.id}','chat')">💬 ${chat.length || ""}</button>`
+        ].join("");
+
+        return `<div class="checklist-task checklist-status-${status}${t.pinned ? " pinned" : ""}" id="task-${t.id}">
             <div class="checklist-task-top">
-                <div class="checklist-task-text">${clEsc(t.text)}</div>
+                <div class="checklist-task-text">${t.pinned ? "⭐ " : ""}${esc(t.text)}</div>
                 <div class="checklist-task-actions">
+                    <button class="checklist-task-btn${t.pinned ? " pin-on" : ""}" onclick="clTogglePin('${t.id}')" title="${t.pinned ? "Unpin" : "Pin to top"}">${t.pinned ? "⭐" : "☆"}</button>
                     <button class="checklist-task-btn" onclick="startEditTask('${t.id}')" title="Edit task">✏️</button>
                     <button class="checklist-task-btn checklist-task-delete" onclick="deleteChecklistTask('${t.id}')" title="Delete task">🗑️</button>
                 </div>
             </div>
-            ${badges.length ? `<div class="checklist-task-badges">${badges.join("")}</div>` : ""}
+            <div class="checklist-task-badges">${badges.join("")}</div>
+            ${payBar}
+            ${vendor}
             <div class="checklist-task-meta">Added by ${t.createdBy === "yossr" ? "👩 Yossr" : "👨 Hamdi"} · ${t.createdAt ? t.createdAt.substring(0, 10) : ""}</div>
             <div class="checklist-status-row">
                 <label class="checklist-status-lbl">Status</label>
                 <select class="checklist-status-select" onchange="changeTaskStatus('${t.id}', this.value)">${options}</select>
             </div>
-            ${buildIdeasHTML(t)}
+            <div class="cl-chips">${chips}</div>
+            ${buildPanelHTML(t)}
         </div>`;
     }
 
-    /* ===== photo ideas + votes ===== */
+    function buildTaskEditHTML(t) {
+        const status = CL_STATUSES.includes(t.status) ? t.status : "todo";
+        const options = CL_STATUSES.map(s =>
+            `<option value="${s}"${s === status ? " selected" : ""}>${CL_STATUS_LABEL[s]}</option>`).join("");
+        const cats = CL_CATEGORIES.map(c =>
+            `<option value="${c.id}"${c.id === clCat(t) ? " selected" : ""}>${c.label}</option>`).join("");
+        const places = placesData.map(p =>
+            `<option value="${p.id}"${p.id === t.vendorPlaceId ? " selected" : ""}>${esc((p.emoji || "📍") + " " + p.name)}</option>`).join("");
+        const budgetVal = (t.budget === 0 || t.budget) ? Number(t.budget) : "";
+        return `<div class="checklist-task checklist-task-editing checklist-status-${status}" id="task-${t.id}">
+            <div class="cl-edit-form">
+                <div>
+                    <label class="cl-field-lbl">✏️ Task</label>
+                    <input type="text" class="cl-edit-input" id="cl-e-text-${t.id}" value="${esc(t.text || "")}" maxlength="120"/>
+                </div>
+                <div class="cl-edit-row">
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">🏷️ Category</label>
+                        <select class="cl-edit-input" id="cl-e-cat-${t.id}">${cats}</select>
+                    </div>
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">Status</label>
+                        <select class="cl-edit-input" id="cl-e-status-${t.id}">${options}</select>
+                    </div>
+                </div>
+                <div class="cl-edit-row">
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">🗓️ Start date</label>
+                        <input type="date" class="cl-edit-input" id="cl-e-plan-${t.id}" value="${esc(t.plannedDate || "")}"/>
+                    </div>
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">⏰ Due date</label>
+                        <input type="date" class="cl-edit-input" id="cl-e-due-${t.id}" value="${esc(t.dueDate || "")}"/>
+                    </div>
+                </div>
+                <div class="cl-edit-row">
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">💰 Budget (<span class="cl-currency-lbl">${CL_CURRENCY}</span>)</label>
+                        <input type="number" min="0" step="0.01" class="cl-edit-input" id="cl-e-budget-${t.id}" value="${budgetVal}" placeholder="0"/>
+                    </div>
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">🏪 Shop / vendor</label>
+                        <input type="text" class="cl-edit-input" id="cl-e-vendor-${t.id}" value="${esc(t.vendorName || "")}" maxlength="60" placeholder="Meublatex…"/>
+                    </div>
+                </div>
+                <div class="cl-edit-row">
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">📞 Phone</label>
+                        <input type="tel" class="cl-edit-input" id="cl-e-phone-${t.id}" value="${esc(t.vendorPhone || "")}" maxlength="30" placeholder="20 123 456"/>
+                    </div>
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">📍 Place on our map</label>
+                        <select class="cl-edit-input" id="cl-e-place-${t.id}"><option value="">— none —</option>${places}</select>
+                    </div>
+                </div>
+                <div class="cl-edit-actions">
+                    <button class="checklist-edit-save-btn" onclick="saveTaskEdit('${t.id}')">💾 Save changes</button>
+                    <button class="checklist-edit-cancel-btn" onclick="cancelTaskEdit()">Cancel</button>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    /* ---------- expandable panels ---------- */
+    window.clTogglePanel = function(taskId, panel) {
+        clPanels[taskId] = clPanels[taskId] === panel ? null : panel;
+        renderChecklist();
+    };
+
+    function buildPanelHTML(t) {
+        const p = clPanels[t.id];
+        if (!p) return "";
+        if (p === "ideas") return buildIdeasHTML(t);
+        if (p === "subs") return buildSubsHTML(t);
+        if (p === "pay") return buildPayHTML(t);
+        if (p === "chat") return buildChatHTML(t);
+        return "";
+    }
+
+    /* --- photo ideas + votes --- */
     function buildIdeasHTML(t) {
         const list = ideasOf(t.id);
-        const open = openIdeaTasks.has(t.id);
-        const totalVotes = list.reduce((n, i) => n + ideaVotes(i).length, 0);
-        if (!open) {
-            const lbl = list.length
-                ? `🖼️ ${list.length} idea${list.length > 1 ? "s" : ""}${totalVotes ? ` · ${totalVotes} vote${totalVotes > 1 ? "s" : ""}` : ""} — tap to see`
-                : "🖼️ Add photo ideas & vote";
-            return `<button class="cl-ideas-btn" onclick="toggleIdeas('${t.id}')">${lbl}</button>`;
-        }
         const best = bestIdeaOf(t.id);
         const cards = list.map(i => buildIdeaCardHTML(i, best && best.id === i.id)).join("");
-        return `<div class="cl-ideas">
-            <div class="cl-ideas-head">
-                <span class="cl-ideas-ttl">🖼️ Ideas &amp; votes (${list.length})</span>
-                <button class="cl-add-idea-btn" id="cl-add-idea-${t.id}" onclick="pickIdeaPhotos('${t.id}')">+ Add photo</button>
+        return `<div class="cl-panel">
+            <div class="cl-panel-head">
+                <span class="cl-panel-ttl">🖼️ Ideas &amp; votes (${list.length})</span>
+                <button class="cl-panel-btn" id="cl-add-idea-${t.id}" onclick="pickIdeaPhotos('${t.id}')">+ Add photo</button>
             </div>
-            ${list.length ? `<div class="cl-idea-grid">${cards}</div>` : '<div class="cl-ideas-empty">No idea yet — add a photo of what you like 🌸</div>'}
-            <button class="cl-ideas-btn" style="margin-top:9px;" onclick="toggleIdeas('${t.id}')">🔼 Hide ideas</button>
+            ${list.length ? `<div class="cl-idea-grid">${cards}</div>` : '<div class="cl-panel-empty">No idea yet — add a photo of what you like 🌸</div>'}
         </div>`;
     }
-
     function buildIdeaCardHTML(idea, isBest) {
         const votes = idea.votes || {};
-        const bothVoted = votes.hamdi && votes.yossr;
-        const crown = bothVoted ? "💖 Chosen" : (isBest ? "⭐ Favourite" : "");
+        const both = votes.hamdi && votes.yossr;
+        const crown = both ? "💖 Chosen" : (isBest ? "⭐ Favourite" : "");
         const voteBtn = (u, name) => {
             const on = !!votes[u];
-            const mine = u === currentUser;
-            return `<button class="cl-vote${on ? " voted" : ""}${mine ? " cl-vote-mine" : ""}" onclick="voteIdea('${idea.id}','${u}')" title="${mine ? "Your vote" : "Vote for " + name}">${on ? "💗" : "🤍"} ${name}</button>`;
+            return `<button class="cl-vote${on ? " voted" : ""}${u === currentUser ? " cl-vote-mine" : ""}" onclick="voteIdea('${idea.id}','${u}')">${on ? "💗" : "🤍"} ${name}</button>`;
         };
         return `<div class="cl-idea${isBest ? " winner" : ""}">
             ${crown ? `<span class="cl-idea-crown">${crown}</span>` : ""}
@@ -4836,12 +5152,384 @@
         </div>`;
     }
 
-    window.toggleIdeas = function(taskId) {
-        if (openIdeaTasks.has(taskId)) openIdeaTasks.delete(taskId);
-        else openIdeaTasks.add(taskId);
-        renderChecklist();
+    /* --- subtasks --- */
+    function buildSubsHTML(t) {
+        const subs = t.subtasks || [];
+        const doneN = clSubDone(t);
+        const pct = subs.length ? Math.round((doneN / subs.length) * 100) : 0;
+        const rows = subs.map(s => `<div class="cl-sub${s.done ? " done" : ""}">
+            <button class="cl-sub-check" onclick="toggleSubtask('${t.id}','${s.id}')">${s.done ? "✅" : "⬜"}</button>
+            <span class="cl-sub-txt">${esc(s.text)}</span>
+            <button class="cl-sub-del" onclick="deleteSubtask('${t.id}','${s.id}')">✕</button>
+        </div>`).join("");
+        return `<div class="cl-panel">
+            <div class="cl-panel-head">
+                <span class="cl-panel-ttl">☑️ Steps (${doneN}/${subs.length})</span>
+            </div>
+            ${subs.length ? `<div class="cl-sub-bar"><span style="width:${pct}%"></span></div>` : ""}
+            ${subs.length ? `<div class="cl-sub-list">${rows}</div>` : '<div class="cl-panel-empty">Break this task into small steps ✨</div>'}
+            <div class="cl-panel-form">
+                <input type="text" class="cl-panel-input" id="cl-sub-input-${t.id}" placeholder="New step… e.g. 12 plates" maxlength="90"
+                       onkeydown="if(event.key==='Enter') addSubtask('${t.id}')"/>
+                <button class="cl-panel-btn" onclick="addSubtask('${t.id}')">Add</button>
+            </div>
+        </div>`;
+    }
+
+    /* --- payments --- */
+    function buildPayHTML(t) {
+        const budget = Number(t.budget) || 0;
+        const pays = t.payments || [];
+        const paid = clPaid(t);
+        const left = Math.max(0, budget - paid);
+        const rows = pays.map(p => `<div class="cl-pay-row">
+            <span class="cl-pay-amt">${clMoney(p.amount)}</span>
+            <span class="cl-pay-meta">${p.date ? clFmtDate(p.date) : ""} · ${p.by === "yossr" ? "👩" : "👨"}${p.note ? " · " + esc(p.note) : ""}</span>
+            <button class="cl-sub-del" onclick="deletePayment('${t.id}','${p.id}')">✕</button>
+        </div>`).join("");
+        return `<div class="cl-panel">
+            <div class="cl-panel-head">
+                <span class="cl-panel-ttl">💰 Payments</span>
+                <span class="cl-panel-ttl">${budget > 0 ? clMoney(paid) + " / " + clMoney(budget) : clMoney(paid) + " paid"}</span>
+            </div>
+            ${budget > 0 ? `<div class="cl-sub-bar"><span style="width:${Math.min(100, budget ? Math.round(paid / budget * 100) : 0)}%"></span></div>` : ""}
+            ${budget > 0 ? `<div class="cl-panel-note">${left > 0 ? "Left to pay: <b>" + clMoney(left) + "</b>" : "Fully paid ✅"}</div>` : ""}
+            ${pays.length ? `<div class="cl-pay-list">${rows}</div>` : '<div class="cl-panel-empty">No payment recorded yet 🌸</div>'}
+            <div class="cl-panel-form">
+                <input type="number" min="0" step="0.01" class="cl-panel-input" id="cl-pay-amt-${t.id}" placeholder="Amount" style="max-width:96px;"/>
+                <input type="date" class="cl-panel-input" id="cl-pay-date-${t.id}" value="${localToday()}" style="max-width:140px;"/>
+                <input type="text" class="cl-panel-input" id="cl-pay-note-${t.id}" placeholder="Note (advance…)" maxlength="40"/>
+                <button class="cl-panel-btn" onclick="addPayment('${t.id}')">Add</button>
+            </div>
+        </div>`;
+    }
+
+    /* --- task chat --- */
+    function buildChatHTML(t) {
+        const chat = t.comments || [];
+        const rows = chat.map(c => `<div class="cl-msg${c.author === currentUser ? " mine" : ""}">
+            <div class="cl-msg-who">${c.author === "yossr" ? "👩 Yossr" : "👨 Hamdi"} <span>${esc(c.time || "")}</span></div>
+            <div class="cl-msg-txt">${esc(c.text)}</div>
+        </div>`).join("");
+        return `<div class="cl-panel">
+            <div class="cl-panel-head"><span class="cl-panel-ttl">💬 Notes &amp; talk (${chat.length})</span></div>
+            ${chat.length ? `<div class="cl-msg-list">${rows}</div>` : '<div class="cl-panel-empty">Talk about this task together 💕</div>'}
+            <div class="cl-panel-form">
+                <input type="text" class="cl-panel-input" id="cl-chat-input-${t.id}" placeholder="Write something…" maxlength="200"
+                       onkeydown="if(event.key==='Enter') addTaskComment('${t.id}')"/>
+                <button class="cl-panel-btn" onclick="addTaskComment('${t.id}')">Send</button>
+            </div>
+        </div>`;
+    }
+
+    /* ---------- budget summary ---------- */
+    function renderChecklistBudget() {
+        let total = 0, paid = 0, withBudget = 0;
+        const byCat = {};
+        checklistData.forEach(t => {
+            const b = Number(t.budget) || 0;
+            const p = clPaid(t);
+            if (b > 0) withBudget++;
+            total += b; paid += p;
+            const c = clCat(t);
+            if (!byCat[c]) byCat[c] = { budget: 0, paid: 0 };
+            byCat[c].budget += b; byCat[c].paid += p;
+        });
+        const left = total - paid;
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+        set("cl-budget-total", clMoney(total));
+        set("cl-budget-done", clMoney(paid));
+        set("cl-budget-remaining", clMoney(left));
+        const note = document.getElementById("cl-budget-note");
+        if (note) note.textContent = withBudget === 0
+            ? "No budget added yet — add an amount to a task to start tracking 🌸"
+            : `${withBudget} of ${checklistData.length} task${checklistData.length !== 1 ? "s" : ""} have a budget 💕`;
+
+        // goal
+        const goalBar = document.getElementById("cl-goal-bar");
+        const goalTxt = document.getElementById("cl-goal-txt");
+        if (goalBar && goalTxt) {
+            if (clBudgetGoal > 0) {
+                const pct = Math.min(100, Math.round((total / clBudgetGoal) * 100));
+                const over = total - clBudgetGoal;
+                goalBar.style.width = pct + "%";
+                goalBar.classList.toggle("over", over > 0);
+                goalTxt.innerHTML = over > 0
+                    ? `⚠️ Over the goal by <b>${clMoney(over)}</b> (${clMoney(total)} of ${clMoney(clBudgetGoal)})`
+                    : `${clMoney(total)} planned of ${clMoney(clBudgetGoal)} · <b>${clMoney(clBudgetGoal - total)}</b> still free`;
+            } else {
+                goalBar.style.width = "0%";
+                goalTxt.textContent = "Set a global budget goal to follow your spending ✨";
+            }
+        }
+
+        // per category chart
+        const chart = document.getElementById("cl-cat-chart");
+        if (chart) {
+            const rows = CL_CATEGORIES
+                .filter(c => byCat[c.id] && byCat[c.id].budget > 0)
+                .sort((a, b) => byCat[b.id].budget - byCat[a.id].budget);
+            if (!rows.length) { chart.innerHTML = ""; chart.style.display = "none"; }
+            else {
+                chart.style.display = "block";
+                const max = Math.max(...rows.map(c => byCat[c.id].budget));
+                chart.innerHTML = '<div class="cl-cat-ttl">By category</div>' + rows.map(c => {
+                    const d = byCat[c.id];
+                    const w = Math.round((d.budget / max) * 100);
+                    const pw = d.budget ? Math.round((d.paid / d.budget) * 100) : 0;
+                    return `<div class="cl-cat-row">
+                        <span class="cl-cat-name">${c.label}</span>
+                        <span class="cl-cat-bar"><span class="cl-cat-fill" style="width:${w}%"><span class="cl-cat-paid" style="width:${pw}%"></span></span></span>
+                        <span class="cl-cat-val">${clMoney(d.budget)}</span>
+                    </div>`;
+                }).join("");
+            }
+        }
+    }
+
+    window.clSaveGoal = async function() {
+        const input = document.getElementById("cl-goal-input");
+        if (!input) return;
+        const v = input.value === "" ? 0 : Math.max(0, Number(input.value) || 0);
+        showSync();
+        try {
+            const { setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+            await setDoc(clSettingsDoc, { budgetGoal: v, updatedAt: new Date().toISOString() }, { merge: true });
+            clToast(v > 0 ? "Budget goal set to " + clMoney(v) + " 🎯" : "Budget goal removed");
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
     };
 
+    /* ---------- daily reminders in the bell ---------- */
+    let clRemindersDone = false;
+    async function clDueReminders() {
+        if (clRemindersDone) return;
+        if (!currentUser) return;          // wait until we know who is using the app
+        clRemindersDone = true;
+        const today = localToday();
+        const key = "hy-cl-reminded";
+        let seen = [];
+        try {
+            const raw = JSON.parse(localStorage.getItem(key) || "null");
+            if (raw && raw.day === today) seen = raw.ids || [];
+        } catch (e) {}
+        const due = checklistData.filter(t => (t.status || "todo") !== "done" && t.dueDate && t.dueDate <= today);
+        const fresh = due.filter(t => !seen.includes(t.id));
+        if (!fresh.length) return;
+        for (const t of fresh.slice(0, 5)) {
+            const late = t.dueDate < today;
+            try {
+                await createNotification("checklist",
+                    `${late ? "⚠️ Late" : "🔔 Due today"}: "${clShort(t.text, 40)}"`,
+                    currentUser, "checklist");
+            } catch (e) {}
+        }
+        try { localStorage.setItem(key, JSON.stringify({ day: today, ids: seen.concat(fresh.map(t => t.id)) })); } catch (e) {}
+    }
+
+    /* ---------- task CRUD ---------- */
+    window.addChecklistTask = async function () {
+        const input = document.getElementById("cl-task-input");
+        const select = document.getElementById("cl-status-select");
+        const catSel = document.getElementById("cl-cat-select");
+        const planInput = document.getElementById("cl-plan-input");
+        const dueInput = document.getElementById("cl-due-input");
+        const budgetInput = document.getElementById("cl-budget-input");
+        if (!input || !select) return;
+        const text = input.value.trim();
+        if (!text) { input.focus(); return; }
+
+        const plannedDate = planInput ? planInput.value : "";
+        const dueDate = dueInput ? dueInput.value : "";
+        const budget = budgetInput && budgetInput.value !== "" ? Math.max(0, Number(budgetInput.value)) : 0;
+        if (plannedDate && dueDate && dueDate < plannedDate) { alert("The due date can't be before the start date 📅"); return; }
+        if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return; }
+
+        showSync();
+        try {
+            await addDoc(checklistRef, {
+                text,
+                status: select.value,
+                category: catSel ? catSel.value : "other",
+                plannedDate, dueDate, budget,
+                pinned: false,
+                subtasks: [], payments: [], comments: [],
+                vendorName: "", vendorPhone: "", vendorPlaceId: "",
+                createdBy: currentUser || "hamdi",
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            });
+            input.value = "";
+            select.value = "todo";
+            if (planInput) planInput.value = "";
+            if (dueInput) dueInput.value = "";
+            if (budgetInput) budgetInput.value = "";
+            await clNotify(`${clWho()} added a task: ${clShort(text, 40)}`);
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.changeTaskStatus = async function (id, newStatus) {
+        if (!CL_STATUSES.includes(newStatus)) return;
+        const task = checklistData.find(t => t.id === id);
+        if (task && (task.status || "todo") === newStatus) return;
+        showSync();
+        try {
+            await updateDoc(doc(db, "checklist", id), { status: newStatus, updatedAt: new Date().toISOString() });
+            clToast("Moved to " + CL_STATUS_LABEL[newStatus]);
+            await clNotify(`${clWho()} moved "${clShort(task ? task.text : "a task", 32)}" to ${CL_STATUS_LABEL[newStatus]}`);
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.clTogglePin = async function(id) {
+        const t = checklistData.find(x => x.id === id);
+        if (!t) return;
+        showSync();
+        try {
+            await updateDoc(doc(db, "checklist", id), { pinned: !t.pinned, updatedAt: new Date().toISOString() });
+            clToast(!t.pinned ? "Pinned to the top ⭐" : "Unpinned");
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.startEditTask = function (id) {
+        editingTaskId = id;
+        renderChecklist();
+        const el = document.getElementById("cl-e-text-" + id);
+        if (el) el.focus();
+    };
+    window.cancelTaskEdit = function () { editingTaskId = null; renderChecklist(); };
+
+    window.saveTaskEdit = async function (id) {
+        const g = k => document.getElementById("cl-e-" + k + "-" + id);
+        const textEl = g("text");
+        if (!textEl) return;
+        const text = textEl.value.trim();
+        if (!text) { alert("The task can't be empty 💕"); textEl.focus(); return; }
+        const plannedDate = g("plan") ? g("plan").value : "";
+        const dueDate = g("due") ? g("due").value : "";
+        const budget = g("budget") && g("budget").value !== "" ? Math.max(0, Number(g("budget").value)) : 0;
+        const status = g("status") && CL_STATUSES.includes(g("status").value) ? g("status").value : "todo";
+        const category = g("cat") && CL_CAT_LABEL[g("cat").value] ? g("cat").value : "other";
+        if (plannedDate && dueDate && dueDate < plannedDate) { alert("The due date can't be before the start date 📅"); return; }
+        if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return; }
+
+        showSync();
+        try {
+            await updateDoc(doc(db, "checklist", id), {
+                text, plannedDate, dueDate, budget, status, category,
+                vendorName: g("vendor") ? g("vendor").value.trim() : "",
+                vendorPhone: g("phone") ? g("phone").value.trim() : "",
+                vendorPlaceId: g("place") ? g("place").value : "",
+                updatedAt: new Date().toISOString()
+            });
+            editingTaskId = null;
+            renderChecklist();
+            await clNotify(`${clWho()} updated the task: ${clShort(text, 40)}`);
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.deleteChecklistTask = async function (id) {
+        const ideas = ideasOf(id);
+        const extra = ideas.length ? ` and its ${ideas.length} photo idea${ideas.length > 1 ? "s" : ""}` : "";
+        if (!confirm("Delete this task" + extra + "?")) return;
+        showSync();
+        try {
+            if (editingTaskId === id) editingTaskId = null;
+            delete clPanels[id];
+            for (const i of ideas) { try { await deleteDoc(doc(db, "taskideas", i.id)); } catch (e) {} }
+            await deleteDoc(doc(db, "checklist", id));
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.clShowVendorPlace = function(placeId) {
+        const p = placesData.find(x => x.id === placeId);
+        if (!p) { alert("This place was removed from the map 🌸"); return; }
+        const btn = document.querySelector('.nav-btn[onclick*="places"]');
+        showPage("places", btn);
+        setTimeout(() => flyToPlace(p.lat, p.lng), 400);
+    };
+
+    /* ---------- subtasks ---------- */
+    async function clUpdateArray(taskId, field, arr, msg) {
+        showSync();
+        try {
+            await updateDoc(doc(db, "checklist", taskId), { [field]: arr, updatedAt: new Date().toISOString() });
+            if (msg) clToast(msg);
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    }
+    window.addSubtask = async function(taskId) {
+        const input = document.getElementById("cl-sub-input-" + taskId);
+        const t = checklistData.find(x => x.id === taskId);
+        if (!input || !t) return;
+        const text = input.value.trim();
+        if (!text) { input.focus(); return; }
+        input.value = "";
+        await clUpdateArray(taskId, "subtasks", [...(t.subtasks || []), { id: clUid(), text, done: false }]);
+    };
+    window.toggleSubtask = async function(taskId, subId) {
+        const t = checklistData.find(x => x.id === taskId);
+        if (!t) return;
+        const arr = (t.subtasks || []).map(s => s.id === subId ? { ...s, done: !s.done } : s);
+        await clUpdateArray(taskId, "subtasks", arr);
+    };
+    window.deleteSubtask = async function(taskId, subId) {
+        const t = checklistData.find(x => x.id === taskId);
+        if (!t) return;
+        await clUpdateArray(taskId, "subtasks", (t.subtasks || []).filter(s => s.id !== subId));
+    };
+
+    /* ---------- payments ---------- */
+    window.addPayment = async function(taskId) {
+        const t = checklistData.find(x => x.id === taskId);
+        const amtEl = document.getElementById("cl-pay-amt-" + taskId);
+        const dateEl = document.getElementById("cl-pay-date-" + taskId);
+        const noteEl = document.getElementById("cl-pay-note-" + taskId);
+        if (!t || !amtEl) return;
+        const amount = Number(amtEl.value);
+        if (!(amount > 0)) { alert("Enter the amount you paid 💰"); amtEl.focus(); return; }
+        const pay = {
+            id: clUid(),
+            amount,
+            date: dateEl && dateEl.value ? dateEl.value : localToday(),
+            by: currentUser || "hamdi",
+            note: noteEl ? noteEl.value.trim() : ""
+        };
+        amtEl.value = ""; if (noteEl) noteEl.value = "";
+        await clUpdateArray(taskId, "payments", [...(t.payments || []), pay]);
+        const paidNow = clPaid(t) + amount;
+        const budget = Number(t.budget) || 0;
+        clToast(budget > 0 && paidNow >= budget ? "Fully paid ✅" : "Payment saved 💰");
+        await clNotify(`${clWho()} paid ${clMoney(amount)} for "${clShort(t.text, 28)}"${budget > 0 ? ` · ${clMoney(Math.max(0, budget - paidNow))} left` : ""}`);
+    };
+    window.deletePayment = async function(taskId, payId) {
+        const t = checklistData.find(x => x.id === taskId);
+        if (!t || !confirm("Delete this payment?")) return;
+        await clUpdateArray(taskId, "payments", (t.payments || []).filter(p => p.id !== payId));
+    };
+
+    /* ---------- task chat ---------- */
+    window.addTaskComment = async function(taskId) {
+        const input = document.getElementById("cl-chat-input-" + taskId);
+        const t = checklistData.find(x => x.id === taskId);
+        if (!input || !t) return;
+        const text = input.value.trim();
+        if (!text) return;
+        input.value = "";
+        const c = {
+            author: currentUser || "hamdi",
+            text,
+            time: new Date().toLocaleString("en-GB", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })
+        };
+        await clUpdateArray(taskId, "comments", [...(t.comments || []), c]);
+        await clNotify(`${clWho()} wrote on "${clShort(t.text, 26)}": ${clShort(text, 40)}`);
+    };
+
+    /* ---------- photo ideas ---------- */
     window.openIdeaLightbox = function(ideaId) {
         const idea = taskIdeas.find(i => i.id === ideaId);
         if (!idea) return;
@@ -4901,8 +5589,7 @@
             if (!b64) continue;
             try {
                 await addDoc(taskIdeasRef, {
-                    taskId,
-                    image: b64,
+                    taskId, image: b64,
                     label: files.length > 1 && label ? label + " " + (added + 1) : label,
                     price,
                     addedBy: currentUser || "hamdi",
@@ -4917,11 +5604,9 @@
         event.target.value = "";
         ideaTargetTask = null;
         if (added) {
-            openIdeaTasks.add(taskId);
+            clPanels[taskId] = "ideas";
             clToast(added + " idea" + (added > 1 ? "s" : "") + " added 🖼️");
-            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("checklist", `${whoName} added ${added} photo idea${added > 1 ? "s" : ""} for "${clShort(task ? task.text : "a task", 30)}" — vote for your favourite 💕`, partner, "checklist");
+            await clNotify(`${clWho()} added ${added} photo idea${added > 1 ? "s" : ""} for "${clShort(task ? task.text : "a task", 30)}" — vote for your favourite 💕`);
         }
     };
 
@@ -4935,11 +5620,9 @@
             await updateDoc(doc(db, "taskideas", ideaId), { ["votes." + user]: next });
             if (next && user === currentUser) {
                 const task = checklistData.find(t => t.id === idea.taskId);
-                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
                 const both = (user === "hamdi" ? votes.yossr : votes.hamdi);
                 clToast(both ? "You both love this one 💖" : "Vote saved 💗");
-                await createNotification("checklist", `${whoName} voted for ${idea.label ? '"' + clShort(idea.label, 24) + '"' : "an idea"}${task ? ' in "' + clShort(task.text, 24) + '"' : ""} 💗`, partner, "checklist");
+                await clNotify(`${clWho()} voted for ${idea.label ? '"' + clShort(idea.label, 24) + '"' : "an idea"}${task ? ' in "' + clShort(task.text, 24) + '"' : ""} 💗`);
             }
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
@@ -4967,191 +5650,14 @@
         hideSync();
     };
 
-    function buildTaskEditHTML(t) {
-        const status = CL_STATUSES.includes(t.status) ? t.status : "todo";
-        const options = CL_STATUSES.map(s =>
-            `<option value="${s}"${s === status ? " selected" : ""}>${CL_STATUS_LABEL[s]}</option>`
-        ).join("");
-        const budgetVal = (t.budget === 0 || t.budget) ? Number(t.budget) : "";
-        return `<div class="checklist-task checklist-task-editing checklist-status-${status}" id="task-${t.id}">
-            <div class="cl-edit-form">
-                <div>
-                    <label class="cl-field-lbl">✏️ Task</label>
-                    <input type="text" class="cl-edit-input" id="cl-e-text-${t.id}" value="${clEsc(t.text || "")}" maxlength="120"/>
-                </div>
-                <div class="cl-edit-row">
-                    <div class="cl-edit-col">
-                        <label class="cl-field-lbl">🗓️ Start date</label>
-                        <input type="date" class="cl-edit-input" id="cl-e-plan-${t.id}" value="${clEsc(t.plannedDate || "")}"/>
-                    </div>
-                    <div class="cl-edit-col">
-                        <label class="cl-field-lbl">⏰ Due date</label>
-                        <input type="date" class="cl-edit-input" id="cl-e-due-${t.id}" value="${clEsc(t.dueDate || "")}"/>
-                    </div>
-                </div>
-                <div class="cl-edit-row">
-                    <div class="cl-edit-col">
-                        <label class="cl-field-lbl">💰 Budget (<span class="cl-currency-lbl">${CL_CURRENCY}</span>)</label>
-                        <input type="number" min="0" step="0.01" class="cl-edit-input" id="cl-e-budget-${t.id}" value="${budgetVal}" placeholder="0"/>
-                    </div>
-                    <div class="cl-edit-col">
-                        <label class="cl-field-lbl">Status</label>
-                        <select class="cl-edit-input" id="cl-e-status-${t.id}">${options}</select>
-                    </div>
-                </div>
-                <div class="cl-edit-actions">
-                    <button class="checklist-edit-save-btn" onclick="saveTaskEdit('${t.id}')">💾 Save changes</button>
-                    <button class="checklist-edit-cancel-btn" onclick="cancelTaskEdit()">Cancel</button>
-                </div>
-            </div>
-        </div>`;
-    }
-
-    function renderChecklistBudget() {
-        let total = 0, doneAmount = 0, withBudget = 0;
-        checklistData.forEach(t => {
-            const b = Number(t.budget) || 0;
-            if (b > 0) { total += b; withBudget++; }
-            if ((t.status || "todo") === "done") doneAmount += b;
-        });
-        const remaining = total - doneAmount;
-        const totalEl = document.getElementById("cl-budget-total");
-        const doneEl = document.getElementById("cl-budget-done");
-        const remEl = document.getElementById("cl-budget-remaining");
-        const noteEl = document.getElementById("cl-budget-note");
-        if (totalEl) totalEl.textContent = clMoney(total);
-        if (doneEl) doneEl.textContent = clMoney(doneAmount);
-        if (remEl) remEl.textContent = clMoney(remaining);
-        if (noteEl) {
-            noteEl.textContent = withBudget === 0
-                ? "No budget added yet — add an amount to a task to start tracking 🌸"
-                : `${withBudget} of ${checklistData.length} task${checklistData.length !== 1 ? "s" : ""} have a budget 💕`;
-        }
-    }
-
-    window.addChecklistTask = async function () {
-        const input = document.getElementById("cl-task-input");
-        const select = document.getElementById("cl-status-select");
-        const planInput = document.getElementById("cl-plan-input");
-        const dueInput = document.getElementById("cl-due-input");
-        const budgetInput = document.getElementById("cl-budget-input");
-        if (!input || !select) return;
-        const text = input.value.trim();
-        if (!text) { input.focus(); return; }
-
-        const plannedDate = planInput ? planInput.value : "";
-        const dueDate = dueInput ? dueInput.value : "";
-        const budget = budgetInput && budgetInput.value !== "" ? Math.max(0, Number(budgetInput.value)) : 0;
-
-        if (plannedDate && dueDate && dueDate < plannedDate) {
-            alert("The due date can't be before the start date 📅");
-            return;
-        }
-        if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return; }
-
-        showSync();
-        try {
-            await addDoc(checklistRef, {
-                text,
-                status: select.value,
-                plannedDate,
-                dueDate,
-                budget,
-                createdBy: currentUser || "hamdi",
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            });
-            input.value = "";
-            select.value = "todo";
-            if (planInput) planInput.value = "";
-            if (dueInput) dueInput.value = "";
-            if (budgetInput) budgetInput.value = "";
-            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("checklist", `${whoName} added a task: ${clShort(text, 40)}`, partner, "checklist");
-        } catch (e) {
-            alert("Error: " + e.message);
-        }
-        hideSync();
-    };
-
-    window.changeTaskStatus = async function (id, newStatus) {
-        if (!CL_STATUSES.includes(newStatus)) return;
-        const task = checklistData.find(t => t.id === id);
-        if (task && (task.status || "todo") === newStatus) return;
-        showSync();
-        try {
-            await updateDoc(doc(db, "checklist", id), { status: newStatus, updatedAt: new Date().toISOString() });
-            clToast("Moved to " + CL_STATUS_LABEL[newStatus]);
-            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("checklist", `${whoName} moved "${clShort(task ? task.text : "a task", 32)}" to ${CL_STATUS_LABEL[newStatus]}`, partner, "checklist");
-        } catch (e) { alert("Error: " + e.message); }
-        hideSync();
-    };
-
-    window.startEditTask = function (id) {
-        editingTaskId = id;
-        renderChecklist();
-        const el = document.getElementById("cl-e-text-" + id);
-        if (el) el.focus();
-    };
-
-    window.cancelTaskEdit = function () {
-        editingTaskId = null;
-        renderChecklist();
-    };
-
-    window.saveTaskEdit = async function (id) {
-        const textEl = document.getElementById("cl-e-text-" + id);
-        const planEl = document.getElementById("cl-e-plan-" + id);
-        const dueEl = document.getElementById("cl-e-due-" + id);
-        const budgetEl = document.getElementById("cl-e-budget-" + id);
-        const statusEl = document.getElementById("cl-e-status-" + id);
-        if (!textEl) return;
-
-        const text = textEl.value.trim();
-        if (!text) { alert("The task can't be empty 💕"); textEl.focus(); return; }
-
-        const plannedDate = planEl ? planEl.value : "";
-        const dueDate = dueEl ? dueEl.value : "";
-        const budget = budgetEl && budgetEl.value !== "" ? Math.max(0, Number(budgetEl.value)) : 0;
-        const status = statusEl && CL_STATUSES.includes(statusEl.value) ? statusEl.value : "todo";
-
-        if (plannedDate && dueDate && dueDate < plannedDate) {
-            alert("The due date can't be before the start date 📅");
-            return;
-        }
-        if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return; }
-
-        showSync();
-        try {
-            await updateDoc(doc(db, "checklist", id), {
-                text, plannedDate, dueDate, budget, status,
-                updatedAt: new Date().toISOString()
-            });
-            editingTaskId = null;
-            renderChecklist();
-            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("checklist", `${whoName} updated the task: ${clShort(text, 40)}`, partner, "checklist");
-        } catch (e) { alert("Error: " + e.message); }
-        hideSync();
-    };
-
-    window.deleteChecklistTask = async function (id) {
-        const ideas = ideasOf(id);
-        const extra = ideas.length ? ` and its ${ideas.length} photo idea${ideas.length > 1 ? "s" : ""}` : "";
-        if (!confirm("Delete this task" + extra + "?")) return;
-        showSync();
-        try {
-            if (editingTaskId === id) editingTaskId = null;
-            openIdeaTasks.delete(id);
-            for (const i of ideas) { try { await deleteDoc(doc(db, "taskideas", i.id)); } catch (e) {} }
-            await deleteDoc(doc(db, "checklist", id));
-        } catch (e) { alert("Error: " + e.message); }
-        hideSync();
-    };
+    // fill the category selects
+    (function fillCatSelects() {
+        const add = document.getElementById("cl-cat-select");
+        const filt = document.getElementById("cl-cat-filter");
+        if (add) add.innerHTML = CL_CATEGORIES.map(c => `<option value="${c.id}"${c.id === "other" ? " selected" : ""}>${c.label}</option>`).join("");
+        if (filt) filt.innerHTML = '<option value="all">🏷️ All categories</option>' +
+            CL_CATEGORIES.map(c => `<option value="${c.id}">${c.label}</option>`).join("");
+    })();
 
     /* ===== OUR PLACES ===== */
     const placesRef=collection(db,"places");let leafletMap=null;let mapInitialized=false;let placesData=[];const placeMarkers={};
@@ -7464,13 +7970,19 @@ function renderQuizScores() {
             '</div>';
     }
     function pdfChecklistTableHTML(rows) {
-        const body = rows.map(t =>
-            '<tr><td>' + esc(t.text) + '</td>' +
-            '<td>' + (t.plannedDate ? esc(clFmtDate(t.plannedDate)) : '—') + '</td>' +
-            '<td>' + (t.dueDate ? esc(clFmtDate(t.dueDate)) : '—') + '</td>' +
-            '<td class="pdfb-money">' + (Number(t.budget) > 0 ? esc(clMoney(t.budget)) : '—') + '</td></tr>'
-        ).join("");
-        return '<table class="pdfb-table"><thead><tr><th>Task</th><th>Start</th><th>Due</th><th>Budget</th></tr></thead>' +
+        const body = rows.map(t => {
+            const paid = clPaid(t);
+            const subs = (t.subtasks || []).length;
+            return '<tr><td>' + esc(t.text) +
+                (subs ? '<br><span style="font-size:10px;color:#b07090;">☑️ ' + clSubDone(t) + '/' + subs + ' steps</span>' : '') +
+                (t.vendorName ? '<br><span style="font-size:10px;color:#b07090;">🏪 ' + esc(t.vendorName) + '</span>' : '') +
+                '</td>' +
+                '<td>' + esc(CL_CAT_LABEL[clCat(t)] || "") + '</td>' +
+                '<td>' + (t.dueDate ? esc(clFmtDate(t.dueDate)) : '—') + '</td>' +
+                '<td class="pdfb-money">' + (Number(t.budget) > 0 ? esc(clMoney(t.budget)) : '—') + '</td>' +
+                '<td class="pdfb-money">' + (paid > 0 ? esc(clMoney(paid)) : '—') + '</td></tr>';
+        }).join("");
+        return '<table class="pdfb-table"><thead><tr><th>Task</th><th>Category</th><th>Due</th><th>Budget</th><th>Paid</th></tr></thead>' +
             '<tbody>' + body + '</tbody></table>';
     }
     function pdfIdeaHTML(task, idea, withPhotos) {
@@ -7663,12 +8175,8 @@ function renderQuizScores() {
 
             /* ---- checklist & budget ---- */
             if (opts.checklist) {
-                let total = 0, done = 0;
-                checklistData.forEach(t => {
-                    const b = Number(t.budget) || 0;
-                    total += b;
-                    if ((t.status || "todo") === "done") done += b;
-                });
+                let total = 0, paidAll = 0;
+                checklistData.forEach(t => { total += Number(t.budget) || 0; paidAll += clPaid(t); });
                 bookSectionStart("✅", "Wedding Checklist", checklistData.length + " task" + (checklistData.length !== 1 ? "s" : ""));
                 ["todo", "inprogress", "done"].forEach(st => {
                     const rows = checklistData.filter(t => (t.status || "todo") === st);
@@ -7678,8 +8186,9 @@ function renderQuizScores() {
                 });
                 bookAdd('<div class="pdfb-stats" style="margin-top:10px;">' +
                     pdfStatBlock(clMoney(total), "Total budget") +
-                    pdfStatBlock(clMoney(done), "Already done") +
-                    pdfStatBlock(clMoney(total - done), "Remaining") + '</div>');
+                    pdfStatBlock(clMoney(paidAll), "Already paid") +
+                    pdfStatBlock(clMoney(total - paidAll), "Left to pay") +
+                    (clBudgetGoal > 0 ? pdfStatBlock(clMoney(clBudgetGoal), "Our goal") : "") + '</div>');
                 // what we picked together
                 const chosen = checklistData
                     .map(t => ({ task: t, idea: bestIdeaOf(t.id) }))
