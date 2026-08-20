@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v16"/>
+    <meta name="app-version" content="v17"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -59,6 +59,9 @@
         body[data-theme="lavender"] .comment-send-btn,
         body[data-theme="lavender"] .place-save-btn,
         body[data-theme="lavender"] .quiz-open-submit-btn,
+        body[data-theme="lavender"] .cl-tab.active,
+        body[data-theme="lavender"] .cl-add-idea-btn,
+        body[data-theme="lavender"] .cl-vote.voted,
         body[data-theme="lavender"] .book-btn,
         body[data-theme="lavender"] .pdf-go-btn,
         body[data-theme="lavender"] .checklist-edit-save-btn {
@@ -140,6 +143,9 @@
         body[data-theme="peach"] .comment-send-btn,
         body[data-theme="peach"] .place-save-btn,
         body[data-theme="peach"] .quiz-open-submit-btn,
+        body[data-theme="peach"] .cl-tab.active,
+        body[data-theme="peach"] .cl-add-idea-btn,
+        body[data-theme="peach"] .cl-vote.voted,
         body[data-theme="peach"] .book-btn,
         body[data-theme="peach"] .pdf-go-btn,
         body[data-theme="peach"] .checklist-edit-save-btn {
@@ -221,6 +227,9 @@
         body[data-theme="ocean"] .comment-send-btn,
         body[data-theme="ocean"] .place-save-btn,
         body[data-theme="ocean"] .quiz-open-submit-btn,
+        body[data-theme="ocean"] .cl-tab.active,
+        body[data-theme="ocean"] .cl-add-idea-btn,
+        body[data-theme="ocean"] .cl-vote.voted,
         body[data-theme="ocean"] .book-btn,
         body[data-theme="ocean"] .pdf-go-btn,
         body[data-theme="ocean"] .checklist-edit-save-btn {
@@ -302,6 +311,9 @@
         body[data-theme="sunset"] .comment-send-btn,
         body[data-theme="sunset"] .place-save-btn,
         body[data-theme="sunset"] .quiz-open-submit-btn,
+        body[data-theme="sunset"] .cl-tab.active,
+        body[data-theme="sunset"] .cl-add-idea-btn,
+        body[data-theme="sunset"] .cl-vote.voted,
         body[data-theme="sunset"] .book-btn,
         body[data-theme="sunset"] .pdf-go-btn,
         body[data-theme="sunset"] .checklist-edit-save-btn {
@@ -384,6 +396,9 @@
         body[data-theme="midnight"] .comment-send-btn,
         body[data-theme="midnight"] .place-save-btn,
         body[data-theme="midnight"] .quiz-open-submit-btn,
+        body[data-theme="midnight"] .cl-tab.active,
+        body[data-theme="midnight"] .cl-add-idea-btn,
+        body[data-theme="midnight"] .cl-vote.voted,
         body[data-theme="midnight"] .book-btn,
         body[data-theme="midnight"] .pdf-go-btn,
         body[data-theme="midnight"] .checklist-edit-save-btn {
@@ -1378,6 +1393,51 @@
         .checklist-progress-wrap { background: rgba(255, 182, 210, .3); border-radius: 50px; height: 6px; overflow: hidden; margin-bottom: 6px; }
         .checklist-progress-bar { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #f48fb1, #c0396b); transition: width .5s ease; }
         .checklist-progress-label { font-size: .75rem; color: #a0556e; letter-spacing: 1px; margin-bottom: 16px; text-align: center; }
+        /* --- mobile column tabs --- */
+        .cl-tabs { display: none; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+        .cl-tab { display: flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 50px; border: 1px solid rgba(255, 182, 210, .6); background: rgba(255, 255, 255, .78); color: #9b1c4a; font-size: .85rem; font-family: 'Lato', sans-serif; cursor: pointer; transition: all .25s; }
+        .cl-tab.active { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border-color: transparent; box-shadow: 0 4px 14px rgba(192, 57, 107, .25); }
+        .cl-tab-count { background: rgba(255, 255, 255, .5); border-radius: 40px; padding: 1px 8px; font-size: .72rem; }
+        .cl-tab.active .cl-tab-count { background: rgba(255, 255, 255, .3); }
+        @media (max-width: 900px) {
+            .cl-tabs { display: flex; }
+            .checklist-board[data-tab="todo"] .checklist-column:not(#col-todo),
+            .checklist-board[data-tab="inprogress"] .checklist-column:not(#col-inprogress),
+            .checklist-board[data-tab="done"] .checklist-column:not(#col-done) { display: none; }
+        }
+        /* --- toast --- */
+        .cl-toast { position: fixed; left: 50%; bottom: 90px; transform: translate(-50%, 20px); z-index: 9000; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; padding: 11px 22px; border-radius: 50px; font-size: .85rem; letter-spacing: .5px; box-shadow: 0 8px 24px rgba(192, 57, 107, .35); opacity: 0; pointer-events: none; transition: all .3s ease; }
+        .cl-toast.show { opacity: 1; transform: translate(-50%, 0); }
+        /* --- task ideas & votes --- */
+        .cl-ideas-btn { margin-top: 10px; width: 100%; padding: 7px 12px; border-radius: 10px; border: 1px dashed rgba(192, 57, 107, .38); background: rgba(255, 240, 248, .7); color: #9b1c4a; font-size: .78rem; font-family: 'Lato', sans-serif; letter-spacing: .4px; cursor: pointer; transition: all .2s; }
+        .cl-ideas-btn:hover { background: rgba(255, 214, 232, .75); border-style: solid; }
+        .cl-ideas { margin-top: 10px; padding-top: 11px; border-top: 1px solid rgba(255, 182, 210, .4); }
+        .cl-ideas-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 9px; }
+        .cl-ideas-ttl { font-size: .7rem; text-transform: uppercase; letter-spacing: 1.2px; color: #b07090; }
+        .cl-add-idea-btn { padding: 5px 12px; border-radius: 50px; border: none; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; font-size: .72rem; font-family: 'Lato', sans-serif; cursor: pointer; letter-spacing: .4px; }
+        .cl-add-idea-btn:disabled { opacity: .55; cursor: wait; }
+        .cl-idea-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+        .cl-idea { background: rgba(255, 255, 255, .9); border: 1px solid rgba(255, 182, 210, .55); border-radius: 12px; overflow: hidden; position: relative; transition: all .25s; }
+        .cl-idea.winner { border-color: #c0396b; box-shadow: 0 4px 16px rgba(192, 57, 107, .25); }
+        .cl-idea-img { width: 100%; height: 96px; object-fit: cover; display: block; cursor: zoom-in; background: #fdf2f7; }
+        .cl-idea-body { padding: 7px 9px 9px; }
+        .cl-idea-label { font-size: .76rem; color: #5a1a35; line-height: 1.35; word-break: break-word; min-height: 16px; }
+        .cl-idea-price { font-size: .72rem; color: #8a6520; font-weight: 700; margin-top: 3px; }
+        .cl-idea-crown { position: absolute; top: 6px; left: 6px; background: rgba(255, 255, 255, .92); border-radius: 40px; padding: 2px 8px; font-size: .66rem; color: #9b1c4a; letter-spacing: .3px; }
+        .cl-idea-del { position: absolute; top: 5px; right: 5px; background: rgba(255, 255, 255, .9); border: none; border-radius: 50%; width: 22px; height: 22px; font-size: .68rem; color: #c0396b; cursor: pointer; line-height: 1; }
+        .cl-vote-row { display: flex; gap: 5px; margin-top: 7px; }
+        .cl-vote { flex: 1; padding: 5px 4px; border-radius: 8px; border: 1px solid rgba(255, 182, 210, .6); background: rgba(255, 240, 248, .8); color: #a0556e; font-size: .68rem; font-family: 'Lato', sans-serif; cursor: pointer; transition: all .2s; letter-spacing: .2px; }
+        .cl-vote.voted { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border-color: transparent; }
+        .cl-vote-mine { border-style: solid; }
+        .cl-idea-budget { width: 100%; margin-top: 5px; padding: 4px; border-radius: 8px; border: 1px solid rgba(255, 205, 110, .7); background: rgba(255, 240, 200, .5); color: #8a6520; font-size: .66rem; font-family: 'Lato', sans-serif; cursor: pointer; }
+        .cl-ideas-empty { font-size: .74rem; color: #c090a8; letter-spacing: .5px; text-align: center; padding: 10px 4px; }
+        @media (max-width: 480px) { .cl-idea-img { height: 110px; } }
+        /* --- idea lightbox --- */
+        .idea-lightbox { position: fixed; inset: 0; z-index: 9500; background: rgba(60, 10, 30, .88); display: none; align-items: center; justify-content: center; padding: 24px; cursor: zoom-out; }
+        .idea-lightbox.open { display: flex; }
+        .idea-lightbox img { max-width: 94vw; max-height: 78vh; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
+        .idea-lightbox-cap { position: absolute; bottom: 26px; left: 0; right: 0; text-align: center; color: #ffd6e8; font-size: .88rem; letter-spacing: .5px; padding: 0 20px; }
+
         /* --- budget summary --- */
         .checklist-budget-summary { background: rgba(255, 255, 255, .72); backdrop-filter: blur(14px); border: 1px solid rgba(255, 182, 210, .55); border-radius: 22px; padding: 20px 24px 18px; margin-top: 24px; box-shadow: 0 8px 28px rgba(192, 57, 107, .12); text-align: center; }
         .checklist-budget-title { font-family: 'Great Vibes', cursive; font-size: 1.8rem; color: #c0396b; margin-bottom: 12px; }
@@ -2883,6 +2943,14 @@
     </div>
 </div>
 
+<!-- ===== TASK IDEA LIGHTBOX ===== -->
+<div class="idea-lightbox" id="idea-lightbox" onclick="closeIdeaLightbox()">
+    <img id="idea-lightbox-img" src="" alt=""/>
+    <div class="idea-lightbox-cap" id="idea-lightbox-cap"></div>
+</div>
+<div class="cl-toast" id="cl-toast"></div>
+<input type="file" id="cl-idea-file" accept="image/*" multiple style="display:none" onchange="handleIdeaFiles(event)"/>
+
 <!-- ===== PDF EXPORT MODAL ===== -->
 <div class="theme-modal-overlay" id="export-modal-overlay">
     <div class="theme-modal pdf-modal">
@@ -3153,7 +3221,13 @@
             </div>
             <button class="checklist-add-btn" onclick="addChecklistTask()">+ Add Task</button>
         </div>
-        <div class="checklist-board">
+        <div class="cl-tabs" id="cl-tabs">
+            <button class="cl-tab active" id="cl-tab-todo" onclick="showChecklistTab('todo')">📋 To Do <span class="cl-tab-count" id="cl-tabc-todo">0</span></button>
+            <button class="cl-tab" id="cl-tab-inprogress" onclick="showChecklistTab('inprogress')">⏳ In Progress <span class="cl-tab-count" id="cl-tabc-inprogress">0</span></button>
+            <button class="cl-tab" id="cl-tab-done" onclick="showChecklistTab('done')">✅ Done <span class="cl-tab-count" id="cl-tabc-done">0</span></button>
+        </div>
+
+        <div class="checklist-board" id="checklist-board" data-tab="todo">
             <div class="checklist-column" id="col-todo">
                 <div class="checklist-col-header"><span class="checklist-col-title">📋 To Do</span><span class="checklist-col-count" id="count-todo">0</span></div>
                 <div id="tasks-todo"><p class="checklist-empty">No tasks yet 🌸</p></div>
@@ -4560,7 +4634,7 @@
     window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});}catch(e){alert("Error: "+e.message);}hideSync();};
 
     /* ============================================================
-       ===== CHECKLIST (v12 — status select, edit, dates & budget) =====
+       ===== CHECKLIST (v17 — status select, edit, dates & budget) =====
        ============================================================ */
     const checklistRef = collection(db, "checklist");
     const CL_CURRENCY = "TND";                 // change here to switch currency
@@ -4568,6 +4642,11 @@
     const CL_STATUS_LABEL = { todo: "📋 To Do", inprogress: "⏳ In Progress", done: "✅ Done" };
     let checklistData = [];
     let editingTaskId = null;
+    let clActiveTab = "todo";              // mobile: which column is on screen
+    const taskIdeasRef = collection(db, "taskideas");
+    let taskIdeas = [];                    // { taskId, image, label, price, addedBy, addedAt, votes }
+    let openIdeaTasks = new Set();         // tasks whose idea panel is open
+    let ideaTargetTask = null;             // task waiting for a picked file
 
     // show the currency everywhere in the UI
     document.querySelectorAll(".cl-currency-lbl").forEach(el => el.textContent = CL_CURRENCY);
@@ -4596,10 +4675,45 @@
         return s.length > n ? s.slice(0, n) + "…" : s;
     }
 
+    let clToastTimer = null;
+    function clToast(msg) {
+        const el = document.getElementById("cl-toast");
+        if (!el) return;
+        el.textContent = msg;
+        el.classList.add("show");
+        clearTimeout(clToastTimer);
+        clToastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+    }
+
+    window.showChecklistTab = function(tab) {
+        if (!CL_STATUSES.includes(tab)) return;
+        clActiveTab = tab;
+        const board = document.getElementById("checklist-board");
+        if (board) board.dataset.tab = tab;
+        CL_STATUSES.forEach(s => {
+            const b = document.getElementById("cl-tab-" + s);
+            if (b) b.classList.toggle("active", s === tab);
+        });
+    };
+
     onSnapshot(query(checklistRef, orderBy("createdAt", "asc")), snapshot => {
         checklistData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         renderChecklist();
     });
+
+    onSnapshot(query(taskIdeasRef, orderBy("addedAt", "asc")), snapshot => {
+        taskIdeas = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderChecklist();
+    });
+
+    function ideasOf(taskId) { return taskIdeas.filter(i => i.taskId === taskId); }
+    function ideaVotes(idea) { return Object.keys(idea.votes || {}).filter(u => idea.votes[u]); }
+    function bestIdeaOf(taskId) {
+        const list = ideasOf(taskId);
+        let best = null, bestN = 0;
+        list.forEach(i => { const n = ideaVotes(i).length; if (n > bestN) { best = i; bestN = n; } });
+        return bestN > 0 ? best : null;
+    }
 
     function renderChecklist() {
         const buckets = { todo: [], inprogress: [], done: [] };
@@ -4612,8 +4726,10 @@
         CL_STATUSES.forEach(status => {
             const container = document.getElementById("tasks-" + status);
             const countEl = document.getElementById("count-" + status);
+            const tabCountEl = document.getElementById("cl-tabc-" + status);
             const tasks = buckets[status];
             if (countEl) countEl.textContent = tasks.length;
+            if (tabCountEl) tabCountEl.textContent = tasks.length;
             if (!container) return;
             if (tasks.length === 0) {
                 container.innerHTML = `<p class="checklist-empty">${emptyMsgs[status]}</p>`;
@@ -4671,8 +4787,185 @@
                 <label class="checklist-status-lbl">Status</label>
                 <select class="checklist-status-select" onchange="changeTaskStatus('${t.id}', this.value)">${options}</select>
             </div>
+            ${buildIdeasHTML(t)}
         </div>`;
     }
+
+    /* ===== photo ideas + votes ===== */
+    function buildIdeasHTML(t) {
+        const list = ideasOf(t.id);
+        const open = openIdeaTasks.has(t.id);
+        const totalVotes = list.reduce((n, i) => n + ideaVotes(i).length, 0);
+        if (!open) {
+            const lbl = list.length
+                ? `🖼️ ${list.length} idea${list.length > 1 ? "s" : ""}${totalVotes ? ` · ${totalVotes} vote${totalVotes > 1 ? "s" : ""}` : ""} — tap to see`
+                : "🖼️ Add photo ideas & vote";
+            return `<button class="cl-ideas-btn" onclick="toggleIdeas('${t.id}')">${lbl}</button>`;
+        }
+        const best = bestIdeaOf(t.id);
+        const cards = list.map(i => buildIdeaCardHTML(i, best && best.id === i.id)).join("");
+        return `<div class="cl-ideas">
+            <div class="cl-ideas-head">
+                <span class="cl-ideas-ttl">🖼️ Ideas &amp; votes (${list.length})</span>
+                <button class="cl-add-idea-btn" id="cl-add-idea-${t.id}" onclick="pickIdeaPhotos('${t.id}')">+ Add photo</button>
+            </div>
+            ${list.length ? `<div class="cl-idea-grid">${cards}</div>` : '<div class="cl-ideas-empty">No idea yet — add a photo of what you like 🌸</div>'}
+            <button class="cl-ideas-btn" style="margin-top:9px;" onclick="toggleIdeas('${t.id}')">🔼 Hide ideas</button>
+        </div>`;
+    }
+
+    function buildIdeaCardHTML(idea, isBest) {
+        const votes = idea.votes || {};
+        const bothVoted = votes.hamdi && votes.yossr;
+        const crown = bothVoted ? "💖 Chosen" : (isBest ? "⭐ Favourite" : "");
+        const voteBtn = (u, name) => {
+            const on = !!votes[u];
+            const mine = u === currentUser;
+            return `<button class="cl-vote${on ? " voted" : ""}${mine ? " cl-vote-mine" : ""}" onclick="voteIdea('${idea.id}','${u}')" title="${mine ? "Your vote" : "Vote for " + name}">${on ? "💗" : "🤍"} ${name}</button>`;
+        };
+        return `<div class="cl-idea${isBest ? " winner" : ""}">
+            ${crown ? `<span class="cl-idea-crown">${crown}</span>` : ""}
+            <button class="cl-idea-del" onclick="deleteIdea('${idea.id}')" title="Delete">✕</button>
+            <img class="cl-idea-img" src="${idea.image}" alt="" onclick="openIdeaLightbox('${idea.id}')"/>
+            <div class="cl-idea-body">
+                <div class="cl-idea-label">${idea.label ? esc(idea.label) : '<span style="color:#c090a8">No name</span>'}</div>
+                ${Number(idea.price) > 0 ? `<div class="cl-idea-price">💰 ${clMoney(idea.price)}</div>` : ""}
+                <div class="cl-vote-row">${voteBtn("hamdi", "Hamdi")}${voteBtn("yossr", "Yossr")}</div>
+                ${Number(idea.price) > 0 ? `<button class="cl-idea-budget" onclick="useIdeaBudget('${idea.id}')">💰 Use as task budget</button>` : ""}
+            </div>
+        </div>`;
+    }
+
+    window.toggleIdeas = function(taskId) {
+        if (openIdeaTasks.has(taskId)) openIdeaTasks.delete(taskId);
+        else openIdeaTasks.add(taskId);
+        renderChecklist();
+    };
+
+    window.openIdeaLightbox = function(ideaId) {
+        const idea = taskIdeas.find(i => i.id === ideaId);
+        if (!idea) return;
+        document.getElementById("idea-lightbox-img").src = idea.image;
+        const price = Number(idea.price) > 0 ? " · 💰 " + clMoney(idea.price) : "";
+        document.getElementById("idea-lightbox-cap").textContent = (idea.label || "Idea") + price;
+        document.getElementById("idea-lightbox").classList.add("open");
+    };
+    window.closeIdeaLightbox = function() {
+        document.getElementById("idea-lightbox").classList.remove("open");
+        document.getElementById("idea-lightbox-img").src = "";
+    };
+
+    function compressIdeaImage(file, cb) {
+        const r = new FileReader();
+        r.onload = ev => {
+            const img = new Image();
+            img.onload = () => {
+                const MAX = 560;
+                let w = img.width, h = img.height;
+                if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+                const c = document.createElement("canvas");
+                c.width = w; c.height = h;
+                c.getContext("2d").drawImage(img, 0, 0, w, h);
+                cb(c.toDataURL("image/jpeg", .62));
+            };
+            img.onerror = () => cb(null);
+            img.src = ev.target.result;
+        };
+        r.onerror = () => cb(null);
+        r.readAsDataURL(file);
+    }
+
+    window.pickIdeaPhotos = function(taskId) {
+        ideaTargetTask = taskId;
+        const input = document.getElementById("cl-idea-file");
+        input.value = "";
+        input.click();
+    };
+
+    window.handleIdeaFiles = async function(event) {
+        const files = [...(event.target.files || [])];
+        const taskId = ideaTargetTask;
+        if (!files.length || !taskId) return;
+        const task = checklistData.find(t => t.id === taskId);
+        const btn = document.getElementById("cl-add-idea-" + taskId);
+        if (btn) { btn.disabled = true; btn.textContent = "Uploading…"; }
+
+        const label = (prompt("Name this idea (optional) — e.g. \"Beige rug, Mourouj\"", "") || "").trim();
+        const priceRaw = (prompt("Price in " + CL_CURRENCY + " (optional)", "") || "").trim();
+        const price = priceRaw === "" ? 0 : Math.max(0, Number(priceRaw.replace(",", ".")) || 0);
+
+        showSync();
+        let added = 0;
+        for (const file of files.slice(0, 6)) {
+            const b64 = await new Promise(res => compressIdeaImage(file, res));
+            if (!b64) continue;
+            try {
+                await addDoc(taskIdeasRef, {
+                    taskId,
+                    image: b64,
+                    label: files.length > 1 && label ? label + " " + (added + 1) : label,
+                    price,
+                    addedBy: currentUser || "hamdi",
+                    addedAt: new Date().toISOString(),
+                    votes: {}
+                });
+                added++;
+            } catch (e) { alert("Error: " + e.message); break; }
+        }
+        hideSync();
+        if (btn) { btn.disabled = false; btn.textContent = "+ Add photo"; }
+        event.target.value = "";
+        ideaTargetTask = null;
+        if (added) {
+            openIdeaTasks.add(taskId);
+            clToast(added + " idea" + (added > 1 ? "s" : "") + " added 🖼️");
+            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+            await createNotification("checklist", `${whoName} added ${added} photo idea${added > 1 ? "s" : ""} for "${clShort(task ? task.text : "a task", 30)}" — vote for your favourite 💕`, partner, "checklist");
+        }
+    };
+
+    window.voteIdea = async function(ideaId, user) {
+        const idea = taskIdeas.find(i => i.id === ideaId);
+        if (!idea) return;
+        const votes = idea.votes || {};
+        const next = !votes[user];
+        showSync();
+        try {
+            await updateDoc(doc(db, "taskideas", ideaId), { ["votes." + user]: next });
+            if (next && user === currentUser) {
+                const task = checklistData.find(t => t.id === idea.taskId);
+                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                const both = (user === "hamdi" ? votes.yossr : votes.hamdi);
+                clToast(both ? "You both love this one 💖" : "Vote saved 💗");
+                await createNotification("checklist", `${whoName} voted for ${idea.label ? '"' + clShort(idea.label, 24) + '"' : "an idea"}${task ? ' in "' + clShort(task.text, 24) + '"' : ""} 💗`, partner, "checklist");
+            }
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.useIdeaBudget = async function(ideaId) {
+        const idea = taskIdeas.find(i => i.id === ideaId);
+        if (!idea || !(Number(idea.price) > 0)) return;
+        showSync();
+        try {
+            await updateDoc(doc(db, "checklist", idea.taskId), {
+                budget: Number(idea.price),
+                updatedAt: new Date().toISOString()
+            });
+            clToast("Task budget set to " + clMoney(idea.price) + " 💰");
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.deleteIdea = async function(ideaId) {
+        if (!confirm("Delete this idea?")) return;
+        showSync();
+        try { await deleteDoc(doc(db, "taskideas", ideaId)); }
+        catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
 
     function buildTaskEditHTML(t) {
         const status = CL_STATUSES.includes(t.status) ? t.status : "todo";
@@ -4789,6 +5082,7 @@
         showSync();
         try {
             await updateDoc(doc(db, "checklist", id), { status: newStatus, updatedAt: new Date().toISOString() });
+            clToast("Moved to " + CL_STATUS_LABEL[newStatus]);
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
             await createNotification("checklist", `${whoName} moved "${clShort(task ? task.text : "a task", 32)}" to ${CL_STATUS_LABEL[newStatus]}`, partner, "checklist");
@@ -4846,10 +5140,14 @@
     };
 
     window.deleteChecklistTask = async function (id) {
-        if (!confirm("Delete this task?")) return;
+        const ideas = ideasOf(id);
+        const extra = ideas.length ? ` and its ${ideas.length} photo idea${ideas.length > 1 ? "s" : ""}` : "";
+        if (!confirm("Delete this task" + extra + "?")) return;
         showSync();
         try {
             if (editingTaskId === id) editingTaskId = null;
+            openIdeaTasks.delete(id);
+            for (const i of ideas) { try { await deleteDoc(doc(db, "taskideas", i.id)); } catch (e) {} }
             await deleteDoc(doc(db, "checklist", id));
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
@@ -7175,6 +7473,20 @@ function renderQuizScores() {
         return '<table class="pdfb-table"><thead><tr><th>Task</th><th>Start</th><th>Due</th><th>Budget</th></tr></thead>' +
             '<tbody>' + body + '</tbody></table>';
     }
+    function pdfIdeaHTML(task, idea, withPhotos) {
+        const votes = idea.votes || {};
+        const both = votes.hamdi && votes.yossr;
+        const who = [];
+        if (votes.hamdi) who.push("👨 Hamdi");
+        if (votes.yossr) who.push("👩 Yossr");
+        return '<div class="pdfb-card">' +
+            '<div class="pdfb-card-top"><span class="pdfb-tag">' + esc(task.text) + '</span>' +
+            '<span class="pdfb-date">' + (both ? "💖 Chosen together" : "⭐ " + who.join(" ")) + '</span></div>' +
+            (withPhotos ? '<img class="pdfb-photo" src="' + idea.image + '" alt=""/>' : '') +
+            '<div class="pdfb-text">' + (idea.label ? esc(idea.label) : "Our pick") +
+            (Number(idea.price) > 0 ? ' · 💰 ' + esc(clMoney(idea.price)) : '') + '</div>' +
+            '</div>';
+    }
     function pdfStatBlock(n, l) {
         return '<div class="pdfb-stat"><span class="pdfb-stat-n">' + n + '</span><span class="pdfb-stat-l">' + esc(l) + '</span></div>';
     }
@@ -7368,6 +7680,14 @@ function renderQuizScores() {
                     pdfStatBlock(clMoney(total), "Total budget") +
                     pdfStatBlock(clMoney(done), "Already done") +
                     pdfStatBlock(clMoney(total - done), "Remaining") + '</div>');
+                // what we picked together
+                const chosen = checklistData
+                    .map(t => ({ task: t, idea: bestIdeaOf(t.id) }))
+                    .filter(x => x.idea);
+                if (chosen.length) {
+                    bookAdd('<div class="pdfb-album">💖 What we chose together — ' + chosen.length + '</div>');
+                    chosen.forEach(x => bookAdd(pdfIdeaHTML(x.task, x.idea, opts.photos)));
+                }
             }
 
             /* ---- our numbers ---- */
