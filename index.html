@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
+    <meta name="app-version" content="v11"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -58,7 +59,7 @@
         body[data-theme="lavender"] .comment-send-btn,
         body[data-theme="lavender"] .place-save-btn,
         body[data-theme="lavender"] .quiz-open-submit-btn,
-        body[data-theme="lavender"] .hl-btn-newgame {
+        body[data-theme="lavender"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #9b7fc4, #7b4fa5) !important;
             color: #fff !important;
         }
@@ -78,7 +79,7 @@
         body[data-theme="lavender"] .ttt-history-title,
         body[data-theme="lavender"] .puzzle-leaderboard-title,
         body[data-theme="lavender"] .memory-leaderboard-title,
-        body[data-theme="lavender"] .hl-leaderboard-title,
+        body[data-theme="lavender"] .checklist-budget-title,
         body[data-theme="lavender"] .ttt-score-card .ts-name,
         body[data-theme="lavender"] .quiz-score-name,
         body[data-theme="lavender"] .fl-letter-title,
@@ -93,7 +94,7 @@
         body[data-theme="lavender"] .mini-block,
         body[data-theme="lavender"] .puzzle-stat-block,
         body[data-theme="lavender"] .memory-stat-block,
-        body[data-theme="lavender"] .hl-stat-block,
+        body[data-theme="lavender"] .checklist-budget-block,
         body[data-theme="lavender"] .fl-cd-block { background: linear-gradient(145deg, #d8c4f0, #b89cd8) !important; }
         body[data-theme="lavender"] .time-block .num,
         body[data-theme="lavender"] .stat-block .snum,
@@ -101,7 +102,7 @@
         body[data-theme="lavender"] .ttt-score-card .ts-num,
         body[data-theme="lavender"] .puzzle-stat-num,
         body[data-theme="lavender"] .memory-stat-num,
-        body[data-theme="lavender"] .hl-stat-num,
+        body[data-theme="lavender"] .checklist-budget-num,
         body[data-theme="lavender"] .fl-cd-num,
         body[data-theme="lavender"] .quiz-score-num,
         body[data-theme="lavender"] .rel-human { color: #4a2080 !important; }
@@ -136,7 +137,7 @@
         body[data-theme="peach"] .comment-send-btn,
         body[data-theme="peach"] .place-save-btn,
         body[data-theme="peach"] .quiz-open-submit-btn,
-        body[data-theme="peach"] .hl-btn-newgame {
+        body[data-theme="peach"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #d4a574, #c0784e) !important;
             color: #fff !important;
         }
@@ -156,7 +157,7 @@
         body[data-theme="peach"] .ttt-history-title,
         body[data-theme="peach"] .puzzle-leaderboard-title,
         body[data-theme="peach"] .memory-leaderboard-title,
-        body[data-theme="peach"] .hl-leaderboard-title,
+        body[data-theme="peach"] .checklist-budget-title,
         body[data-theme="peach"] .ttt-score-card .ts-name,
         body[data-theme="peach"] .quiz-score-name,
         body[data-theme="peach"] .fl-letter-title,
@@ -171,7 +172,7 @@
         body[data-theme="peach"] .mini-block,
         body[data-theme="peach"] .puzzle-stat-block,
         body[data-theme="peach"] .memory-stat-block,
-        body[data-theme="peach"] .hl-stat-block,
+        body[data-theme="peach"] .checklist-budget-block,
         body[data-theme="peach"] .fl-cd-block { background: linear-gradient(145deg, #ffd9b8, #f5b888) !important; }
         body[data-theme="peach"] .time-block .num,
         body[data-theme="peach"] .stat-block .snum,
@@ -179,7 +180,7 @@
         body[data-theme="peach"] .ttt-score-card .ts-num,
         body[data-theme="peach"] .puzzle-stat-num,
         body[data-theme="peach"] .memory-stat-num,
-        body[data-theme="peach"] .hl-stat-num,
+        body[data-theme="peach"] .checklist-budget-num,
         body[data-theme="peach"] .fl-cd-num,
         body[data-theme="peach"] .quiz-score-num,
         body[data-theme="peach"] .rel-human { color: #8b4513 !important; }
@@ -214,7 +215,7 @@
         body[data-theme="ocean"] .comment-send-btn,
         body[data-theme="ocean"] .place-save-btn,
         body[data-theme="ocean"] .quiz-open-submit-btn,
-        body[data-theme="ocean"] .hl-btn-newgame {
+        body[data-theme="ocean"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #5a9bb8, #2d6e8c) !important;
             color: #fff !important;
         }
@@ -234,7 +235,7 @@
         body[data-theme="ocean"] .ttt-history-title,
         body[data-theme="ocean"] .puzzle-leaderboard-title,
         body[data-theme="ocean"] .memory-leaderboard-title,
-        body[data-theme="ocean"] .hl-leaderboard-title,
+        body[data-theme="ocean"] .checklist-budget-title,
         body[data-theme="ocean"] .ttt-score-card .ts-name,
         body[data-theme="ocean"] .quiz-score-name,
         body[data-theme="ocean"] .fl-letter-title,
@@ -249,7 +250,7 @@
         body[data-theme="ocean"] .mini-block,
         body[data-theme="ocean"] .puzzle-stat-block,
         body[data-theme="ocean"] .memory-stat-block,
-        body[data-theme="ocean"] .hl-stat-block,
+        body[data-theme="ocean"] .checklist-budget-block,
         body[data-theme="ocean"] .fl-cd-block { background: linear-gradient(145deg, #b8dce8, #8bbed4) !important; }
         body[data-theme="ocean"] .time-block .num,
         body[data-theme="ocean"] .stat-block .snum,
@@ -257,7 +258,7 @@
         body[data-theme="ocean"] .ttt-score-card .ts-num,
         body[data-theme="ocean"] .puzzle-stat-num,
         body[data-theme="ocean"] .memory-stat-num,
-        body[data-theme="ocean"] .hl-stat-num,
+        body[data-theme="ocean"] .checklist-budget-num,
         body[data-theme="ocean"] .fl-cd-num,
         body[data-theme="ocean"] .quiz-score-num,
         body[data-theme="ocean"] .rel-human { color: #1a4a66 !important; }
@@ -292,7 +293,7 @@
         body[data-theme="sunset"] .comment-send-btn,
         body[data-theme="sunset"] .place-save-btn,
         body[data-theme="sunset"] .quiz-open-submit-btn,
-        body[data-theme="sunset"] .hl-btn-newgame {
+        body[data-theme="sunset"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #ff8c5a, #d2691e) !important;
             color: #fff !important;
         }
@@ -312,7 +313,7 @@
         body[data-theme="sunset"] .ttt-history-title,
         body[data-theme="sunset"] .puzzle-leaderboard-title,
         body[data-theme="sunset"] .memory-leaderboard-title,
-        body[data-theme="sunset"] .hl-leaderboard-title,
+        body[data-theme="sunset"] .checklist-budget-title,
         body[data-theme="sunset"] .ttt-score-card .ts-name,
         body[data-theme="sunset"] .quiz-score-name,
         body[data-theme="sunset"] .fl-letter-title,
@@ -327,7 +328,7 @@
         body[data-theme="sunset"] .mini-block,
         body[data-theme="sunset"] .puzzle-stat-block,
         body[data-theme="sunset"] .memory-stat-block,
-        body[data-theme="sunset"] .hl-stat-block,
+        body[data-theme="sunset"] .checklist-budget-block,
         body[data-theme="sunset"] .fl-cd-block { background: linear-gradient(145deg, #ffc99e, #ff9c6e) !important; }
         body[data-theme="sunset"] .time-block .num,
         body[data-theme="sunset"] .stat-block .snum,
@@ -335,7 +336,7 @@
         body[data-theme="sunset"] .ttt-score-card .ts-num,
         body[data-theme="sunset"] .puzzle-stat-num,
         body[data-theme="sunset"] .memory-stat-num,
-        body[data-theme="sunset"] .hl-stat-num,
+        body[data-theme="sunset"] .checklist-budget-num,
         body[data-theme="sunset"] .fl-cd-num,
         body[data-theme="sunset"] .quiz-score-num,
         body[data-theme="sunset"] .rel-human { color: #8b3a0a !important; }
@@ -371,7 +372,7 @@
         body[data-theme="midnight"] .comment-send-btn,
         body[data-theme="midnight"] .place-save-btn,
         body[data-theme="midnight"] .quiz-open-submit-btn,
-        body[data-theme="midnight"] .hl-btn-newgame {
+        body[data-theme="midnight"] .checklist-edit-save-btn {
             background: linear-gradient(135deg, #e07fa0, #c0396b) !important;
             color: #fff !important;
         }
@@ -388,7 +389,7 @@
         body[data-theme="midnight"] .ttt-score-card,
         body[data-theme="midnight"] .puzzle-wrap,
         body[data-theme="midnight"] .memory-wrap,
-        body[data-theme="midnight"] .hl-wrap,
+        body[data-theme="midnight"] .checklist-budget-summary,
         body[data-theme="midnight"] .custom-card,
         body[data-theme="midnight"] .place-card,
         body[data-theme="midnight"] .checklist-task,
@@ -400,7 +401,6 @@
         body[data-theme="midnight"] .ttt-history,
         body[data-theme="midnight"] .puzzle-leaderboard,
         body[data-theme="midnight"] .memory-leaderboard,
-        body[data-theme="midnight"] .hl-leaderboard,
         body[data-theme="midnight"] .fl-compose-form,
         body[data-theme="midnight"] .fl-letter-card,
         body[data-theme="midnight"] .tl-content,
@@ -427,7 +427,7 @@
         body[data-theme="midnight"] .ttt-history-title,
         body[data-theme="midnight"] .puzzle-leaderboard-title,
         body[data-theme="midnight"] .memory-leaderboard-title,
-        body[data-theme="midnight"] .hl-leaderboard-title,
+        body[data-theme="midnight"] .checklist-budget-title,
         body[data-theme="midnight"] .ttt-score-card .ts-name,
         body[data-theme="midnight"] .quiz-score-name,
         body[data-theme="midnight"] .fl-letter-title,
@@ -458,10 +458,12 @@
         body[data-theme="midnight"] .quiz-author-comment { background: rgba(192, 57, 107, 0.15) !important; }
         body[data-theme="midnight"] .ttt-history-item,
         body[data-theme="midnight"] .puzzle-leaderboard-item,
-        body[data-theme="midnight"] .memory-leaderboard-item,
-        body[data-theme="midnight"] .hl-leaderboard-item { background: rgba(192, 57, 107, 0.15) !important; color: #ffd6e8 !important; }
+        body[data-theme="midnight"] .memory-leaderboard-item { background: rgba(192, 57, 107, 0.15) !important; color: #ffd6e8 !important; }
         body[data-theme="midnight"] .progress-bar,
         body[data-theme="midnight"] .checklist-progress-bar { background: linear-gradient(90deg, #e07fa0, #f48fb1) !important; }
+        body[data-theme="midnight"] .checklist-budget-block { background: linear-gradient(145deg, #3a3a5e, #2d2d4a) !important; }
+        body[data-theme="midnight"] .checklist-budget-num { color: #f48fb1 !important; }
+        body[data-theme="midnight"] .cl-badge { background: rgba(192, 57, 107, 0.18) !important; color: #ffd6e8 !important; }
         body[data-theme="midnight"] .notif-bell,
         body[data-theme="midnight"] .theme-picker-btn,
         body[data-theme="midnight"] .current-user-badge { background: rgba(45, 45, 74, 0.95) !important; border-color: rgba(192, 57, 107, 0.4) !important; color: #f48fb1 !important; }
@@ -873,6 +875,11 @@
         .progress-bar { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #f48fb1, #c0396b); transition: width 1s ease; }
         .card .days-left { font-size: .82rem; color: #a0556e; letter-spacing: 1px; }
 
+        /* ===== Celebrated (event already passed) ===== */
+        .celebrated-head { width: 100%; font-size: 1.1rem; font-weight: 700; color: #c0396b; letter-spacing: .5px; margin-bottom: 2px; }
+        .celebrated-head.today { font-size: 1.4rem; }
+        .celebrated-since { width: 100%; font-size: .68rem; color: #b07090; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+
         .relation-wrap { display: flex; justify-content: center; padding: 0 20px 30px; }
         .relation-card {
             background: rgba(255, 255, 255, .72); backdrop-filter: blur(14px);
@@ -1140,35 +1147,69 @@
         .comment-send-btn:hover { opacity: .85; }
 
         /* Checklist */
-        .checklist-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 10px; }
-        @media (max-width: 768px) { .checklist-board { grid-template-columns: 1fr; } }
-        .checklist-column { background: rgba(255, 255, 255, .65); backdrop-filter: blur(14px); border: 1px solid rgba(255, 182, 210, .45); border-radius: 22px; padding: 18px 16px 20px; min-height: 300px; display: flex; flex-direction: column; gap: 10px; transition: background .2s; }
-        .checklist-column.drag-over { background: rgba(255, 210, 235, .55); border-color: #c0396b; }
+        .checklist-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 10px; align-items: start; }
+        @media (max-width: 900px) { .checklist-board { grid-template-columns: 1fr; } }
+        .checklist-column { background: rgba(255, 255, 255, .65); backdrop-filter: blur(14px); border: 1px solid rgba(255, 182, 210, .45); border-radius: 22px; padding: 18px 16px 20px; min-height: 160px; display: flex; flex-direction: column; gap: 10px; }
         .checklist-col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
         .checklist-col-title { font-family: 'Great Vibes', cursive; font-size: 1.7rem; color: #c0396b; }
         .checklist-col-count { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border-radius: 50px; padding: 2px 10px; font-size: .75rem; letter-spacing: 1px; font-family: 'Lato', sans-serif; }
-        .checklist-task { background: rgba(255, 255, 255, .85); border: 1px solid rgba(255, 182, 210, .5); border-radius: 14px; padding: 12px 14px; cursor: grab; box-shadow: 0 3px 10px rgba(192, 57, 107, .08); transition: transform .2s, box-shadow .2s, opacity .2s; position: relative; user-select: none; animation: fadeIn .3s ease; }
-        .checklist-task:active { cursor: grabbing; }
-        .checklist-task.dragging { opacity: .45; transform: scale(.97); box-shadow: 0 8px 24px rgba(192, 57, 107, .22); }
-        .checklist-task-text { font-size: .93rem; color: #5a1a35; line-height: 1.5; padding-right: 24px; word-break: break-word; }
-        .checklist-task-delete { position: absolute; top: 8px; right: 10px; background: none; border: none; color: #d080a0; font-size: .8rem; cursor: pointer; transition: color .2s; padding: 2px; line-height: 1; }
-        .checklist-task-delete:hover { color: #c0396b; }
-        .checklist-task-meta { font-size: .72rem; color: #c090a8; margin-top: 5px; letter-spacing: .5px; }
+        .checklist-task { background: rgba(255, 255, 255, .85); border: 1px solid rgba(255, 182, 210, .5); border-radius: 14px; padding: 12px 14px; box-shadow: 0 3px 10px rgba(192, 57, 107, .08); transition: box-shadow .2s; position: relative; animation: fadeIn .3s ease; }
+        .checklist-task-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+        .checklist-task-text { flex: 1; font-size: .93rem; color: #5a1a35; line-height: 1.5; word-break: break-word; }
+        .checklist-task-actions { display: flex; gap: 2px; flex: none; }
+        .checklist-task-btn { background: none; border: none; color: #d080a0; font-size: .85rem; cursor: pointer; padding: 3px 5px; line-height: 1; border-radius: 8px; transition: all .2s; }
+        .checklist-task-btn:hover { color: #c0396b; background: rgba(255, 210, 230, .5); }
+        .checklist-task-meta { font-size: .72rem; color: #c090a8; margin-top: 6px; letter-spacing: .5px; }
+        .checklist-task-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+        .cl-badge { font-size: .7rem; letter-spacing: .4px; padding: 3px 9px; border-radius: 50px; background: rgba(255, 214, 232, .65); color: #8a3355; white-space: nowrap; }
+        .cl-badge-budget { background: rgba(255, 205, 110, .35); color: #8a6520; font-weight: 700; }
+        .cl-badge-due.due-today { background: rgba(255, 180, 80, .45); color: #8a5520; font-weight: 700; }
+        .cl-badge-due.overdue { background: rgba(220, 60, 90, .22); color: #a01030; font-weight: 700; }
+        .checklist-status-row { display: flex; align-items: center; gap: 8px; margin-top: 11px; padding-top: 10px; border-top: 1px solid rgba(255, 182, 210, .35); }
+        .checklist-status-lbl { font-size: .66rem; text-transform: uppercase; letter-spacing: 1px; color: #b07090; flex: none; }
+        .checklist-status-select { flex: 1; padding: 7px 10px; border: 1px solid rgba(255, 182, 210, .7); border-radius: 10px; background: rgba(255, 240, 248, .9); color: #7a2545; font-size: .82rem; font-family: 'Lato', sans-serif; outline: none; cursor: pointer; }
+        .checklist-status-select:focus { border-color: #c0396b; }
         .checklist-status-todo { border-left: 3px solid #f48fb1; }
         .checklist-status-inprogress { border-left: 3px solid #e07fa0; }
-        .checklist-status-done { border-left: 3px solid #c0396b; opacity: .8; }
+        .checklist-status-done { border-left: 3px solid #c0396b; opacity: .85; }
         .checklist-status-done .checklist-task-text { text-decoration: line-through; color: #a07080; }
-        .checklist-add-form { display: flex; gap: 10px; background: rgba(255, 255, 255, .72); backdrop-filter: blur(14px); border: 1px solid rgba(255, 182, 210, .55); border-radius: 18px; padding: 14px 18px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; box-shadow: 0 6px 20px rgba(192, 57, 107, .10); }
-        .checklist-add-form input[type="text"] { flex: 1; min-width: 180px; padding: 9px 14px; border: 1px solid rgba(255, 182, 210, .7); border-radius: 10px; background: rgba(255, 240, 248, .8); color: #7a2545; font-size: .9rem; font-family: 'Lato', sans-serif; outline: none; transition: border-color .2s; }
-        .checklist-add-form input[type="text"]:focus { border-color: #c0396b; }
+        /* --- inline edit --- */
+        .checklist-task-editing { border-color: #c0396b; box-shadow: 0 6px 20px rgba(192, 57, 107, .20); }
+        .cl-edit-form { display: flex; flex-direction: column; gap: 9px; }
+        .cl-edit-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .cl-edit-col { flex: 1; min-width: 118px; display: flex; flex-direction: column; gap: 3px; }
+        .cl-field-lbl { font-size: .66rem; text-transform: uppercase; letter-spacing: 1px; color: #b07090; }
+        .cl-edit-input { width: 100%; padding: 8px 10px; border: 1px solid rgba(255, 182, 210, .7); border-radius: 10px; background: rgba(255, 240, 248, .9); color: #7a2545; font-size: .85rem; font-family: 'Lato', sans-serif; outline: none; }
+        .cl-edit-input:focus { border-color: #c0396b; }
+        .cl-edit-actions { display: flex; gap: 8px; margin-top: 3px; }
+        .checklist-edit-save-btn { flex: 1; padding: 9px 14px; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border: none; border-radius: 10px; font-size: .85rem; font-family: 'Lato', sans-serif; letter-spacing: 1px; cursor: pointer; transition: opacity .2s; }
+        .checklist-edit-save-btn:hover { opacity: .85; }
+        .checklist-edit-cancel-btn { padding: 9px 14px; background: rgba(255, 182, 210, .3); color: #c0396b; border: 1px solid rgba(255, 182, 210, .6); border-radius: 10px; font-size: .85rem; font-family: 'Lato', sans-serif; cursor: pointer; }
+        /* --- add form --- */
+        .checklist-add-form { display: flex; flex-direction: column; gap: 10px; background: rgba(255, 255, 255, .72); backdrop-filter: blur(14px); border: 1px solid rgba(255, 182, 210, .55); border-radius: 18px; padding: 16px 18px; margin-bottom: 16px; box-shadow: 0 6px 20px rgba(192, 57, 107, .10); }
+        .cl-add-row { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
+        .cl-add-field { flex: 1; min-width: 132px; display: flex; flex-direction: column; gap: 3px; }
+        .checklist-add-form input, .checklist-add-form select { padding: 9px 12px; border: 1px solid rgba(255, 182, 210, .7); border-radius: 10px; background: rgba(255, 240, 248, .8); color: #7a2545; font-size: .88rem; font-family: 'Lato', sans-serif; outline: none; transition: border-color .2s; }
+        .checklist-add-form input:focus, .checklist-add-form select:focus { border-color: #c0396b; }
         .checklist-add-form input::placeholder { color: #c090a8; }
-        .checklist-add-form select { padding: 9px 12px; border: 1px solid rgba(255, 182, 210, .7); border-radius: 10px; background: rgba(255, 240, 248, .8); color: #7a2545; font-size: .88rem; font-family: 'Lato', sans-serif; outline: none; cursor: pointer; }
-        .checklist-add-btn { padding: 9px 20px; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border: none; border-radius: 10px; font-size: .9rem; font-family: 'Lato', sans-serif; letter-spacing: 1px; cursor: pointer; transition: opacity .2s; }
+        .checklist-add-form select { cursor: pointer; }
+        .cl-add-field input, .cl-add-field select { width: 100%; }
+        #cl-task-input { flex: 1 1 190px; min-width: 160px; width: auto; }
+        .checklist-add-btn { padding: 10px 20px; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border: none; border-radius: 10px; font-size: .9rem; font-family: 'Lato', sans-serif; letter-spacing: 1px; cursor: pointer; transition: opacity .2s; align-self: flex-end; }
         .checklist-add-btn:hover { opacity: .85; }
+        @media (max-width: 600px) { .checklist-add-btn { width: 100%; align-self: stretch; } }
         .checklist-empty { text-align: center; color: #c090a8; font-size: .85rem; padding: 20px 10px; letter-spacing: 1px; }
         .checklist-progress-wrap { background: rgba(255, 182, 210, .3); border-radius: 50px; height: 6px; overflow: hidden; margin-bottom: 6px; }
         .checklist-progress-bar { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #f48fb1, #c0396b); transition: width .5s ease; }
         .checklist-progress-label { font-size: .75rem; color: #a0556e; letter-spacing: 1px; margin-bottom: 16px; text-align: center; }
+        /* --- budget summary --- */
+        .checklist-budget-summary { background: rgba(255, 255, 255, .72); backdrop-filter: blur(14px); border: 1px solid rgba(255, 182, 210, .55); border-radius: 22px; padding: 20px 24px 18px; margin-top: 24px; box-shadow: 0 8px 28px rgba(192, 57, 107, .12); text-align: center; }
+        .checklist-budget-title { font-family: 'Great Vibes', cursive; font-size: 1.8rem; color: #c0396b; margin-bottom: 12px; }
+        .checklist-budget-grid { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .checklist-budget-block { background: linear-gradient(145deg, #ffd6e8, #ffb3d1); border-radius: 16px; padding: 14px 18px 10px; min-width: 128px; flex: 0 1 160px; box-shadow: 0 4px 14px rgba(192, 57, 107, .18); }
+        .checklist-budget-num { font-size: 1.3rem; font-weight: 700; color: #9b1c4a; display: block; line-height: 1.25; word-break: break-word; }
+        .checklist-budget-lbl { font-size: .64rem; color: #b05070; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 5px; display: block; }
+        .checklist-budget-note { font-size: .75rem; color: #a0556e; letter-spacing: 1px; margin-top: 13px; }
 
         /* Places */
         #our-places-map { height: 440px; border-radius: 22px; border: 1px solid rgba(255, 182, 210, .55); box-shadow: 0 8px 28px rgba(192, 57, 107, .14); overflow: hidden; position: relative; z-index: 1; }
@@ -2504,156 +2545,6 @@
             font-size: .9rem; letter-spacing: 1px;
         }
 
-        /* ============================================================
-           ===== HIGHER OR LOWER =====
-           ============================================================ */
-        .hl-wrap {
-            background: rgba(255,255,255,.72); backdrop-filter: blur(14px);
-            border: 1px solid rgba(255,182,210,.55); border-radius: 22px;
-            padding: 26px 30px; box-shadow: 0 8px 28px rgba(192,57,107,.12);
-            margin-bottom: 24px; text-align: center;
-        }
-        .hl-stats {
-            display: flex; gap: 14px; flex-wrap: wrap;
-            justify-content: center; margin-bottom: 20px;
-        }
-        .hl-stat-block {
-            background: linear-gradient(145deg, #ffd6e8, #ffb3d1);
-            border-radius: 14px; padding: 12px 22px; min-width: 110px;
-            text-align: center; box-shadow: 0 3px 10px rgba(192,57,107,.15);
-        }
-        .hl-stat-num {
-            font-size: 1.8rem; font-weight: 700; color: #9b1c4a;
-            line-height: 1; display: block;
-        }
-        .hl-stat-lbl {
-            font-size: .65rem; color: #b05070;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            margin-top: 4px; display: block;
-        }
-        .hl-card-area {
-            display: flex; gap: 30px; justify-content: center;
-            align-items: center; flex-wrap: wrap; margin: 28px 0;
-        }
-        .hl-card {
-            background: linear-gradient(160deg, #fff5f9, #ffe4f0);
-            border: 3px solid #c0396b; border-radius: 22px;
-            width: 150px; height: 200px; display: flex;
-            align-items: center; justify-content: center;
-            font-size: 4.5rem; font-weight: 700; color: #c0396b;
-            box-shadow: 0 8px 24px rgba(192,57,107,.25);
-            position: relative; overflow: hidden;
-            transition: transform .4s ease;
-        }
-        .hl-card::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, transparent 30%, rgba(255,182,210,.3) 50%, transparent 70%);
-            pointer-events: none;
-        }
-        .hl-card.revealing {
-            animation: cardFlip .6s ease;
-        }
-        @keyframes cardFlip {
-            0% { transform: rotateY(0deg) scale(1); }
-            50% { transform: rotateY(90deg) scale(.95); }
-            100% { transform: rotateY(0deg) scale(1); }
-        }
-        .hl-card.hidden {
-            background: linear-gradient(135deg, #e07fa0, #c0396b);
-            color: rgba(255,255,255,.9);
-            border-color: rgba(255,255,255,.5);
-            font-size: 3rem;
-        }
-        .hl-card.correct {
-            border-color: #6dc48a;
-            animation: cardCorrect .5s ease;
-        }
-        .hl-card.wrong {
-            border-color: #e57373;
-            animation: cardWrong .5s ease;
-        }
-        @keyframes cardCorrect {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(109,196,138,.6); }
-        }
-        @keyframes cardWrong {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
-        .hl-card-label {
-            position: absolute; bottom: -28px; left: 0; right: 0;
-            text-align: center; font-size: .78rem;
-            color: #b07090; letter-spacing: 2px; text-transform: uppercase;
-        }
-        .hl-vs {
-            font-family: 'Great Vibes', cursive; font-size: 2rem;
-            color: #c0396b;
-        }
-        .hl-question {
-            font-size: 1rem; color: #5a1a35;
-            letter-spacing: .5px; margin-bottom: 18px;
-        }
-        .hl-actions {
-            display: flex; gap: 12px; justify-content: center;
-            flex-wrap: wrap; margin-bottom: 8px;
-        }
-        .hl-btn {
-            padding: 14px 30px; border-radius: 14px; cursor: pointer;
-            font-family: 'Lato', sans-serif; font-size: 1rem;
-            font-weight: 700; letter-spacing: 1px;
-            transition: all .2s; border: none; min-width: 130px;
-        }
-        .hl-btn-higher {
-            background: linear-gradient(135deg, #6dc48a, #4caf50); color: #fff;
-        }
-        .hl-btn-lower {
-            background: linear-gradient(135deg, #e57373, #c62828); color: #fff;
-        }
-        .hl-btn:hover { opacity: .88; transform: translateY(-2px); }
-        .hl-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-        .hl-btn-newgame {
-            padding: 12px 26px; background: linear-gradient(135deg, #e07fa0, #c0396b);
-            color: #fff; border: none; border-radius: 12px;
-            font-family: 'Lato', sans-serif; font-size: .92rem;
-            letter-spacing: 1px; cursor: pointer; transition: opacity .2s;
-            margin-top: 14px;
-        }
-        .hl-btn-newgame:hover { opacity: .85; }
-        .hl-result {
-            font-size: 1.1rem; font-weight: 700; padding: 12px 20px;
-            border-radius: 14px; margin: 14px auto;
-            max-width: 400px; animation: fadeIn .3s ease;
-        }
-        .hl-result.win {
-            background: linear-gradient(135deg, #d4edda, #b8e3c3);
-            color: #1a5c2e; border: 2px solid #6dc48a;
-        }
-        .hl-result.lose {
-            background: linear-gradient(135deg, #fde8e8, #f5c6c6);
-            color: #7a1c1c; border: 2px solid #e07a7a;
-        }
-        .hl-leaderboard {
-            background: rgba(255,255,255,.6); border-radius: 16px;
-            padding: 16px 20px; margin-top: 14px;
-            border: 1px solid rgba(255,182,210,.4);
-        }
-        .hl-leaderboard-title {
-            font-family: 'Great Vibes', cursive; font-size: 1.4rem;
-            color: #c0396b; text-align: center; margin-bottom: 10px;
-        }
-        .hl-leaderboard-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 14px; background: rgba(255,240,248,.6);
-            border-radius: 10px; margin-bottom: 6px; font-size: .85rem;
-            color: #5a1a35; gap: 8px; flex-wrap: wrap;
-        }
-        .hl-streak-badge {
-            background: linear-gradient(135deg, #e07fa0, #c0396b);
-            color: #fff; border-radius: 50px;
-            padding: 3px 12px; font-size: .8rem; font-weight: 700;
-        }
-
         .quiz-empty { text-align: center; color: #c090a8; font-size: .9rem; padding: 30px; letter-spacing: 1px; }
         .quiz-loading { text-align: center; color: #e07fa0; font-size: .9rem; padding: 30px; letter-spacing: 1px; animation: pulse 1.5s infinite; }
         /* ===== QUIZ PIN / DISCUSSION ===== */
@@ -2983,23 +2874,62 @@
         <div class="checklist-progress-wrap"><div class="checklist-progress-bar" id="cl-progress-bar" style="width:0%"></div></div>
         <p class="checklist-progress-label" id="cl-progress-label">Add your first task 🌸</p>
         <div class="checklist-add-form">
-            <input type="text" id="cl-task-input" placeholder="New task… e.g. Book the venue 💒" maxlength="120" onkeydown="if(event.key==='Enter') addChecklistTask()"/>
-            <select id="cl-status-select"><option value="todo">📋 To Do</option><option value="inprogress">⏳ In Progress</option><option value="done">✅ Done</option></select>
+            <div class="cl-add-row">
+                <input type="text" id="cl-task-input" placeholder="New task… e.g. Book the venue 💒" maxlength="120" onkeydown="if(event.key==='Enter') addChecklistTask()"/>
+                <div class="cl-add-field" style="max-width:180px;">
+                    <label class="cl-field-lbl">Status</label>
+                    <select id="cl-status-select"><option value="todo">📋 To Do</option><option value="inprogress">⏳ In Progress</option><option value="done">✅ Done</option></select>
+                </div>
+            </div>
+            <div class="cl-add-row">
+                <div class="cl-add-field">
+                    <label class="cl-field-lbl">🗓️ Start date (optional)</label>
+                    <input type="date" id="cl-plan-input"/>
+                </div>
+                <div class="cl-add-field">
+                    <label class="cl-field-lbl">⏰ Due date (optional)</label>
+                    <input type="date" id="cl-due-input"/>
+                </div>
+                <div class="cl-add-field">
+                    <label class="cl-field-lbl">💰 Budget (<span class="cl-currency-lbl">TND</span>) — optional</label>
+                    <input type="number" id="cl-budget-input" min="0" step="0.01" placeholder="0"/>
+                </div>
+            </div>
             <button class="checklist-add-btn" onclick="addChecklistTask()">+ Add Task</button>
         </div>
         <div class="checklist-board">
-            <div class="checklist-column" id="col-todo" ondragover="onColDragOver(event,'todo')" ondragleave="onColDragLeave(event,'todo')" ondrop="onColDrop(event,'todo')">
+            <div class="checklist-column" id="col-todo">
                 <div class="checklist-col-header"><span class="checklist-col-title">📋 To Do</span><span class="checklist-col-count" id="count-todo">0</span></div>
                 <div id="tasks-todo"><p class="checklist-empty">No tasks yet 🌸</p></div>
             </div>
-            <div class="checklist-column" id="col-inprogress" ondragover="onColDragOver(event,'inprogress')" ondragleave="onColDragLeave(event,'inprogress')" ondrop="onColDrop(event,'inprogress')">
+            <div class="checklist-column" id="col-inprogress">
                 <div class="checklist-col-header"><span class="checklist-col-title">⏳ In Progress</span><span class="checklist-col-count" id="count-inprogress">0</span></div>
                 <div id="tasks-inprogress"><p class="checklist-empty">Nothing in progress 💕</p></div>
             </div>
-            <div class="checklist-column" id="col-done" ondragover="onColDragOver(event,'done')" ondragleave="onColDragLeave(event,'done')" ondrop="onColDrop(event,'done')">
+            <div class="checklist-column" id="col-done">
                 <div class="checklist-col-header"><span class="checklist-col-title">✅ Done</span><span class="checklist-col-count" id="count-done">0</span></div>
                 <div id="tasks-done"><p class="checklist-empty">Nothing completed yet ✨</p></div>
             </div>
+        </div>
+
+        <!-- ===== BUDGET SUMMARY ===== -->
+        <div class="checklist-budget-summary">
+            <div class="checklist-budget-title">💰 Budget Summary</div>
+            <div class="checklist-budget-grid">
+                <div class="checklist-budget-block">
+                    <span class="checklist-budget-num" id="cl-budget-total">0</span>
+                    <span class="checklist-budget-lbl">Total budget</span>
+                </div>
+                <div class="checklist-budget-block">
+                    <span class="checklist-budget-num" id="cl-budget-done">0</span>
+                    <span class="checklist-budget-lbl">✅ Done</span>
+                </div>
+                <div class="checklist-budget-block">
+                    <span class="checklist-budget-num" id="cl-budget-remaining">0</span>
+                    <span class="checklist-budget-lbl">Remaining</span>
+                </div>
+            </div>
+            <p class="checklist-budget-note" id="cl-budget-note">No budget added yet 🌸</p>
         </div>
     </div>
 </div>
@@ -3271,7 +3201,6 @@
             <button class="games-tab active" onclick="showGameTab('ttt',this)">🎯 Tic Tac Toe</button>
             <button class="games-tab" onclick="showGameTab('puzzle',this)">🧩 Photo Puzzle</button>
             <button class="games-tab" onclick="showGameTab('memory',this)">🧠 Memory Match</button>
-            <button class="games-tab" onclick="showGameTab('hl',this)">🃏 Higher / Lower</button>
         </div>
 
         <!-- ===== TIC TAC TOE PANEL ===== -->
@@ -3425,55 +3354,6 @@
             </div>
         </div>
 
-        <!-- ===== HIGHER OR LOWER PANEL ===== -->
-        <div class="game-panel" id="gpanel-hl">
-            <div class="hl-wrap">
-                <div class="hl-stats">
-                    <div class="hl-stat-block">
-                        <span class="hl-stat-num" id="hl-current-streak">0</span>
-                        <span class="hl-stat-lbl">Current Streak</span>
-                    </div>
-                    <div class="hl-stat-block">
-                        <span class="hl-stat-num" id="hl-best-streak">0</span>
-                        <span class="hl-stat-lbl">Your Best</span>
-                    </div>
-                </div>
-
-                <div class="hl-question" id="hl-question">Will the next number be higher or lower?</div>
-
-                <div class="hl-card-area">
-                    <div class="hl-card" id="hl-current-card">
-                        <span id="hl-current-num">?</span>
-                        <span class="hl-card-label">Current</span>
-                    </div>
-                    <div class="hl-vs">VS</div>
-                    <div class="hl-card hidden" id="hl-next-card">
-                        <span id="hl-next-num">?</span>
-                        <span class="hl-card-label">Next</span>
-                    </div>
-                </div>
-
-                <div id="hl-result-area"></div>
-
-                <div class="hl-actions">
-                    <button class="hl-btn hl-btn-higher" id="hl-btn-higher" onclick="hlGuess('higher')">⬆️ Higher</button>
-                    <button class="hl-btn hl-btn-lower" id="hl-btn-lower" onclick="hlGuess('lower')">⬇️ Lower</button>
-                </div>
-
-                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
-                    <button class="hl-btn-newgame" onclick="startHlGame()">🎮 New Game</button>
-                    <button class="hl-btn-newgame" style="background:rgba(255,182,210,.35);color:#c0396b;border:1.5px solid rgba(255,182,210,.6);" onclick="clearHlGame()">🗑️ Clear</button>
-                </div>
-            </div>
-
-            <!-- Leaderboard -->
-            <div class="hl-leaderboard">
-                <div class="hl-leaderboard-title">🏆 Best Streaks</div>
-                <div id="hl-leaderboard-list">
-                    <p class="memory-empty">No scores yet — be the first! 🌸</p>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -3778,16 +3658,43 @@
     document.getElementById("eng-date-label").textContent = fmtDate(engTarget);
     document.getElementById("wed-date-label").textContent = fmtDate(wedTarget);
 
+    // Human readable gap between two dates: "1 year, 2 months, 5 days"
+    function humanGap(from, to) {
+        const a = new Date(from), b = new Date(to);
+        let yy = b.getFullYear() - a.getFullYear();
+        let mm = b.getMonth() - a.getMonth();
+        let dd = b.getDate() - a.getDate();
+        if (dd < 0) { mm--; dd += new Date(b.getFullYear(), b.getMonth(), 0).getDate(); }
+        if (mm < 0) { yy--; mm += 12; }
+        const parts = [];
+        if (yy > 0) parts.push(yy + " year" + (yy > 1 ? "s" : ""));
+        if (mm > 0) parts.push(mm + " month" + (mm > 1 ? "s" : ""));
+        parts.push(dd + " day" + (dd !== 1 ? "s" : ""));
+        return parts.join(", ");
+    }
+
     function renderCountdown(target, cntId, progId, daysId, total) {
         const diff = target - Date.now();
         if (diff <= 0) {
+            // ===== Event already celebrated: count UP since that day =====
             const dayMs = 86400000;
-            const passedToday = diff > -dayMs;
-            document.getElementById(cntId).innerHTML = passedToday
-                ? '<span style="font-size:1.4rem;color:#c0396b">🎉 Today is the Day!</span>'
-                : '<span style="font-size:1.1rem;color:#c0396b">💕 Celebrated on '+fmtDate(target)+'</span>';
+            const elapsed = Date.now() - target.getTime();
+            const passedToday = elapsed < dayMs;
+            const d = Math.floor(elapsed / dayMs);
+            const h = Math.floor((elapsed % dayMs) / 3600000);
+            const m = Math.floor((elapsed % 3600000) / 60000);
+            const s = Math.floor((elapsed % 60000) / 1000);
+            const head = passedToday
+                ? '<div class="celebrated-head today">🎉 Today is the Day!</div>'
+                : '<div class="celebrated-head">💕 Celebrated on ' + fmtDate(target) + '</div>';
+            const sinceLbl = '<div class="celebrated-since">✨ Since that day ✨</div>';
+            const blocks = [{num:d,lbl:"Days"},{num:h,lbl:"Hours"},{num:m,lbl:"Minutes"},{num:s,lbl:"Seconds"}]
+                .map(b => `<div class="time-block"><span class="num">${String(b.num).padStart(2,"0")}</span><span class="lbl">${b.lbl}</span></div>`).join("");
+            document.getElementById(cntId).innerHTML = head + sinceLbl + blocks;
             document.getElementById(progId).style.width = "100%";
-            document.getElementById(daysId).textContent = "";
+            document.getElementById(daysId).textContent = passedToday
+                ? "🎊 Happening today — enjoy every second 💕"
+                : `💕 ${d} day${d !== 1 ? "s" : ""} since that day · ${humanGap(target, new Date())} ✨`;
             return true;
         }
         const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
@@ -3998,60 +3905,301 @@
     window.cancelEdit=function(){window.location.reload();};
     window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});}catch(e){alert("Error: "+e.message);}hideSync();};
 
-    /* ===== CHECKLIST ===== */
-    const checklistRef=collection(db,"checklist");let draggedTaskId=null;
-    function clEsc(s){if(!s)return"";return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-    function renderChecklistTasks(docs){
-        const buckets={todo:[],inprogress:[],done:[]};
-        docs.forEach(d=>{const data=d.data();const status=data.status||"todo";if(buckets[status])buckets[status].push({id:d.id,...data});});
-        ["todo","inprogress","done"].forEach(status=>{
-            const container=document.getElementById("tasks-"+status);const countEl=document.getElementById("count-"+status);const tasks=buckets[status];
-            if(countEl)countEl.textContent=tasks.length;if(!container)return;
-            if(tasks.length===0){const msgs={todo:"No tasks yet 🌸",inprogress:"Nothing in progress 💕",done:"Nothing completed yet ✨"};container.innerHTML=`<p class="checklist-empty">${msgs[status]}</p>`;return;}
-            container.innerHTML=tasks.map(t=>`<div class="checklist-task checklist-status-${status}" draggable="true" id="task-${t.id}" ondragstart="onTaskDragStart(event,'${t.id}')" ondragend="onTaskDragEnd(event)"><div class="checklist-task-text">${clEsc(t.text)}</div><div class="checklist-task-meta">Added by ${t.createdBy==="yossr"?"👩 Yossr":"👨 Hamdi"} · ${t.createdAt?t.createdAt.substring(0,10):""}</div><button class="checklist-task-delete" onclick="deleteChecklistTask('${t.id}')">🗑️</button></div>`).join("");
-        });
-        const total=docs.length;const done=buckets.done.length;const pct=total>0?Math.round((done/total)*100):0;
-        const bar=document.getElementById("cl-progress-bar");const lbl=document.getElementById("cl-progress-label");
-        if(bar)bar.style.width=pct+"%";if(lbl)lbl.textContent=total===0?"Add your first task 🌸":`${done} of ${total} tasks completed (${pct}%) 💕`;
+    /* ============================================================
+       ===== CHECKLIST (v11 — status select, edit, dates & budget) =====
+       ============================================================ */
+    const checklistRef = collection(db, "checklist");
+    const CL_CURRENCY = "TND";                 // change here to switch currency
+    const CL_STATUSES = ["todo", "inprogress", "done"];
+    const CL_STATUS_LABEL = { todo: "📋 To Do", inprogress: "⏳ In Progress", done: "✅ Done" };
+    let checklistData = [];
+    let editingTaskId = null;
+
+    // show the currency everywhere in the UI
+    document.querySelectorAll(".cl-currency-lbl").forEach(el => el.textContent = CL_CURRENCY);
+
+    function clEsc(s){if(!s)return"";return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+    function clMoney(n) {
+        const v = Number(n) || 0;
+        return v.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + " " + CL_CURRENCY;
     }
-    onSnapshot(query(checklistRef,orderBy("createdAt","asc")),snapshot=>{renderChecklistTasks(snapshot.docs);});
+    function clFmtDate(d) {
+        if (!d) return "";
+        const dt = new Date(d + "T00:00:00");
+        if (isNaN(dt.getTime())) return "";
+        return dt.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+    }
+    function clDueState(t) {
+        if (!t.dueDate || (t.status || "todo") === "done") return "";
+        const today = localToday();
+        if (t.dueDate < today) return " overdue";
+        if (t.dueDate === today) return " due-today";
+        return "";
+    }
+    function clShort(s, n) {
+        s = String(s || "");
+        return s.length > n ? s.slice(0, n) + "…" : s;
+    }
+
+    onSnapshot(query(checklistRef, orderBy("createdAt", "asc")), snapshot => {
+        checklistData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderChecklist();
+    });
+
+    function renderChecklist() {
+        const buckets = { todo: [], inprogress: [], done: [] };
+        checklistData.forEach(t => {
+            const s = CL_STATUSES.includes(t.status) ? t.status : "todo";
+            buckets[s].push(t);
+        });
+        const emptyMsgs = { todo: "No tasks yet 🌸", inprogress: "Nothing in progress 💕", done: "Nothing completed yet ✨" };
+
+        CL_STATUSES.forEach(status => {
+            const container = document.getElementById("tasks-" + status);
+            const countEl = document.getElementById("count-" + status);
+            const tasks = buckets[status];
+            if (countEl) countEl.textContent = tasks.length;
+            if (!container) return;
+            if (tasks.length === 0) {
+                container.innerHTML = `<p class="checklist-empty">${emptyMsgs[status]}</p>`;
+                return;
+            }
+            // Sort: closest due date first, then creation order
+            tasks.sort((a, b) => {
+                const da = a.dueDate || "9999-12-31";
+                const db2 = b.dueDate || "9999-12-31";
+                if (da !== db2) return da < db2 ? -1 : 1;
+                return (a.createdAt || "") < (b.createdAt || "") ? -1 : 1;
+            });
+            container.innerHTML = tasks.map(t =>
+                t.id === editingTaskId ? buildTaskEditHTML(t) : buildTaskHTML(t, status)
+            ).join("");
+        });
+
+        // Progress bar
+        const total = checklistData.length;
+        const done = buckets.done.length;
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        const bar = document.getElementById("cl-progress-bar");
+        const lbl = document.getElementById("cl-progress-label");
+        if (bar) bar.style.width = pct + "%";
+        if (lbl) lbl.textContent = total === 0 ? "Add your first task 🌸" : `${done} of ${total} tasks completed (${pct}%) 💕`;
+
+        renderChecklistBudget();
+    }
+
+    function buildTaskHTML(t, status) {
+        const badges = [];
+        if (t.plannedDate) badges.push(`<span class="cl-badge cl-badge-plan">🗓️ Start: ${clFmtDate(t.plannedDate)}</span>`);
+        if (t.dueDate) {
+            const state = clDueState(t);
+            const warn = state === " overdue" ? " ⚠️" : state === " due-today" ? " 🔔" : "";
+            badges.push(`<span class="cl-badge cl-badge-due${state}">⏰ Due: ${clFmtDate(t.dueDate)}${warn}</span>`);
+        }
+        if (Number(t.budget) > 0) badges.push(`<span class="cl-badge cl-badge-budget">💰 ${clMoney(t.budget)}</span>`);
+
+        const options = CL_STATUSES.map(s =>
+            `<option value="${s}"${s === status ? " selected" : ""}>${CL_STATUS_LABEL[s]}</option>`
+        ).join("");
+
+        return `<div class="checklist-task checklist-status-${status}" id="task-${t.id}">
+            <div class="checklist-task-top">
+                <div class="checklist-task-text">${clEsc(t.text)}</div>
+                <div class="checklist-task-actions">
+                    <button class="checklist-task-btn" onclick="startEditTask('${t.id}')" title="Edit task">✏️</button>
+                    <button class="checklist-task-btn checklist-task-delete" onclick="deleteChecklistTask('${t.id}')" title="Delete task">🗑️</button>
+                </div>
+            </div>
+            ${badges.length ? `<div class="checklist-task-badges">${badges.join("")}</div>` : ""}
+            <div class="checklist-task-meta">Added by ${t.createdBy === "yossr" ? "👩 Yossr" : "👨 Hamdi"} · ${t.createdAt ? t.createdAt.substring(0, 10) : ""}</div>
+            <div class="checklist-status-row">
+                <label class="checklist-status-lbl">Status</label>
+                <select class="checklist-status-select" onchange="changeTaskStatus('${t.id}', this.value)">${options}</select>
+            </div>
+        </div>`;
+    }
+
+    function buildTaskEditHTML(t) {
+        const status = CL_STATUSES.includes(t.status) ? t.status : "todo";
+        const options = CL_STATUSES.map(s =>
+            `<option value="${s}"${s === status ? " selected" : ""}>${CL_STATUS_LABEL[s]}</option>`
+        ).join("");
+        const budgetVal = (t.budget === 0 || t.budget) ? Number(t.budget) : "";
+        return `<div class="checklist-task checklist-task-editing checklist-status-${status}" id="task-${t.id}">
+            <div class="cl-edit-form">
+                <div>
+                    <label class="cl-field-lbl">✏️ Task</label>
+                    <input type="text" class="cl-edit-input" id="cl-e-text-${t.id}" value="${clEsc(t.text || "")}" maxlength="120"/>
+                </div>
+                <div class="cl-edit-row">
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">🗓️ Start date</label>
+                        <input type="date" class="cl-edit-input" id="cl-e-plan-${t.id}" value="${clEsc(t.plannedDate || "")}"/>
+                    </div>
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">⏰ Due date</label>
+                        <input type="date" class="cl-edit-input" id="cl-e-due-${t.id}" value="${clEsc(t.dueDate || "")}"/>
+                    </div>
+                </div>
+                <div class="cl-edit-row">
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">💰 Budget (<span class="cl-currency-lbl">${CL_CURRENCY}</span>)</label>
+                        <input type="number" min="0" step="0.01" class="cl-edit-input" id="cl-e-budget-${t.id}" value="${budgetVal}" placeholder="0"/>
+                    </div>
+                    <div class="cl-edit-col">
+                        <label class="cl-field-lbl">Status</label>
+                        <select class="cl-edit-input" id="cl-e-status-${t.id}">${options}</select>
+                    </div>
+                </div>
+                <div class="cl-edit-actions">
+                    <button class="checklist-edit-save-btn" onclick="saveTaskEdit('${t.id}')">💾 Save changes</button>
+                    <button class="checklist-edit-cancel-btn" onclick="cancelTaskEdit()">Cancel</button>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    function renderChecklistBudget() {
+        let total = 0, doneAmount = 0, withBudget = 0;
+        checklistData.forEach(t => {
+            const b = Number(t.budget) || 0;
+            if (b > 0) { total += b; withBudget++; }
+            if ((t.status || "todo") === "done") doneAmount += b;
+        });
+        const remaining = total - doneAmount;
+        const totalEl = document.getElementById("cl-budget-total");
+        const doneEl = document.getElementById("cl-budget-done");
+        const remEl = document.getElementById("cl-budget-remaining");
+        const noteEl = document.getElementById("cl-budget-note");
+        if (totalEl) totalEl.textContent = clMoney(total);
+        if (doneEl) doneEl.textContent = clMoney(doneAmount);
+        if (remEl) remEl.textContent = clMoney(remaining);
+        if (noteEl) {
+            noteEl.textContent = withBudget === 0
+                ? "No budget added yet — add an amount to a task to start tracking 🌸"
+                : `${withBudget} of ${checklistData.length} task${checklistData.length !== 1 ? "s" : ""} have a budget 💕`;
+        }
+    }
+
     window.addChecklistTask = async function () {
         const input = document.getElementById("cl-task-input");
         const select = document.getElementById("cl-status-select");
+        const planInput = document.getElementById("cl-plan-input");
+        const dueInput = document.getElementById("cl-due-input");
+        const budgetInput = document.getElementById("cl-budget-input");
         if (!input || !select) return;
         const text = input.value.trim();
-        if (!text) {
-            input.focus();
+        if (!text) { input.focus(); return; }
+
+        const plannedDate = planInput ? planInput.value : "";
+        const dueDate = dueInput ? dueInput.value : "";
+        const budget = budgetInput && budgetInput.value !== "" ? Math.max(0, Number(budgetInput.value)) : 0;
+
+        if (plannedDate && dueDate && dueDate < plannedDate) {
+            alert("The due date can't be before the start date 📅");
             return;
         }
+        if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return; }
+
         showSync();
         try {
             await addDoc(checklistRef, {
                 text,
                 status: select.value,
+                plannedDate,
+                dueDate,
+                budget,
                 createdBy: currentUser || "hamdi",
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
             });
             input.value = "";
             select.value = "todo";
+            if (planInput) planInput.value = "";
+            if (dueInput) dueInput.value = "";
+            if (budgetInput) budgetInput.value = "";
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("checklist", `${whoName} added a task: ${text}`, partner, "checklist");
+            await createNotification("checklist", `${whoName} added a task: ${clShort(text, 40)}`, partner, "checklist");
         } catch (e) {
             alert("Error: " + e.message);
         }
         hideSync();
     };
-    window.deleteChecklistTask=async function(id){if(!confirm("Delete this task?"))return;showSync();try{await deleteDoc(doc(db,"checklist",id));}catch(e){alert("Error: "+e.message);}hideSync();};
-    window.onTaskDragStart=function(e,id){draggedTaskId=id;e.dataTransfer.effectAllowed="move";setTimeout(()=>{const el=document.getElementById("task-"+id);if(el)el.classList.add("dragging");},0);};
-    window.onTaskDragEnd=function(e){if(draggedTaskId){const el=document.getElementById("task-"+draggedTaskId);if(el)el.classList.remove("dragging");}document.querySelectorAll(".checklist-column").forEach(c=>c.classList.remove("drag-over"));};
-    window.onColDragOver=function(e,status){e.preventDefault();e.dataTransfer.dropEffect="move";document.getElementById("col-"+status)?.classList.add("drag-over");};
-    window.onColDragLeave=function(e,status){const col=document.getElementById("col-"+status);if(col&&!col.contains(e.relatedTarget))col.classList.remove("drag-over");};
-    window.onColDrop=async function(e,newStatus){e.preventDefault();document.querySelectorAll(".checklist-column").forEach(c=>c.classList.remove("drag-over"));if(!draggedTaskId)return;showSync();try{await updateDoc(doc(db,"checklist",draggedTaskId),{status:newStatus});}catch(err){alert("Error: "+err.message);}draggedTaskId=null;hideSync();};
-    let touchTask=null,touchClone=null;
-    document.addEventListener("touchstart",function(e){const task=e.target.closest(".checklist-task");if(!task)return;touchTask=task;touchClone=task.cloneNode(true);touchClone.style.cssText="position:fixed;opacity:.7;pointer-events:none;z-index:9999;width:"+task.offsetWidth+"px;border-radius:14px;";document.body.appendChild(touchClone);},{passive:true});
-    document.addEventListener("touchmove",function(e){if(!touchClone)return;const t=e.touches[0];touchClone.style.left=(t.clientX-touchClone.offsetWidth/2)+"px";touchClone.style.top=(t.clientY-30)+"px";document.querySelectorAll(".checklist-column").forEach(col=>{const r=col.getBoundingClientRect();if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom){col.classList.add("drag-over");}else{col.classList.remove("drag-over");}});},{passive:true});
-    document.addEventListener("touchend",async function(e){if(!touchClone||!touchTask)return;const t=e.changedTouches[0];let dropped=false;const cols=document.querySelectorAll(".checklist-column");for(const col of cols){const r=col.getBoundingClientRect();if(!dropped&&t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom){dropped=true;const newStatus=col.id.replace("col-","");const taskId=touchTask.id.replace("task-","");showSync();try{await updateDoc(doc(db,"checklist",taskId),{status:newStatus});}catch(err){alert("Error: "+err.message);}hideSync();}col.classList.remove("drag-over");}touchClone.remove();touchClone=null;touchTask=null;});
+
+    window.changeTaskStatus = async function (id, newStatus) {
+        if (!CL_STATUSES.includes(newStatus)) return;
+        const task = checklistData.find(t => t.id === id);
+        if (task && (task.status || "todo") === newStatus) return;
+        showSync();
+        try {
+            await updateDoc(doc(db, "checklist", id), { status: newStatus, updatedAt: new Date().toISOString() });
+            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+            await createNotification("checklist", `${whoName} moved "${clShort(task ? task.text : "a task", 32)}" to ${CL_STATUS_LABEL[newStatus]}`, partner, "checklist");
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.startEditTask = function (id) {
+        editingTaskId = id;
+        renderChecklist();
+        const el = document.getElementById("cl-e-text-" + id);
+        if (el) el.focus();
+    };
+
+    window.cancelTaskEdit = function () {
+        editingTaskId = null;
+        renderChecklist();
+    };
+
+    window.saveTaskEdit = async function (id) {
+        const textEl = document.getElementById("cl-e-text-" + id);
+        const planEl = document.getElementById("cl-e-plan-" + id);
+        const dueEl = document.getElementById("cl-e-due-" + id);
+        const budgetEl = document.getElementById("cl-e-budget-" + id);
+        const statusEl = document.getElementById("cl-e-status-" + id);
+        if (!textEl) return;
+
+        const text = textEl.value.trim();
+        if (!text) { alert("The task can't be empty 💕"); textEl.focus(); return; }
+
+        const plannedDate = planEl ? planEl.value : "";
+        const dueDate = dueEl ? dueEl.value : "";
+        const budget = budgetEl && budgetEl.value !== "" ? Math.max(0, Number(budgetEl.value)) : 0;
+        const status = statusEl && CL_STATUSES.includes(statusEl.value) ? statusEl.value : "todo";
+
+        if (plannedDate && dueDate && dueDate < plannedDate) {
+            alert("The due date can't be before the start date 📅");
+            return;
+        }
+        if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return; }
+
+        showSync();
+        try {
+            await updateDoc(doc(db, "checklist", id), {
+                text, plannedDate, dueDate, budget, status,
+                updatedAt: new Date().toISOString()
+            });
+            editingTaskId = null;
+            renderChecklist();
+            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+            await createNotification("checklist", `${whoName} updated the task: ${clShort(text, 40)}`, partner, "checklist");
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    window.deleteChecklistTask = async function (id) {
+        if (!confirm("Delete this task?")) return;
+        showSync();
+        try {
+            if (editingTaskId === id) editingTaskId = null;
+            await deleteDoc(doc(db, "checklist", id));
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
 
     /* ===== OUR PLACES ===== */
     const placesRef=collection(db,"places");let leafletMap=null;let mapInitialized=false;let placesData=[];const placeMarkers={};
@@ -6133,190 +6281,6 @@ function renderQuizScores() {
             </div>`;
         }).join("");
     }
-
-    /* ============================================================
-       ===== HIGHER OR LOWER =====
-       ============================================================ */
-    const hlScoresRef = collection(db, "hlScores");
-    let hlAllScores = [];
-    let hlState = {
-        currentNumber: null,
-        nextNumber: null,
-        streak: 0,
-        playing: false,
-        locked: false
-    };
-
-    onSnapshot(query(hlScoresRef, orderBy("streak", "desc")), snap => {
-        hlAllScores = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderHlLeaderboard();
-        updateHlBestStreak();
-    });
-
-    function updateHlBestStreak() {
-        if (!currentUser) return;
-        const myScores = hlAllScores.filter(s => s.user === currentUser);
-        const best = myScores.length > 0 ? Math.max(...myScores.map(s => s.streak)) : 0;
-        const el = document.getElementById("hl-best-streak");
-        if (el) el.textContent = best;
-    }
-
-    window.startHlGame = function() {
-        hlState.currentNumber = Math.floor(Math.random() * 100) + 1;
-        hlState.nextNumber = null;
-        hlState.streak = 0;
-        hlState.playing = true;
-        hlState.locked = false;
-
-        document.getElementById("hl-current-num").textContent = hlState.currentNumber;
-        document.getElementById("hl-next-num").textContent = "?";
-        document.getElementById("hl-current-card").classList.remove("correct", "wrong");
-        document.getElementById("hl-next-card").classList.remove("correct", "wrong");
-        document.getElementById("hl-next-card").classList.add("hidden");
-        document.getElementById("hl-result-area").innerHTML = "";
-        document.getElementById("hl-current-streak").textContent = "0";
-        document.getElementById("hl-question").textContent = "Will the next number be higher or lower?";
-
-        document.getElementById("hl-btn-higher").disabled = false;
-        document.getElementById("hl-btn-lower").disabled = false;
-    };
-
-    window.hlGuess = async function(guess) {
-        if (!hlState.playing || hlState.locked) return;
-        hlState.locked = true;
-
-        // Generate next number (different from current)
-        let next;
-        do {
-            next = Math.floor(Math.random() * 100) + 1;
-        } while (next === hlState.currentNumber);
-
-        hlState.nextNumber = next;
-
-        // Reveal the next card
-        const nextCard = document.getElementById("hl-next-card");
-        nextCard.classList.add("revealing");
-        setTimeout(() => {
-            document.getElementById("hl-next-num").textContent = next;
-            nextCard.classList.remove("hidden", "revealing");
-
-            // Determine result
-            const correct =
-                (guess === "higher" && next > hlState.currentNumber) ||
-                (guess === "lower" && next < hlState.currentNumber);
-
-            const resultArea = document.getElementById("hl-result-area");
-
-            if (correct) {
-                hlState.streak++;
-                document.getElementById("hl-current-streak").textContent = hlState.streak;
-                nextCard.classList.add("correct");
-                resultArea.innerHTML = `<div class="hl-result win">✅ Correct! ${hlState.currentNumber} → ${next} · Streak: ${hlState.streak} 🔥</div>`;
-                // Continue: shift next to current
-                setTimeout(() => {
-                    hlState.currentNumber = next;
-                    document.getElementById("hl-current-num").textContent = next;
-                    document.getElementById("hl-next-num").textContent = "?";
-                    nextCard.classList.remove("correct");
-                    nextCard.classList.add("hidden");
-                    hlState.locked = false;
-                }, 1400);
-            } else {
-                // Lost!
-                nextCard.classList.add("wrong");
-                resultArea.innerHTML = `<div class="hl-result lose">❌ Wrong! ${hlState.currentNumber} → ${next} · Final streak: ${hlState.streak}</div>`;
-                hlState.playing = false;
-                document.getElementById("hl-btn-higher").disabled = true;
-                document.getElementById("hl-btn-lower").disabled = true;
-                if (hlState.streak > 0) {
-                    saveHlScore(hlState.streak);
-                }
-            }
-        }, 350);
-    };
-
-    async function saveHlScore(streak) {
-        if (!currentUser) return;
-        try {
-            await addDoc(hlScoresRef, {
-                user: currentUser,
-                streak,
-                playedAt: new Date().toISOString()
-            });
-            // Notify partner only if it's a new personal best
-            const myScores = hlAllScores.filter(s => s.user === currentUser);
-            const previousBest = myScores.length > 0 ? Math.max(...myScores.map(s => s.streak)) : 0;
-            if (streak > previousBest) {
-                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-                await createNotification("games", `${whoName} hit a new Higher/Lower record: ${streak} streak! 🃏🔥`, partner, "games");
-            }
-        } catch (e) { console.error(e); }
-    }
-
-    function renderHlLeaderboard() {
-        const listEl = document.getElementById("hl-leaderboard-list");
-        if (!listEl) return;
-        if (hlAllScores.length === 0) {
-            listEl.innerHTML = '<p class="memory-empty">No scores yet — be the first! 🌸</p>';
-            return;
-        }
-        // Best per user
-        const bestByUser = {};
-        hlAllScores.forEach(s => {
-            if (!bestByUser[s.user] || s.streak > bestByUser[s.user].streak) {
-                bestByUser[s.user] = s;
-            }
-        });
-        const arr = Object.values(bestByUser).sort((a, b) => b.streak - a.streak);
-
-        listEl.innerHTML = arr.map((s, i) => {
-            const userIcon = s.user === "hamdi" ? "👨" : "👩";
-            const userName = s.user === "hamdi" ? "Hamdi" : "Yossr";
-            const rank = i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉";
-            return `<div class="hl-leaderboard-item">
-                <span style="font-size:1.1rem;font-weight:700;">${rank}</span>
-                <span>${userIcon} ${userName}</span>
-                <span class="hl-streak-badge">🔥 ${s.streak} streak</span>
-            </div>`;
-        }).join("");
-    }
-
-    window.clearHlGame = function() {
-        if (hlState.playing && hlState.streak > 0) {
-            if (!confirm("Clear the current game? Your streak of " + hlState.streak + " will be lost 💔")) return;
-        }
-        hlState.currentNumber = null;
-        hlState.nextNumber = null;
-        hlState.streak = 0;
-        hlState.playing = false;
-        hlState.locked = false;
-
-        // Reset display
-        document.getElementById("hl-current-num").textContent = "?";
-        document.getElementById("hl-next-num").textContent = "?";
-        document.getElementById("hl-current-streak").textContent = "0";
-        document.getElementById("hl-question").textContent = 'Click "New Game" to start ✨';
-        document.getElementById("hl-result-area").innerHTML = "";
-
-        // Reset card classes
-        const currentCard = document.getElementById("hl-current-card");
-        const nextCard = document.getElementById("hl-next-card");
-        currentCard.classList.remove("correct", "wrong", "revealing");
-        nextCard.classList.remove("correct", "wrong", "revealing");
-        nextCard.classList.add("hidden");
-
-        // Disable buttons
-        document.getElementById("hl-btn-higher").disabled = true;
-        document.getElementById("hl-btn-lower").disabled = true;
-    };
-
-    // Initialize HL game on load
-    setTimeout(() => {
-        if (document.getElementById("hl-current-num")) {
-            startHlGame();
-        }
-    }, 1000);
 
     /* ===== PARTICLES ===== */
     const emojis=["❤️","🩷","💕","🤍","🥰","😍","⭐️","🌹","🌸","💐","🦋"];const pc=document.getElementById("particles");
