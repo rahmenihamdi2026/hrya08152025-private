@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v21"/>
+    <meta name="app-version" content="v22"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -61,6 +61,7 @@
         body[data-theme="lavender"] .quiz-open-submit-btn,
         body[data-theme="lavender"] .cl-tab.active,
         body[data-theme="lavender"] .cl-chip.on,
+        body[data-theme="lavender"] .photo-fav-btn.on,
         body[data-theme="lavender"] .cl-panel-btn,
         body[data-theme="lavender"] .cl-add-idea-btn,
         body[data-theme="lavender"] .cl-vote.voted,
@@ -147,6 +148,7 @@
         body[data-theme="peach"] .quiz-open-submit-btn,
         body[data-theme="peach"] .cl-tab.active,
         body[data-theme="peach"] .cl-chip.on,
+        body[data-theme="peach"] .photo-fav-btn.on,
         body[data-theme="peach"] .cl-panel-btn,
         body[data-theme="peach"] .cl-add-idea-btn,
         body[data-theme="peach"] .cl-vote.voted,
@@ -233,6 +235,7 @@
         body[data-theme="ocean"] .quiz-open-submit-btn,
         body[data-theme="ocean"] .cl-tab.active,
         body[data-theme="ocean"] .cl-chip.on,
+        body[data-theme="ocean"] .photo-fav-btn.on,
         body[data-theme="ocean"] .cl-panel-btn,
         body[data-theme="ocean"] .cl-add-idea-btn,
         body[data-theme="ocean"] .cl-vote.voted,
@@ -319,6 +322,7 @@
         body[data-theme="sunset"] .quiz-open-submit-btn,
         body[data-theme="sunset"] .cl-tab.active,
         body[data-theme="sunset"] .cl-chip.on,
+        body[data-theme="sunset"] .photo-fav-btn.on,
         body[data-theme="sunset"] .cl-panel-btn,
         body[data-theme="sunset"] .cl-add-idea-btn,
         body[data-theme="sunset"] .cl-vote.voted,
@@ -406,6 +410,7 @@
         body[data-theme="midnight"] .quiz-open-submit-btn,
         body[data-theme="midnight"] .cl-tab.active,
         body[data-theme="midnight"] .cl-chip.on,
+        body[data-theme="midnight"] .photo-fav-btn.on,
         body[data-theme="midnight"] .cl-panel-btn,
         body[data-theme="midnight"] .cl-add-idea-btn,
         body[data-theme="midnight"] .cl-vote.voted,
@@ -1638,6 +1643,28 @@
         .gallery-loading-state { text-align: center; color: #e07fa0; font-size: .9rem; padding: 36px; letter-spacing: 1px; grid-column: 1 / -1; animation: pulse 1.5s ease-in-out infinite; }
 
         /* Slideshow */
+        /* ===== Gallery: favourites, albums, slideshow player ===== */
+        .photo-fav-btn { position: absolute; top: 8px; left: 8px; background: rgba(255, 255, 255, .88); border: none; border-radius: 50%; width: 30px; height: 30px; font-size: .95rem; cursor: pointer; line-height: 1; display: flex; align-items: center; justify-content: center; transition: all .2s; box-shadow: 0 2px 8px rgba(192, 57, 107, .18); z-index: 2; }
+        .photo-fav-btn:hover { transform: scale(1.12); }
+        .photo-fav-btn.on { background: linear-gradient(135deg, #ff9ec0, #c0396b); }
+        .gal-tools { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+        .gal-tool-btn { padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255, 182, 210, .6); background: rgba(255, 255, 255, .8); color: #9b1c4a; font-size: .82rem; font-family: 'Lato', sans-serif; cursor: pointer; transition: all .2s; letter-spacing: .3px; }
+        .gal-tool-btn:hover { background: rgba(255, 214, 232, .8); transform: translateY(-1px); }
+        .alb-row { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
+        .alb-row .cl-panel-input { flex: 1; }
+        .alb-count { min-width: 26px; text-align: center; font-size: .7rem; color: #b07090; background: rgba(255, 214, 232, .6); border-radius: 40px; padding: 3px 7px; }
+        .alb-merge { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255, 182, 210, .45); }
+        .alb-merge-row { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+        .alb-merge-row select { flex: 1; min-width: 118px; padding: 7px 10px; border: 1px solid rgba(255, 182, 210, .65); border-radius: 10px; background: rgba(255, 240, 248, .85); color: #7a2545; font-size: .82rem; font-family: 'Lato', sans-serif; outline: none; }
+        .alb-arrow { color: #c0396b; font-size: .9rem; }
+        /* slideshow player bar */
+        .sl-player { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+        .sl-player-btn { padding: 8px 15px; border-radius: 50px; border: 1px solid rgba(255, 182, 210, .45); background: rgba(255, 255, 255, .12); color: #ffd6e8; font-size: .82rem; font-family: 'Lato', sans-serif; cursor: pointer; transition: all .2s; letter-spacing: .3px; }
+        .sl-player-btn:hover { background: rgba(255, 182, 210, .25); }
+        .sl-player-btn.on { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border-color: transparent; }
+        .sl-fav-btn { font-size: 1.1rem; padding: 8px 14px; }
+        .sl-music-name { width: 100%; text-align: center; font-size: .72rem; color: #d9a8bf; letter-spacing: .5px; margin-top: 4px; }
+
         .slideshow-overlay { display: none; position: fixed; inset: 0; background: rgba(5, 0, 10, .94); z-index: 10000; align-items: center; justify-content: center; flex-direction: column; padding: 20px; }
         .slideshow-overlay.open { display: flex; animation: fadeIn .2s ease; }
         .slideshow-img-wrap { display: flex; align-items: center; justify-content: center; max-width: 92vw; max-height: 70vh; }
@@ -3464,6 +3491,10 @@
             <div class="gal-multi-grid" id="gal-multi-grid" style="display:none;"></div>
             <button class="gallery-save-btn" id="gal-save-btn" onclick="saveAllGalleryPhotos()" style="display:none;">💾 Add Photos to Gallery</button>
         </div>
+        <div class="gal-tools">
+            <button class="gal-tool-btn" onclick="startSlideshowFromStart()">▶️ Play slideshow</button>
+            <button class="gal-tool-btn" onclick="openAlbumsModal()">🏷️ Manage albums</button>
+        </div>
         <div class="album-tabs" id="album-tabs"><button class="album-tab active" onclick="filterAlbum('all', this)">🌸 All</button></div>
         <div class="photo-grid" id="gallery-grid"><p class="gallery-loading-state">💕 Loading photos...</p></div>
     </div>
@@ -3481,6 +3512,34 @@
     <div class="slideshow-nav">
         <button class="sl-nav-btn" onclick="slideshowNav(-1)">← Prev</button>
         <button class="sl-nav-btn" onclick="slideshowNav(1)">Next →</button>
+    </div>
+    <div class="sl-player">
+        <button class="sl-player-btn sl-fav-btn" id="sl-fav-btn" onclick="toggleSlideFav()" title="Add to favourites">🤍</button>
+        <button class="sl-player-btn" id="sl-play-btn" onclick="toggleSlideshowPlay()">▶️ Play</button>
+        <button class="sl-player-btn" id="sl-speed-btn" onclick="cycleSlideDelay()">⏱️ 4s</button>
+        <button class="sl-player-btn" id="sl-music-btn" onclick="toggleSlideMusic()">🎵 Music off</button>
+        <button class="sl-player-btn" onclick="pickSlideMusic()">📁 My song</button>
+        <div class="sl-music-name" id="sl-music-name"></div>
+    </div>
+</div>
+<input type="file" id="sl-music-file" accept="audio/*" style="display:none" onchange="handleSlideMusicFile(event)"/>
+
+<!-- ===== ALBUMS MODAL ===== -->
+<div class="theme-modal-overlay" id="albums-modal-overlay">
+    <div class="theme-modal pdf-modal">
+        <h2>Albums 🏷️</h2>
+        <p>Rename them, or bring two into one</p>
+        <div id="alb-list"></div>
+        <div class="alb-merge">
+            <div class="cl-panel-ttl" style="margin-bottom:9px;">🔀 Merge two albums</div>
+            <div class="alb-merge-row">
+                <select id="alb-merge-from"></select>
+                <span class="alb-arrow">→</span>
+                <select id="alb-merge-into"></select>
+                <button class="cl-panel-btn" onclick="mergeAlbums()">Merge</button>
+            </div>
+        </div>
+        <p class="pdf-hint">Renaming an album to a name that already exists merges them. No photo is ever deleted 💕</p>
     </div>
 </div>
 
@@ -5996,13 +6055,263 @@
         hideSync();
     };
     onSnapshot(query(galleryRef,orderBy("addedAt","desc")),snapshot=>{galleryAllPhotos=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderGalleryGrid();});
-    function renderGalleryGrid(){const grid=document.getElementById("gallery-grid");if(!grid)return;const albumSet=[...new Set(galleryAllPhotos.map(p=>p.album).filter(Boolean))];const dl=document.getElementById("albums-datalist");if(dl)dl.innerHTML=albumSet.map(a=>`<option value="${esc(a)}">`).join("");const tabsEl=document.getElementById("album-tabs");if(tabsEl){tabsEl.innerHTML=`<button class="album-tab${currentAlbumFilter==="all"?" active":""}" onclick="filterAlbum('all',this)">🌸 All (${galleryAllPhotos.length})</button>`+albumSet.map(a=>{const count=galleryAllPhotos.filter(p=>p.album===a).length;const active=currentAlbumFilter===a?" active":"";return `<button class="album-tab${active}" onclick="filterAlbum('${esc(a).replace(/'/g,"\\'")}',this)">${esc(a)} <span style="font-size:.75rem;opacity:.8">(${count})</span></button>`;}).join("");}
-    const filtered=currentAlbumFilter==="all"?galleryAllPhotos:galleryAllPhotos.filter(p=>p.album===currentAlbumFilter);slideshowPhotos=filtered;if(filtered.length===0){grid.innerHTML='<p class="gallery-empty">No photos yet in this album… add your first memory 📸</p>';return;}grid.innerHTML=filtered.map((p,i)=>`<div class="photo-item" onclick="openSlideshow(${i})"><img src="${p.image}" alt="${esc(p.caption||"")}" loading="lazy"/><div class="photo-overlay">${p.caption?`<div class="po-caption">${esc(p.caption)}</div>`:""}<div class="po-album">${esc(p.album||"")}</div></div><button class="photo-del-btn" onclick="deleteGalleryPhoto(event,'${p.id}')">🗑️</button></div>`).join("");}
+    /* --- favourites helpers --- */
+    function photoFavs(p){ const f = p.fav || {}; return Object.keys(f).filter(u => f[u]); }
+    function photoFavIcon(p){
+        const n = photoFavs(p).length;
+        return n >= 2 ? "💖" : (n === 1 ? "❤️" : "🤍");
+    }
+    function isFavByMe(p){ return !!(p.fav && p.fav[currentUser]); }
+
+    function renderGalleryGrid(){
+        const grid=document.getElementById("gallery-grid");if(!grid)return;
+        const albumSet=[...new Set(galleryAllPhotos.map(p=>p.album).filter(Boolean))].sort();
+        const dl=document.getElementById("albums-datalist");
+        if(dl)dl.innerHTML=albumSet.map(a=>`<option value="${esc(a)}">`).join("");
+        const favCount=galleryAllPhotos.filter(p=>photoFavs(p).length>0).length;
+        const tabsEl=document.getElementById("album-tabs");
+        if(tabsEl){
+            tabsEl.innerHTML=`<button class="album-tab${currentAlbumFilter==="all"?" active":""}" onclick="filterAlbum('all',this)">🌸 All (${galleryAllPhotos.length})</button>`
+                + (favCount?`<button class="album-tab${currentAlbumFilter==="__fav"?" active":""}" onclick="filterAlbum('__fav',this)">❤️ Favourites (${favCount})</button>`:"")
+                + albumSet.map(a=>{
+                    const count=galleryAllPhotos.filter(p=>p.album===a).length;
+                    const active=currentAlbumFilter===a?" active":"";
+                    return `<button class="album-tab${active}" onclick="filterAlbum('${esc(a).replace(/'/g,"\\'")}',this)">${esc(a)} <span style="font-size:.75rem;opacity:.8">(${count})</span></button>`;
+                }).join("");
+        }
+        let filtered;
+        if(currentAlbumFilter==="all") filtered=galleryAllPhotos;
+        else if(currentAlbumFilter==="__fav") filtered=galleryAllPhotos.filter(p=>photoFavs(p).length>0);
+        else filtered=galleryAllPhotos.filter(p=>p.album===currentAlbumFilter);
+        slideshowPhotos=filtered;
+        if(filtered.length===0){
+            grid.innerHTML='<p class="gallery-empty">'+(currentAlbumFilter==="__fav"?"No favourite yet — tap the heart on a photo 🤍":"No photos yet in this album… add your first memory 📸")+'</p>';
+            return;
+        }
+        grid.innerHTML=filtered.map((p,i)=>{
+            const favs=photoFavs(p);
+            const title=favs.length?("Loved by "+favs.map(u=>u==="yossr"?"Yossr":"Hamdi").join(" & ")):"Add to favourites";
+            return `<div class="photo-item" onclick="openSlideshow(${i})">
+                <img src="${p.image}" alt="${esc(p.caption||"")}" loading="lazy"/>
+                <div class="photo-overlay">${p.caption?`<div class="po-caption">${esc(p.caption)}</div>`:""}<div class="po-album">${esc(p.album||"")}</div></div>
+                <button class="photo-fav-btn${isFavByMe(p)?" on":""}" title="${esc(title)}" onclick="toggleGalleryFav(event,'${p.id}')">${photoFavIcon(p)}</button>
+                <button class="photo-del-btn" onclick="deleteGalleryPhoto(event,'${p.id}')">🗑️</button>
+            </div>`;
+        }).join("");
+    }
+
+    window.toggleGalleryFav = async function(e, id){
+        if(e) e.stopPropagation();
+        const p = galleryAllPhotos.find(x => x.id === id);
+        if(!p) return;
+        const on = !isFavByMe(p);
+        showSync();
+        try{
+            await updateDoc(doc(db,"gallery",id), { ["fav." + (currentUser || "hamdi")]: on });
+            if(on){
+                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                const both = p.fav && p.fav[partner];
+                if(both) clToast("You both love this photo 💖");
+                await createNotification("gallery", `${whoName} loved a photo ❤️${p.caption ? ' — "' + String(p.caption).slice(0,30) + '"' : ""}`, partner, "gallery");
+            }
+        }catch(err){ alert("Error: "+err.message); }
+        hideSync();
+    };
     window.filterAlbum=function(album,btn){currentAlbumFilter=album;document.querySelectorAll(".album-tab").forEach(b=>b.classList.remove("active"));btn.classList.add("active");renderGalleryGrid();};
     window.openSlideshow=function(index){slideshowIndex=index;updateSlideshowView();document.getElementById("slideshow-overlay").classList.add("open");document.body.style.overflow="hidden";};
-    window.closeSlideshow=function(){document.getElementById("slideshow-overlay").classList.remove("open");document.body.style.overflow="";};
+    window.closeSlideshow=function(){
+        stopSlideshowPlay();
+        stopSlideMusic();
+        document.getElementById("slideshow-overlay").classList.remove("open");
+        document.body.style.overflow="";
+    };
+    window.startSlideshowFromStart=function(){
+        if(!slideshowPhotos.length){ alert("Add a photo first 📸"); return; }
+        openSlideshow(0);
+        if(!slidePlaying) toggleSlideshowPlay();
+    };
+
+    /* ---------- favourite from the slideshow ---------- */
+    window.toggleSlideFav=function(){
+        const p=slideshowPhotos[slideshowIndex];
+        if(p) toggleGalleryFav(null,p.id);
+    };
+    function refreshSlideFavBtn(){
+        const btn=document.getElementById("sl-fav-btn");
+        const p=slideshowPhotos[slideshowIndex];
+        if(!btn||!p) return;
+        btn.textContent=photoFavIcon(p);
+        btn.classList.toggle("on",isFavByMe(p));
+    }
+
+    /* ---------- auto-play ---------- */
+    let slideTimer=null, slidePlaying=false, slideDelay=4000;
+    const SLIDE_DELAYS=[3000,4000,6000,9000];
+    window.toggleSlideshowPlay=function(){
+        slidePlaying ? stopSlideshowPlay() : startSlideshowPlay();
+    };
+    function startSlideshowPlay(){
+        if(slideshowPhotos.length<2) { alert("Add at least two photos 📸"); return; }
+        slidePlaying=true;
+        clearInterval(slideTimer);
+        slideTimer=setInterval(()=>slideshowNav(1), slideDelay);
+        const b=document.getElementById("sl-play-btn");
+        if(b){ b.textContent="⏸️ Pause"; b.classList.add("on"); }
+    }
+    function stopSlideshowPlay(){
+        slidePlaying=false;
+        clearInterval(slideTimer);
+        slideTimer=null;
+        const b=document.getElementById("sl-play-btn");
+        if(b){ b.textContent="▶️ Play"; b.classList.remove("on"); }
+    }
+    window.cycleSlideDelay=function(){
+        const i=SLIDE_DELAYS.indexOf(slideDelay);
+        slideDelay=SLIDE_DELAYS[(i+1)%SLIDE_DELAYS.length];
+        const b=document.getElementById("sl-speed-btn");
+        if(b) b.textContent="⏱️ "+(slideDelay/1000)+"s";
+        if(slidePlaying) startSlideshowPlay();
+    };
+
+    /* ---------- music ----------
+       Your own song stays on this device only (browsers can't keep a file
+       between visits), so pick it again next time. Without a file, a soft
+       built-in melody is generated live. */
+    let slideAudio=null, slideMusicOn=false, slideCtx=null, slideMelodyTimer=null, slideMelodyStep=0;
+    window.pickSlideMusic=function(){ document.getElementById("sl-music-file").click(); };
+    window.handleSlideMusicFile=function(e){
+        const file=(e.target.files||[])[0];
+        if(!file) return;
+        stopSlideMusic();
+        if(slideAudio && slideAudio.src) URL.revokeObjectURL(slideAudio.src);
+        slideAudio=new Audio(URL.createObjectURL(file));
+        slideAudio.loop=true;
+        slideAudio.volume=0.75;
+        const n=document.getElementById("sl-music-name");
+        if(n) n.textContent="🎵 "+file.name.replace(/\.[^.]+$/,"").slice(0,40);
+        e.target.value="";
+        startSlideMusic();
+        if(!slidePlaying) startSlideshowPlay();
+    };
+    window.toggleSlideMusic=function(){ slideMusicOn ? stopSlideMusic() : startSlideMusic(); };
+    function startSlideMusic(){
+        slideMusicOn=true;
+        const b=document.getElementById("sl-music-btn");
+        if(b){ b.textContent="🔇 Music on"; b.classList.add("on"); }
+        if(slideAudio){ slideAudio.play().catch(()=>{}); return; }
+        playBuiltInMelody();
+    }
+    function stopSlideMusic(){
+        slideMusicOn=false;
+        const b=document.getElementById("sl-music-btn");
+        if(b){ b.textContent="🎵 Music off"; b.classList.remove("on"); }
+        if(slideAudio) slideAudio.pause();
+        clearInterval(slideMelodyTimer);
+        slideMelodyTimer=null;
+    }
+    function playBuiltInMelody(){
+        try{
+            if(!slideCtx) slideCtx=new (window.AudioContext||window.webkitAudioContext)();
+            if(slideCtx.state==="suspended") slideCtx.resume();
+        }catch(e){ return; }
+        // gentle C-major arpeggio, two octaves, slow and soft
+        const notes=[261.63,329.63,392.00,523.25,392.00,329.63,293.66,349.23,440.00,523.25,440.00,349.23];
+        clearInterval(slideMelodyTimer);
+        slideMelodyStep=0;
+        const tick=()=>{
+            const f=notes[slideMelodyStep%notes.length];
+            slideMelodyStep++;
+            const t=slideCtx.currentTime;
+            const osc=slideCtx.createOscillator();
+            const gain=slideCtx.createGain();
+            osc.type="sine";
+            osc.frequency.value=f;
+            gain.gain.setValueAtTime(0.0001,t);
+            gain.gain.exponentialRampToValueAtTime(0.13,t+0.08);
+            gain.gain.exponentialRampToValueAtTime(0.0001,t+1.6);
+            osc.connect(gain).connect(slideCtx.destination);
+            osc.start(t);
+            osc.stop(t+1.7);
+        };
+        tick();
+        slideMelodyTimer=setInterval(tick,650);
+    }
     window.slideshowNav=function(dir){if(slideshowPhotos.length===0)return;slideshowIndex=(slideshowIndex+dir+slideshowPhotos.length)%slideshowPhotos.length;updateSlideshowView();};
-    function updateSlideshowView(){const p=slideshowPhotos[slideshowIndex];if(!p)return;const imgEl=document.getElementById("slideshow-img");imgEl.style.opacity="0";imgEl.src=p.image;imgEl.onload=()=>{imgEl.style.transition="opacity .25s";imgEl.style.opacity="1";};document.getElementById("slideshow-caption").textContent=p.caption||"";document.getElementById("slideshow-album").textContent=p.album||"";document.getElementById("slideshow-counter").textContent=`${slideshowIndex+1} / ${slideshowPhotos.length}`;}
+    function updateSlideshowView(){const p=slideshowPhotos[slideshowIndex];if(!p)return;const imgEl=document.getElementById("slideshow-img");imgEl.style.opacity="0";imgEl.src=p.image;imgEl.onload=()=>{imgEl.style.transition="opacity .25s";imgEl.style.opacity="1";};document.getElementById("slideshow-caption").textContent=p.caption||"";document.getElementById("slideshow-album").textContent=p.album||"";refreshSlideFavBtn();document.getElementById("slideshow-counter").textContent=`${slideshowIndex+1} / ${slideshowPhotos.length}`;}
+    /* ---------- albums: rename & merge ---------- */
+    function galAlbums(){
+        return [...new Set(galleryAllPhotos.map(p=>p.album).filter(Boolean))].sort();
+    }
+    window.openAlbumsModal=function(){
+        renderAlbumsModal();
+        document.getElementById("albums-modal-overlay").classList.add("open");
+    };
+    window.closeAlbumsModal=function(){
+        document.getElementById("albums-modal-overlay").classList.remove("open");
+    };
+    function renderAlbumsModal(){
+        const list=document.getElementById("alb-list");
+        const albums=galAlbums();
+        if(list){
+            list.innerHTML = albums.length ? albums.map((a,i)=>{
+                const n=galleryAllPhotos.filter(p=>p.album===a).length;
+                return `<div class="alb-row">
+                    <input class="cl-panel-input" id="alb-i-${i}" value="${esc(a)}" maxlength="40"/>
+                    <span class="alb-count">${n}</span>
+                    <button class="cl-panel-btn" onclick="renameAlbum(${i})">💾</button>
+                </div>`;
+            }).join("") : '<div class="cl-panel-empty">No album yet — add photos with an album name 🌸</div>';
+        }
+        const from=document.getElementById("alb-merge-from");
+        const into=document.getElementById("alb-merge-into");
+        const opts=albums.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join("");
+        if(from) from.innerHTML=opts;
+        if(into) into.innerHTML=opts;
+    }
+    async function moveAlbum(fromName,toName,verb){
+        const photos=galleryAllPhotos.filter(p=>p.album===fromName);
+        if(!photos.length) return 0;
+        showSync();
+        let n=0;
+        try{
+            for(const p of photos){
+                await updateDoc(doc(db,"gallery",p.id),{album:toName});
+                n++;
+            }
+        }catch(e){ alert("Error: "+e.message); }
+        hideSync();
+        if(n){
+            if(currentAlbumFilter===fromName) currentAlbumFilter=toName;
+            clToast(`${n} photo${n>1?"s":""} ${verb} “${toName}” 🏷️`);
+            const partner=currentUser==="hamdi"?"yossr":"hamdi";
+            const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";
+            await createNotification("gallery",`${whoName} moved ${n} photo${n>1?"s":""} to the album "${toName}" 🏷️`,partner,"gallery");
+        }
+        renderAlbumsModal();
+        return n;
+    }
+    window.renameAlbum=async function(i){
+        const albums=galAlbums();
+        const from=albums[i];
+        const el=document.getElementById("alb-i-"+i);
+        if(!from||!el) return;
+        const to=el.value.trim();
+        if(!to){ el.focus(); return; }
+        if(to===from) return;
+        if(albums.includes(to) && !confirm(`"${to}" already exists.\nMerge "${from}" into it?`)){ el.value=from; return; }
+        await moveAlbum(from,to,"moved to");
+    };
+    window.mergeAlbums=async function(){
+        const from=document.getElementById("alb-merge-from").value;
+        const into=document.getElementById("alb-merge-into").value;
+        if(!from||!into) return;
+        if(from===into){ alert("Pick two different albums 🌸"); return; }
+        const n=galleryAllPhotos.filter(p=>p.album===from).length;
+        if(!confirm(`Move ${n} photo${n>1?"s":""} from "${from}" into "${into}"?\nNo photo is deleted.`)) return;
+        await moveAlbum(from,into,"merged into");
+    };
+
     window.deleteGalleryPhoto=async function(e,id){e.stopPropagation();if(!confirm("Delete this photo?"))return;showSync();try{await deleteDoc(doc(db,"gallery",id));}catch(err){alert("Error: "+err.message);}hideSync();};
     document.addEventListener("keydown",function(e){const overlay=document.getElementById("slideshow-overlay");if(!overlay||!overlay.classList.contains("open"))return;if(e.key==="ArrowLeft")slideshowNav(-1);if(e.key==="ArrowRight")slideshowNav(1);if(e.key==="Escape")closeSlideshow();});
     document.getElementById("slideshow-overlay").addEventListener("click",function(e){if(e.target===this)closeSlideshow();});
@@ -8244,7 +8553,8 @@ function renderQuizScores() {
         const from = opts.from, to = opts.to;
         const memories = allMemories.filter(m => pdfInRange(m.date || m.savedAt, from, to));
         let photos = galleryAllPhotos.filter(p => pdfInRange(p.addedAt, from, to));
-        if (opts.album && opts.album !== "all") photos = photos.filter(p => (p.album || "") === opts.album);
+        if (opts.album === "__fav") photos = photos.filter(p => photoFavs(p).length > 0);
+        else if (opts.album && opts.album !== "all") photos = photos.filter(p => (p.album || "") === opts.album);
         const nowMs = Date.now();
         const lettersAll = allLetters.filter(l => pdfInRange(l.createdAt, from, to));
         const letters = lettersAll.filter(l => nowMs >= letterUnlockMs(l));
@@ -8262,7 +8572,9 @@ function renderQuizScores() {
         const sel = document.getElementById("pdf-album");
         if (sel) {
             const albums = [...new Set(galleryAllPhotos.map(p => p.album).filter(Boolean))];
+            const favN = galleryAllPhotos.filter(p => photoFavs(p).length > 0).length;
             sel.innerHTML = '<option value="all">All albums (' + galleryAllPhotos.length + ' photos)</option>' +
+                (favN ? '<option value="__fav">❤️ Favourites only (' + favN + ')</option>' : '') +
                 albums.map(a => '<option value="' + esc(a) + '">' + esc(a) + ' (' +
                     galleryAllPhotos.filter(p => p.album === a).length + ')</option>').join("");
         }
@@ -8278,6 +8590,9 @@ function renderQuizScores() {
     });
     document.getElementById("cat-modal-overlay").addEventListener("click", function(e) {
         if (e.target === this) closeCategoryModal();
+    });
+    document.getElementById("albums-modal-overlay").addEventListener("click", function(e) {
+        if (e.target === this) closeAlbumsModal();
     });
     function pdfProgress(pct, msg) {
         const bar = document.getElementById("pdf-bar");
