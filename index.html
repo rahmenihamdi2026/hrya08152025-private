@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v19"/>
+    <meta name="app-version" content="v21"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -1534,7 +1534,6 @@
         .cl-sub.editing, .cl-pay-row.editing { flex-wrap: wrap; gap: 6px; padding: 6px 0; }
         .cl-sub.editing .cl-panel-input { flex: 1; min-width: 120px; }
         .cl-msg-acts { float: right; }
-        .cl-vendor-addr { color: #b07090; }
         .cl-idea-edit { right: 31px !important; }
 
         /* --- idea lightbox --- */
@@ -4785,7 +4784,7 @@
     window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});}catch(e){alert("Error: "+e.message);}hideSync();};
 
     /* ============================================================
-       ===== CHECKLIST (v19) =====
+       ===== CHECKLIST (v21) =====
        Status select · edit · dates · categories · pin · search &
        filters · overdue alerts · photo ideas + votes · subtasks ·
        payments (paid vs total) · task chat · vendor · budget goal
@@ -5031,7 +5030,7 @@
         if (clFilterQuick === "budget" && !(Number(t.budget) > 0)) return false;
         if (clFilterQuick === "unpaid" && !(Number(t.budget) > 0 && clPaid(t) < Number(t.budget))) return false;
         if (clSearch) {
-            const hay = [t.text, t.vendorName, t.vendorAddress, clCatLabel(clCat(t)), (t.subtasks || []).map(s => s.text).join(" ")]
+            const hay = [t.text, t.vendorName, clCatLabel(clCat(t)), (t.subtasks || []).map(s => s.text).join(" ")]
                 .join(" ").toLowerCase();
             if (!hay.includes(clSearch)) return false;
         }
@@ -5133,10 +5132,8 @@
         const vLinks = [];
         if (t.vendorPhone) vLinks.push(`<a href="tel:${esc(t.vendorPhone)}">📞 ${esc(t.vendorPhone)}</a>`);
         if (t.vendorPlaceId) vLinks.push(`<a href="javascript:void(0)" onclick="clShowVendorPlace('${t.vendorPlaceId}')">📍 our map</a>`);
-        else if (t.vendorAddress) vLinks.push(`<a href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(t.vendorAddress)}" target="_blank" rel="noopener">🗺️ open map</a>`);
-        const vendorHead = t.vendorName || t.vendorAddress;
-        const vendor = vendorHead
-            ? `<div class="cl-vendor">🏪 ${esc(t.vendorName || t.vendorAddress)}${t.vendorName && t.vendorAddress ? ` <span class="cl-vendor-addr">· ${esc(t.vendorAddress)}</span>` : ""}${vLinks.length ? " · " + vLinks.join(" · ") : ""}</div>`
+        const vendor = t.vendorName
+            ? `<div class="cl-vendor">🏪 ${esc(t.vendorName)}${vLinks.length ? " · " + vLinks.join(" · ") : ""}</div>`
             : "";
 
         const options = CL_STATUSES.map(s =>
@@ -5222,15 +5219,8 @@
                         <input type="tel" class="cl-edit-input" id="cl-e-phone-${t.id}" value="${esc(t.vendorPhone || "")}" maxlength="30" placeholder="20 123 456"/>
                     </div>
                     <div class="cl-edit-col">
-                        <label class="cl-field-lbl">📍 Pick from our map</label>
-                        <select class="cl-edit-input" id="cl-e-place-${t.id}"><option value="">— none —</option>${places}</select>
-                    </div>
-                </div>
-                <div>
-                    <label class="cl-field-lbl">🗺️ Or type the address directly</label>
-                    <div class="cl-edit-row" style="gap:6px;">
-                        <input type="text" class="cl-edit-input" id="cl-e-addr-${t.id}" value="${esc(t.vendorAddress || "")}" maxlength="120" placeholder="Mourouj 3, Ben Arous…" style="flex:1;"/>
-                        <button class="cl-panel-btn" id="cl-e-geo-${t.id}" onclick="clAddressToMap('${t.id}')" title="Find this address and pin it on Our Places">🌍 Pin it</button>
+                        <label class="cl-field-lbl">📍 Place on our map</label>
+                        <select class="cl-edit-input" id="cl-e-place-${t.id}">${places ? '<option value="">— none —</option>' + places : '<option value="">— add it in Our Places first —</option>'}</select>
                     </div>
                 </div>
                 <div class="cl-edit-actions">
@@ -5535,7 +5525,7 @@
                 plannedDate, dueDate, budget,
                 pinned: false,
                 subtasks: [], payments: [], comments: [],
-                vendorName: "", vendorPhone: "", vendorPlaceId: "",
+                vendorName: "", vendorPhone: "", vendorPlaceId: "",   // filled from the edit form
                 createdBy: currentUser || "hamdi",
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
@@ -5582,33 +5572,37 @@
     };
     window.cancelTaskEdit = function () { editingTaskId = null; renderChecklist(); };
 
-    window.saveTaskEdit = async function (id) {
+    // Reads every field of the open edit form. Returns null (and warns) if invalid.
+    function clReadEditForm(id) {
         const g = k => document.getElementById("cl-e-" + k + "-" + id);
         const textEl = g("text");
-        if (!textEl) return;
+        if (!textEl) return null;
         const text = textEl.value.trim();
-        if (!text) { alert("The task can't be empty 💕"); textEl.focus(); return; }
+        if (!text) { alert("The task can't be empty 💕"); textEl.focus(); return null; }
         const plannedDate = g("plan") ? g("plan").value : "";
         const dueDate = g("due") ? g("due").value : "";
         const budget = g("budget") && g("budget").value !== "" ? Math.max(0, Number(g("budget").value)) : 0;
-        const status = g("status") && CL_STATUSES.includes(g("status").value) ? g("status").value : "todo";
-        const category = g("cat") && clCatExists(g("cat").value) ? g("cat").value : "other";
-        if (plannedDate && dueDate && dueDate < plannedDate) { alert("The due date can't be before the start date 📅"); return; }
-        if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return; }
+        if (plannedDate && dueDate && dueDate < plannedDate) { alert("The due date can't be before the start date 📅"); return null; }
+        if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return null; }
+        return {
+            text, plannedDate, dueDate, budget,
+            status: g("status") && CL_STATUSES.includes(g("status").value) ? g("status").value : "todo",
+            category: g("cat") && clCatExists(g("cat").value) ? g("cat").value : "other",
+            vendorName: g("vendor") ? g("vendor").value.trim() : "",
+            vendorPhone: g("phone") ? g("phone").value.trim() : "",
+            vendorPlaceId: g("place") ? g("place").value : ""
+        };
+    }
 
+    window.saveTaskEdit = async function (id) {
+        const data = clReadEditForm(id);
+        if (!data) return;
         showSync();
         try {
-            await updateDoc(doc(db, "checklist", id), {
-                text, plannedDate, dueDate, budget, status, category,
-                vendorName: g("vendor") ? g("vendor").value.trim() : "",
-                vendorPhone: g("phone") ? g("phone").value.trim() : "",
-                vendorAddress: g("addr") ? g("addr").value.trim() : "",
-                vendorPlaceId: g("place") ? g("place").value : "",
-                updatedAt: new Date().toISOString()
-            });
+            await updateDoc(doc(db, "checklist", id), { ...data, updatedAt: new Date().toISOString() });
             editingTaskId = null;
             renderChecklist();
-            await clNotify(`${clWho()} updated the task: ${clShort(text, 40)}`);
+            await clNotify(`${clWho()} updated the task: ${clShort(data.text, 40)}`);
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
     };
@@ -5776,47 +5770,6 @@
             clToast("Idea updated ✏️");
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
-    };
-
-    /* ---------- address -> pin on Our Places ---------- */
-    window.clAddressToMap = async function(taskId) {
-        const addrEl = document.getElementById("cl-e-addr-" + taskId);
-        const nameEl = document.getElementById("cl-e-vendor-" + taskId);
-        const btn = document.getElementById("cl-e-geo-" + taskId);
-        if (!addrEl) return;
-        const address = addrEl.value.trim();
-        if (!address) { alert("Type an address first 🗺️"); addrEl.focus(); return; }
-        if (btn) { btn.disabled = true; btn.textContent = "Searching…"; }
-        try {
-            const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
-            const res = await fetch(url, { headers: { "Accept-Language": "en" } });
-            const data = await res.json();
-            if (!data || !data.length) { alert("Address not found — try adding the city 🌍"); return; }
-            const hit = data[0];
-            const name = (nameEl && nameEl.value.trim()) || address.slice(0, 40);
-            showSync();
-            const ref = await addDoc(collection(db, "places"), {
-                name, emoji: "🏪",
-                desc: address,
-                lat: parseFloat(hit.lat), lng: parseFloat(hit.lon),
-                addedBy: currentUser || "hamdi",
-                addedAt: new Date().toISOString()
-            });
-            hideSync();
-            const sel = document.getElementById("cl-e-place-" + taskId);
-            if (sel) {
-                const opt = document.createElement("option");
-                opt.value = ref.id;
-                opt.textContent = "🏪 " + name;
-                opt.selected = true;
-                sel.appendChild(opt);
-            }
-            clToast("Pinned on Our Places 📍");
-        } catch (e) {
-            alert("Could not reach the map service — check your connection 🌍");
-        } finally {
-            if (btn) { btn.disabled = false; btn.textContent = "🌍 Pin it"; }
-        }
     };
 
     /* ---------- photo ideas ---------- */
