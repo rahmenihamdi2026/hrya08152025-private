@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v18"/>
+    <meta name="app-version" content="v19"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -1521,6 +1521,22 @@
             .cl-cat-val { width: 78px; font-size: .68rem; }
         }
 
+        /* --- categories modal --- */
+        .cat-row { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
+        .cat-row .cl-panel-input { flex: 1; }
+        .cat-count { min-width: 26px; text-align: center; font-size: .7rem; color: #b07090; background: rgba(255, 214, 232, .6); border-radius: 40px; padding: 3px 7px; }
+        .cat-del { background: none; border: none; color: #d0a0b8; font-size: .85rem; cursor: pointer; padding: 3px 6px; border-radius: 8px; }
+        .cat-del:hover { color: #c0396b; background: rgba(255, 210, 230, .5); }
+        .cat-lock { font-size: .8rem; opacity: .5; padding: 3px 6px; }
+        .cl-cat-manage { padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255, 182, 210, .65); background: rgba(255, 240, 248, .85); color: #9b1c4a; font-size: .84rem; font-family: 'Lato', sans-serif; cursor: pointer; flex: none; transition: all .2s; }
+        .cl-cat-manage:hover { background: rgba(255, 214, 232, .9); }
+        /* --- inline item editing --- */
+        .cl-sub.editing, .cl-pay-row.editing { flex-wrap: wrap; gap: 6px; padding: 6px 0; }
+        .cl-sub.editing .cl-panel-input { flex: 1; min-width: 120px; }
+        .cl-msg-acts { float: right; }
+        .cl-vendor-addr { color: #b07090; }
+        .cl-idea-edit { right: 31px !important; }
+
         /* --- idea lightbox --- */
         .idea-lightbox { position: fixed; inset: 0; z-index: 9500; background: rgba(60, 10, 30, .88); display: none; align-items: center; justify-content: center; padding: 24px; cursor: zoom-out; }
         .idea-lightbox.open { display: flex; }
@@ -3032,6 +3048,21 @@
     </div>
 </div>
 
+<!-- ===== CATEGORIES MODAL ===== -->
+<div class="theme-modal-overlay" id="cat-modal-overlay">
+    <div class="theme-modal pdf-modal">
+        <h2>Categories 🏷️</h2>
+        <p>Rename, delete or create your own</p>
+        <div id="cat-list"></div>
+        <div class="cl-panel-form" style="margin-top:14px;">
+            <input type="text" class="cl-panel-input" id="cat-new-emoji" placeholder="🏷️" maxlength="4" style="max-width:60px;text-align:center;"/>
+            <input type="text" class="cl-panel-input" id="cat-new-name" placeholder="New category…" maxlength="28"/>
+            <button class="cl-panel-btn" onclick="addCategory()">+ Add</button>
+        </div>
+        <p class="pdf-hint">The number shows how many tasks use each category. Deleting one moves its tasks to ✨ Other — ✨ Other itself can't be deleted.</p>
+    </div>
+</div>
+
 <!-- ===== TASK IDEA LIGHTBOX ===== -->
 <div class="idea-lightbox" id="idea-lightbox" onclick="closeIdeaLightbox()">
     <img id="idea-lightbox-img" src="" alt=""/>
@@ -3319,6 +3350,7 @@
         <div class="cl-filter-bar">
             <input type="text" id="cl-search-input" placeholder="🔍 Search a task, a shop, a step…" oninput="clSetSearch(this.value)"/>
             <select id="cl-cat-filter" onchange="clSetCat(this.value)"></select>
+            <button class="cl-cat-manage" onclick="openCategoryModal()" title="Manage categories">🏷️ Edit</button>
             <select id="cl-quick-select" onchange="clSetQuick(this.value)">
                 <option value="all">All tasks</option>
                 <option value="overdue">⚠️ Overdue</option>
@@ -4753,7 +4785,7 @@
     window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});}catch(e){alert("Error: "+e.message);}hideSync();};
 
     /* ============================================================
-       ===== CHECKLIST (v18) =====
+       ===== CHECKLIST (v19) =====
        Status select · edit · dates · categories · pin · search &
        filters · overdue alerts · photo ideas + votes · subtasks ·
        payments (paid vs total) · task chat · vendor · budget goal
@@ -4764,20 +4796,19 @@
     const CL_CURRENCY = "TND";                 // change here to switch currency
     const CL_STATUSES = ["todo", "inprogress", "done"];
     const CL_STATUS_LABEL = { todo: "📋 To Do", inprogress: "⏳ In Progress", done: "✅ Done" };
-    const CL_CATEGORIES = [
-        { id: "venue",     label: "🏛️ Venue & Hall" },
-        { id: "catering",  label: "🍽️ Catering" },
+    const CL_DEFAULT_CATEGORIES = [
         { id: "clothes",   label: "👗 Clothes & Beauty" },
         { id: "jewelry",   label: "💍 Jewelry" },
         { id: "furniture", label: "🛋️ Furniture" },
         { id: "home",      label: "🏠 Home & Kitchen" },
-        { id: "photo",     label: "📸 Photo & Video" },
-        { id: "music",     label: "🎶 Music & Party" },
-        { id: "papers",    label: "📄 Papers & Admin" },
-        { id: "other",     label: "✨ Other" }
+        { id: "other",     label: "✨ Other" }      // fallback, can't be deleted
     ];
-    const CL_CAT_LABEL = {};
-    CL_CATEGORIES.forEach(c => CL_CAT_LABEL[c.id] = c.label);
+    let clCategories = CL_DEFAULT_CATEGORIES.slice();
+    function clCatLabel(id) {
+        const c = clCategories.find(x => x.id === id);
+        return c ? c.label : "✨ Other";
+    }
+    function clCatExists(id) { return clCategories.some(c => c.id === id); }
 
     let checklistData = [];
     let taskIdeas = [];                    // { taskId, image, label, price, addedBy, addedAt, votes }
@@ -4787,6 +4818,7 @@
     let clBudgetGoal = 0;
     let clPanels = {};                     // taskId -> "ideas" | "subs" | "pay" | "chat" | null
     let ideaTargetTask = null;             // task waiting for a picked file
+    let clEditItem = null;                 // { taskId, kind: "sub"|"pay"|"chat", id }
 
     document.querySelectorAll(".cl-currency-lbl").forEach(el => el.textContent = CL_CURRENCY);
 
@@ -4817,7 +4849,7 @@
         d.setDate(d.getDate() + n);
         return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
     }
-    function clCat(t) { return CL_CAT_LABEL[t.category] ? t.category : "other"; }
+    function clCat(t) { return clCatExists(t.category) ? t.category : "other"; }
     function clPaid(t) { return (t.payments || []).reduce((n, p) => n + (Number(p.amount) || 0), 0); }
     function clSubDone(t) { return (t.subtasks || []).filter(s => s.done).length; }
     function clOverdue(t) { return (t.status || "todo") !== "done" && t.dueDate && t.dueDate < localToday(); }
@@ -4865,11 +4897,104 @@
         renderChecklist();
     });
     onSnapshot(clSettingsDoc, snap => {
-        clBudgetGoal = snap.exists() ? (Number(snap.data().budgetGoal) || 0) : 0;
+        const data = snap.exists() ? snap.data() : {};
+        clBudgetGoal = Number(data.budgetGoal) || 0;
+        const list = Array.isArray(data.categories) ? data.categories.filter(c => c && c.id && c.label) : null;
+        clCategories = (list && list.length) ? list.slice() : CL_DEFAULT_CATEGORIES.slice();
+        if (!clCatExists("other")) clCategories.push({ id: "other", label: "✨ Other" });
         const input = document.getElementById("cl-goal-input");
         if (input && document.activeElement !== input) input.value = clBudgetGoal || "";
-        renderChecklistBudget();
+        fillCatSelects();
+        renderCatList();
+        renderChecklist();
     });
+
+    /* ---------- categories CRUD ---------- */
+    function fillCatSelects() {
+        const add = document.getElementById("cl-cat-select");
+        const filt = document.getElementById("cl-cat-filter");
+        if (add) {
+            const keep = add.value;
+            add.innerHTML = clCategories.map(c => `<option value="${c.id}">${esc(c.label)}</option>`).join("");
+            add.value = clCatExists(keep) ? keep : "other";
+        }
+        if (filt) {
+            const keep = filt.value;
+            filt.innerHTML = '<option value="all">🏷️ All categories</option>' +
+                clCategories.map(c => `<option value="${c.id}">${esc(c.label)}</option>`).join("");
+            filt.value = (keep === "all" || clCatExists(keep)) ? keep : "all";
+        }
+    }
+    async function saveCategories(list, msg) {
+        showSync();
+        try {
+            const { setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js");
+            await setDoc(clSettingsDoc, { categories: list, updatedAt: new Date().toISOString() }, { merge: true });
+            if (msg) clToast(msg);
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    }
+    function renderCatList() {
+        const box = document.getElementById("cat-list");
+        if (!box) return;
+        box.innerHTML = clCategories.map(c => {
+            const n = checklistData.filter(t => clCat(t) === c.id).length;
+            return `<div class="cat-row">
+                <input class="cl-panel-input" id="cat-i-${c.id}" value="${esc(c.label)}" maxlength="32"/>
+                <span class="cat-count">${n}</span>
+                <button class="cl-panel-btn" onclick="renameCategory('${c.id}')">💾</button>
+                ${c.id === "other"
+                    ? '<span class="cat-lock" title="Always kept as fallback">🔒</span>'
+                    : `<button class="cat-del" onclick="deleteCategory('${c.id}')" title="Delete">✕</button>`}
+            </div>`;
+        }).join("");
+    }
+    window.openCategoryModal = function() {
+        renderCatList();
+        document.getElementById("cat-modal-overlay").classList.add("open");
+    };
+    window.closeCategoryModal = function() {
+        document.getElementById("cat-modal-overlay").classList.remove("open");
+    };
+    window.addCategory = async function() {
+        const emojiEl = document.getElementById("cat-new-emoji");
+        const nameEl = document.getElementById("cat-new-name");
+        const name = nameEl.value.trim();
+        if (!name) { nameEl.focus(); return; }
+        const emoji = (emojiEl.value || "🏷️").trim() || "🏷️";
+        const base = name.toLowerCase().replace(/[^a-z0-9]+/g, "") || "cat";
+        let id = base;
+        let n = 2;
+        while (clCatExists(id)) id = base + n++;
+        const list = clCategories.filter(c => c.id !== "other")
+            .concat([{ id, label: emoji + " " + name }])
+            .concat(clCategories.filter(c => c.id === "other"));
+        emojiEl.value = ""; nameEl.value = "";
+        await saveCategories(list, "Category added 🏷️");
+    };
+    window.renameCategory = async function(id) {
+        const el = document.getElementById("cat-i-" + id);
+        if (!el) return;
+        const label = el.value.trim();
+        if (!label) { el.focus(); return; }
+        await saveCategories(clCategories.map(c => c.id === id ? { ...c, label } : c), "Category renamed ✏️");
+    };
+    window.deleteCategory = async function(id) {
+        if (id === "other") return;
+        const used = checklistData.filter(t => clCat(t) === id);
+        if (!confirm(used.length
+            ? `Delete this category? ${used.length} task${used.length > 1 ? "s" : ""} will move to ✨ Other.`
+            : "Delete this category?")) return;
+        showSync();
+        try {
+            for (const t of used) {
+                await updateDoc(doc(db, "checklist", t.id), { category: "other", updatedAt: new Date().toISOString() });
+            }
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+        if (clFilterCat === id) { clFilterCat = "all"; }
+        await saveCategories(clCategories.filter(c => c.id !== id), "Category deleted");
+    };
 
     function ideasOf(taskId) { return taskIdeas.filter(i => i.taskId === taskId); }
     function ideaVotes(idea) { return Object.keys(idea.votes || {}).filter(u => idea.votes[u]); }
@@ -4906,7 +5031,7 @@
         if (clFilterQuick === "budget" && !(Number(t.budget) > 0)) return false;
         if (clFilterQuick === "unpaid" && !(Number(t.budget) > 0 && clPaid(t) < Number(t.budget))) return false;
         if (clSearch) {
-            const hay = [t.text, t.vendorName, CL_CAT_LABEL[clCat(t)], (t.subtasks || []).map(s => s.text).join(" ")]
+            const hay = [t.text, t.vendorName, t.vendorAddress, clCatLabel(clCat(t)), (t.subtasks || []).map(s => s.text).join(" ")]
                 .join(" ").toLowerCase();
             if (!hay.includes(clSearch)) return false;
         }
@@ -4965,11 +5090,11 @@
         if (!box) return;
         const overdue = checklistData.filter(clOverdue).length;
         const soon = checklistData.filter(clDueSoon).length;
-        const unpaid = checklistData.filter(t => Number(t.budget) > 0 && clPaid(t) < Number(t.budget)).length;
         const chips = [];
+        // Only time-based alerts here — "still to pay" lives in the filter menu,
+        // otherwise it would show permanently as long as a budget isn't fully paid.
         if (overdue) chips.push(`<button class="cl-alert-chip danger" onclick="clSetQuick('overdue')">⚠️ ${overdue} overdue</button>`);
         if (soon) chips.push(`<button class="cl-alert-chip warn" onclick="clSetQuick('soon')">🔔 ${soon} due this week</button>`);
-        if (unpaid) chips.push(`<button class="cl-alert-chip" onclick="clSetQuick('unpaid')">💰 ${unpaid} still to pay</button>`);
         if (clFilterQuick !== "all" || clFilterCat !== "all" || clSearch) {
             chips.push(`<button class="cl-alert-chip clear" onclick="clClearFilters()">✕ Clear filters</button>`);
         }
@@ -4986,7 +5111,7 @@
         const subs = t.subtasks || [];
         const chat = t.comments || [];
 
-        const badges = [`<span class="cl-badge cl-badge-cat">${CL_CAT_LABEL[cat]}</span>`];
+        const badges = [`<span class="cl-badge cl-badge-cat">${esc(clCatLabel(cat))}</span>`];
         if (t.plannedDate) badges.push(`<span class="cl-badge cl-badge-plan">🗓️ ${clFmtDate(t.plannedDate)}</span>`);
         if (t.dueDate) {
             const st = clDueState(t);
@@ -5005,7 +5130,14 @@
             </div>`;
         }
 
-        const vendor = t.vendorName ? `<div class="cl-vendor">🏪 ${esc(t.vendorName)}${t.vendorPhone ? ` · <a href="tel:${esc(t.vendorPhone)}">📞 ${esc(t.vendorPhone)}</a>` : ""}${t.vendorPlaceId ? ` · <a href="javascript:void(0)" onclick="clShowVendorPlace('${t.vendorPlaceId}')">📍 map</a>` : ""}</div>` : "";
+        const vLinks = [];
+        if (t.vendorPhone) vLinks.push(`<a href="tel:${esc(t.vendorPhone)}">📞 ${esc(t.vendorPhone)}</a>`);
+        if (t.vendorPlaceId) vLinks.push(`<a href="javascript:void(0)" onclick="clShowVendorPlace('${t.vendorPlaceId}')">📍 our map</a>`);
+        else if (t.vendorAddress) vLinks.push(`<a href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(t.vendorAddress)}" target="_blank" rel="noopener">🗺️ open map</a>`);
+        const vendorHead = t.vendorName || t.vendorAddress;
+        const vendor = vendorHead
+            ? `<div class="cl-vendor">🏪 ${esc(t.vendorName || t.vendorAddress)}${t.vendorName && t.vendorAddress ? ` <span class="cl-vendor-addr">· ${esc(t.vendorAddress)}</span>` : ""}${vLinks.length ? " · " + vLinks.join(" · ") : ""}</div>`
+            : "";
 
         const options = CL_STATUSES.map(s =>
             `<option value="${s}"${s === status ? " selected" : ""}>${CL_STATUS_LABEL[s]}</option>`).join("");
@@ -5043,8 +5175,8 @@
         const status = CL_STATUSES.includes(t.status) ? t.status : "todo";
         const options = CL_STATUSES.map(s =>
             `<option value="${s}"${s === status ? " selected" : ""}>${CL_STATUS_LABEL[s]}</option>`).join("");
-        const cats = CL_CATEGORIES.map(c =>
-            `<option value="${c.id}"${c.id === clCat(t) ? " selected" : ""}>${c.label}</option>`).join("");
+        const cats = clCategories.map(c =>
+            `<option value="${c.id}"${c.id === clCat(t) ? " selected" : ""}>${esc(c.label)}</option>`).join("");
         const places = placesData.map(p =>
             `<option value="${p.id}"${p.id === t.vendorPlaceId ? " selected" : ""}>${esc((p.emoji || "📍") + " " + p.name)}</option>`).join("");
         const budgetVal = (t.budget === 0 || t.budget) ? Number(t.budget) : "";
@@ -5087,11 +5219,18 @@
                 <div class="cl-edit-row">
                     <div class="cl-edit-col">
                         <label class="cl-field-lbl">📞 Phone</label>
-                        <input type="tel" class="cl-edit-input" id="cl-e-phone-${t.id}" value="${esc(t.vendorPhone || "")}" maxlength="30" placeholder="95 063 068"/>
+                        <input type="tel" class="cl-edit-input" id="cl-e-phone-${t.id}" value="${esc(t.vendorPhone || "")}" maxlength="30" placeholder="20 123 456"/>
                     </div>
                     <div class="cl-edit-col">
-                        <label class="cl-field-lbl">📍 Place on our map</label>
+                        <label class="cl-field-lbl">📍 Pick from our map</label>
                         <select class="cl-edit-input" id="cl-e-place-${t.id}"><option value="">— none —</option>${places}</select>
+                    </div>
+                </div>
+                <div>
+                    <label class="cl-field-lbl">🗺️ Or type the address directly</label>
+                    <div class="cl-edit-row" style="gap:6px;">
+                        <input type="text" class="cl-edit-input" id="cl-e-addr-${t.id}" value="${esc(t.vendorAddress || "")}" maxlength="120" placeholder="Mourouj 3, Ben Arous…" style="flex:1;"/>
+                        <button class="cl-panel-btn" id="cl-e-geo-${t.id}" onclick="clAddressToMap('${t.id}')" title="Find this address and pin it on Our Places">🌍 Pin it</button>
                     </div>
                 </div>
                 <div class="cl-edit-actions">
@@ -5141,6 +5280,7 @@
         };
         return `<div class="cl-idea${isBest ? " winner" : ""}">
             ${crown ? `<span class="cl-idea-crown">${crown}</span>` : ""}
+            <button class="cl-idea-del cl-idea-edit" onclick="editIdea('${idea.id}')" title="Edit name &amp; price">✏️</button>
             <button class="cl-idea-del" onclick="deleteIdea('${idea.id}')" title="Delete">✕</button>
             <img class="cl-idea-img" src="${idea.image}" alt="" onclick="openIdeaLightbox('${idea.id}')"/>
             <div class="cl-idea-body">
@@ -5157,11 +5297,23 @@
         const subs = t.subtasks || [];
         const doneN = clSubDone(t);
         const pct = subs.length ? Math.round((doneN / subs.length) * 100) : 0;
-        const rows = subs.map(s => `<div class="cl-sub${s.done ? " done" : ""}">
-            <button class="cl-sub-check" onclick="toggleSubtask('${t.id}','${s.id}')">${s.done ? "✅" : "⬜"}</button>
-            <span class="cl-sub-txt">${esc(s.text)}</span>
-            <button class="cl-sub-del" onclick="deleteSubtask('${t.id}','${s.id}')">✕</button>
-        </div>`).join("");
+        const rows = subs.map(s => {
+            const editing = clEditItem && clEditItem.kind === "sub" && clEditItem.id === s.id;
+            if (editing) {
+                return `<div class="cl-sub editing">
+                    <input type="text" class="cl-panel-input" id="cl-sube-${s.id}" value="${esc(s.text)}" maxlength="90"
+                           onkeydown="if(event.key==='Enter') saveSubtaskEdit('${t.id}','${s.id}')"/>
+                    <button class="cl-panel-btn" onclick="saveSubtaskEdit('${t.id}','${s.id}')">💾</button>
+                    <button class="cl-sub-del" onclick="clCancelItemEdit()">✕</button>
+                </div>`;
+            }
+            return `<div class="cl-sub${s.done ? " done" : ""}">
+                <button class="cl-sub-check" onclick="toggleSubtask('${t.id}','${s.id}')">${s.done ? "✅" : "⬜"}</button>
+                <span class="cl-sub-txt">${esc(s.text)}</span>
+                <button class="cl-sub-del" onclick="clStartItemEdit('${t.id}','sub','${s.id}')" title="Edit">✏️</button>
+                <button class="cl-sub-del" onclick="deleteSubtask('${t.id}','${s.id}')" title="Delete">✕</button>
+            </div>`;
+        }).join("");
         return `<div class="cl-panel">
             <div class="cl-panel-head">
                 <span class="cl-panel-ttl">☑️ Steps (${doneN}/${subs.length})</span>
@@ -5182,11 +5334,24 @@
         const pays = t.payments || [];
         const paid = clPaid(t);
         const left = Math.max(0, budget - paid);
-        const rows = pays.map(p => `<div class="cl-pay-row">
-            <span class="cl-pay-amt">${clMoney(p.amount)}</span>
-            <span class="cl-pay-meta">${p.date ? clFmtDate(p.date) : ""} · ${p.by === "yossr" ? "👩" : "👨"}${p.note ? " · " + esc(p.note) : ""}</span>
-            <button class="cl-sub-del" onclick="deletePayment('${t.id}','${p.id}')">✕</button>
-        </div>`).join("");
+        const rows = pays.map(p => {
+            const editing = clEditItem && clEditItem.kind === "pay" && clEditItem.id === p.id;
+            if (editing) {
+                return `<div class="cl-pay-row editing">
+                    <input type="number" min="0" step="0.01" class="cl-panel-input" id="cl-paye-amt-${p.id}" value="${Number(p.amount) || 0}" style="max-width:92px;"/>
+                    <input type="date" class="cl-panel-input" id="cl-paye-date-${p.id}" value="${esc(p.date || "")}" style="max-width:138px;"/>
+                    <input type="text" class="cl-panel-input" id="cl-paye-note-${p.id}" value="${esc(p.note || "")}" maxlength="40" placeholder="Note"/>
+                    <button class="cl-panel-btn" onclick="savePaymentEdit('${t.id}','${p.id}')">💾</button>
+                    <button class="cl-sub-del" onclick="clCancelItemEdit()">✕</button>
+                </div>`;
+            }
+            return `<div class="cl-pay-row">
+                <span class="cl-pay-amt">${clMoney(p.amount)}</span>
+                <span class="cl-pay-meta">${p.date ? clFmtDate(p.date) : ""} · ${p.by === "yossr" ? "👩" : "👨"}${p.note ? " · " + esc(p.note) : ""}</span>
+                <button class="cl-sub-del" onclick="clStartItemEdit('${t.id}','pay','${p.id}')" title="Edit">✏️</button>
+                <button class="cl-sub-del" onclick="deletePayment('${t.id}','${p.id}')" title="Delete">✕</button>
+            </div>`;
+        }).join("");
         return `<div class="cl-panel">
             <div class="cl-panel-head">
                 <span class="cl-panel-ttl">💰 Payments</span>
@@ -5207,10 +5372,26 @@
     /* --- task chat --- */
     function buildChatHTML(t) {
         const chat = t.comments || [];
-        const rows = chat.map(c => `<div class="cl-msg${c.author === currentUser ? " mine" : ""}">
-            <div class="cl-msg-who">${c.author === "yossr" ? "👩 Yossr" : "👨 Hamdi"} <span>${esc(c.time || "")}</span></div>
-            <div class="cl-msg-txt">${esc(c.text)}</div>
-        </div>`).join("");
+        const rows = chat.map((c, idx) => {
+            const editing = clEditItem && clEditItem.kind === "chat" && clEditItem.id === String(idx);
+            if (editing) {
+                return `<div class="cl-msg mine">
+                    <div class="cl-panel-form" style="margin-top:0;">
+                        <input type="text" class="cl-panel-input" id="cl-chate-${t.id}-${idx}" value="${esc(c.text)}" maxlength="200"
+                               onkeydown="if(event.key==='Enter') saveCommentEdit('${t.id}',${idx})"/>
+                        <button class="cl-panel-btn" onclick="saveCommentEdit('${t.id}',${idx})">💾</button>
+                        <button class="cl-sub-del" onclick="clCancelItemEdit()">✕</button>
+                    </div>
+                </div>`;
+            }
+            const mine = c.author === currentUser;
+            return `<div class="cl-msg${mine ? " mine" : ""}">
+                <div class="cl-msg-who">${c.author === "yossr" ? "👩 Yossr" : "👨 Hamdi"} <span>${esc(c.time || "")}</span>
+                    <span class="cl-msg-acts">${mine ? `<button class="cl-sub-del" onclick="clStartItemEdit('${t.id}','chat','${idx}')" title="Edit">✏️</button>` : ""}<button class="cl-sub-del" onclick="deleteComment('${t.id}',${idx})" title="Delete">✕</button></span>
+                </div>
+                <div class="cl-msg-txt">${esc(c.text)}</div>
+            </div>`;
+        }).join("");
         return `<div class="cl-panel">
             <div class="cl-panel-head"><span class="cl-panel-ttl">💬 Notes &amp; talk (${chat.length})</span></div>
             ${chat.length ? `<div class="cl-msg-list">${rows}</div>` : '<div class="cl-panel-empty">Talk about this task together 💕</div>'}
@@ -5266,7 +5447,7 @@
         // per category chart
         const chart = document.getElementById("cl-cat-chart");
         if (chart) {
-            const rows = CL_CATEGORIES
+            const rows = clCategories
                 .filter(c => byCat[c.id] && byCat[c.id].budget > 0)
                 .sort((a, b) => byCat[b.id].budget - byCat[a.id].budget);
             if (!rows.length) { chart.innerHTML = ""; chart.style.display = "none"; }
@@ -5411,7 +5592,7 @@
         const dueDate = g("due") ? g("due").value : "";
         const budget = g("budget") && g("budget").value !== "" ? Math.max(0, Number(g("budget").value)) : 0;
         const status = g("status") && CL_STATUSES.includes(g("status").value) ? g("status").value : "todo";
-        const category = g("cat") && CL_CAT_LABEL[g("cat").value] ? g("cat").value : "other";
+        const category = g("cat") && clCatExists(g("cat").value) ? g("cat").value : "other";
         if (plannedDate && dueDate && dueDate < plannedDate) { alert("The due date can't be before the start date 📅"); return; }
         if (isNaN(budget)) { alert("Please enter a valid budget 💰"); return; }
 
@@ -5421,6 +5602,7 @@
                 text, plannedDate, dueDate, budget, status, category,
                 vendorName: g("vendor") ? g("vendor").value.trim() : "",
                 vendorPhone: g("phone") ? g("phone").value.trim() : "",
+                vendorAddress: g("addr") ? g("addr").value.trim() : "",
                 vendorPlaceId: g("place") ? g("place").value : "",
                 updatedAt: new Date().toISOString()
             });
@@ -5454,7 +5636,7 @@
     };
 
     /* ---------- subtasks ---------- */
-    async function clUpdateArray(taskId, field, arr, msg) {
+    async function clUpdateArray(taskId, field, arr, msg) {   // shared writer for subtasks / payments / comments
         showSync();
         try {
             await updateDoc(doc(db, "checklist", taskId), { [field]: arr, updatedAt: new Date().toISOString() });
@@ -5527,6 +5709,114 @@
         };
         await clUpdateArray(taskId, "comments", [...(t.comments || []), c]);
         await clNotify(`${clWho()} wrote on "${clShort(t.text, 26)}": ${clShort(text, 40)}`);
+    };
+
+    /* ---------- inline item editing ---------- */
+    window.clStartItemEdit = function(taskId, kind, id) {
+        clEditItem = { taskId, kind, id: String(id) };
+        renderChecklist();
+        const map = { sub: "cl-sube-" + id, pay: "cl-paye-amt-" + id, chat: "cl-chate-" + taskId + "-" + id };
+        const el = document.getElementById(map[kind]);
+        if (el) { el.focus(); if (el.select) el.select(); }
+    };
+    window.clCancelItemEdit = function() { clEditItem = null; renderChecklist(); };
+
+    window.saveSubtaskEdit = async function(taskId, subId) {
+        const el = document.getElementById("cl-sube-" + subId);
+        const t = checklistData.find(x => x.id === taskId);
+        if (!el || !t) return;
+        const text = el.value.trim();
+        if (!text) { el.focus(); return; }
+        clEditItem = null;
+        await clUpdateArray(taskId, "subtasks", (t.subtasks || []).map(s => s.id === subId ? { ...s, text } : s), "Step updated ✏️");
+    };
+
+    window.savePaymentEdit = async function(taskId, payId) {
+        const t = checklistData.find(x => x.id === taskId);
+        const amtEl = document.getElementById("cl-paye-amt-" + payId);
+        const dateEl = document.getElementById("cl-paye-date-" + payId);
+        const noteEl = document.getElementById("cl-paye-note-" + payId);
+        if (!t || !amtEl) return;
+        const amount = Number(amtEl.value);
+        if (!(amount > 0)) { alert("Enter a valid amount 💰"); amtEl.focus(); return; }
+        clEditItem = null;
+        await clUpdateArray(taskId, "payments", (t.payments || []).map(p => p.id === payId
+            ? { ...p, amount, date: dateEl && dateEl.value ? dateEl.value : p.date, note: noteEl ? noteEl.value.trim() : p.note }
+            : p), "Payment updated ✏️");
+    };
+
+    window.saveCommentEdit = async function(taskId, idx) {
+        const t = checklistData.find(x => x.id === taskId);
+        const el = document.getElementById("cl-chate-" + taskId + "-" + idx);
+        if (!t || !el) return;
+        const text = el.value.trim();
+        if (!text) { el.focus(); return; }
+        clEditItem = null;
+        const arr = (t.comments || []).map((c, i) => i === idx ? { ...c, text, edited: true } : c);
+        await clUpdateArray(taskId, "comments", arr, "Message updated ✏️");
+    };
+    window.deleteComment = async function(taskId, idx) {
+        const t = checklistData.find(x => x.id === taskId);
+        if (!t || !confirm("Delete this message?")) return;
+        clEditItem = null;
+        await clUpdateArray(taskId, "comments", (t.comments || []).filter((c, i) => i !== idx));
+    };
+
+    window.editIdea = async function(ideaId) {
+        const idea = taskIdeas.find(i => i.id === ideaId);
+        if (!idea) return;
+        const label = prompt("Name of this idea", idea.label || "");
+        if (label === null) return;
+        const priceRaw = prompt("Price in " + CL_CURRENCY + " (leave empty for none)", Number(idea.price) > 0 ? String(idea.price) : "");
+        if (priceRaw === null) return;
+        const price = priceRaw.trim() === "" ? 0 : Math.max(0, Number(priceRaw.replace(",", ".")) || 0);
+        showSync();
+        try {
+            await updateDoc(doc(db, "taskideas", ideaId), { label: label.trim(), price });
+            clToast("Idea updated ✏️");
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
+
+    /* ---------- address -> pin on Our Places ---------- */
+    window.clAddressToMap = async function(taskId) {
+        const addrEl = document.getElementById("cl-e-addr-" + taskId);
+        const nameEl = document.getElementById("cl-e-vendor-" + taskId);
+        const btn = document.getElementById("cl-e-geo-" + taskId);
+        if (!addrEl) return;
+        const address = addrEl.value.trim();
+        if (!address) { alert("Type an address first 🗺️"); addrEl.focus(); return; }
+        if (btn) { btn.disabled = true; btn.textContent = "Searching…"; }
+        try {
+            const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
+            const res = await fetch(url, { headers: { "Accept-Language": "en" } });
+            const data = await res.json();
+            if (!data || !data.length) { alert("Address not found — try adding the city 🌍"); return; }
+            const hit = data[0];
+            const name = (nameEl && nameEl.value.trim()) || address.slice(0, 40);
+            showSync();
+            const ref = await addDoc(collection(db, "places"), {
+                name, emoji: "🏪",
+                desc: address,
+                lat: parseFloat(hit.lat), lng: parseFloat(hit.lon),
+                addedBy: currentUser || "hamdi",
+                addedAt: new Date().toISOString()
+            });
+            hideSync();
+            const sel = document.getElementById("cl-e-place-" + taskId);
+            if (sel) {
+                const opt = document.createElement("option");
+                opt.value = ref.id;
+                opt.textContent = "🏪 " + name;
+                opt.selected = true;
+                sel.appendChild(opt);
+            }
+            clToast("Pinned on Our Places 📍");
+        } catch (e) {
+            alert("Could not reach the map service — check your connection 🌍");
+        } finally {
+            if (btn) { btn.disabled = false; btn.textContent = "🌍 Pin it"; }
+        }
     };
 
     /* ---------- photo ideas ---------- */
@@ -5650,14 +5940,7 @@
         hideSync();
     };
 
-    // fill the category selects
-    (function fillCatSelects() {
-        const add = document.getElementById("cl-cat-select");
-        const filt = document.getElementById("cl-cat-filter");
-        if (add) add.innerHTML = CL_CATEGORIES.map(c => `<option value="${c.id}"${c.id === "other" ? " selected" : ""}>${c.label}</option>`).join("");
-        if (filt) filt.innerHTML = '<option value="all">🏷️ All categories</option>' +
-            CL_CATEGORIES.map(c => `<option value="${c.id}">${c.label}</option>`).join("");
-    })();
+    fillCatSelects();
 
     /* ===== OUR PLACES ===== */
     const placesRef=collection(db,"places");let leafletMap=null;let mapInitialized=false;let placesData=[];const placeMarkers={};
@@ -7977,7 +8260,7 @@ function renderQuizScores() {
                 (subs ? '<br><span style="font-size:10px;color:#b07090;">☑️ ' + clSubDone(t) + '/' + subs + ' steps</span>' : '') +
                 (t.vendorName ? '<br><span style="font-size:10px;color:#b07090;">🏪 ' + esc(t.vendorName) + '</span>' : '') +
                 '</td>' +
-                '<td>' + esc(CL_CAT_LABEL[clCat(t)] || "") + '</td>' +
+                '<td>' + esc(clCatLabel(clCat(t))) + '</td>' +
                 '<td>' + (t.dueDate ? esc(clFmtDate(t.dueDate)) : '—') + '</td>' +
                 '<td class="pdfb-money">' + (Number(t.budget) > 0 ? esc(clMoney(t.budget)) : '—') + '</td>' +
                 '<td class="pdfb-money">' + (paid > 0 ? esc(clMoney(paid)) : '—') + '</td></tr>';
@@ -8039,6 +8322,9 @@ function renderQuizScores() {
     };
     document.getElementById("export-modal-overlay").addEventListener("click", function(e) {
         if (e.target === this) closeExportModal();
+    });
+    document.getElementById("cat-modal-overlay").addEventListener("click", function(e) {
+        if (e.target === this) closeCategoryModal();
     });
     function pdfProgress(pct, msg) {
         const bar = document.getElementById("pdf-bar");
