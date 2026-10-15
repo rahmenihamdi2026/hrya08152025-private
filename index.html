@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v34"/>
+    <meta name="app-version" content="v35"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -1327,6 +1327,7 @@
         .reaction-picker button { background: none; border: none; font-size: 1.3rem; cursor: pointer; padding: 4px 6px; border-radius: 8px; transition: all .15s; }
         .reaction-picker button:hover { background: rgba(255, 210, 230, .5); transform: scale(1.2); }
         .existing-reactions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+        .existing-reactions:empty { display: none; }   /* v35: no empty gap → 😊+ lines up with 💬 Comments */
         .reaction-chip { display: inline-flex; align-items: center; gap: 3px; background: rgba(255, 210, 230, .35); border: 1px solid rgba(255, 182, 210, .5); border-radius: 50px; padding: 3px 10px 3px 6px; font-size: .82rem; color: #9b1c4a; cursor: pointer; transition: all .2s; }
         .reaction-chip:hover { background: rgba(255, 182, 210, .5); }
         .reaction-chip .rc-emoji { font-size: 1.1rem; }
