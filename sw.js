@@ -1,4 +1,4 @@
-// Service Worker — Hamdi & Yossr 💍 — v26
+// Service Worker — Hamdi & Yossr 💍 — v27
 
 // ===== FCM Push (notif w l app msakra) =====
 importScripts("https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js");
@@ -15,20 +15,36 @@ firebase.initializeApp({
 
 firebase.messaging().onBackgroundMessage(payload => {
   const d = payload.data || {};
-  self.registration.showNotification(d.title || "Hamdi & Yossr 💍", {
+  const opts = {
     body: d.body || "",
     icon: "./icons/icon-192.png",
-    badge: "./icons/icon-192.png"
-  });
+    badge: "./icons/icon-192.png",
+    // v27: remember what this notification is about
+    data: { page: d.page || "", itemId: d.itemId || "", itemKind: d.itemKind || "", notifId: d.notifId || "" }
+  };
+  if (d.notifId) opts.tag = d.notifId;
+  self.registration.showNotification(d.title || "Hamdi & Yossr 💍", opts);
 });
 
-// Ki to89oz 3al notif → te7el l app
+// Ki to89oz 3al notif → te7el l app — v27: directly on the memory / letter / card…
 self.addEventListener("notificationclick", event => {
   event.notification.close();
-  event.waitUntil(clients.openWindow("./index.html"));
+  const d = event.notification.data || {};
+  const url = new URL("./index.html", self.registration.scope);
+  if (d.page) url.hash = "open=" + encodeURIComponent([d.page, d.itemId || "", d.itemKind || "", d.notifId || ""].join("|"));
+  event.waitUntil((async () => {
+    const wins = await clients.matchAll({ type: "window", includeUncontrolled: true });
+    const win = wins.find(w => w.url.startsWith(self.registration.scope));
+    if (win) {                       // the app is already open → bring it up and open the item
+      try { await win.focus(); } catch (e) {}
+      if (d.page) win.postMessage({ type: "hy-open", page: d.page, itemId: d.itemId, itemKind: d.itemKind, notifId: d.notifId });
+      return;
+    }
+    await clients.openWindow(url.href);
+  })());
 });
 
-const CACHE_NAME = "hamdi-yossr-v26";
+const CACHE_NAME = "hamdi-yossr-v27";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",

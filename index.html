@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v26"/>
+    <meta name="app-version" content="v27"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -3175,6 +3175,71 @@
         .profile-cam { position: absolute; right: 2px; bottom: 4px; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1rem; box-shadow: 0 3px 10px rgba(192, 57, 107, .4); border: 2px solid #fff; }
         .current-user-badge { cursor: pointer; }
         .pe-overlay.pe-round .pe-frame::after { border-radius: 50%; }
+        /* ===== v27: phone layout ===== */
+        .m-topbar, .m-tabs { display: none; }
+        .more-overlay { display: none; position: fixed; inset: 0; z-index: 9990; background: rgba(60, 10, 30, .38); backdrop-filter: blur(4px); align-items: flex-end; justify-content: center; }
+        .more-overlay.open { display: flex; animation: fadeIn .18s ease; }
+        .more-sheet { width: min(560px, 100%); background: rgba(255, 248, 251, .98); border-radius: 26px 26px 0 0; padding: 10px 16px calc(18px + env(safe-area-inset-bottom)); box-shadow: 0 -10px 40px rgba(90, 26, 53, .25); animation: sheetUp .25s ease; }
+        @keyframes sheetUp { from { transform: translateY(40px); opacity: .6; } to { transform: none; opacity: 1; } }
+        .more-grab { width: 44px; height: 5px; border-radius: 5px; background: rgba(192, 57, 107, .25); margin: 2px auto 14px; }
+        .more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .more-item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px; border-radius: 16px; border: 1px solid rgba(255, 182, 210, .5); background: #fff; color: #9b1c4a; font-size: .7rem; font-family: 'Lato', sans-serif; letter-spacing: .2px; cursor: pointer; line-height: 1.2; text-align: center; }
+        .more-item.active { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border-color: transparent; }
+        .more-ic { font-size: 1.5rem; line-height: 1; }
+        .more-item .notif-badge { top: 4px; right: 8px; }
+        .more-rows { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255, 182, 210, .5); }
+        .more-row { display: flex; align-items: center; gap: 10px; text-align: left; padding: 11px 14px; border-radius: 14px; border: none; background: rgba(255, 228, 240, .6); color: #7a2545; font-size: .88rem; font-family: 'Lato', sans-serif; cursor: pointer; }
+        .more-row-av { display: inline-flex; width: 1.6em; justify-content: center; }
+        .more-row-av .av { margin: 0; }
+        @media (max-width: 820px) {
+            body { padding-top: calc(56px + env(safe-area-inset-top)) !important; padding-bottom: calc(74px + env(safe-area-inset-bottom)) !important; }
+            body > nav { display: none !important; }
+            .m-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 240; height: calc(56px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top); align-items: center; justify-content: center; background: rgba(255, 240, 248, .93); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255, 182, 210, .45); box-shadow: 0 2px 14px rgba(192, 57, 107, .08); }
+            .m-title { font-family: 'Great Vibes', cursive; font-size: 1.55rem; color: #c0396b; letter-spacing: .5px; }
+            .m-tabs { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 240; height: calc(64px + env(safe-area-inset-bottom)); padding: 4px 4px env(safe-area-inset-bottom); background: rgba(255, 255, 255, .95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid rgba(255, 182, 210, .5); box-shadow: 0 -3px 16px rgba(192, 57, 107, .1); }
+            .m-tab { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; background: none; border: none; color: #b07090; font-family: 'Lato', sans-serif; font-size: .66rem; letter-spacing: .3px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+            .m-ic { font-size: 1.25rem; line-height: 1; padding: 4px 14px; border-radius: 14px; transition: background .2s; }
+            .m-tab.active { color: #c0396b; font-weight: 700; }
+            .m-tab.active .m-ic { background: rgba(224, 127, 160, .2); }
+            .m-tab .notif-badge { top: 0; right: calc(50% - 26px); }
+            /* floating buttons → into the bars / the More sheet */
+            .current-user-badge { top: calc(9px + env(safe-area-inset-top)) !important; bottom: auto !important; left: 10px !important; padding: 4px 12px 4px 6px !important; font-size: .78rem !important; z-index: 260 !important; box-shadow: none !important; }
+            .notif-bell { top: calc(7px + env(safe-area-inset-top)) !important; bottom: auto !important; right: 10px !important; width: 42px !important; height: 42px !important; font-size: 1.15rem !important; z-index: 260 !important; box-shadow: none !important; }
+            .theme-picker-btn, .lock-btn, #install-prompt { display: none !important; }
+            .notif-dropdown { top: calc(62px + env(safe-area-inset-top)) !important; right: 8px !important; left: 8px !important; width: auto !important; max-height: calc(100vh - 150px) !important; }
+            .sync-indicator { bottom: calc(80px + env(safe-area-inset-bottom)) !important; }
+            .cl-toast { bottom: calc(86px + env(safe-area-inset-bottom)) !important; }
+        }
+        body[data-theme="midnight"] .m-topbar, body[data-theme="midnight"] .m-tabs { background: rgba(26, 26, 46, .95) !important; border-color: rgba(192, 57, 107, .4) !important; }
+        body[data-theme="midnight"] .more-sheet { background: rgba(30, 30, 52, .98); }
+        body[data-theme="midnight"] .more-item, body[data-theme="midnight"] .more-row { background: rgba(45, 45, 74, .9); color: #f48fb1; border-color: rgba(192, 57, 107, .4); }
+        .c-by { position: absolute; top: 10px; left: 12px; }
+        /* v27: On this day */
+        .otd-card #otd-list { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; text-align: left; }
+        .otd-when { font-size: .78rem; color: #b07090; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; text-align: center; }
+        .otd-mem { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px; border-radius: 16px; border: 1px solid rgba(255, 182, 210, .55); background: rgba(255, 255, 255, .75); cursor: pointer; text-align: left; font-family: 'Lato', sans-serif; margin-bottom: 6px; }
+        .otd-mem-img { width: 64px; height: 64px; object-fit: cover; border-radius: 12px; flex: none; }
+        .otd-mem-ic { width: 64px; height: 64px; flex: none; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; background: rgba(255, 214, 232, .6); border-radius: 12px; }
+        .otd-mem-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .otd-mem-txt b { color: #9b1c4a; font-size: .9rem; }
+        .otd-mem-txt small { color: #7a2545; font-size: .8rem; line-height: 1.4; }
+        .otd-photos { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+        .otd-photos img { width: 76px; height: 76px; object-fit: cover; border-radius: 12px; flex: none; cursor: zoom-in; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(192, 57, 107, .18); }
+        /* v27: voice messages */
+        .voice-box { margin: 0 0 14px; }
+        .vb-add { width: 100%; padding: 11px; border: 2px dashed rgba(255, 182, 210, .8); border-radius: 14px; background: rgba(255, 240, 248, .5); color: #c0396b; font-size: .88rem; font-family: 'Lato', sans-serif; letter-spacing: .5px; cursor: pointer; }
+        .vb-add small { color: #c090a8; font-size: .72rem; }
+        .vb-rec, .vb-has { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 10px; border-radius: 14px; background: rgba(255, 228, 240, .7); border: 1px solid rgba(255, 182, 210, .7); }
+        .vb-dot { width: 12px; height: 12px; border-radius: 50%; background: #e53950; animation: vbBlink 1s infinite; }
+        @keyframes vbBlink { 50% { opacity: .25; } }
+        .vb-time { font-variant-numeric: tabular-nums; color: #9b1c4a; font-weight: 700; font-size: .9rem; flex: 1; }
+        .vb-btn { padding: 7px 12px; border-radius: 50px; border: 1px solid rgba(255, 182, 210, .9); background: #fff; color: #9b1c4a; font-size: .8rem; font-family: 'Lato', sans-serif; cursor: pointer; }
+        .vb-stop { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; border-color: transparent; }
+        .voice-pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 50px; border: none; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; font-size: .85rem; font-family: 'Lato', sans-serif; letter-spacing: .3px; cursor: pointer; box-shadow: 0 4px 12px rgba(192, 57, 107, .25); font-variant-numeric: tabular-nums; }
+        .voice-pill.playing { background: linear-gradient(135deg, #c0396b, #8e1f4b); }
+        .msg-voice { margin: 10px 0 4px; }
+        .fl-voice { margin: 4px 0 12px; }
+        .vb-has .voice-pill { flex: 1; justify-content: center; }
         .notif-av { position: relative; display: inline-block; line-height: 0; }
         .notif-type { position: absolute; right: -6px; bottom: -4px; font-size: .78rem; line-height: 1; background: #fff; border-radius: 50%; padding: 2px; box-shadow: 0 1px 4px rgba(0, 0, 0, .15); }
     </style>
@@ -3382,6 +3447,37 @@
     <button class="nav-btn" id="nav-story" onclick="showPage('story',this)">👩‍❤️‍👨 Our Story</button>
 </nav>
 
+<!-- ===== PHONE LAYOUT (v27): slim top bar + tabs at the bottom + "More" sheet ===== -->
+<div class="m-topbar" id="m-topbar"><span class="m-title">Hamdi &amp; Yossr</span></div>
+<div class="m-tabs" id="m-tabs">
+    <button class="m-tab active" id="mtab-home" onclick="showPage('home')"><span class="m-ic">🏠</span><span class="m-lb">Home</span></button>
+    <button class="m-tab" id="mtab-memories" onclick="showPage('memories')"><span class="m-ic">💌</span><span class="m-lb">Memories</span></button>
+    <button class="m-tab" id="mtab-gallery" onclick="showPage('gallery')"><span class="m-ic">📸</span><span class="m-lb">Gallery</span></button>
+    <button class="m-tab" id="mtab-checklist" onclick="showPage('checklist')"><span class="m-ic">✅</span><span class="m-lb">Checklist</span></button>
+    <button class="m-tab" id="mtab-more" onclick="openMoreSheet()"><span class="m-ic">☰</span><span class="m-lb">More</span></button>
+</div>
+<div class="more-overlay" id="more-overlay">
+    <div class="more-sheet">
+        <div class="more-grab"></div>
+        <div class="more-grid">
+            <button class="more-item" id="more-special" onclick="moreGo('special')"><span class="more-ic">🗓️</span>Special Dates</button>
+            <button class="more-item" id="more-places" onclick="moreGo('places')"><span class="more-ic">🗺️</span>Our Places</button>
+            <button class="more-item" id="more-letters" onclick="moreGo('letters')"><span class="more-ic">✉️</span>Letters</button>
+            <button class="more-item" id="more-scratch" onclick="moreGo('scratch')"><span class="more-ic">🎴</span>Scratch Cards</button>
+            <button class="more-item" id="more-quiz" onclick="moreGo('quiz')"><span class="more-ic">❓</span>Quiz</button>
+            <button class="more-item" id="more-games" onclick="moreGo('games')"><span class="more-ic">🎮</span>Games</button>
+            <button class="more-item" id="more-story" onclick="moreGo('story')"><span class="more-ic">👩‍❤️‍👨</span>Our Story</button>
+        </div>
+        <div class="more-rows">
+            <button class="more-row" onclick="moreThen('profile')"><span class="more-row-av" id="more-me-av"></span>My profile &amp; photo</button>
+            <button class="more-row" onclick="moreThen('theme')">🎨 Theme</button>
+            <button class="more-row" onclick="moreThen('security')">🔐 Security &amp; PIN</button>
+            <button class="more-row" onclick="moreThen('book')">📖 Our memory book (PDF)</button>
+            <button class="more-row" id="more-install" style="display:none" onclick="moreThen('install')">📲 Install the app</button>
+        </div>
+    </div>
+</div>
+
 <!-- HOME -->
 <div id="page-home" class="page active">
     <header>
@@ -3400,6 +3496,13 @@
                 <div class="stat-block"><span class="snum" id="rel-mins">0</span><span class="slbl">Minutes</span></div>
                 <div class="stat-block"><span class="snum" id="rel-secs">0</span><span class="slbl">Seconds</span></div>
             </div>
+        </div>
+        <!-- v27: On this day -->
+        <div class="card otd-card" id="otd-card" style="display:none">
+            <div class="icon">📅</div>
+            <h2>On This Day</h2>
+            <p class="event-date" id="otd-sub">Our memories from this same day</p>
+            <div id="otd-list"></div>
         </div>
         <div class="card">
             <div class="icon">💍</div>
@@ -3445,6 +3548,7 @@
                 <button class="zone-clear-btn" id="add-clear-btn" onclick="clearZone(event,'add')">✕ Remove photo</button>
             </div>
             <input type="file" id="add-file-input" accept="image/*" style="display:none" onchange="handleZoneFile(event,'add')"/>
+            <div class="voice-box" id="voice-add"></div>
             <button class="save-btn" id="save-btn" onclick="saveMemory()">💾 Save Memory</button>
             <p class="toast" id="save-toast">✅ Memory saved!</p>
         </div>
@@ -3886,6 +3990,7 @@
                 <input type="text" id="fl-occasion" placeholder="Occasion (e.g. Engagement, Anniversary)" maxlength="50"/>
             </div>
             <textarea class="fl-textarea" id="fl-content" placeholder="Write your letter to the future… 💕" maxlength="6000"></textarea>
+            <div class="voice-box" id="voice-letter"></div>
             <button class="fl-send-btn" id="fl-send-btn" onclick="sendFutureLetter()">✉️ Seal & Save Letter</button>
         </div>
 
@@ -4084,7 +4189,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script type="module">
     import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import {getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, getDoc, deleteField, writeBatch, setDoc}
+    import {getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+            collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, where, getDocs, getDoc,
+            deleteField, writeBatch, setDoc, arrayUnion, arrayRemove}
         from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
     const app = initializeApp({
@@ -4095,14 +4202,25 @@
         messagingSenderId: "850872869440",
         appId: "1:850872869440:web:5aedd5c8b1dc7e9d4f35a5"
     });
-    const db = getFirestore(app);
+    /* v27: Firestore keeps a copy of our data on the phone (IndexedDB):
+       the app opens instantly with what it already has, works offline,
+       and only fetches what changed. */
+    let db;
+    try {
+        db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) });
+    } catch (e) {
+        console.warn("Offline copy unavailable on this browser:", e);
+        db = getFirestore(app);
+    }
 
     /* ===== ANONYMOUS SIGN-IN (needed by the Firestore security rules) =====
        Works both with the old open rules and with the new ones.
        Enable it first: Firebase console > Authentication > Anonymous. */
+    let hyAuth = null;   // v27: also used to prove to the push server that the request comes from our app
     try {
         const { getAuth, signInAnonymously } = await import("https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js");
         const auth = getAuth(app);
+        hyAuth = auth;
         await Promise.race([
             signInAnonymously(auth),
             new Promise(r => setTimeout(r, 6000))   // never block the app forever
@@ -4111,6 +4229,17 @@
 
     /* ===== PUSH (Vercel backend) ===== */
     const PUSH_ENDPOINT = "https://hamdi-yossr-push.vercel.app/api/send";
+    // v27: every push request carries our Firebase sign-in token — the server refuses anything else
+    async function hyPush(payload) {
+        try {
+            const headers = { "Content-Type": "application/json" };
+            try {
+                if (hyAuth && hyAuth.currentUser) headers.Authorization = "Bearer " + await hyAuth.currentUser.getIdToken();
+                else console.warn("Push: not signed in to Firebase (is Authentication › Anonymous enabled?)");
+            } catch (e) {}
+            await fetch(PUSH_ENDPOINT, { method: "POST", headers, body: JSON.stringify(payload) });
+        } catch (e) {}
+    }
     const VAPID_PUBLIC_KEY = "BNY7bq9dpqUNBdI_bwBdBt8X5Kt5RIxzuDXbniSYqU7ctq-AELyC1Ur-dX9IMNbw5oNnTTZSnObuoqyxcu_PO8A";
 
     async function registerForPush() {
@@ -4292,10 +4421,13 @@
         onMessage(messaging, (payload) => {
             const d = payload.data || {};
             if (Notification.permission === "granted") {
-                new Notification(d.title || "Hamdi & Yossr 💍", {
-                    body: d.body || "",
-                    icon: "./icons/icon-192.png"
-                });
+                try {
+                    const n = new Notification(d.title || "Hamdi & Yossr 💍", {
+                        body: d.body || "",
+                        icon: "./icons/icon-192.png"
+                    });
+                    n.onclick = () => { try { window.focus(); } catch (e) {} n.close(); hyQueueOpen(d); };
+                } catch (e) {}
             }
             renderNotifications();
             updateNavBadges();
@@ -4717,8 +4849,8 @@
        (the memory, the letter, the card, the task, the photo, the place…)
        Older notifications without an item just open the page, like before. */
     function hyFlash(el) {
-        const nav = document.querySelector("nav");
-        const top = el.getBoundingClientRect().top + window.scrollY - (nav ? nav.offsetHeight : 0) - 14;
+        const bar = [document.querySelector("nav"), document.getElementById("m-topbar")].find(b => b && b.offsetHeight > 0 && getComputedStyle(b).display !== "none");
+        const top = el.getBoundingClientRect().top + window.scrollY - (bar ? bar.offsetHeight : 0) - 14;
         window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
         el.classList.remove("hy-flash");
         void el.offsetWidth;
@@ -4730,7 +4862,7 @@
         tries = tries || 0;
         const el = find();
         if (el && el.offsetParent !== null) { hyFlash(el); if (onFound) onFound(el); return; }
-        if (tries < 20) setTimeout(() => hyFocus(find, onFound, tries + 1), 150);
+        if (tries < 45) setTimeout(() => hyFocus(find, onFound, tries + 1), 150);
     }
     function tabBtn(containerSel, key) {
         return [...document.querySelectorAll(containerSel + " button")].find(b => (b.getAttribute("onclick") || "").includes(`'${key}'`));
@@ -4806,6 +4938,9 @@
                 case "places":
                     setTimeout(() => focusPlace(itemId), 250);
                     break;
+                case "special":
+                    if (itemId) hyFocus(() => document.querySelector(`#custom-cards [data-item="${sel(itemId)}"]`));
+                    break;
                 case "games": {
                     const b = ["ttt", "puzzle", "memory"].includes(kind) && tabBtn(".games-tabs", kind);
                     if (b) showGameTab(kind, b);
@@ -4842,8 +4977,9 @@
     });
 
     // v25: itemId / itemKind = the exact thing to open when the notification is tapped
-    async function createNotification(type, message, targetUser, page, itemId, itemKind) {
-        if (!targetUser || targetUser === currentUser) return;
+    // allowSelf (v27): the checklist reminders are meant for yourself — they used to be dropped here
+    async function createNotification(type, message, targetUser, page, itemId, itemKind, allowSelf) {
+        if (!targetUser || (targetUser === currentUser && !allowSelf)) return;
         try {
             const data = {
                 type, message, targetUser, page,
@@ -4853,13 +4989,9 @@
             };
             if (itemId) data.itemId = String(itemId);
             if (itemKind) data.itemKind = String(itemKind);
-            await addDoc(notificationsRef, data);
-            // Push l partner 7atta ken l app msakra
-            fetch(PUSH_ENDPOINT, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ targetUser, message })
-            }).catch(() => {});
+            const ref = await addDoc(notificationsRef, data);
+            // Push l partner 7atta ken l app msakra — v27: with the item, so tapping it opens it
+            hyPush({ targetUser, message, page, itemId: data.itemId, itemKind: data.itemKind, notifId: ref.id });
         } catch (e) { console.error("Notification error:", e); }
     }
 
@@ -4882,17 +5014,21 @@
             }
         }
 
-        // Update nav buttons
-        document.querySelectorAll('.nav-btn .notif-badge').forEach(b => b.remove());
+        // Update nav buttons (+ v27 phone tabs and the "More" sheet)
+        document.querySelectorAll('.nav-btn .notif-badge, .m-tab .notif-badge, .more-item .notif-badge').forEach(b => b.remove());
+        const addBadge = (el, n) => {
+            if (!el || !n) return;
+            const badge = document.createElement('span');
+            badge.className = 'notif-badge';
+            badge.textContent = n;
+            el.appendChild(badge);
+        };
         Object.keys(pageCount).forEach(page => {
-            const navBtn = document.getElementById("nav-" + page);
-            if (navBtn) {
-                const badge = document.createElement('span');
-                badge.className = 'notif-badge';
-                badge.textContent = pageCount[page];
-                navBtn.appendChild(badge);
-            }
+            addBadge(document.getElementById("nav-" + page), pageCount[page]);
+            addBadge(document.getElementById("mtab-" + page), pageCount[page]);
+            addBadge(document.getElementById("more-" + page), pageCount[page]);
         });
+        addBadge(document.getElementById("mtab-more"), MORE_PAGES.reduce((t, p) => t + (pageCount[p] || 0), 0));
     }
 
     // Helper to make currentUser change refresh notifications
@@ -4925,9 +5061,41 @@
         navCurrentPage = id;
         if (id === 'places') setTimeout(() => initOurPlacesMap(), 120);
         if (id === 'quiz') renderQuizScores();
-        if (id === 'gallery') requestAnimationFrame(galFitAll);
+        if (id === 'gallery') { ensureGallery(); requestAnimationFrame(galFitAll); }
+        if (id === 'memories') ensureMemories();
+        if (id === 'checklist') ensureTaskIdeas();
+        if (id === 'games') ensureGallery();
+        if (id === 'places') ensurePlacePhotos();
+        if (id === 'home') setTimeout(loadOnThisDay, 300);
+        hySyncTabs(id);
+        if (typeof voiceStopAny === "function") voiceStopAny();
         return true;
     }
+    /* --- v27: phone tabs + "More" sheet --- */
+    const MORE_PAGES = ["special", "places", "letters", "scratch", "quiz", "games", "story"];
+    function hySyncTabs(id) {
+        document.querySelectorAll(".m-tab").forEach(b => b.classList.toggle("active", b.id === "mtab-" + id || (b.id === "mtab-more" && MORE_PAGES.includes(id))));
+        document.querySelectorAll(".more-item").forEach(b => b.classList.toggle("active", b.id === "more-" + id));
+    }
+    window.openMoreSheet = function() {
+        const meAv = document.getElementById("more-me-av");
+        if (meAv) meAv.innerHTML = currentUser ? av(currentUser) : "👤";
+        document.getElementById("more-overlay").classList.add("open");
+    };
+    window.closeMoreSheet = function() { document.getElementById("more-overlay").classList.remove("open"); };
+    window.moreGo = function(page) { closeMoreSheet(); showPage(page); };
+    window.moreThen = function(what) {
+        closeMoreSheet();
+        setTimeout(() => {
+            if (what === "profile") openProfileModal();
+            else if (what === "theme") openThemeModal();
+            else if (what === "security") openSecurityModal();
+            else if (what === "book") openExportModal();
+            else if (what === "install" && window.installPWA) window.installPWA();
+        }, 60);
+    };
+    document.getElementById("more-overlay").addEventListener("click", function(e) { if (e.target === this) closeMoreSheet(); });
+
     function navPush(extra) {
         navSeq = Math.max(navSeq, navCurId) + 1;
         navCurId = navSeq;
@@ -4955,6 +5123,7 @@
         ["theme-modal-overlay",   () => closeThemeModal()],
         ["security-modal-overlay",() => closeSecurityModal()],
         ["profile-modal-overlay", () => closeProfileModal()],
+        ["more-overlay",          () => closeMoreSheet()],
         ["export-modal-overlay",  () => closeExportModal()],
         ["cat-modal-overlay",     () => closeCategoryModal()],
         ["idea-lightbox",         () => closeIdeaLightbox()],
@@ -4978,6 +5147,39 @@
         el._navClose = close;
         navObserver.observe(el, { attributes: true, attributeFilter: ["class"] });
     });
+
+    /* --- v27: a notification tapped on the phone opens its item (after the PIN) --- */
+    let hyPendingOpen = null;
+    function hyQueueOpen(d) {
+        if (!d || !d.page) return;
+        hyPendingOpen = { page: String(d.page), itemId: d.itemId || "", kind: d.itemKind || d.kind || "", notifId: d.notifId || "" };
+        hyTryOpen();
+    }
+    window.hyQueueOpen = hyQueueOpen;
+    function hyTryOpen() {
+        if (!hyPendingOpen) return;
+        const pin = document.getElementById("pin-overlay");
+        const locked = pin && !pin.classList.contains("hidden");
+        if (locked || !currentUser) { setTimeout(hyTryOpen, 400); return; }
+        const d = hyPendingOpen;
+        hyPendingOpen = null;
+        if (d.notifId) updateDoc(doc(db, "notifications", d.notifId), { read: true }).catch(() => {});
+        openNotifTarget(d.page, d.itemId || null, d.kind || null);
+    }
+    (function readOpenFromAddress() {
+        const m = location.hash.match(/^#open=([^&]*)/);
+        if (!m) return;
+        try {
+            const [page, itemId, itemKind, notifId] = decodeURIComponent(m[1]).split("|");
+            hyQueueOpen({ page, itemId, itemKind, notifId });
+        } catch (e) {}
+        try { history.replaceState(history.state, "", location.pathname + location.search); } catch (e) {}
+    })();
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.addEventListener("message", e => {
+            if (e.data && e.data.type === "hy-open") hyQueueOpen(e.data);
+        });
+    }
 
     window.addEventListener("popstate", e => {
         navSyncOverlays();
@@ -5193,13 +5395,41 @@
     }
     tick(); setInterval(tick,1000);
 
-    /* ===== SPECIAL DATES ===== */
+    /* ===== SPECIAL DATES (v27 — shared: Firestore settings/specialdates { events: [...] }) =====
+       Before v27 each phone kept its own list (localStorage). Those dates are moved
+       to Firestore automatically the first time the new version opens. */
     const CUSTOM_KEY="hamdi-yossr-custom-events";
-    function loadEvents(){try{return JSON.parse(localStorage.getItem(CUSTOM_KEY))||[];}catch(e){return[];}}
-    function saveEvents(list){localStorage.setItem(CUSTOM_KEY,JSON.stringify(list));}
+    const SPECIAL_DOC=doc(db,"settings","specialdates");
+    var specialEvents=[];       // "var": the countdown (above) already reads it every second
+    let specialMigrated=false;
+    function loadEvents(){return specialEvents||[];}
     function todayStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+    function newEventId(){return "ev"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+    onSnapshot(SPECIAL_DOC,snap=>{
+        if(!snap.exists()&&snap.metadata&&snap.metadata.fromCache)return;   // offline, nothing cached yet
+        const raw=snap.exists()&&Array.isArray((snap.data()||{}).events)?snap.data().events:[];
+        specialEvents=raw.filter(e=>e&&e.name&&e.date).sort((x,y)=>x.date<y.date?-1:x.date>y.date?1:0);
+        renderCustom();
+        if(!(snap.metadata&&snap.metadata.fromCache))migrateLocalSpecialDates();
+    },err=>console.warn("Special dates:",err&&(err.code||err.message)));
+    async function migrateLocalSpecialDates(){
+        if(specialMigrated)return;
+        specialMigrated=true;
+        let local=[];
+        try{local=JSON.parse(localStorage.getItem(CUSTOM_KEY))||[];}catch(e){}
+        if(!Array.isArray(local)||!local.length)return;
+        const have=new Set(specialEvents.map(e=>e.name+"|"+e.date));
+        const toAdd=local.filter(e=>e&&e.name&&e.date&&!have.has(e.name+"|"+e.date))
+            .map(e=>({id:newEventId(),emoji:e.emoji||"🗓️",name:String(e.name).slice(0,40),date:e.date,by:currentUser||"hamdi",at:new Date().toISOString()}));
+        try{
+            if(toAdd.length)await setDoc(SPECIAL_DOC,{events:arrayUnion(...toAdd)},{merge:true});
+            localStorage.setItem(CUSTOM_KEY+"-moved-v27",localStorage.getItem(CUSTOM_KEY));   // kept as a backup
+            localStorage.removeItem(CUSTOM_KEY);
+        }catch(e){specialMigrated=false;console.warn("Special dates move:",e);}
+    }
     function renderCustom(){
         const list=loadEvents();const wrap=document.getElementById("custom-cards");
+        if(!wrap)return;
         if(!list.length){wrap.innerHTML='<p style="text-align:center;color:#c090a8;font-size:.9rem;padding:10px;letter-spacing:1px;">No special dates yet… add your first one 🌸</p>';return;}
         const today=todayStr();
         wrap.innerHTML=list.map((ev,i)=>{
@@ -5211,7 +5441,8 @@
             else if(isPast){const daysAgo=Math.ceil(Math.abs(diff)/86400000);body=`<div class="past-badge">✅ ${daysAgo} day${daysAgo!==1?"s":""} ago</div>`;}
             else{const h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
             body=`<div class="c-countdown"><div class="mini-block"><span class="mn" id="cc-d-${i}">${String(d).padStart(2,"0")}</span><span class="ml">Days</span></div><div class="mini-block"><span class="mn" id="cc-h-${i}">${String(h).padStart(2,"0")}</span><span class="ml">Hours</span></div><div class="mini-block"><span class="mn" id="cc-m-${i}">${String(m).padStart(2,"0")}</span><span class="ml">Mins</span></div><div class="mini-block"><span class="mn" id="cc-s-${i}">${String(s).padStart(2,"0")}</span><span class="ml">Secs</span></div></div><p class="c-days" id="cc-lbl-${i}">${d} day${d!==1?"s":""} to go ✨</p>`;}
-            return `<div class="custom-card"><button class="c-del" onclick="deleteCustom(${i})">🗑️</button><div class="c-emoji">${ev.emoji||"🗓️"}</div><div class="c-name">${esc(ev.name)}</div><div class="c-date-lbl">${fmtEv}</div>${body}</div>`;
+            const by=ev.by?`<div class="c-by">${av(ev.by)}</div>`:"";
+            return `<div class="custom-card" data-item="${esc(ev.id||"")}"><button class="c-del" onclick="deleteCustom(${i})">🗑️</button>${by}<div class="c-emoji">${esc(ev.emoji||"🗓️")}</div><div class="c-name">${esc(ev.name)}</div><div class="c-date-lbl">${fmtEv}</div>${body}</div>`;
         }).join("");
     }
     function tickCustom(){
@@ -5232,15 +5463,24 @@
         const name=document.getElementById("ev-name").value.trim();
         const date=document.getElementById("ev-date").value;
         if(!name||!date){alert("Please enter a name and date 💕");return;}
-        const list=loadEvents();list.push({emoji,name,date});list.sort((a,b)=>new Date(a.date)-new Date(b.date));
-        saveEvents(list);
-        document.getElementById("ev-emoji").value="";document.getElementById("ev-name").value="";document.getElementById("ev-date").value="";
-        renderCustom();
-        const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-        const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-
+        const ev={id:newEventId(),emoji,name,date,by:currentUser||"hamdi",at:new Date().toISOString()};
+        showSync();
+        try{
+            await setDoc(SPECIAL_DOC,{events:arrayUnion(ev)},{merge:true});
+            document.getElementById("ev-emoji").value="";document.getElementById("ev-name").value="";document.getElementById("ev-date").value="";
+            const partner=currentUser==="hamdi"?"yossr":"hamdi";
+            const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";
+            await createNotification("special",`${whoName} added a special date: ${emoji} ${name} 🗓️`,partner,"special",ev.id);
+        }catch(e){alert("Error: "+e.message);}
+        hideSync();
     };
-    window.deleteCustom=function(i){if(!confirm("Delete this event?"))return;const list=loadEvents();list.splice(i,1);saveEvents(list);renderCustom();};
+    window.deleteCustom=async function(i){
+        const ev=specialEvents[i];
+        if(!ev||!confirm("Delete this event?"))return;
+        showSync();
+        try{await setDoc(SPECIAL_DOC,{events:arrayRemove(ev)},{merge:true});}catch(e){alert("Error: "+e.message);}
+        hideSync();
+    };
     renderCustom();
 
     /* ===== HELPERS ===== */
@@ -5666,6 +5906,136 @@
         if (["Escape", "ArrowLeft", "ArrowRight"].includes(e.key)) e.stopPropagation();
     }, true);
 
+    /* ============================================================
+       ===== VOICE MESSAGES (v27) — memories & letters =====
+       Recorded with the phone's microphone (max 60 s, light quality
+       for voice ≈ 3 KB per second) and saved inside the memory / letter.
+       ============================================================ */
+    const VOICE_MAX_SEC = 60;
+    var voiceData = {};        // form key → { data, dur }   ("add", "letter", "edit-<memoryId>")
+    var voiceRec = null;       // the recording in progress
+    function fmtDur(sec) { sec = Math.max(0, Math.round(sec || 0)); return Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0"); }
+    function blobToDataUrl(blob) {
+        return new Promise((resolve, reject) => { const r = new FileReader(); r.onload = () => resolve(r.result); r.onerror = reject; r.readAsDataURL(blob); });
+    }
+    function renderVoiceBox(key) {
+        const box = document.getElementById("voice-" + key);
+        if (!box) return;
+        if (voiceRec && voiceRec.key === key) {
+            const el = (Date.now() - voiceRec.t0) / 1000;
+            box.innerHTML = `<div class="vb-rec"><span class="vb-dot"></span><span class="vb-time" id="vb-time-${key}">${fmtDur(el)} / ${fmtDur(VOICE_MAX_SEC)}</span>
+                <button type="button" class="vb-btn vb-stop" onclick="voiceStop('${key}')">⏹ Stop</button>
+                <button type="button" class="vb-btn" onclick="voiceCancel('${key}')" aria-label="Cancel">✕</button></div>`;
+            return;
+        }
+        const v = voiceData[key];
+        if (v && v.data) {
+            box.innerHTML = `<div class="vb-has"><button type="button" class="voice-pill" onclick="playVoiceData(this,'${key}')">▶️ 🎤 ${fmtDur(v.dur)}</button>
+                <button type="button" class="vb-btn" onclick="voiceStart('${key}')">🔄 Re-record</button>
+                <button type="button" class="vb-btn" onclick="voiceClear('${key}')" aria-label="Delete">🗑️</button></div>`;
+        } else {
+            box.innerHTML = `<button type="button" class="vb-add" onclick="voiceStart('${key}')">🎤 Add a voice message <small>(max ${VOICE_MAX_SEC} s)</small></button>`;
+        }
+    }
+    window.voiceStart = async function(key) {
+        if (voiceRec) { if (voiceRec.key === key) return; await voiceStop(voiceRec.key); }
+        stopVoicePlayback();
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+            alert("Voice recording isn't supported on this phone 😕"); return;
+        }
+        let stream;
+        try { stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); }
+        catch (e) { alert("The microphone is blocked 🎤\nAllow it for this app in the phone / browser settings, then try again."); return; }
+        const types = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"];
+        const mime = types.find(t => { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } }) || "";
+        let rec;
+        try { rec = new MediaRecorder(stream, Object.assign({ audioBitsPerSecond: 24000 }, mime ? { mimeType: mime } : {})); }
+        catch (e) { rec = new MediaRecorder(stream); }
+        const chunks = [];
+        const st = { key, rec, stream, t0: Date.now(), timer: null, cancelled: false, done: null };
+        st.done = new Promise(resolve => {
+            rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+            rec.onstop = async () => {
+                stream.getTracks().forEach(t => t.stop());
+                clearInterval(st.timer);
+                const dur = Math.min(VOICE_MAX_SEC, (Date.now() - st.t0) / 1000);
+                if (!st.cancelled && chunks.length && dur >= 0.8) {
+                    const blob = new Blob(chunks, { type: rec.mimeType || mime || "audio/webm" });
+                    try { voiceData[key] = { data: await blobToDataUrl(blob), dur: Math.max(1, Math.round(dur)) }; } catch (e) {}
+                }
+                if (voiceRec === st) voiceRec = null;
+                renderVoiceBox(key);
+                resolve();
+            };
+        });
+        voiceRec = st;
+        rec.start(1000);
+        st.timer = setInterval(() => {
+            const el = (Date.now() - st.t0) / 1000;
+            const t = document.getElementById("vb-time-" + key);
+            if (t) t.textContent = fmtDur(el) + " / " + fmtDur(VOICE_MAX_SEC);
+            if (el >= VOICE_MAX_SEC) voiceStop(key);
+        }, 250);
+        renderVoiceBox(key);
+    };
+    window.voiceStop = function(key) {
+        if (!voiceRec || voiceRec.key !== key) return Promise.resolve();
+        const st = voiceRec;
+        try { if (st.rec.state !== "inactive") st.rec.stop(); } catch (e) {}
+        return st.done;
+    };
+    window.voiceCancel = function(key) {
+        if (!voiceRec || voiceRec.key !== key) return;
+        voiceRec.cancelled = true;
+        voiceStop(key);
+    };
+    function voiceStopAny() { if (voiceRec) voiceStop(voiceRec.key); stopVoicePlayback(); }
+    window.voiceClear = function(key) {
+        if (!confirm("Delete this voice message? 🎤")) return;
+        stopVoicePlayback();
+        voiceData[key] = null;
+        renderVoiceBox(key);
+    };
+    function voiceSet(key, data, dur) { voiceData[key] = data ? { data, dur: dur || 0 } : null; renderVoiceBox(key); }
+    // value to save (stops a recording still running)
+    async function voiceValue(key) {
+        if (voiceRec && voiceRec.key === key) await voiceStop(key);
+        const v = voiceData[key];
+        return v && v.data ? v : null;
+    }
+
+    /* --- playing --- */
+    var voiceAudio = null, voiceBtn = null, voiceTimer = null;
+    function stopVoicePlayback() {
+        if (voiceAudio) { try { voiceAudio.pause(); } catch (e) {} voiceAudio = null; }
+        clearInterval(voiceTimer);
+        if (voiceBtn) { voiceBtn.classList.remove("playing"); if (voiceBtn.dataset.label) voiceBtn.innerHTML = voiceBtn.dataset.label; }
+        voiceBtn = null;
+    }
+    function playVoice(btn, data, dur) {
+        if (voiceBtn === btn) { stopVoicePlayback(); return; }
+        stopVoicePlayback();
+        if (!data || !btn) return;
+        btn.dataset.label = btn.innerHTML;
+        const a = new Audio(data);
+        voiceAudio = a; voiceBtn = btn;
+        btn.classList.add("playing");
+        const total = () => (isFinite(a.duration) && a.duration > 0 ? a.duration : dur);
+        const upd = () => { if (voiceBtn === btn) btn.innerHTML = `⏸ ${fmtDur(a.currentTime)} / ${fmtDur(total())}`; };
+        upd();
+        voiceTimer = setInterval(upd, 250);
+        a.onended = stopVoicePlayback;
+        a.onerror = () => { stopVoicePlayback(); alert("This voice message can't be played on this phone 😕"); };
+        a.play().catch(() => stopVoicePlayback());
+    }
+    window.playVoiceData = function(btn, key) { const v = voiceData[key]; if (v) playVoice(btn, v.data, v.dur); };
+    window.playMemoryVoice = function(btn, id) { const m = allMemories.find(x => x.id === id); if (m && m.voice) playVoice(btn, m.voice, m.voiceDur); };
+    window.playLetterVoice = function(btn, id) { const l = allLetters.find(x => x.id === id); if (l && l.voice) playVoice(btn, l.voice, l.voiceDur); };
+    // a Firestore document can hold 1 MB → photo + voice + text must fit
+    function fitsInOneDoc(...parts) { return parts.reduce((t, p) => t + (p ? String(p).length : 0), 0) < 980000; }
+    renderVoiceBox("add");
+    renderVoiceBox("letter");
+
     /* ---------- photo zones (memory add / edit forms) ---------- */
     function ptForgetSrc(zone) {
         if (!zone) return;
@@ -5704,10 +6074,18 @@
     const memoriesRef=collection(db,"memories");
     let allMemories=[];
     let editingMemoryId=null;   // while a memory is being edited, live updates don't wipe the form
-    onSnapshot(query(memoriesRef,orderBy("date","desc")),snapshot=>{
-        allMemories=snapshot.docs.map(d=>({id:d.id,...d.data()}));
-        renderMemories();
-    });
+    // v27: memories (with their photos & voices) are only downloaded once the page is opened
+    var memoriesReady=null;
+    function ensureMemories(){
+        if(!memoriesReady)memoriesReady=new Promise(done=>{
+            onSnapshot(query(memoriesRef,orderBy("date","desc")),snapshot=>{
+                allMemories=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+                renderMemories();
+                done();
+            },err=>{console.warn("Memories:",err&&(err.code||err.message));done();});
+        });
+        return memoriesReady;
+    }
     function renderMemories(){
         if(editingMemoryId&&allMemories.some(m=>m.id===editingMemoryId))return;
         editingMemoryId=null;
@@ -5728,7 +6106,7 @@
                 return `<div class="comment-item"><span class="comment-who">${whoIcon}</span><div class="comment-body"><div class="cb-name">${whoName}</div><div class="cb-text">${esc(c.text)}</div><div class="cb-time">${c.time||""}</div><div class="comment-reactions">${cReactHtml}<button class="comment-react-btn" onclick="toggleCommentReactionPicker('${id}',${ci})">😊+</button><div class="comment-reaction-picker" id="cpicker-${id}-${ci}">${REACTION_EMOJIS.map(em=>`<button onclick="addCommentReaction('${id}',${ci},'${em}')">${em}</button>`).join("")}</div></div></div>${canDelete?`<button class="comment-delete-btn" onclick="deleteComment('${id}',${ci})">🗑️</button>`:""}</div>`;
             }).join("");
             const commentCount=comments.length;
-            return `<div class="msg-card" id="msg-card-${id}"><div class="msg-header"><span class="msg-label">${av(m.createdBy)} ${esc(m.label||"Memory")}</span><span class="msg-actions"><button class="msg-edit" onclick="startEdit('${id}')">✏️</button><button class="msg-delete" onclick="deleteMemory('${id}')">🗑️</button></span></div>${m.date?`<span class="msg-date-pin">📅 ${esc(m.date)}</span>`:""} ${m.image?`<img class="msg-img" src="${m.image}" alt="${esc(m.label||"Memory")}" title="Tap to zoom 🔍" onclick="openZoomViewer(this.src,this.alt)"/>`:""}${m.text?`<div class="msg-body">${esc(m.text)}</div>`:""}<div class="reactions-bar"><div class="existing-reactions">${reactionsHtml}</div><button class="react-btn" onclick="toggleReactionPicker('${id}')">😊+</button><div class="reaction-picker" id="picker-${id}">${REACTION_EMOJIS.map(em=>`<button onclick="addReaction('${id}','${em}')">${em}</button>`).join("")}</div></div><div class="comments-section"><button class="toggle-comments" onclick="toggleComments('${id}')">💬 Comments${commentCount>0?` (${commentCount})`:""}</button><div class="comments-list" id="comments-${id}">${commentsHtml}<div class="comment-input-row"><input type="text" id="cinput-${id}" placeholder="Write a comment… 💕" maxlength="300" onkeydown="if(event.key==='Enter')addComment('${id}')"/><button class="comment-send-btn" onclick="addComment('${id}')">Send</button></div></div></div></div>`;
+            return `<div class="msg-card" id="msg-card-${id}"><div class="msg-header"><span class="msg-label">${av(m.createdBy)} ${esc(m.label||"Memory")}</span><span class="msg-actions"><button class="msg-edit" onclick="startEdit('${id}')">✏️</button><button class="msg-delete" onclick="deleteMemory('${id}')">🗑️</button></span></div>${m.date?`<span class="msg-date-pin">📅 ${esc(m.date)}</span>`:""} ${m.image?`<img class="msg-img" src="${m.image}" alt="${esc(m.label||"Memory")}" title="Tap to zoom 🔍" onclick="openZoomViewer(this.src,this.alt)"/>`:""}${m.text?`<div class="msg-body">${esc(m.text)}</div>`:""}${m.voice?`<button class="voice-pill msg-voice" onclick="playMemoryVoice(this,'${id}')">▶️ 🎤 ${fmtDur(m.voiceDur)}</button>`:""}<div class="reactions-bar"><div class="existing-reactions">${reactionsHtml}</div><button class="react-btn" onclick="toggleReactionPicker('${id}')">😊+</button><div class="reaction-picker" id="picker-${id}">${REACTION_EMOJIS.map(em=>`<button onclick="addReaction('${id}','${em}')">${em}</button>`).join("")}</div></div><div class="comments-section"><button class="toggle-comments" onclick="toggleComments('${id}')">💬 Comments${commentCount>0?` (${commentCount})`:""}</button><div class="comments-list" id="comments-${id}">${commentsHtml}<div class="comment-input-row"><input type="text" id="cinput-${id}" placeholder="Write a comment… 💕" maxlength="300" onkeydown="if(event.key==='Enter')addComment('${id}')"/><button class="comment-send-btn" onclick="addComment('${id}')">Send</button></div></div></div></div>`;
         }).join("");
     }
 
@@ -5776,8 +6154,13 @@
         const label = document.getElementById("memo-label").value.trim();
         const zone = document.getElementById("add-upload-zone");
         const image = zone._b64 || null;
-        if (!text && !image) {
-            alert("Please write a memory or add a photo 💕");
+        const voice = await voiceValue("add");
+        if (!text && !image && !voice) {
+            alert("Please write a memory, add a photo or a voice message 💕");
+            return;
+        }
+        if (!fitsInOneDoc(text, image, voice && voice.data)) {
+            alert("This memory is too big to save 😕\nMake the voice message shorter or remove the photo.");
             return;
         }
         const btn = document.getElementById("save-btn");
@@ -5790,6 +6173,8 @@
                 date,
                 label,
                 image,
+                voice: voice ? voice.data : null,
+                voiceDur: voice ? voice.dur : null,
                 savedAt: new Date().toISOString(),
                 reactions: {},
                 comments: [],
@@ -5802,12 +6187,13 @@
                 stopPropagation: () => {
                 }
             }, "add");
+            voiceSet("add", null);
             const toast = document.getElementById("save-toast");
             toast.style.display = "block";
             setTimeout(() => toast.style.display = "none", 2500);
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("memory", `${whoName} added a new memory${label ? ' "' + label + '"' : ''}`, partner, "memories", newMemRef.id);
+            await createNotification("memory", `${whoName} added a new memory${label ? ' "' + label + '"' : ''}${voice ? " 🎤" : ""}`, partner, "memories", newMemRef.id);
         } catch (e) {
             alert("Error: " + e.message);
         }
@@ -5817,9 +6203,9 @@
     };
     window.deleteMemory=async function(id){if(!confirm("Delete this memory?"))return;showSync();await deleteDoc(doc(db,"memories",id));hideSync();};
     // v24: the form is filled from the saved data (the old version re-read the card, so the 👨/👩 got added to the label at every edit)
-    window.startEdit=function(id){const m=allMemories.find(x=>x.id===id);const card=document.getElementById("msg-card-"+id);if(!m||!card)return;editingMemoryId=id;const imgSrc=m.image||"";const label=m.label||"";const datePin=m.date||"";const body=m.text||"";const uid="edit-"+id;const hasImg=!!imgSrc;card.innerHTML=`<div class="edit-form"><input type="text" id="${uid}-label-input" value="${esc(label)}" placeholder="Label" maxlength="60"/><input type="date" id="${uid}-date-input" value="${esc(datePin)}" style="padding:8px 12px;border:1px solid rgba(255,182,210,.7);border-radius:10px;background:rgba(255,240,248,.9);color:#7a2545;font-size:.9rem;font-family:Lato,sans-serif;outline:none;"/><textarea id="${uid}-text-input" placeholder="Your memory…">${esc(body)}</textarea><div class="img-upload-zone${hasImg?" has-img":""}" id="${uid}-upload-zone" onclick="document.getElementById('${uid}-file-input').click()"><span id="${uid}-upload-hint"${hasImg?' style="display:none"':""}>📷 Click to change photo</span><img class="zone-preview" id="${uid}-img-preview" src="${imgSrc}" style="display:${hasImg?"block":"none"};"/><button class="zone-adjust-btn" id="${uid}-adjust-btn" style="display:${hasImg?"inline-block":"none"};" onclick="adjustZone(event,'${uid}')">✂️ Adjust framing</button><button class="zone-clear-btn" id="${uid}-clear-btn" style="display:${hasImg?"inline-block":"none"};" onclick="clearZone(event,'${uid}')">✕ Remove</button></div><input type="file" id="${uid}-file-input" accept="image/*" style="display:none" onchange="handleZoneFile(event,'${uid}')"/><div class="edit-actions"><button class="btn-save-edit" onclick="saveEdit('${id}')">💾 Save</button><button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button></div></div>`;const zone=document.getElementById(uid+"-upload-zone");zone._b64=imgSrc||null;zone._src=imgSrc||null;zone._peState=null;};
-    window.cancelEdit=function(){const zone=editingMemoryId&&document.getElementById("edit-"+editingMemoryId+"-upload-zone");ptForgetSrc(zone);editingMemoryId=null;renderMemories();};
-    window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});ptForgetSrc(zone);editingMemoryId=null;renderMemories();}catch(e){alert("Error: "+e.message);}hideSync();};
+    window.startEdit=function(id){const m=allMemories.find(x=>x.id===id);const card=document.getElementById("msg-card-"+id);if(!m||!card)return;editingMemoryId=id;const imgSrc=m.image||"";const label=m.label||"";const datePin=m.date||"";const body=m.text||"";const uid="edit-"+id;const hasImg=!!imgSrc;card.innerHTML=`<div class="edit-form"><input type="text" id="${uid}-label-input" value="${esc(label)}" placeholder="Label" maxlength="60"/><input type="date" id="${uid}-date-input" value="${esc(datePin)}" style="padding:8px 12px;border:1px solid rgba(255,182,210,.7);border-radius:10px;background:rgba(255,240,248,.9);color:#7a2545;font-size:.9rem;font-family:Lato,sans-serif;outline:none;"/><textarea id="${uid}-text-input" placeholder="Your memory…">${esc(body)}</textarea><div class="img-upload-zone${hasImg?" has-img":""}" id="${uid}-upload-zone" onclick="document.getElementById('${uid}-file-input').click()"><span id="${uid}-upload-hint"${hasImg?' style="display:none"':""}>📷 Click to change photo</span><img class="zone-preview" id="${uid}-img-preview" src="${imgSrc}" style="display:${hasImg?"block":"none"};"/><button class="zone-adjust-btn" id="${uid}-adjust-btn" style="display:${hasImg?"inline-block":"none"};" onclick="adjustZone(event,'${uid}')">✂️ Adjust framing</button><button class="zone-clear-btn" id="${uid}-clear-btn" style="display:${hasImg?"inline-block":"none"};" onclick="clearZone(event,'${uid}')">✕ Remove</button></div><input type="file" id="${uid}-file-input" accept="image/*" style="display:none" onchange="handleZoneFile(event,'${uid}')"/><div class="voice-box" id="voice-${uid}"></div><div class="edit-actions"><button class="btn-save-edit" onclick="saveEdit('${id}')">💾 Save</button><button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button></div></div>`;const zone=document.getElementById(uid+"-upload-zone");zone._b64=imgSrc||null;zone._src=imgSrc||null;zone._peState=null;voiceSet(uid,m.voice||null,m.voiceDur||0);};
+    window.cancelEdit=function(){const zone=editingMemoryId&&document.getElementById("edit-"+editingMemoryId+"-upload-zone");ptForgetSrc(zone);if(editingMemoryId){voiceCancel("edit-"+editingMemoryId);stopVoicePlayback();delete voiceData["edit-"+editingMemoryId];}editingMemoryId=null;renderMemories();};
+    window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;const voice=await voiceValue(uid);if(!fitsInOneDoc(text,image,voice&&voice.data)){alert("This memory is too big to save 😕\nMake the voice message shorter or remove the photo.");return;}stopVoicePlayback();showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image,voice:voice?voice.data:null,voiceDur:voice?voice.dur:null});delete voiceData[uid];ptForgetSrc(zone);editingMemoryId=null;renderMemories();}catch(e){alert("Error: "+e.message);}hideSync();};
 
     /* ============================================================
        ===== CHECKLIST (v21) =====
@@ -5929,10 +6315,18 @@
         renderChecklist();
         clDueReminders();
     });
-    onSnapshot(query(taskIdeasRef, orderBy("addedAt", "asc")), snapshot => {
-        taskIdeas = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderChecklist();
-    });
+    // v27: the idea photos are only downloaded once the Checklist is opened
+    var taskIdeasReady = null;
+    function ensureTaskIdeas() {
+        if (!taskIdeasReady) taskIdeasReady = new Promise(done => {
+            onSnapshot(query(taskIdeasRef, orderBy("addedAt", "asc")), snapshot => {
+                taskIdeas = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                renderChecklist();
+                done();
+            }, err => { console.warn("Task ideas:", err && (err.code || err.message)); done(); });
+        });
+        return taskIdeasReady;
+    }
     onSnapshot(clSettingsDoc, snap => {
         const data = snap.exists() ? snap.data() : {};
         clBudgetGoal = Number(data.budgetGoal) || 0;
@@ -6530,7 +6924,7 @@
             try {
                 await createNotification("checklist",
                     `${late ? "⚠️ Late" : "🔔 Due today"}: "${clShort(t.text, 40)}"`,
-                    currentUser, "checklist", t.id);
+                    currentUser, "checklist", t.id, null, true);
             } catch (e) {}
         }
         try { localStorage.setItem(key, JSON.stringify({ day: today, ids: seen.concat(fresh.map(t => t.id)) })); } catch (e) {}
@@ -6955,11 +7349,18 @@
     let placePhotoTarget = null;    // place id ("__new" = the place being pinned)
     function placePhotosOf(id) { return placePhotos.filter(ph => ph.placeId === id); }
     function placeById(id) { return placesData.find(p => p.id === id); }
-    onSnapshot(query(placePhotosRef, orderBy("addedAt", "asc")), snapshot => {
-        placePhotos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderPlacesList(placesData);
-        renderPlaceMarkers(placesData);
-    }, err => console.warn("Place photos:", err && (err.code || err.message)));
+    var placePhotosReady = null;
+    function ensurePlacePhotos() {
+        if (!placePhotosReady) placePhotosReady = new Promise(done => {
+            onSnapshot(query(placePhotosRef, orderBy("addedAt", "asc")), snapshot => {
+                placePhotos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                renderPlacesList(placesData);
+                renderPlaceMarkers(placesData);
+                done();
+            }, err => { console.warn("Place photos:", err && (err.code || err.message)); done(); });
+        });
+        return placePhotosReady;
+    }
 
     function renderPlaceMarkers(places){
         if(!leafletMap)return;
@@ -7215,7 +7616,20 @@
         updateGalSaveBtn();
         hideSync();
     };
-    onSnapshot(query(galleryRef,orderBy("addedAt","desc")),snapshot=>{galleryAllPhotos=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderGalleryGrid();if(document.getElementById("slideshow-overlay").classList.contains("open"))updateSlideshowView();});
+    // v27: the gallery is only downloaded when Gallery / Games / the PDF book need it
+    var galleryReady=null;
+    function ensureGallery(){
+        if(!galleryReady)galleryReady=new Promise(done=>{
+            onSnapshot(query(galleryRef,orderBy("addedAt","desc")),snapshot=>{
+                galleryAllPhotos=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+                renderGalleryGrid();
+                if(document.getElementById("slideshow-overlay").classList.contains("open"))updateSlideshowView();
+                if(document.getElementById("gpanel-puzzle")?.classList.contains("active")&&document.getElementById("page-games")?.classList.contains("active"))loadPuzzlePhotoOptions();
+                done();
+            },err=>{console.warn("Gallery:",err&&(err.code||err.message));done();});
+        });
+        return galleryReady;
+    }
 
     /* --- v24: each photo keeps its own shape (no more cut heads) — masonry grid --- */
     const GAL_ROW = 4;   // must match grid-auto-rows in .photo-grid.masonry
@@ -7231,6 +7645,74 @@
     function galFitAll(){document.querySelectorAll("#gallery-grid .photo-item").forEach(galSpan);}
     let galResizeT=null;
     window.addEventListener("resize",()=>{clearTimeout(galResizeT);galResizeT=setTimeout(galFitAll,150);});
+
+    /* ============================================================
+       ===== ON THIS DAY (v27) — home =====
+       Memories dated on this same day 1, 2, 3… months ago (and years),
+       and the photos added to the gallery on those days.
+       Only those few things are downloaded, not the whole gallery.
+       ============================================================ */
+    var otdLoadedFor = "", otdItems = {};
+    function otdYmd(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+    function otdPast() {
+        const now = new Date(), out = [];
+        for (let m = 1; m <= 29; m++) {                 // Firestore "in" takes up to 30 values
+            const d = new Date(now.getFullYear(), now.getMonth() - m, now.getDate());
+            if (d.getDate() !== now.getDate()) continue;  // e.g. the 31st in a 30-day month
+            out.push({ months: m, date: d, key: otdYmd(d) });
+        }
+        return out;
+    }
+    function otdLabel(m) {
+        if (m % 12 === 0) return m === 12 ? "1 year ago" : (m / 12) + " years ago";
+        return m === 1 ? "1 month ago" : m + " months ago";
+    }
+    async function loadOnThisDay(force) {
+        const today = otdYmd(new Date());
+        if (otdLoadedFor === today && !force) return;
+        otdLoadedFor = today;
+        const past = otdPast();
+        if (!past.length) return;
+        const items = {};
+        const slot = k => (items[k] = items[k] || { memories: [], photos: [] });
+        try {
+            const ms = await getDocs(query(memoriesRef, where("date", "in", past.map(x => x.key))));
+            ms.docs.forEach(d => { const m = { id: d.id, ...d.data() }; slot(m.date).memories.push(m); });
+        } catch (e) { console.warn("On this day (memories):", e && (e.code || e.message)); }
+        await Promise.all(past.map(async x => {
+            const start = new Date(x.date.getFullYear(), x.date.getMonth(), x.date.getDate());
+            const end = new Date(start.getTime() + 86400000);
+            try {
+                const gs = await getDocs(query(galleryRef, where("addedAt", ">=", start.toISOString()), where("addedAt", "<", end.toISOString())));
+                gs.docs.forEach(d => slot(x.key).photos.push({ id: d.id, ...d.data() }));
+            } catch (e) { console.warn("On this day (photos):", e && (e.code || e.message)); }
+        }));
+        otdItems = items;
+        renderOnThisDay(past);
+    }
+    window.loadOnThisDay = loadOnThisDay;
+    function renderOnThisDay(past) {
+        const card = document.getElementById("otd-card"), list = document.getElementById("otd-list");
+        if (!card || !list) return;
+        const rows = past.filter(x => otdItems[x.key] && (otdItems[x.key].memories.length || otdItems[x.key].photos.length)).map(x => {
+            const it = otdItems[x.key];
+            const when = x.date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+            const mems = it.memories.map(m => `<button class="otd-mem" onclick="openNotifTarget('memories','${m.id}')">
+                    ${m.image ? `<img class="otd-mem-img" src="${m.image}" alt=""/>` : `<span class="otd-mem-ic">💌</span>`}
+                    <span class="otd-mem-txt"><b>${av(m.createdBy)} ${esc(m.label || "Memory")}${m.voice ? " 🎤" : ""}</b>${m.text ? `<small>${esc(m.text.length > 90 ? m.text.slice(0, 90) + "…" : m.text)}</small>` : ""}</span>
+                </button>`).join("");
+            const photos = it.photos.length ? `<div class="otd-photos">${it.photos.map((p, i) => `<img src="${p.image}" alt="" onclick="openOtdPhotos('${x.key}',${i})"/>`).join("")}</div>` : "";
+            return `<div class="otd-row"><div class="otd-when">✨ ${otdLabel(x.months)} · ${when}</div>${mems}${photos}</div>`;
+        });
+        card.style.display = rows.length ? "" : "none";
+        list.innerHTML = rows.join("");
+    }
+    window.openOtdPhotos = function(k, i) {
+        const it = otdItems[k];
+        if (!it) return;
+        openZoomViewer(null, null, it.photos.map(p => ({ src: p.image, caption: [p.caption, p.album].filter(Boolean).join(" · ") })), i);
+    };
+    setTimeout(() => loadOnThisDay(), 1500);
     /* --- favourites helpers --- */
     function photoFavs(p){ const f = p.fav || {}; return Object.keys(f).filter(u => f[u]); }
     function photoFavIcon(p){
@@ -8367,7 +8849,9 @@ function renderQuizScores() {
 
         if (!title) { alert("Please give your letter a title 💕"); return; }
         if (!unlockDate) { alert("Please choose an unlock date & time 📅"); return; }
-        if (!content) { alert("Please write your letter 💌"); return; }
+        const voice = await voiceValue("letter");
+        if (!content && !voice) { alert("Please write your letter (or record it 🎤) 💌"); return; }
+        if (!fitsInOneDoc(content, voice && voice.data)) { alert("This letter is too big 😕 — make the voice message shorter."); return; }
 
         // Allow today / now — only reject clearly past times (60s grace)
         if (new Date(unlockDate).getTime() < Date.now() - 60000) {
@@ -8384,12 +8868,14 @@ function renderQuizScores() {
             if (editingLetterId) {
                 // Update an existing letter — reset notify flag so it re-alerts at the new time
                 await updateDoc(doc(db, "futureletters", editingLetterId), {
-                    title, to, unlockDate, occasion, content, unlockNotified: false
+                    title, to, unlockDate, occasion, content, unlockNotified: false,
+                    voice: voice ? voice.data : null, voiceDur: voice ? voice.dur : null
                 });
                 editingLetterId = null;
             } else {
                 const newLetterRef = await addDoc(lettersRef, {
                     title, to, unlockDate, occasion, content,
+                    voice: voice ? voice.data : null, voiceDur: voice ? voice.dur : null,
                     from: currentUser,
                     createdAt: new Date().toISOString(),
                     unlocked: false,
@@ -8408,6 +8894,7 @@ function renderQuizScores() {
             document.getElementById("fl-title").value = "";
             document.getElementById("fl-occasion").value = "";
             document.getElementById("fl-content").value = "";
+            voiceSet("letter", null);
             document.getElementById("fl-unlock-date").value = toLocalDatetimeValue(new Date());
         } catch (e) { alert("Error: " + e.message); }
 
@@ -8426,6 +8913,7 @@ function renderQuizScores() {
         document.getElementById("fl-unlock-date").value = toLocalDatetimeValue(letterUnlockDate(letter));
         document.getElementById("fl-occasion").value = letter.occasion || "";
         document.getElementById("fl-content").value = letter.content || "";
+        voiceSet("letter", letter.voice || null, letter.voiceDur || 0);
         document.getElementById("fl-send-btn").textContent = "✏️ Update Letter";
         document.querySelector(".fl-compose-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
@@ -8519,6 +9007,7 @@ function renderQuizScores() {
                     <span class="fl-meta-tag">${fromIcon} From ${fromName}</span>
                     <span class="fl-meta-tag">→ ${toLabel}</span>
                     ${letter.occasion ? `<span class="fl-meta-tag">🎉 ${esc(letter.occasion)}</span>` : ""}
+                    ${letter.voice ? `<span class="fl-meta-tag">🎤 Voice</span>` : ""}
                     <span class="fl-meta-tag locked">🔒 Locked</span>
                 </div>
                 <div class="fl-locked-content">
@@ -8548,6 +9037,7 @@ function renderQuizScores() {
                     <span class="fl-meta-tag">${fromIcon} From ${fromName}</span>
                     <span class="fl-meta-tag">→ ${toLabel}</span>
                     ${letter.occasion ? `<span class="fl-meta-tag">🎉 ${esc(letter.occasion)}</span>` : ""}
+                    ${letter.voice ? `<span class="fl-meta-tag">🎤 Voice</span>` : ""}
                     <span class="fl-meta-tag unlocked">✨ Ready to Open!</span>
                 </div>
                 <div style="text-align:center;padding:20px;">
@@ -8575,6 +9065,7 @@ function renderQuizScores() {
                 ${letter.occasion ? `<span class="fl-meta-tag">🎉 ${esc(letter.occasion)}</span>` : ""}
                 <span class="fl-meta-tag unlocked">✅ Unlocked</span>
             </div>
+            ${letter.voice ? `<button class="voice-pill fl-voice" onclick="playLetterVoice(this,'${letter.id}')">▶️ 🎤 Listen · ${fmtDur(letter.voiceDur)}</button>` : ""}
             <div class="fl-letter-content collapsed" id="flc-${letter.id}">${esc(letter.content)}</div>
             <button class="fl-readmore-btn" onclick="toggleLetterContent('${letter.id}', this)">📖 Read letter</button>
             <div class="fl-letter-footer">
@@ -8647,7 +9138,7 @@ function renderQuizScores() {
             try {
                 await updateDoc(doc(db, "futureletters", letter.id), { unlockNotified: true });
                 // In-app notification for the recipient (works even if recipient === current user)
-                await addDoc(notificationsRef, {
+                const unlockRef = await addDoc(notificationsRef, {
                     type: "letters",
                     message: `📬 Your letter "${letter.title}" is ready to open! 💌`,
                     targetUser: letter.to,
@@ -8658,14 +9149,11 @@ function renderQuizScores() {
                     createdAt: new Date().toISOString()
                 });
                 // Phone push (FCM) — fires even if the recipient's app is closed
-                fetch(PUSH_ENDPOINT, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        targetUser: letter.to,
-                        message: `📬 You have a letter ready to open: "${letter.title}" 💌`
-                    })
-                }).catch(() => {});
+                hyPush({
+                    targetUser: letter.to,
+                    message: `📬 You have a letter ready to open: "${letter.title}" 💌`,
+                    page: "letters", itemId: letter.id, notifId: unlockRef.id
+                });
             } catch (e) { console.error("Letter unlock notify error:", e); }
         }
     }
@@ -9837,6 +10325,12 @@ function renderQuizScores() {
 
     /* ---------- modal ---------- */
     window.openExportModal = function() {
+        if (!galleryAllPhotos.length) ensureGallery().then(() => { if (document.getElementById("export-modal-overlay").classList.contains("open")) fillPdfAlbums(); });
+        fillPdfAlbums();
+        document.getElementById("pdf-progress").style.display = "none";
+        document.getElementById("export-modal-overlay").classList.add("open");
+    };
+    function fillPdfAlbums() {
         const sel = document.getElementById("pdf-album");
         if (sel) {
             const albums = [...new Set(galleryAllPhotos.map(p => p.album).filter(Boolean))];
@@ -9846,9 +10340,7 @@ function renderQuizScores() {
                 albums.map(a => '<option value="' + esc(a) + '">' + esc(a) + ' (' +
                     galleryAllPhotos.filter(p => p.album === a).length + ')</option>').join("");
         }
-        document.getElementById("pdf-progress").style.display = "none";
-        document.getElementById("export-modal-overlay").classList.add("open");
-    };
+    }
     window.closeExportModal = function() {
         if (bookBusy) return;
         document.getElementById("export-modal-overlay").classList.remove("open");
@@ -9872,6 +10364,10 @@ function renderQuizScores() {
     /* ---------- main ---------- */
     window.generateMemoryBook = async function() {
         if (bookBusy) return;
+        // v27: memories / gallery / place photos load on demand → make sure they are here
+        const st = document.getElementById("pdf-status"), pr = document.getElementById("pdf-progress");
+        if (st && pr) { pr.style.display = "block"; st.textContent = "💕 Getting all our memories…"; }
+        await Promise.race([Promise.all([ensureMemories(), ensureGallery(), ensurePlacePhotos(), ensureTaskIdeas()]), new Promise(r => setTimeout(r, 15000))]);
         const btn = document.getElementById("pdf-go-btn");
         const opts = {
             story: document.getElementById("pdfc-story").checked,
@@ -10137,6 +10633,8 @@ function renderQuizScores() {
         e.preventDefault();
         deferredInstallPrompt = e;
         if (installBtn) installBtn.style.display = "block";
+        const moreInstall = document.getElementById("more-install");
+        if (moreInstall) moreInstall.style.display = "";
     });
 
     window.installPWA = async function () {
@@ -10152,6 +10650,8 @@ function renderQuizScores() {
     // Cacher le bouton après installation
     window.addEventListener("appinstalled", () => {
         if (installBtn) installBtn.style.display = "none";
+        const moreInstall = document.getElementById("more-install");
+        if (moreInstall) moreInstall.style.display = "none";
         deferredInstallPrompt = null;
     });
 </script>
