@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v33"/>
+    <meta name="app-version" content="v34"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -558,7 +558,7 @@
         .pdfb-tag { font-size: 10px; letter-spacing: 1px; background: #ffe4f0; color: #9b1c4a; border-radius: 40px; padding: 3px 10px; white-space: nowrap; }
         .pdfb-tag-alt { background: #f3e6ff; color: #5a2080; }
         .pdfb-tag-gold { background: #fff0cc; color: #8a6520; }
-        .pdfb-date { font-size: 10px; color: #b07090; letter-spacing: 1.2px; white-space: nowrap; }
+        .pdfb-date { font-size: 10px; color: #b07090; letter-spacing: 1.2px; white-space: nowrap; display: inline-flex; align-items: center; }
         .pdfb-title { font-size: 16px; font-weight: 700; color: #9b1c4a; margin-bottom: 7px; line-height: 1.35; }
         .pdfb-text { font-size: 12.5px; line-height: 1.75; color: #5a1a35; white-space: pre-wrap; word-break: break-word; }
         .pdfb-muted { font-size: 11px; color: #b07090; letter-spacing: .6px; margin-top: 7px; }
@@ -1209,7 +1209,16 @@
             border-radius: 8px; padding: 3px 10px; letter-spacing: 1px;
         }
         .msg-actions { display: flex; gap: 4px; }
-        .msg-date-pin { font-size: .78rem; color: #b07090; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        .msg-date-pin { font-size: .78rem; color: #b07090; letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        /* v34: a tiny calendar with the real date (the 📅 emoji always shows "JUL 17") */
+        .mini-cal { display: inline-flex; flex-direction: column; flex: none; width: 34px; border-radius: 8px; overflow: hidden; background: #fff; border: 1px solid rgba(255, 182, 210, .85); box-shadow: 0 2px 6px rgba(192, 57, 107, .18); text-align: center; line-height: 1; font-family: 'Lato', sans-serif; letter-spacing: 0; vertical-align: middle; }
+        .mini-cal-m { display: block; padding: 2px 0 2px; background: linear-gradient(135deg, #e8608c, #c0396b); color: #fff; font-size: .5rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .mini-cal-d { display: block; padding: 2px 0 3px; color: #9b1c4a; font-size: .95rem; font-weight: 800; }
+        .mini-cal.mc-pdf { width: 26px; border-radius: 6px; box-shadow: none; margin-right: 5px; }
+        .mini-cal.mc-pdf .mini-cal-m { font-size: 6px; }
+        .mini-cal.mc-pdf .mini-cal-d { font-size: 11px; }
+        body[data-theme="midnight"] .mini-cal { background: rgba(45, 45, 74, .95); border-color: rgba(192, 57, 107, .5); }
+        body[data-theme="midnight"] .mini-cal-d { color: #f48fb1; }
         .msg-body { font-size: .96rem; color: #5a1a35; line-height: 1.7; white-space: pre-wrap; }
 
         .img-upload-zone {
@@ -3682,6 +3691,13 @@
     </header>
     <div class="divider">🌸 ❤️ 🌸</div>
     <div class="home-cards-stack">
+        <!-- v27: On this day (v34: always first on Home when it shows) -->
+        <div class="card otd-card" id="otd-card" style="display:none">
+            <div class="otd-cal" aria-hidden="true"><span class="otd-cal-m" id="otd-cal-m"></span><span class="otd-cal-d" id="otd-cal-d"></span></div>
+            <h2>On This Day</h2>
+            <p class="event-date" id="otd-sub">Our memories from this same day</p>
+            <div id="otd-list"></div>
+        </div>
         <div class="relation-card">
             <h3>💕 Together Since</h3>
             <p class="rel-since">15 August 2025</p>
@@ -3693,13 +3709,6 @@
                 <div class="stat-block"><span class="snum" id="rel-mins">0</span><span class="slbl">Minutes</span></div>
                 <div class="stat-block"><span class="snum" id="rel-secs">0</span><span class="slbl">Seconds</span></div>
             </div>
-        </div>
-        <!-- v27: On this day -->
-        <div class="card otd-card" id="otd-card" style="display:none">
-            <div class="otd-cal" aria-hidden="true"><span class="otd-cal-m" id="otd-cal-m"></span><span class="otd-cal-d" id="otd-cal-d"></span></div>
-            <h2>On This Day</h2>
-            <p class="event-date" id="otd-sub">Our memories from this same day</p>
-            <div id="otd-list"></div>
         </div>
         <div class="card">
             <div class="icon">💍</div>
@@ -5112,7 +5121,7 @@
             memory: '💌', gallery: '📸', scratch: '🎴', quiz: '❓',
             checklist: '✅', places: '🗺️', special: '🗓️',
             quiz_answer: '💬', quiz_comment: '💭', letters: '✉️',
-            games: '🎮', profile: '📸', thinking: '💕', love: '💕', security: '🔐'
+            games: '🎮', profile: '📸', thinking: '💕', love: '💕', security: '🔐', otd: '✨'
         };
         return icons[type] || '🔔';
     }
@@ -5233,6 +5242,9 @@
                 }
                 case "places":
                     setTimeout(() => focusPlace(itemId), 250);
+                    break;
+                case "home":
+                    if (itemId === "otd") { loadOnThisDay(); hyFocus(() => document.getElementById("otd-card")); }
                     break;
                 case "special":
                     if (itemId) hyFocus(() => document.querySelector(`#custom-cards [data-item="${sel(itemId)}"]`));
@@ -6406,7 +6418,7 @@
                 return `<div class="comment-item"><span class="comment-who">${whoIcon}</span><div class="comment-body"><div class="cb-name">${whoName}</div><div class="cb-text">${esc(c.text)}</div><div class="cb-time">${c.time||""}</div><div class="comment-reactions">${cReactHtml}<button class="comment-react-btn" onclick="toggleCommentReactionPicker('${id}',${ci})">😊+</button><div class="comment-reaction-picker" id="cpicker-${id}-${ci}">${REACTION_EMOJIS.map(em=>`<button onclick="addCommentReaction('${id}',${ci},'${em}')">${em}</button>`).join("")}</div></div></div>${canDelete?`<button class="comment-delete-btn" onclick="deleteComment('${id}',${ci})">🗑️</button>`:""}</div>`;
             }).join("");
             const commentCount=comments.length;
-            return `<div class="msg-card" id="msg-card-${id}"><div class="msg-header"><span class="msg-label">${av(m.createdBy)} ${esc(m.label||"Memory")}</span><span class="msg-actions"><button class="msg-edit" onclick="startEdit('${id}')">✏️</button><button class="msg-delete" onclick="deleteMemory('${id}')">🗑️</button></span></div>${m.date?`<span class="msg-date-pin">📅 ${esc(m.date)}</span>`:""} ${m.image?`<img class="msg-img" src="${m.image}" alt="${esc(m.label||"Memory")}" title="Tap to zoom 🔍" onclick="openZoomViewer(this.src,this.alt)"/>`:""}${m.text?`<div class="msg-body">${esc(m.text)}</div>`:""}${m.voice?`<button class="voice-pill msg-voice" onclick="playMemoryVoice(this,'${id}')">▶️ 🎤 ${fmtDur(m.voiceDur)}</button>`:""}<div class="reactions-bar"><div class="existing-reactions">${reactionsHtml}</div><button class="react-btn" onclick="toggleReactionPicker('${id}')">😊+</button><div class="reaction-picker" id="picker-${id}">${REACTION_EMOJIS.map(em=>`<button onclick="addReaction('${id}','${em}')">${em}</button>`).join("")}</div></div><div class="comments-section"><button class="toggle-comments" onclick="toggleComments('${id}')">💬 Comments${commentCount>0?` (${commentCount})`:""}</button><div class="comments-list" id="comments-${id}">${commentsHtml}<div class="comment-input-row"><input type="text" id="cinput-${id}" placeholder="Write a comment… 💕" maxlength="300" onkeydown="if(event.key==='Enter')addComment('${id}')"/><button class="comment-send-btn" onclick="addComment('${id}')">Send</button></div></div></div></div>`;
+            return `<div class="msg-card" id="msg-card-${id}"><div class="msg-header"><span class="msg-label">${av(m.createdBy)} ${esc(m.label||"Memory")}</span><span class="msg-actions"><button class="msg-edit" onclick="startEdit('${id}')">✏️</button><button class="msg-delete" onclick="deleteMemory('${id}')">🗑️</button></span></div>${m.date?`<span class="msg-date-pin">${miniCal(m.date)}<span>${esc(hyLongDate(m.date))}</span></span>`:""} ${m.image?`<img class="msg-img" src="${m.image}" alt="${esc(m.label||"Memory")}" title="Tap to zoom 🔍" onclick="openZoomViewer(this.src,this.alt)"/>`:""}${m.text?`<div class="msg-body">${esc(m.text)}</div>`:""}${m.voice?`<button class="voice-pill msg-voice" onclick="playMemoryVoice(this,'${id}')">▶️ 🎤 ${fmtDur(m.voiceDur)}</button>`:""}<div class="reactions-bar"><div class="existing-reactions">${reactionsHtml}</div><button class="react-btn" onclick="toggleReactionPicker('${id}')">😊+</button><div class="reaction-picker" id="picker-${id}">${REACTION_EMOJIS.map(em=>`<button onclick="addReaction('${id}','${em}')">${em}</button>`).join("")}</div></div><div class="comments-section"><button class="toggle-comments" onclick="toggleComments('${id}')">💬 Comments${commentCount>0?` (${commentCount})`:""}</button><div class="comments-list" id="comments-${id}">${commentsHtml}<div class="comment-input-row"><input type="text" id="cinput-${id}" placeholder="Write a comment… 💕" maxlength="300" onkeydown="if(event.key==='Enter')addComment('${id}')"/><button class="comment-send-btn" onclick="addComment('${id}')">Send</button></div></div></div></div>`;
         }).join("");
     }
 
@@ -7955,6 +7967,19 @@
        Only those few things are downloaded, not the whole gallery.
        ============================================================ */
     var otdLoadedFor = "", otdItems = {};
+    // v34: "2026-10-12" (or a full ISO time) → Date, null when it isn't a date
+    function hyDateOf(v) {
+        if (!v) return null;
+        const d = String(v).length <= 10 ? new Date(v + "T00:00:00") : new Date(v);
+        return isNaN(d.getTime()) ? null : d;
+    }
+    function hyLongDate(v) { const d = hyDateOf(v); return d ? d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : String(v || ""); }
+    // a tiny calendar page showing the real day + month
+    function miniCal(v, cls) {
+        const d = hyDateOf(v);
+        if (!d) return "";
+        return `<span class="mini-cal${cls ? " " + cls : ""}" aria-hidden="true"><span class="mini-cal-m">${d.toLocaleDateString("en-GB", { month: "short" }).replace(".", "")}</span><span class="mini-cal-d">${d.getDate()}</span></span>`;
+    }
     function otdYmd(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
     function otdPast() {
         const now = new Date(), out = [];
@@ -10496,7 +10521,7 @@ function renderQuizScores() {
         const photo = (withPhotos && m.image) ? '<img class="pdfb-photo" src="' + m.image + '" alt=""/>' : "";
         return '<div class="pdfb-card">' +
             '<div class="pdfb-card-top"><span class="pdfb-tag">' + pdfWho(m.createdBy) + '</span>' +
-            '<span class="pdfb-date">📅 ' + esc(pdfDay(m.date || m.savedAt)) + '</span></div>' +
+            '<span class="pdfb-date">' + miniCal(m.date || m.savedAt, "mc-pdf") + esc(pdfDay(m.date || m.savedAt)) + '</span></div>' +
             (m.label ? '<div class="pdfb-title">' + esc(m.label) + '</div>' : '') +
             photo +
             (m.text ? '<div class="pdfb-text">' + esc(m.text) + '</div>' : '') +
