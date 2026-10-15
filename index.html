@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v28"/>
+    <meta name="app-version" content="v29"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -3241,11 +3241,139 @@
         .msg-voice { margin: 10px 0 4px; }
         .fl-voice { margin: 4px 0 12px; }
         .vb-has .voice-pill { flex: 1; justify-content: center; }
+        /* v29: our phones */
+        .dev-title { margin: 18px 0 8px; font-size: .85rem; font-weight: 700; color: #9b1c4a; letter-spacing: .5px; }
+        .dev-list { display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; text-align: left; }
+        .dev-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; background: rgba(255, 240, 248, .8); border: 1px solid rgba(255, 182, 210, .5); }
+        .dev-row .av { width: 30px; height: 30px; margin: 0; }
+        .dev-info { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+        .dev-info b { font-size: .82rem; color: #7a2545; }
+        .dev-info small { font-size: .7rem; color: #b07090; }
+        .dev-me { font-size: .65rem; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; padding: 1px 7px; border-radius: 10px; margin-left: 4px; }
+        .dev-del { background: none; border: none; cursor: pointer; font-size: .95rem; }
         .notif-av { position: relative; display: inline-block; line-height: 0; }
         .notif-type { position: absolute; right: -6px; bottom: -4px; font-size: .78rem; line-height: 1; background: #fff; border-radius: 50%; padding: 2px; box-shadow: 0 1px 4px rgba(0, 0, 0, .15); }
+
+        /* ============================================================
+           ===== v29 — photo theme, search, story in numbers, love =====
+           ============================================================ */
+        #hy-wallpaper { display: none; position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; pointer-events: none; filter: blur(var(--ct-blur, 0px)); transform: scale(1.04); }
+        #hy-wallpaper::after { content: ""; position: absolute; inset: 0; background: rgba(255, 255, 255, var(--ct-dim, .45)); }
+        body[data-theme="custom"] #hy-wallpaper { display: block; }
+        body[data-theme="custom"] { background: #f7f2f4 !important; }
+        .theme-card-custom { background: linear-gradient(135deg, #fdf2f7, #f2e6ff); color: #5a1a35; }
+        .theme-card-custom-thumb { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .55; }
+        .theme-card-custom .theme-emoji, .theme-card-custom .theme-name { position: relative; text-shadow: 0 1px 6px rgba(255, 255, 255, .9); }
+        .ct-modal { max-height: 92vh; overflow-y: auto; }
+        .ct-preview { position: relative; height: 190px; border-radius: 18px; margin: 6px 0 14px; background: rgba(255, 228, 240, .7) center/cover no-repeat; border: 2px dashed rgba(224, 127, 160, .7); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; }
+        .ct-preview.has { border-style: solid; }
+        .ct-veil { position: absolute; inset: 0; }
+        .ct-pick { color: #c0396b; font-size: .9rem; letter-spacing: .5px; line-height: 1.8; }
+        .ct-change { position: absolute; bottom: 10px; right: 10px; background: rgba(255, 255, 255, .92); color: #7a2545; font-size: .75rem; padding: 5px 12px; border-radius: 50px; }
+        .ct-label { font-size: .78rem; color: #9b1c4a; font-weight: 700; letter-spacing: .4px; margin: 10px 0 6px; text-align: left; }
+        .ct-swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+        .ct-sw { width: 38px; height: 38px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .18); cursor: pointer; }
+        .ct-sw.on { outline: 3px solid #5a1a35; outline-offset: 2px; }
+        .ct-sw-rose { background: linear-gradient(135deg, #e07fa0, #c0396b); font-size: 1rem; }
+        #ct-controls input[type=range] { width: 100%; accent-color: #c0396b; }
+        .ct-modal .pdf-go-btn { margin-top: 14px; }
+
+        /* top bar buttons (phone) */
+        .m-top-btn { display: none; }
+        .love-btn { margin: 4px auto 14px; display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px; border-radius: 50px; border: none; background: linear-gradient(135deg, #ff8fb1, #e0457b); color: #fff; font-size: .9rem; font-family: 'Lato', sans-serif; letter-spacing: .5px; cursor: pointer; box-shadow: 0 6px 18px rgba(224, 69, 123, .35); }
+        .love-btn:active { transform: scale(.95); }
+        .nav-search { background: rgba(255, 255, 255, .6); }
+        @media (max-width: 820px) {
+            .m-topbar { justify-content: flex-start !important; padding-left: 60px; }
+            .m-title { font-size: 1.35rem !important; white-space: nowrap; }
+            .badge-name { display: none; }
+            .current-user-badge { padding: 3px !important; border-radius: 50% !important; }
+            .current-user-badge .av-badge { margin: 0 !important; width: 34px; height: 34px; }
+            .m-top-btn { display: flex; position: fixed; top: calc(7px + env(safe-area-inset-top)); z-index: 260; width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(255, 182, 210, .6); background: rgba(255, 255, 255, .95); align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+            #m-search { right: 106px; }
+            #m-love { right: 58px; }
+            .m-love:active { transform: scale(.88); }
+        }
+
+        /* hearts */
+        .love-burst { position: fixed; inset: 0; pointer-events: none; z-index: 19000; overflow: hidden; }
+        .love-burst span { position: absolute; bottom: -60px; animation: loveUp 3.2s cubic-bezier(.2, .6, .3, 1) forwards; }
+        @keyframes loveUp { 0% { transform: translateY(0) scale(.6) rotate(0); opacity: 0; } 12% { opacity: 1; } 100% { transform: translateY(-112vh) scale(1.2) rotate(25deg); opacity: 0; } }
+        .love-card { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 22px 30px; border-radius: 26px; background: rgba(255, 255, 255, .95); box-shadow: 0 20px 60px rgba(192, 57, 107, .35); animation: loveCard 4.2s ease forwards; }
+        .love-card b { font-family: 'Great Vibes', cursive; font-size: 2rem; color: #c0396b; font-weight: 400; }
+        .love-card span { color: #7a2545; font-size: .95rem; }
+        @keyframes loveCard { 0% { opacity: 0; transform: translate(-50%, -40%) scale(.8); } 12%, 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -60%) scale(.95); } }
+
+        /* search */
+        .search-overlay { display: none; position: fixed; inset: 0; z-index: 9995; background: rgba(255, 248, 251, .985); flex-direction: column; }
+        .search-overlay.open { display: flex; animation: fadeIn .15s ease; }
+        .search-bar { display: flex; align-items: center; gap: 8px; padding: 10px 12px; padding-top: calc(10px + env(safe-area-inset-top)); border-bottom: 1px solid rgba(255, 182, 210, .6); background: #fff; }
+        .search-bar input { flex: 1; border: none; outline: none; font-size: 1rem; font-family: 'Lato', sans-serif; padding: 10px 6px; background: transparent; color: #5a1a35; }
+        .search-x { border: none; background: rgba(255, 214, 232, .7); width: 36px; height: 36px; border-radius: 50%; color: #9b1c4a; cursor: pointer; }
+        .search-results { flex: 1; overflow-y: auto; padding: 10px 12px calc(20px + env(safe-area-inset-bottom)); }
+        .sr-empty { text-align: center; color: #b07090; font-size: .88rem; margin-top: 40px; line-height: 1.6; padding: 0 20px; }
+        .sr-group { margin-bottom: 16px; }
+        .sr-head { font-size: .78rem; font-weight: 700; color: #9b1c4a; letter-spacing: 1px; text-transform: uppercase; margin: 6px 4px 8px; }
+        .sr-head span { background: rgba(224, 127, 160, .2); border-radius: 10px; padding: 1px 8px; margin-left: 4px; }
+        .sr-item { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px; margin-bottom: 6px; border-radius: 14px; border: 1px solid rgba(255, 182, 210, .5); background: #fff; cursor: pointer; font-family: 'Lato', sans-serif; }
+        .sr-item img { width: 48px; height: 48px; object-fit: cover; border-radius: 10px; flex: none; }
+        .sr-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .sr-txt b { color: #7a2545; font-size: .9rem; overflow: hidden; text-overflow: ellipsis; }
+        .sr-txt small { color: #a0556e; font-size: .78rem; line-height: 1.4; }
+        .sr-item mark { background: rgba(255, 214, 102, .7); color: inherit; border-radius: 3px; padding: 0 1px; }
+
+        /* story in numbers */
+        .wr-overlay { display: none; position: fixed; inset: 0; z-index: 10400; color: #fff; user-select: none; -webkit-user-select: none; transition: background .5s; }
+        .wr-overlay.open { display: block; }
+        .wr-g1, .wr-g12 { background: linear-gradient(160deg, #c0396b, #6a1b4d); }
+        .wr-g2 { background: linear-gradient(160deg, #e0457b, #8e2453); }
+        .wr-g3, .wr-g4 { background: linear-gradient(160deg, #7b4fa5, #c0396b); }
+        .wr-g5, .wr-g6 { background: linear-gradient(160deg, #1f3c5a, #c0396b); }
+        .wr-g7 { background: linear-gradient(160deg, #e86a2c, #b0204f); }
+        .wr-g8 { background: linear-gradient(160deg, #157a6e, #2d6e8c); }
+        .wr-g9 { background: linear-gradient(160deg, #9b1c4a, #e07fa0); }
+        .wr-g10 { background: linear-gradient(160deg, #3b2a8c, #7b4fa5); }
+        .wr-g11 { background: linear-gradient(160deg, #b8860b, #c0396b); }
+        .wr-bars { position: absolute; top: calc(10px + env(safe-area-inset-top)); left: 10px; right: 10px; display: flex; gap: 4px; z-index: 2; }
+        .wr-bars span { flex: 1; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .35); overflow: hidden; }
+        .wr-bars span i { display: block; height: 100%; width: 0; background: #fff; }
+        .wr-bars span.done i { width: 100%; }
+        .wr-bars span.now i { animation: wrBar 6s linear forwards; }
+        @keyframes wrBar { to { width: 100%; } }
+        .wr-close { position: absolute; top: calc(22px + env(safe-area-inset-top)); right: 12px; z-index: 3; width: 40px; height: 40px; border-radius: 50%; border: none; background: rgba(255, 255, 255, .2); color: #fff; font-size: 1.1rem; cursor: pointer; }
+        .wr-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 70px 24px 40px; }
+        .wr-slide { width: min(460px, 100%); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; animation: wrIn .5s ease; }
+        @keyframes wrIn { from { opacity: 0; transform: translateY(24px) scale(.97); } to { opacity: 1; transform: none; } }
+        .wr-slide h1 { font-family: 'Great Vibes', cursive; font-size: 3rem; font-weight: 400; margin: 4px 0; line-height: 1.1; }
+        .wr-kicker { font-size: .8rem; letter-spacing: 3px; text-transform: uppercase; opacity: .85; }
+        .wr-big { font-size: 5rem; font-weight: 700; line-height: 1; letter-spacing: -1px; text-shadow: 0 6px 30px rgba(0, 0, 0, .25); }
+        .wr-big-txt { font-size: 2.6rem; }
+        .wr-sub { font-size: 1.25rem; letter-spacing: .5px; }
+        .wr-p { font-size: .95rem; opacity: .9; margin: 4px 0; line-height: 1.5; }
+        .wr-strong { font-size: 1.15rem; font-weight: 700; opacity: 1; }
+        .wr-emoji { font-size: 3.4rem; }
+        .wr-pulse { animation: pulse 1.2s infinite; }
+        .wr-avs { display: flex; gap: 0; }
+        .wr-av { width: 78px; height: 78px; border: 3px solid #fff; margin: 0 -8px; }
+        .wr-av-sm { width: 30px; height: 30px; border-width: 2px; }
+        .wr-split { display: flex; gap: 22px; font-size: 1.1rem; margin-top: 6px; }
+        .wr-row { display: flex; gap: 30px; justify-content: center; }
+        .wr-photo { width: min(260px, 70vw); max-height: 42vh; object-fit: cover; border-radius: 20px; border: 4px solid #fff; box-shadow: 0 18px 50px rgba(0, 0, 0, .35); }
+        .wr-photo-big { width: min(320px, 82vw); max-height: 55vh; }
+        .wr-collage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: min(330px, 86vw); margin: 8px 0; }
+        .wr-collage img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; border: 2px solid rgba(255, 255, 255, .8); }
+        .wr-list { display: flex; flex-direction: column; gap: 6px; font-size: 1.05rem; margin-top: 6px; }
+        .wr-periods { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+        .wr-chip { padding: 7px 14px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, .6); background: rgba(255, 255, 255, .12); color: #fff; font-size: .8rem; font-family: 'Lato', sans-serif; cursor: pointer; }
+        .wr-chip.on { background: #fff; color: #9b1c4a; font-weight: 700; }
+        .wr-hint { margin-top: 18px; font-size: .78rem; opacity: .75; letter-spacing: 1px; }
+        .wr-actions { display: flex; gap: 10px; margin-top: 14px; }
+        .wr-btn { padding: 10px 20px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, .7); background: rgba(255, 255, 255, .12); color: #fff; font-size: .9rem; font-family: 'Lato', sans-serif; cursor: pointer; }
+        .wr-btn-on { background: #fff; color: #9b1c4a; font-weight: 700; }
     </style>
 </head>
 <body>
+<div id="hy-wallpaper"></div>
 <!-- ===== PIN LOCK (shown until the right PIN is entered) ===== -->
 <div class="pin-overlay" id="pin-overlay">
     <div class="pin-modal" id="pin-modal">
@@ -3326,6 +3454,8 @@
             <button class="sec-btn" onclick="startChangePin()">🔑 Change the PIN</button>
             <button class="sec-btn" onclick="lockAppNow()">🔒 Lock the app now</button>
         </div>
+        <div class="dev-title">📱 Our phones</div>
+        <div class="dev-list" id="dev-list"><p class="sec-note">Loading…</p></div>
         <p class="sec-note">The PIN is asked every time the app opens 🔒<br>Changing it will ask every device for the new one 💕</p>
     </div>
 </div>
@@ -3397,8 +3527,51 @@
                 <span class="theme-emoji">🌙</span>
                 <span class="theme-name">Midnight</span>
             </div>
+            <div class="theme-card theme-card-custom" data-theme="custom" onclick="openCustomTheme()">
+                <div class="theme-card-custom-thumb" id="theme-card-custom-thumb"></div>
+                <div class="theme-check">✓</div>
+                <span class="theme-emoji">📷</span>
+                <span class="theme-name">My photo</span>
+            </div>
         </div>
     </div>
+</div>
+
+<!-- ===== MY PHOTO THEME (v29) ===== -->
+<div class="theme-modal-overlay" id="ct-modal-overlay">
+    <div class="theme-modal ct-modal">
+        <h2>My Photo Theme 📷</h2>
+        <p>Your photo as wallpaper — the app takes its colours 💕</p>
+        <div class="ct-preview" id="ct-preview" onclick="ctPickPhoto()"></div>
+        <div id="ct-controls" style="display:none">
+            <div class="ct-label">🎨 App colour (taken from your photo)</div>
+            <div class="ct-swatches" id="ct-swatches"></div>
+            <div class="ct-label">☁️ Soften the photo</div>
+            <input type="range" id="ct-dim" min="0" max="85" value="45" oninput="ctSlider('dim', this.value)"/>
+            <div class="ct-label">💧 Blur</div>
+            <input type="range" id="ct-blur" min="0" max="12" value="0" oninput="ctSlider('blur', this.value)"/>
+        </div>
+        <button class="pdf-go-btn" onclick="closeCustomTheme()">✓ Done</button>
+        <p class="pdf-hint">The photo stays on this phone only — each of you can choose your own 💕</p>
+    </div>
+</div>
+<input type="file" id="ct-file" accept="image/*" style="display:none" onchange="ctHandleFile(event)"/>
+
+<!-- ===== SEARCH (v29) ===== -->
+<div class="search-overlay" id="search-overlay">
+    <div class="search-bar">
+        <span>🔍</span>
+        <input type="search" id="search-input" placeholder="Search our memories, letters, photos…" autocomplete="off" oninput="searchTyped()"/>
+        <button class="search-x" onclick="closeSearch()" aria-label="Close">✕</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+</div>
+
+<!-- ===== OUR STORY IN NUMBERS (v29) ===== -->
+<div class="wr-overlay" id="wr-overlay">
+    <div class="wr-bars" id="wr-bars"></div>
+    <button class="wr-close" onclick="event.stopPropagation();closeWrapped()" aria-label="Close">✕</button>
+    <div class="wr-stage" id="wr-stage"></div>
 </div>
 
 <!-- IDENTITY MODAL -->
@@ -3446,10 +3619,14 @@
     <button class="nav-btn" id="nav-quiz" onclick="showPage('quiz',this)">❓ Quiz</button>
     <button class="nav-btn" id="nav-games" onclick="showPage('games',this)">🎮 Games</button>
     <button class="nav-btn" id="nav-story" onclick="showPage('story',this)">👩‍❤️‍👨 Our Story</button>
+    <button class="nav-btn nav-search" id="nav-search" onclick="openSearch()">🔍 Search</button>
 </nav>
 
 <!-- ===== PHONE LAYOUT (v27): slim top bar + tabs at the bottom + "More" sheet ===== -->
-<div class="m-topbar" id="m-topbar"><span class="m-title">Hamdi &amp; Yossr</span></div>
+<div class="m-topbar" id="m-topbar"><span class="m-title">Hamdi &amp; Yossr</span>
+    <button class="m-top-btn" id="m-search" onclick="openSearch()" aria-label="Search">🔍</button>
+    <button class="m-top-btn m-love" id="m-love" onclick="sendThinking()" aria-label="Thinking of you">💕</button>
+</div>
 <div class="m-tabs" id="m-tabs">
     <button class="m-tab active" id="mtab-home" onclick="showPage('home')"><span class="m-ic">🏠</span><span class="m-lb">Home</span></button>
     <button class="m-tab" id="mtab-memories" onclick="showPage('memories')"><span class="m-ic">💌</span><span class="m-lb">Memories</span></button>
@@ -3471,7 +3648,8 @@
         </div>
         <div class="more-rows">
             <button class="more-row" onclick="moreThen('profile')"><span class="more-row-av" id="more-me-av"></span>My profile &amp; photo</button>
-            <button class="more-row" onclick="moreThen('theme')">🎨 Theme</button>
+            <button class="more-row" onclick="moreThen('wrapped')">✨ Our story in numbers</button>
+            <button class="more-row" onclick="moreThen('theme')">🎨 Theme &amp; my photo wallpaper</button>
             <button class="more-row" onclick="moreThen('security')">🔐 Security &amp; PIN</button>
             <button class="more-row" onclick="moreThen('book')">📖 Our memory book (PDF)</button>
             <button class="more-row" id="more-install" style="display:none" onclick="moreThen('install')">📲 Install the app</button>
@@ -3491,12 +3669,20 @@
             <h3>💕 Together Since</h3>
             <p class="rel-since">15 August 2025</p>
             <div class="rel-human" id="rel-human"></div>
+            <button class="love-btn" onclick="sendThinking()">💕 Thinking of you</button>
             <div class="rel-stats">
                 <div class="stat-block"><span class="snum" id="rel-days">0</span><span class="slbl">Days</span></div>
                 <div class="stat-block"><span class="snum" id="rel-hours">0</span><span class="slbl">Hours</span></div>
                 <div class="stat-block"><span class="snum" id="rel-mins">0</span><span class="slbl">Minutes</span></div>
                 <div class="stat-block"><span class="snum" id="rel-secs">0</span><span class="slbl">Seconds</span></div>
             </div>
+        </div>
+        <!-- v29: our story in numbers -->
+        <div class="card wr-card">
+            <div class="icon">✨</div>
+            <h2>Our Story in Numbers</h2>
+            <p class="event-date">Replay our year together</p>
+            <button class="book-btn" onclick="openWrapped()">▶️ Play our story</button>
         </div>
         <!-- v27: On this day -->
         <div class="card otd-card" id="otd-card" style="display:none">
@@ -4396,7 +4582,7 @@
     function showIdentityModal() { document.getElementById("identity-overlay").style.display = "flex"; }
     function updateBadge() {
         const badge = document.getElementById("current-user-badge");
-        if (currentUser) { badge.style.display = "block"; badge.innerHTML = avName(currentUser, "av-badge"); }
+        if (currentUser) { badge.style.display = "block"; badge.innerHTML = av(currentUser, "av-badge") + `<span class="badge-name"> ${personName(currentUser)}</span>`; }
         else { badge.style.display = "none"; }
     }
     window.setIdentity = function(who) {
@@ -4604,6 +4790,41 @@
         return h;
     }
 
+    /* --- v29: only our phones may open our data ---
+       The right PIN registers this phone on the server (api/unlock.js → devices/{uid}).
+       The Firestore rules then refuse every phone that is not registered. */
+    const UNLOCK_ENDPOINT = PUSH_ENDPOINT.replace(/\/send$/, "/unlock");
+    const DEV_OK_KEY = "hy-dev-ok";
+    let pinServerMode = false;     // true = this phone is not registered yet (Firestore refused it)
+    function deviceLabel() {
+        const ua = navigator.userAgent || "";
+        const os = /iPhone|iPad/.test(ua) ? "iPhone" : /Android/.test(ua) ? "Android" : /Windows/.test(ua) ? "Windows" : /Mac OS/.test(ua) ? "Mac" : /Linux/.test(ua) ? "Linux" : "Device";
+        const br = /Edg\//.test(ua) ? "Edge" : /SamsungBrowser/.test(ua) ? "Samsung Internet" : /Firefox\//.test(ua) ? "Firefox" : /Chrome\//.test(ua) ? "Chrome" : /Safari\//.test(ua) ? "Safari" : "Browser";
+        const app = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) ? " · app" : "";
+        return os + " · " + br + app;
+    }
+    async function callUnlock(pin) {
+        if (!hyAuth || !hyAuth.currentUser) throw new Error("not signed in to Firebase — check your internet");
+        const token = await hyAuth.currentUser.getIdToken();
+        const r = await fetch(UNLOCK_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+            body: JSON.stringify({ pin, who: currentUser || "", device: deviceLabel() })
+        });
+        let body = {};
+        try { body = await r.json(); } catch (e) {}
+        return { status: r.status, body };
+    }
+    // registered phones are remembered, so this runs only once per phone
+    async function registerDeviceInBackground(pin) {
+        try {
+            const uid = hyAuth && hyAuth.currentUser && hyAuth.currentUser.uid;
+            if (!uid || localStorage.getItem(DEV_OK_KEY) === uid) return;
+            const r = await callUnlock(pin);
+            if (r.status === 200) localStorage.setItem(DEV_OK_KEY, uid);
+        } catch (e) { /* offline: retried at the next unlock */ }
+    }
+
     /* --- keypad --- */
     window.pinPress = function(key) {
         if (pinBusy) return;
@@ -4627,9 +4848,31 @@
                 pinEl("pin-sub").textContent = "Saving…";
                 await savePinHash(pin);
                 clearTries();
+                registerDeviceInBackground(pin);
                 pinError("PIN created 💕", true);
                 setTimeout(hidePinOverlay, 600);
                 pinBusy = false; return;
+            }
+            if (pinMode === "unlock" && pinServerMode) {
+                pinEl("pin-sub").textContent = "Checking… 🔐";
+                let r;
+                try { r = await callUnlock(pin); }
+                catch (e) { pinBusy = false; pinBuffer = ""; renderPinDots(); setPinMode("unlock"); pinEl("pin-sub").textContent = NEW_PHONE_SUB; pinError("No connection — try again 📶"); return; }
+                if (r.status === 200 && r.body.ok) {
+                    pinHashRemote = r.body.pinHash || null;
+                    try { if (pinHashRemote) localStorage.setItem(PIN_HASH_KEY, pinHashRemote); localStorage.setItem(DEV_OK_KEY, hyAuth.currentUser.uid); } catch (e2) {}
+                    if (pinHashRemote) writeUnlockToken(pinHashRemote);
+                    clearTries();
+                    pinError("This phone is now one of ours 💕", true);
+                    setTimeout(() => location.reload(), 900);   // reopen everything with access
+                    return;
+                }
+                pinBusy = false; pinBuffer = ""; renderPinDots();
+                pinEl("pin-sub").textContent = NEW_PHONE_SUB;
+                if (r.status === 429) pinError(`Too many wrong PINs — try again in ${r.body.retryInMin || 60} min ⏳`);
+                else if (r.status === 403) pinError(`Wrong PIN 💔${typeof r.body.left === "number" ? ` — ${r.body.left} left this hour` : ""}`);
+                else pinError("Can't check the PIN right now 😕 (" + r.status + ")");
+                return;
             }
             if (pinMode === "unlock" || pinMode === "current") {
                 const h = await hashPin(pin);
@@ -4639,6 +4882,7 @@
                 clearTries();
                 if (pinMode === "current") { pinBusy = false; setPinMode("new"); return; }
                 writeUnlockToken(h);
+                registerDeviceInBackground(pin);
                 pinError("Welcome back 💕", true);
                 setTimeout(hidePinOverlay, 400);
                 pinBusy = false; return;
@@ -4671,6 +4915,31 @@
     /* --- security modal --- */
     window.openSecurityModal = function() {
         document.getElementById("security-modal-overlay").classList.add("open");
+        renderDevices();
+    };
+    // v29: the phones allowed to open our data (they typed the PIN once)
+    async function renderDevices() {
+        const box = document.getElementById("dev-list");
+        if (!box) return;
+        try {
+            const snap = await getDocs(collection(db, "devices"));
+            const me = hyAuth && hyAuth.currentUser && hyAuth.currentUser.uid;
+            const list = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => String(b.lastSeen || "").localeCompare(String(a.lastSeen || "")));
+            if (!list.length) { box.innerHTML = '<p class="sec-note">No phone registered yet — they register when the PIN is typed 🔐</p>'; return; }
+            box.innerHTML = list.map(d => {
+                const when = d.lastSeen ? new Date(d.lastSeen).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : "";
+                const who = d.who === "hamdi" || d.who === "yossr" ? av(d.who) : "📱";
+                return `<div class="dev-row">${who}<div class="dev-info"><b>${esc(d.device || "Phone")}${d.id === me ? ' <span class="dev-me">this phone</span>' : ""}</b><small>last unlocked ${when}</small></div><button class="dev-del" onclick="removeDevice('${d.id}')" title="Remove">🗑️</button></div>`;
+            }).join("");
+        } catch (e) {
+            box.innerHTML = '<p class="sec-note">Can\'t load the list right now 📶</p>';
+        }
+    }
+    window.removeDevice = async function(id) {
+        const me = hyAuth && hyAuth.currentUser && hyAuth.currentUser.uid;
+        if (!confirm(id === me ? "Remove THIS phone? It will ask for the PIN again to come back." : "Remove this phone? It won't be able to open our app any more (until the PIN is typed on it again).")) return;
+        try { await deleteDoc(doc(db, "devices", id)); if (id === me) localStorage.removeItem(DEV_OK_KEY); } catch (e) { alert("Error: " + e.message); }
+        renderDevices();
     };
     window.closeSecurityModal = function() {
         document.getElementById("security-modal-overlay").classList.remove("open");
@@ -4703,6 +4972,15 @@
     });
 
     /* --- startup --- */
+    const NEW_PHONE_SUB = "New phone 📱 — type our PIN to add it";
+    const isDenied = e => !!e && (e.code === "permission-denied" || /permission/i.test(String(e.message || "")));
+    function enterNewPhoneMode() {
+        pinServerMode = true;
+        try { localStorage.removeItem(DEV_OK_KEY); } catch (e) {}
+        setPinMode("unlock");
+        pinEl("pin-sub").textContent = NEW_PHONE_SUB;
+        showPinOverlay();
+    }
     async function initPinLock() {
         buildPinKeypad();
         renderPinDots();
@@ -4720,7 +4998,10 @@
                     setPinMode("unlock");
                     showPinOverlay();
                 }
-            } catch (e) { /* offline: stay unlocked for this session */ }
+            } catch (e) {
+                if (isDenied(e)) { clearUnlockToken(); enterNewPhoneMode(); }   // this phone was removed
+                /* offline: stay unlocked for this session */
+            }
             return;
         }
         if (!window.crypto || !crypto.subtle) { pinFatal("This app must be opened over https 🔒"); return; }
@@ -4729,6 +5010,7 @@
             pinHashRemote = snap.exists() ? (snap.data().pinHash || null) : null;
             if (pinHashRemote) { try { localStorage.setItem(PIN_HASH_KEY, pinHashRemote); } catch (e2) {} }
         } catch (e) {
+            if (isDenied(e)) { enterNewPhoneMode(); if (pinCooldownLeft() > 0) startCooldownTicker(); return; }
             // Offline: fall back to the hash cached on this device
             try { pinHashRemote = localStorage.getItem(PIN_HASH_KEY); } catch (e2) { pinHashRemote = null; }
             if (!pinHashRemote) { pinFatal("Connect to the internet once to unlock 💕"); return; }
@@ -4758,6 +5040,7 @@
     };
 
     window.setTheme = function(themeName) {
+        if (themeName !== "custom" && typeof ctDisable === "function") ctDisable();
         document.body.setAttribute("data-theme", themeName);
         localStorage.setItem(THEME_KEY, themeName);
         document.querySelectorAll(".theme-card").forEach(c => {
@@ -4781,6 +5064,7 @@
         allNotifications = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         renderNotifications();
         updateNavBadges();
+        checkIncomingLove();
     });
 
     function renderNotifications() {
@@ -4818,7 +5102,7 @@
             memory: '💌', gallery: '📸', scratch: '🎴', quiz: '❓',
             checklist: '✅', places: '🗺️', special: '🗓️',
             quiz_answer: '💬', quiz_comment: '💭', letters: '✉️',
-            games: '🎮', profile: '📸'
+            games: '🎮', profile: '📸', thinking: '💕', love: '💕', security: '🔐'
         };
         return icons[type] || '🔔';
     }
@@ -4871,6 +5155,7 @@
     window.openNotifTarget = function(page, itemId, kind) {
         if (!page || !document.getElementById("page-" + page)) return;
         showPage(page);
+        if (kind === "thinking") { setTimeout(() => loveBurst(26, currentUser === "hamdi" ? "yossr" : "hamdi"), 350); return; }
         if (!itemId && !kind) return;
         const me = currentUser || "hamdi";
         const sel = v => String(v).replace(/["\\]/g, "\\$&");
@@ -5092,6 +5377,7 @@
             else if (what === "theme") openThemeModal();
             else if (what === "security") openSecurityModal();
             else if (what === "book") openExportModal();
+            else if (what === "wrapped") openWrapped();
             else if (what === "install" && window.installPWA) window.installPWA();
         }, 60);
     };
@@ -5125,6 +5411,9 @@
         ["security-modal-overlay",() => closeSecurityModal()],
         ["profile-modal-overlay", () => closeProfileModal()],
         ["more-overlay",          () => closeMoreSheet()],
+        ["search-overlay",        () => closeSearch()],
+        ["wr-overlay",            () => closeWrapped()],
+        ["ct-modal-overlay",      () => closeCustomTheme()],
         ["export-modal-overlay",  () => closeExportModal()],
         ["cat-modal-overlay",     () => closeCategoryModal()],
         ["idea-lightbox",         () => closeIdeaLightbox()],
@@ -5647,7 +5936,7 @@
             const st = opts.state || {};
             const o = PE_RATIOS.find(x => x.key === (st.ratioKey || opts.ratioKey)) || PE_RATIOS[0];
             pe = { src: opts.src, maxSide: opts.maxSide || PE_MAX_SIDE, resolve, rot: st.rot || 0,
-                   z: 1, cx: 0, cy: 0, FW: 0, FH: 0, cv: null, busy: true, ratioKey: o.key, ratio: o.r };
+                   z: 1, cx: 0, cy: 0, FW: 0, FH: 0, cv: null, busy: true, ratioKey: o.key, ratio: opts.ratio || o.r };
             const session = pe;
             pe.lockRatio = !!opts.lockRatio;
             ptEl("pe-overlay").classList.toggle("pe-round", !!opts.round);
@@ -6910,6 +7199,8 @@
         if (clRemindersDone) return;
         if (!currentUser) return;          // wait until we know who is using the app
         clRemindersDone = true;
+        // v29: the server (api/remind) sends them every morning, even with the app closed → no double
+        try { const f = await getDoc(doc(db, "settings", "reminders")); if (f.exists() && f.data().lastDaily) return; } catch (e) {}
         const today = localToday();
         const key = "hy-cl-reminded";
         let seen = [];
@@ -10603,6 +10894,518 @@ function renderQuizScores() {
             btn.textContent = "📖 Create the PDF";
         }
     };
+
+    /* ============================================================
+       ===== v29 — THINKING OF YOU 💕 =====
+       One tap → the other one gets a notification, and hearts on screen.
+       ============================================================ */
+    let loveLastSent = 0;
+    window.sendThinking = async function() {
+        if (!currentUser) { showIdentityModal(); return; }
+        if (Date.now() - loveLastSent < 8000) { clToast("Already sent — wait a few seconds 💕"); return; }
+        loveLastSent = Date.now();
+        const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+        loveBurst(14);
+        clToast(`💕 Sent to ${personName(partner)}`);
+        await createNotification("thinking", `${personName(currentUser)} is thinking of you 💕`, partner, "home", null, "thinking");
+    };
+    function loveBurst(n, fromWho) {
+        const box = document.createElement("div");
+        box.className = "love-burst";
+        const hearts = ["💕", "❤️", "💖", "💗", "🥰", "💘", "🩷"];
+        for (let i = 0; i < n; i++) {
+            const s = document.createElement("span");
+            s.textContent = hearts[i % hearts.length];
+            s.style.left = (4 + Math.random() * 92) + "vw";
+            s.style.animationDelay = (Math.random() * 0.9).toFixed(2) + "s";
+            s.style.fontSize = (1.3 + Math.random() * 1.9).toFixed(2) + "rem";
+            box.appendChild(s);
+        }
+        if (fromWho) {
+            const c = document.createElement("div");
+            c.className = "love-card";
+            c.innerHTML = `${av(fromWho, "av-xl")}<b>${personName(fromWho)}</b><span>is thinking of you 💕</span>`;
+            box.appendChild(c);
+        }
+        document.body.appendChild(box);
+        setTimeout(() => box.remove(), 4300);
+    }
+    window.loveBurst = loveBurst;
+    // received while the app is open (or just opened) → hearts on screen
+    const loveSeen = new Set();
+    function checkIncomingLove() {
+        if (!currentUser) return;
+        const fresh = allNotifications.filter(n => n.type === "thinking" && n.targetUser === currentUser && !n.read && !loveSeen.has(n.id)
+            && Date.now() - new Date(n.createdAt).getTime() < 3 * 60000);
+        if (!fresh.length) return;
+        fresh.forEach(n => loveSeen.add(n.id));
+        const show = () => {
+            loveBurst(26, fresh[0].createdBy === "hamdi" || fresh[0].createdBy === "yossr" ? fresh[0].createdBy : null);
+            fresh.forEach(n => updateDoc(doc(db, "notifications", n.id), { read: true }).catch(() => {}));
+        };
+        const pin = document.getElementById("pin-overlay");
+        if (pin && !pin.classList.contains("hidden")) {
+            const t = setInterval(() => { if (pin.classList.contains("hidden")) { clearInterval(t); show(); } }, 500);
+        } else show();
+    }
+
+    /* ============================================================
+       ===== v29 — OUR STORY IN NUMBERS (stories, like "Wrapped") =====
+       ============================================================ */
+    let wr = null;
+    function wrPeriods() {
+        const now = new Date();
+        const out = [];
+        for (let y = 0; y < 60; y++) {
+            const from = new Date(relStart.getFullYear() + y, relStart.getMonth(), relStart.getDate());
+            if (from > now) break;
+            const to = new Date(relStart.getFullYear() + y + 1, relStart.getMonth(), relStart.getDate());
+            out.push({ key: "y" + (y + 1), label: to > now ? `✨ Year ${y + 1} (so far)` : `💞 Year ${y + 1}`, from, to, year: y + 1 });
+        }
+        out.push({ key: "all", label: "♾️ All our story", from: new Date(2000, 0, 1), to: new Date(2100, 0, 1) });
+        return out;
+    }
+    const wrDay = d => d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+    function wrBuild(p, periods) {
+        const now = new Date();
+        const inP = v => { if (!v) return false; const t = new Date(v.length === 10 ? v + "T12:00:00" : v).getTime(); return t >= p.from.getTime() && t < p.to.getTime(); };
+        const S = [];
+        const add = (cls, html) => S.push({ cls, html });
+        const realFrom = p.key === "all" ? relStart : p.from;
+        const realTo = p.to > now ? now : p.to;
+
+        add("wr-g1", `<div class="wr-avs">${av("hamdi", "wr-av")}${av("yossr", "wr-av")}</div>
+            <div class="wr-kicker">Hamdi &amp; Yossr</div>
+            <h1>${p.key === "all" ? "Our story" : "Our year " + p.year}</h1>
+            <p class="wr-p">${wrDay(realFrom)} → ${wrDay(realTo)}</p>
+            <div class="wr-periods">${periods.map(x => `<button class="wr-chip${x.key === p.key ? " on" : ""}" onclick="event.stopPropagation();openWrapped('${x.key}')">${x.label}</button>`).join("")}</div>
+            <div class="wr-hint">Tap to continue ›</div>`);
+
+        const daysTogether = Math.max(0, Math.floor((realTo - relStart) / 86400000));
+        add("wr-g2", `<div class="wr-kicker">Together for</div><div class="wr-big">${daysTogether.toLocaleString("en-US")}</div>
+            <div class="wr-sub">days 💕</div><p class="wr-p">That's ${(daysTogether * 24).toLocaleString("en-US")} hours of us</p>`);
+
+        const mems = allMemories.filter(m => inP(m.date || m.savedAt));
+        if (mems.length) {
+            const by = u => mems.filter(m => (m.createdBy || "hamdi") === u).length;
+            const voices = mems.filter(m => m.voice).length;
+            const comments = mems.reduce((t, m) => t + (m.comments || []).length, 0);
+            add("wr-g3", `<div class="wr-kicker">We saved</div><div class="wr-big">${mems.length}</div><div class="wr-sub">memories 💌</div>
+                <div class="wr-split"><span>${av("hamdi", "wr-av-sm")} ${by("hamdi")}</span><span>${av("yossr", "wr-av-sm")} ${by("yossr")}</span></div>
+                <p class="wr-p">${comments ? `💬 ${comments} comments` : ""}${comments && voices ? " · " : ""}${voices ? `🎤 ${voices} voice messages` : ""}</p>`);
+            const first = mems.slice().sort((a, b) => String(a.date || a.savedAt).localeCompare(String(b.date || b.savedAt)))[0];
+            if (first) add("wr-g4", `<div class="wr-kicker">It started with</div>${first.image ? `<img class="wr-photo" src="${first.image}" alt=""/>` : `<div class="wr-emoji">💌</div>`}
+                <div class="wr-sub">${esc(first.label || "a memory")}</div><p class="wr-p">${first.date ? wrDay(new Date(first.date + "T12:00:00")) : ""}</p>`);
+        }
+
+        const photos = galleryAllPhotos.filter(g => inP(g.addedAt));
+        if (photos.length) {
+            const both = photos.filter(g => g.fav && g.fav.hamdi && g.fav.yossr);
+            const pick = photos.slice().sort(() => Math.random() - .5).slice(0, 6);
+            add("wr-g5", `<div class="wr-kicker">We captured</div><div class="wr-big">${photos.length}</div><div class="wr-sub">photos 📸</div>
+                <div class="wr-collage">${pick.map(g => `<img src="${g.image}" alt=""/>`).join("")}</div>
+                ${both.length ? `<p class="wr-p">💖 ${both.length} loved by both of us</p>` : ""}`);
+            const fav = both[0] || photos.find(g => photoFavs(g).length) || null;
+            if (fav) add("wr-g6", `<div class="wr-kicker">Our favourite photo</div><img class="wr-photo wr-photo-big" src="${fav.image}" alt=""/>
+                <div class="wr-sub">${esc(fav.caption || fav.album || "💖")}</div>`);
+        }
+
+        const months = {};
+        mems.forEach(m => { const k = String(m.date || m.savedAt || "").slice(0, 7); if (k) months[k] = (months[k] || 0) + 1; });
+        photos.forEach(g => { const k = String(g.addedAt || "").slice(0, 7); if (k) months[k] = (months[k] || 0) + 1; });
+        const top = Object.entries(months).sort((a, b) => b[1] - a[1])[0];
+        if (top && top[1] > 1) {
+            const name = new Date(top[0] + "-15T12:00:00").toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+            add("wr-g7", `<div class="wr-kicker">Our busiest month</div><div class="wr-emoji">🔥</div><div class="wr-big wr-big-txt">${name}</div>
+                <p class="wr-p">${top[1]} memories &amp; photos</p>`);
+        }
+
+        const places = placesData.filter(pl => inP(pl.addedAt));
+        const pPics = placePhotos.filter(ph => inP(ph.addedAt));
+        if (places.length) add("wr-g8", `<div class="wr-kicker">We discovered</div><div class="wr-big">${places.length}</div><div class="wr-sub">places 🗺️</div>
+            <div class="wr-list">${places.slice(-5).reverse().map(pl => `<span>${esc(pl.emoji || "📍")} ${esc(pl.name)}</span>`).join("")}</div>
+            ${pPics.length ? `<p class="wr-p">📷 ${pPics.length} photos there</p>` : ""}`);
+
+        const letters = allLetters.filter(l => inP(l.createdAt));
+        const cards = scratchCardsData.filter(c => inP(c.sentAt));
+        if (letters.length || cards.length) add("wr-g9", `<div class="wr-kicker">Little surprises</div>
+            <div class="wr-row">${letters.length ? `<div><div class="wr-big">${letters.length}</div><div class="wr-sub">letters ✉️</div></div>` : ""}
+            ${cards.length ? `<div><div class="wr-big">${cards.length}</div><div class="wr-sub">secret cards 🎴</div></div>` : ""}</div>
+            ${letters.filter(l => l.unlocked).length ? `<p class="wr-p">💌 ${letters.filter(l => l.unlocked).length} already opened</p>` : ""}`);
+
+        const games = (tttHistory || []).filter(g => inP(g.finishedAt));
+        const qs = allQuizQuestions.filter(q => inP(q.createdAt));
+        if (games.length || qs.length) {
+            const w = u => games.filter(g => g.winner === u).length;
+            add("wr-g10", `<div class="wr-kicker">Playing together</div>
+                ${games.length ? `<div class="wr-big">${games.length}</div><div class="wr-sub">Tic Tac Toe games 🎯</div>
+                <div class="wr-split"><span>${av("hamdi", "wr-av-sm")} ${w("hamdi")} wins</span><span>${av("yossr", "wr-av-sm")} ${w("yossr")} wins</span></div>` : ""}
+                ${qs.length ? `<p class="wr-p">❓ ${qs.length} quiz questions about each other</p>` : ""}`);
+        }
+
+        const done = checklistData.filter(t => (t.status || "") === "done" && inP(t.updatedAt || t.createdAt));
+        const paid = checklistData.reduce((t, task) => t + (task.payments || []).filter(pm => inP(pm.date)).reduce((s, pm) => s + (Number(pm.amount) || 0), 0), 0);
+        const toWedding = Math.ceil((wedTarget - now) / 86400000);
+        if (done.length || paid || toWedding > 0) add("wr-g11", `<div class="wr-kicker">Our wedding 💍</div>
+            ${done.length ? `<div class="wr-big">${done.length}</div><div class="wr-sub">tasks done ✅</div>` : ""}
+            ${paid ? `<p class="wr-p">💰 ${clMoney(paid)} paid</p>` : ""}
+            ${toWedding > 0 ? `<p class="wr-p wr-strong">👰🤵 ${toWedding} days to go</p>` : `<p class="wr-p wr-strong">👰🤵 Married 💕</p>`}`);
+
+        add("wr-g12", `<div class="wr-avs">${av("hamdi", "wr-av")}${av("yossr", "wr-av")}</div><h1>To many more chapters</h1><div class="wr-emoji">💍</div>
+            <div class="wr-actions"><button class="wr-btn" onclick="event.stopPropagation();wrGo(0)">↻ Replay</button><button class="wr-btn wr-btn-on" onclick="event.stopPropagation();closeWrapped()">💕 Close</button></div>`);
+        return S;
+    }
+    const WR_SLIDE_MS = 6000;
+    function wrRender() {
+        if (!wr) return;
+        const ov = ptEl("wr-overlay");
+        const s = wr.slides[wr.i];
+        ov.className = "wr-overlay open " + s.cls;
+        ptEl("wr-bars").innerHTML = wr.slides.map((_, k) => `<span class="${k < wr.i ? "done" : k === wr.i ? "now" : ""}"><i></i></span>`).join("");
+        const st = ptEl("wr-stage");
+        st.innerHTML = `<div class="wr-slide">${s.html}</div>`;
+        clearTimeout(wr.timer);
+        if (wr.i < wr.slides.length - 1) wr.timer = setTimeout(() => wrGo(wr.i + 1), WR_SLIDE_MS);
+    }
+    window.wrGo = function(i) { if (!wr) return; wr.i = Math.max(0, Math.min(wr.slides.length - 1, i)); wrRender(); };
+    window.openWrapped = async function(periodKey) {
+        const ov = ptEl("wr-overlay");
+        ov.className = "wr-overlay open wr-g1";
+        document.body.style.overflow = "hidden";
+        ptEl("wr-bars").innerHTML = "";
+        ptEl("wr-stage").innerHTML = `<div class="wr-slide"><div class="wr-emoji wr-pulse">✨</div><div class="wr-sub">Gathering our memories…</div></div>`;
+        await Promise.race([Promise.all([ensureMemories(), ensureGallery(), ensurePlacePhotos()]), new Promise(r => setTimeout(r, 12000))]);
+        if (!ov.classList.contains("open")) return;
+        const periods = wrPeriods();
+        const p = periods.find(x => x.key === periodKey) || periods[periods.length - 2] || periods[0];
+        if (wr) clearTimeout(wr.timer);
+        wr = { slides: wrBuild(p, periods), i: 0, timer: null };
+        wrRender();
+    };
+    window.closeWrapped = function() {
+        if (wr) clearTimeout(wr.timer);
+        wr = null;
+        ptEl("wr-overlay").className = "wr-overlay";
+        ptRestoreScroll();
+    };
+    (function wrWire() {
+        const ov = ptEl("wr-overlay");
+        if (!ov) return;
+        let downAt = 0;
+        ov.addEventListener("pointerdown", () => { downAt = Date.now(); if (wr) clearTimeout(wr.timer); });
+        ov.addEventListener("pointerup", e => {
+            if (!wr || e.target.closest("button")) return;
+            if (Date.now() - downAt > 450) { wrRender(); return; }      // long press = pause, release = continue
+            if (e.clientX < window.innerWidth * 0.3) wrGo(wr.i - 1); else wrGo(wr.i + 1);
+        });
+    })();
+
+    /* ============================================================
+       ===== v29 — SEARCH EVERYWHERE 🔍 =====
+       ============================================================ */
+    const srNorm = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    let srTimer = null;
+    window.openSearch = function() {
+        ptEl("search-overlay").classList.add("open");
+        document.body.style.overflow = "hidden";
+        ensureMemories(); ensureGallery(); ensureTaskIdeas();
+        const inp = ptEl("search-input");
+        setTimeout(() => inp.focus(), 60);
+        runSearch();
+    };
+    window.closeSearch = function() {
+        ptEl("search-overlay").classList.remove("open");
+        document.body.style.overflow = "";
+    };
+    window.searchTyped = function() { clearTimeout(srTimer); srTimer = setTimeout(runSearch, 180); };
+    function srSnippet(text, q, len) {
+        text = String(text || "");
+        const i = srNorm(text).indexOf(q);
+        if (i < 0) return esc(text.slice(0, len)) + (text.length > len ? "…" : "");
+        const start = Math.max(0, i - Math.floor(len / 3));
+        const part = text.slice(start, start + len);
+        const j = i - start;
+        return (start > 0 ? "…" : "") + esc(part.slice(0, j)) + "<mark>" + esc(part.slice(j, j + q.length)) + "</mark>" + esc(part.slice(j + q.length)) + (start + len < text.length ? "…" : "");
+    }
+    function runSearch() {
+        const box = ptEl("search-results");
+        const raw = ptEl("search-input").value.trim();
+        const q = srNorm(raw);
+        if (q.length < 2) { box.innerHTML = `<p class="sr-empty">Type at least 2 letters — memories, letters, photos, places, tasks… 🔍</p>`; return; }
+        const me = currentUser || "hamdi";
+        const has = (...vals) => vals.some(v => srNorm(v).includes(q));
+        const groups = [];
+        const group = (icon, title, items) => { if (items.length) groups.push({ icon, title, items }); };
+        const pick = (...vals) => vals.find(v => v && srNorm(v).includes(q)) || vals.find(Boolean) || "";
+
+        group("💌", "Memories", allMemories.filter(m => has(m.label, m.text, m.date)).map(m => ({
+            page: "memories", id: m.id, img: m.image, title: m.label || "Memory", sub: srSnippet(pick(m.text, m.label, m.date), q, 90), date: m.date })));
+        group("✉️", "Letters", allLetters.filter(l => {
+            const canRead = l.from === me || (l.to === me && Date.now() >= letterUnlockMs(l));
+            return has(l.title, l.occasion) || (canRead && has(l.content));
+        }).map(l => {
+            const canRead = l.from === me || (l.to === me && Date.now() >= letterUnlockMs(l));
+            return { page: "letters", id: l.id, title: l.title || "Letter", sub: canRead ? srSnippet(pick(l.content, l.occasion), q, 90) : "🔒 sealed until " + wrDay(letterUnlockDate(l)) };
+        }));
+        group("📸", "Photos", galleryAllPhotos.filter(g => has(g.caption, g.album)).map(g => ({
+            page: "gallery", id: g.id, kind: "photo", img: g.image, title: g.caption || g.album || "Photo", sub: srSnippet(pick(g.caption, g.album), q, 60) })));
+        group("🗺️", "Places", placesData.filter(p => has(p.name, p.desc)).map(p => ({
+            page: "places", id: p.id, title: (p.emoji || "📍") + " " + (p.name || "Place"), sub: srSnippet(pick(p.desc, p.name), q, 80) })));
+        group("✅", "Checklist", checklistData.filter(t => has(t.text, t.vendorName, ...(t.comments || []).map(c => c.text), ...(t.subtasks || []).map(x => x.text))).map(t => ({
+            page: "checklist", id: t.id, title: t.text || "Task", sub: srSnippet(pick(t.text, t.vendorName, ...(t.comments || []).map(c => c.text), ...(t.subtasks || []).map(x => x.text)), q, 80) })));
+        group("🗓️", "Special dates", loadEvents().filter(e => has(e.name, e.date)).map(e => ({
+            page: "special", id: e.id, title: (e.emoji || "🗓️") + " " + e.name, sub: e.date })));
+        group("❓", "Quiz", allQuizQuestions.filter(x => has(x.question)).map(x => ({
+            page: "quiz", id: x.id, kind: x.about === me ? "add" : "answer", title: x.question, sub: "About " + personName(x.about) })));
+        group("🎴", "Scratch cards", scratchCardsData.filter(c => (c.from === me || c.revealed) && has(c.message)).map(c => ({
+            page: "scratch", id: c.id, title: (c.emoji || "🎴") + " " + (c.from === me ? "To " : "From ") + personName(c.from === me ? c.to : c.from), sub: srSnippet(c.message, q, 80) })));
+
+        if (!groups.length) { box.innerHTML = `<p class="sr-empty">Nothing found for “${esc(raw)}” 🌸</p>`; return; }
+        box.innerHTML = groups.map(g => `<div class="sr-group"><div class="sr-head">${g.icon} ${g.title} <span>${g.items.length}</span></div>${g.items.slice(0, 25).map(it =>
+            `<button class="sr-item" onclick="searchOpen('${it.page}','${esc(it.id || "")}','${it.kind || ""}')">${it.img ? `<img src="${it.img}" alt=""/>` : ""}<span class="sr-txt"><b>${srSnippet(it.title, q, 70)}</b><small>${it.sub || ""}</small></span></button>`).join("")}</div>`).join("");
+    }
+    window.searchOpen = function(page, id, kind) {
+        closeSearch();
+        setTimeout(() => openNotifTarget(page, id || null, kind || null), 80);
+    };
+
+    /* ============================================================
+       ===== v29 — MY PHOTO THEME 📷 =====
+       A photo as the app's wallpaper (like WhatsApp), and all the app's
+       pinks turn into the photo's colour. Kept on this phone only.
+       ============================================================ */
+    const CT_KEY = "hy-custom-theme";
+    const CT_BASE_HUE = 338;                      // the hue of our rose theme (#c0396b)
+    let ctState = null, ctObserver = null, ctWallUrl = null;
+    function ctRead() { try { return JSON.parse(localStorage.getItem(CT_KEY) || "null"); } catch (e) { return null; } }
+    function ctWrite(st) {
+        try { localStorage.setItem(CT_KEY, JSON.stringify(st)); return true; }
+        catch (e) { alert("This photo is too big to keep on the phone 😕 — try another one."); return false; }
+    }
+    function ctParse(t) {
+        let m;
+        if ((m = /^#([0-9a-f]{3})$/i.exec(t))) return [...m[1]].map(x => parseInt(x + x, 16)).concat(1);
+        if ((m = /^#([0-9a-f]{6})$/i.exec(t))) return [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)).concat(1);
+        if ((m = /^rgba?\(([^)]*)\)$/i.exec(t))) {
+            const p = m[1].split(/[\s,\/]+/).filter(Boolean).map(Number);
+            if (p.length < 3 || p.some(isNaN)) return null;
+            return [p[0], p[1], p[2], p.length > 3 ? p[3] : 1];
+        }
+        return null;
+    }
+    function rgb2hsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2;
+        if (mx === mn) return [0, 0, l];
+        const d = mx - mn, s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn);
+        let h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+        return [h * 60, s, l];
+    }
+    function hsl2rgb(h, s, l) {
+        h = ((h % 360) + 360) % 360 / 360;
+        if (s === 0) { const v = Math.round(l * 255); return [v, v, v]; }
+        const q = l < .5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+        const f = t => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < .5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; };
+        return [f(h + 1 / 3), f(h), f(h - 1 / 3)].map(v => Math.round(v * 255));
+    }
+    const CT_COLOR_RE = /#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b|rgba?\([^)]*\)/g;
+    function ctMapColor(tok, st) {
+        const c = ctParse(tok);
+        if (!c) return tok;
+        const [h, s, l] = rgb2hsl(c[0], c[1], c[2]);
+        if (s < 0.12 || !(h >= 285 || h <= 30)) return tok;          // only our pinks / roses change
+        const [r, g, b] = hsl2rgb(h - CT_BASE_HUE + st.hue, Math.min(1, s * st.sat), l);
+        return c[3] < 1 ? `rgba(${r}, ${g}, ${b}, ${c[3]})` : `rgb(${r}, ${g}, ${b})`;
+    }
+    const ctRecolor = (text, st) => String(text).replace(CT_COLOR_RE, t => ctMapColor(t, st));
+    function ctPrefix(sel) {
+        return sel.split(/,(?![^(]*\))/).map(x => {
+            x = x.trim();
+            if (!x) return null;
+            if (/^(html|:root)\b/.test(x)) return null;
+            if (/^body\b/.test(x)) return x.replace(/^body/, 'body[data-theme="custom"]');
+            return 'body[data-theme="custom"] ' + x;
+        }).filter(Boolean).join(", ");
+    }
+    function ctRules(rules, st) {
+        let out = "";
+        for (const r of rules) {
+            if (r.type === 1) {
+                if (!r.selectorText || r.selectorText.includes("data-theme")) continue;
+                const decls = [];
+                for (let i = 0; i < r.style.length; i++) {
+                    const prop = r.style[i], val = r.style.getPropertyValue(prop);
+                    if (!val || !/#|rgb/i.test(val)) continue;
+                    const nv = ctRecolor(val, st);
+                    if (nv !== val) decls.push(`${prop}: ${nv} !important`);
+                }
+                const sel = decls.length && ctPrefix(r.selectorText);
+                if (sel) out += `${sel} { ${decls.join("; ")} }\n`;
+            } else if (r.type === 4 && r.cssRules) {
+                const inner = ctRules(r.cssRules, st);
+                if (inner) out += `@media ${r.conditionText || r.media.mediaText} {\n${inner}}\n`;
+            }
+        }
+        return out;
+    }
+    function ctRecolorInline(root, st) {
+        if (!root || root.nodeType !== 1) return;
+        const list = (root.hasAttribute("style") ? [root] : []).concat([...root.querySelectorAll("[style]")]);
+        list.forEach(el => {
+            if (el.closest("#hy-wallpaper, .pe-overlay, .zv-overlay, .wr-overlay")) return;
+            const orig = el.dataset.ctOrig != null ? el.dataset.ctOrig : el.getAttribute("style");
+            if (!orig || !/#|rgb/i.test(orig)) return;
+            const nv = ctRecolor(orig, st);
+            if (nv !== orig) { el.dataset.ctOrig = orig; el.setAttribute("style", nv); }
+        });
+    }
+    function ctRestoreInline() {
+        document.querySelectorAll("[data-ct-orig]").forEach(el => { el.setAttribute("style", el.dataset.ctOrig); delete el.dataset.ctOrig; });
+    }
+    function ctAccent(st) { const [r, g, b] = hsl2rgb(st.hue, Math.min(1, 0.55 * st.sat), 0.49); return `rgb(${r}, ${g}, ${b})`; }
+    function ctApply(st) {
+        let tag = document.getElementById("hy-ct-style");
+        if (!tag) { tag = document.createElement("style"); tag.id = "hy-ct-style"; document.head.appendChild(tag); }
+        const key = st.hue + "|" + st.sat;
+        if (tag.dataset.key !== key) {
+            tag.textContent = "";
+            let css = "";
+            for (const sh of document.styleSheets) {
+                if (sh.ownerNode === tag) continue;
+                let rules = null;
+                try { rules = sh.cssRules; } catch (e) { continue; }          // other websites' styles (map) can't be read
+                if (rules) css += ctRules(rules, st);
+            }
+            tag.textContent = css;
+            tag.dataset.key = key;
+        }
+        const wp = document.getElementById("hy-wallpaper");
+        if (ctWallUrl) { try { URL.revokeObjectURL(ctWallUrl); } catch (e) {} ctWallUrl = null; }
+        if (st.img) { ctWallUrl = avBlobUrl(st.img); wp.style.backgroundImage = `url("${ctWallUrl}")`; }
+        else wp.style.backgroundImage = "none";
+        wp.style.setProperty("--ct-dim", String(st.dim));
+        wp.style.setProperty("--ct-blur", (st.blur || 0) + "px");
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", ctAccent(st));
+        ctRestoreInline();
+        ctRecolorInline(document.body, st);
+        if (!ctObserver) {
+            ctObserver = new MutationObserver(muts => {
+                if (!ctState || document.body.getAttribute("data-theme") !== "custom") return;
+                muts.forEach(m => m.addedNodes.forEach(n => ctRecolorInline(n, ctState)));
+            });
+            ctObserver.observe(document.body, { childList: true, subtree: true });
+        }
+    }
+    function ctDisable() {
+        const tag = document.getElementById("hy-ct-style");
+        if (tag) { tag.textContent = ""; tag.dataset.key = ""; }
+        ctRestoreInline();
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", "#c0396b");
+    }
+    function ctExtract(img) {
+        const c = document.createElement("canvas");
+        c.width = c.height = 48;
+        const x = c.getContext("2d");
+        x.drawImage(img, 0, 0, 48, 48);
+        const d = x.getImageData(0, 0, 48, 48).data;
+        const bins = new Array(36).fill(0), sats = new Array(36).fill(0);
+        for (let i = 0; i < d.length; i += 4) {
+            const [h, s, l] = rgb2hsl(d[i], d[i + 1], d[i + 2]);
+            if (s < 0.15 || l < 0.1 || l > 0.93) continue;
+            const w = s * (1 - Math.abs(l - 0.5) * 1.5);
+            if (w <= 0) continue;
+            const b = Math.floor(h / 10) % 36;
+            bins[b] += w; sats[b] += s * w;
+        }
+        const picks = [];
+        bins.map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]).forEach(([v, i]) => {
+            if (v <= 0 || picks.length >= 5) return;
+            const hue = i * 10 + 5;
+            if (picks.some(p => Math.min(Math.abs(p.hue - hue), 360 - Math.abs(p.hue - hue)) < 28)) return;
+            picks.push({ hue, sat: Math.max(0.45, Math.min(1.15, (sats[i] / v) / 0.6)) });
+        });
+        if (!picks.length) picks.push({ hue: CT_BASE_HUE, sat: 0.25 });   // black & white photo → soft greys
+        return picks;
+    }
+    function ctRenderPanel() {
+        const st = ctState;
+        const prev = ptEl("ct-preview");
+        if (st && st.img) { prev.style.backgroundImage = `url("${ctWallUrl || st.img}")`; prev.classList.add("has"); prev.innerHTML = `<span class="ct-veil" style="background:rgba(255,255,255,${st.dim})"></span><span class="ct-change">📷 Change photo</span>`; }
+        else { prev.style.backgroundImage = ""; prev.classList.remove("has"); prev.innerHTML = `<span class="ct-pick">📷<br>Choose a photo</span>`; }
+        const sw = ptEl("ct-swatches");
+        const list = (st && st.swatches) || [];
+        sw.innerHTML = list.length ? list.map((p, i) => {
+            const [r, g, b] = hsl2rgb(p.hue, Math.min(1, 0.55 * p.sat), 0.49);
+            const on = st && Math.round(st.hue) === Math.round(p.hue);
+            return `<button class="ct-sw${on ? " on" : ""}" style="background:rgb(${r},${g},${b})" onclick="ctPickSwatch(${i})" aria-label="Colour ${i + 1}"></button>`;
+        }).join("") + `<button class="ct-sw ct-sw-rose${st && st.hue === CT_BASE_HUE && st.sat === 1 ? " on" : ""}" onclick="ctPickSwatch(-1)" title="Our rose pink">🌸</button>` : "";
+        ptEl("ct-controls").style.display = st && st.img ? "" : "none";
+        if (st) { ptEl("ct-dim").value = Math.round(st.dim * 100); ptEl("ct-blur").value = st.blur || 0; }
+    }
+    window.openCustomTheme = function() {
+        closeThemeModal();
+        ctState = ctState || ctRead();
+        setTimeout(() => { ctRenderPanel(); ptEl("ct-modal-overlay").classList.add("open"); }, 60);
+    };
+    window.closeCustomTheme = function() { ptEl("ct-modal-overlay").classList.remove("open"); };
+    window.ctPickPhoto = function() { const f = ptEl("ct-file"); f.value = ""; f.click(); };
+    window.ctHandleFile = async function(e) {
+        const file = e.target.files && e.target.files[0];
+        e.target.value = "";
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        const ratio = Math.max(0.4, Math.min(2.5, window.innerWidth / window.innerHeight));
+        const res = await openPhotoEditor({ src: url, ratio, lockRatio: true, maxSide: 1440, title: "Your wallpaper", okLabel: "✓ Use" });
+        URL.revokeObjectURL(url);
+        if (!res) return;
+        const img = await peLoadImage(res.b64);
+        const swatches = ctExtract(img);
+        const next = { img: res.b64, hue: swatches[0].hue, sat: swatches[0].sat, dim: ctState ? ctState.dim : 0.45, blur: ctState ? (ctState.blur || 0) : 0, swatches };
+        if (!ctWrite(next)) return;
+        ctState = next;
+        useCustomTheme();
+        ctRenderPanel();
+    };
+    window.ctPickSwatch = function(i) {
+        if (!ctState) return;
+        if (i < 0) { ctState.hue = CT_BASE_HUE; ctState.sat = 1; }
+        else { ctState.hue = ctState.swatches[i].hue; ctState.sat = ctState.swatches[i].sat; }
+        ctWrite(ctState);
+        useCustomTheme();
+        ctRenderPanel();
+    };
+    window.ctSlider = function(which, v) {
+        if (!ctState) return;
+        if (which === "dim") ctState.dim = Number(v) / 100; else ctState.blur = Number(v);
+        const wp = document.getElementById("hy-wallpaper");
+        wp.style.setProperty("--ct-dim", String(ctState.dim));
+        wp.style.setProperty("--ct-blur", (ctState.blur || 0) + "px");
+        const veil = document.querySelector("#ct-preview .ct-veil");
+        if (veil) veil.style.background = `rgba(255,255,255,${ctState.dim})`;
+        clearTimeout(ctSlider.t);
+        ctSlider.t = setTimeout(() => ctWrite(ctState), 300);
+    };
+    function useCustomTheme() {
+        if (!ctState) return;
+        document.body.setAttribute("data-theme", "custom");
+        localStorage.setItem(THEME_KEY, "custom");
+        ctApply(ctState);
+        document.querySelectorAll(".theme-card").forEach(c => c.classList.toggle("selected", c.dataset.theme === "custom"));
+        const thumb = document.getElementById("theme-card-custom-thumb");
+        if (thumb && ctWallUrl) thumb.style.backgroundImage = `url("${ctWallUrl}")`;
+    }
+    // start with the photo theme if it was chosen last time
+    (function ctBoot() {
+        const saved = ctRead();
+        if (saved && saved.img) {
+            const thumb = document.getElementById("theme-card-custom-thumb");
+            if (thumb) thumb.style.backgroundImage = `url("${saved.img}")`;
+        }
+        if (localStorage.getItem(THEME_KEY) === "custom") {
+            if (saved && saved.img) { ctState = saved; useCustomTheme(); }
+            else { document.body.setAttribute("data-theme", "rose"); localStorage.setItem(THEME_KEY, "rose"); }
+        }
+    })();
 
     /* ===== PARTICLES ===== */
     const emojis=["❤️","🩷","💕","🤍","🥰","😍","⭐️","🌹","🌸","💐","🦋"];const pc=document.getElementById("particles");
