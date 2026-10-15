@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v23"/>
+    <meta name="app-version" content="v24"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -616,7 +616,7 @@
 
         /* ===== PIN LOCK ===== */
         .pin-overlay {
-            position: fixed; inset: 0; z-index: 10001;
+            position: fixed; inset: 0; z-index: 20000;
             background: linear-gradient(160deg, rgba(90, 26, 53, .78), rgba(192, 57, 107, .58));
             backdrop-filter: blur(18px);
             display: flex; align-items: center; justify-content: center; padding: 20px;
@@ -1222,7 +1222,8 @@
         .img-upload-zone.has-img { border-style: solid; border-color: #e07fa0; padding: 10px; }
         .zone-preview { max-width: 100%; max-height: 200px; border-radius: 10px; display: none; margin: 0 auto; }
         .zone-clear-btn { display: none; margin: 6px auto 0; background: none; border: none; color: #c0396b; font-size: .8rem; cursor: pointer; letter-spacing: 1px; }
-        .msg-img { width: 100%; border-radius: 12px; margin-bottom: 12px; max-height: 280px; object-fit: cover; display: block; }
+        /* v24: the whole photo is shown, as framed when it was added (no more cropping to 280px) */
+        .msg-img { display: block; width: auto; height: auto; max-width: 100%; max-height: 80vh; margin: 0 auto 12px; border-radius: 12px; object-fit: contain; cursor: zoom-in; }
         .msg-delete, .msg-edit { background: none; border: none; color: #d080a0; font-size: 1rem; cursor: pointer; transition: color .2s; padding: 2px 6px; }
         .msg-delete:hover, .msg-edit:hover { color: #c0396b; }
         .edit-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
@@ -3058,6 +3059,80 @@
                 width: 100% !important;
             }
         }
+
+        /* ============================================================
+           ===== v24 — PHOTOS: framing editor, zoom viewer, masonry =====
+           ============================================================ */
+        /* memory form: adjust / remove buttons side by side */
+        .zone-clear-btn { margin: 8px 4px 0; }
+        .zone-adjust-btn { display: none; margin: 8px 4px 0; padding: 6px 14px; background: rgba(255, 214, 232, .75); border: 1px solid rgba(255, 182, 210, .8); border-radius: 50px; color: #9b1c4a; font-size: .8rem; font-family: 'Lato', sans-serif; letter-spacing: .5px; cursor: pointer; transition: background .2s; }
+        .zone-adjust-btn:hover { background: rgba(255, 182, 210, .7); }
+
+        /* gallery grid: every photo keeps its shape (masonry) */
+        .photo-grid.masonry { grid-auto-rows: 4px; row-gap: 0; }
+        .photo-grid.masonry .photo-item { aspect-ratio: auto; margin-bottom: 14px; grid-row-end: span 48; }
+        @media (max-width: 500px) { .photo-grid.masonry .photo-item { margin-bottom: 10px; } }
+
+        /* gallery: photos waiting to be saved */
+        .gal-multi-item .gmi-img { aspect-ratio: 1; background: rgba(255, 228, 240, .9); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .gal-multi-item .gmi-img img { width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; }
+        .gal-multi-adjust { position: absolute; top: 5px; left: 5px; background: rgba(255, 255, 255, .94); border: none; border-radius: 50px; padding: 4px 10px; font-size: .72rem; font-family: 'Lato', sans-serif; color: #9b1c4a; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, .14); }
+        .gal-processing { grid-column: 1 / -1; text-align: center; color: #e07fa0; font-size: .88rem; padding: 14px; letter-spacing: 1px; animation: pulse 1.2s infinite; }
+
+        /* gallery: rename / delete the open album */
+        .alb-bar { display: none; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: -8px 0 20px; }
+        .alb-bar.show { display: flex; }
+        .alb-bar-name { width: 100%; text-align: center; font-size: .82rem; color: #9b1c4a; letter-spacing: .5px; font-weight: 700; }
+        .alb-bar-del, .alb-del-btn { color: #b0204f; }
+        .alb-del-btn { background: rgba(255, 214, 232, .7) !important; }
+
+        /* slideshow photo: swipe / tap to zoom */
+        #slideshow-img { cursor: zoom-in; touch-action: none; -webkit-user-drag: none; user-select: none; }
+
+        /* --- zoom viewer --- */
+        .zv-overlay { position: fixed; inset: 0; z-index: 10500; background: #0b0309; display: none; flex-direction: column; user-select: none; -webkit-user-select: none; }
+        .zv-overlay.open { display: flex; animation: fadeIn .2s ease; }
+        .zv-stage { flex: 1; min-height: 0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; touch-action: none; cursor: zoom-in; }
+        .zv-overlay.zoomed .zv-stage { cursor: grab; }
+        .zv-stage img { flex: none; max-width: none; max-height: none; border-radius: 8px; transform-origin: center center; will-change: transform; -webkit-user-drag: none; box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }
+        .zv-close { position: absolute; top: max(14px, env(safe-area-inset-top)); right: 16px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 182, 210, .35); color: #ffd6e8; font-size: 1.15rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .zv-bar { text-align: center; padding: 8px 16px 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+        .zv-cap { color: #ffd6e8; font-size: .92rem; letter-spacing: .5px; line-height: 1.5; min-height: 1.2em; }
+        .zv-tools { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 8px; }
+        .zv-hint { color: rgba(255, 182, 210, .6); font-size: .72rem; letter-spacing: .5px; }
+        .zv-btn { width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 182, 210, .3); color: #ffd6e8; font-size: .85rem; cursor: pointer; }
+
+        /* --- framing editor --- */
+        .pe-overlay { position: fixed; inset: 0; z-index: 10600; background: #140a12; display: none; flex-direction: column; color: #ffe3ef; font-family: 'Lato', sans-serif; user-select: none; -webkit-user-select: none; }
+        .pe-overlay.open { display: flex; animation: fadeIn .2s ease; }
+        .pe-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; padding-top: max(12px, env(safe-area-inset-top)); }
+        .pe-title { font-size: .92rem; letter-spacing: 1px; text-align: center; flex: 1; }
+        .pe-x, .pe-ok { border: none; border-radius: 50px; padding: 9px 15px; font-size: .85rem; font-family: inherit; cursor: pointer; white-space: nowrap; }
+        .pe-x { background: rgba(255, 255, 255, .1); color: #ffd6e8; }
+        .pe-ok { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; font-weight: 700; box-shadow: 0 4px 14px rgba(192, 57, 107, .35); }
+        .pe-stage { flex: 1; min-height: 0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; touch-action: none; cursor: grab; }
+        .pe-stage.dragging { cursor: grabbing; }
+        .pe-frame { position: relative; flex: none; }
+        .pe-frame canvas { position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; will-change: transform; }
+        .pe-frame::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; box-shadow: 0 0 0 100vmax rgba(20, 10, 18, .74); outline: 1.5px solid rgba(255, 255, 255, .9); }
+        .pe-grid { position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0; transition: opacity .2s;
+            background-image:
+                linear-gradient(to right, transparent calc(33.33% - .5px), rgba(255,255,255,.55) calc(33.33% - .5px), rgba(255,255,255,.55) calc(33.33% + .5px), transparent calc(33.33% + .5px), transparent calc(66.66% - .5px), rgba(255,255,255,.55) calc(66.66% - .5px), rgba(255,255,255,.55) calc(66.66% + .5px), transparent calc(66.66% + .5px)),
+                linear-gradient(to bottom, transparent calc(33.33% - .5px), rgba(255,255,255,.55) calc(33.33% - .5px), rgba(255,255,255,.55) calc(33.33% + .5px), transparent calc(33.33% + .5px), transparent calc(66.66% - .5px), rgba(255,255,255,.55) calc(66.66% - .5px), rgba(255,255,255,.55) calc(66.66% + .5px), transparent calc(66.66% + .5px)); }
+        .pe-stage.dragging .pe-grid { opacity: 1; }
+        .pe-loading { position: absolute; inset: 0; z-index: 4; display: flex; align-items: center; justify-content: center; color: #ffb6d2; letter-spacing: 1px; font-size: .9rem; background: #140a12; }
+        .pe-controls { padding: 10px 14px 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; align-items: center; }
+        .pe-hint { font-size: .72rem; color: #c99ab0; letter-spacing: .4px; text-align: center; line-height: 1.5; max-width: 420px; }
+        .pe-zoom-row { display: flex; align-items: center; gap: 10px; width: min(420px, 100%); color: #ffb6d2; font-size: .8rem; }
+        .pe-zoom-row input[type=range] { flex: 1; accent-color: #e07fa0; }
+        .pe-ratios { display: flex; gap: 8px; overflow-x: auto; max-width: 100%; padding: 2px 2px 4px; scrollbar-width: none; }
+        .pe-ratios::-webkit-scrollbar { display: none; }
+        .pe-ratio { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; min-width: 60px; height: 58px; padding: 7px 8px 6px; border-radius: 12px; border: 1px solid rgba(255, 182, 210, .25); background: rgba(255, 255, 255, .06); color: #ffd6e8; font-family: inherit; font-size: .72rem; letter-spacing: .3px; cursor: pointer; transition: background .2s; }
+        .pe-ratio .pe-shape { display: block; border: 1.5px solid currentColor; border-radius: 3px; }
+        .pe-ratio.on { background: linear-gradient(135deg, #e07fa0, #c0396b); border-color: transparent; color: #fff; }
+        .pe-tools { display: flex; gap: 8px; }
+        .pe-tool { padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255, 182, 210, .35); background: rgba(255, 255, 255, .08); color: #ffd6e8; font-size: .82rem; font-family: inherit; cursor: pointer; }
+        .pe-tool:hover, .pe-ratio:hover { background: rgba(255, 182, 210, .2); }
     </style>
 </head>
 <body>
@@ -3302,6 +3377,7 @@
             <div class="img-upload-zone" id="add-upload-zone" onclick="document.getElementById('add-file-input').click()">
                 <span id="add-upload-hint">📷 Click to add a photo (optional)</span>
                 <img class="zone-preview" id="add-img-preview" src="" alt="preview"/>
+                <button class="zone-adjust-btn" id="add-adjust-btn" onclick="adjustZone(event,'add')">✂️ Adjust framing</button>
                 <button class="zone-clear-btn" id="add-clear-btn" onclick="clearZone(event,'add')">✕ Remove photo</button>
             </div>
             <input type="file" id="add-file-input" accept="image/*" style="display:none" onchange="handleZoneFile(event,'add')"/>
@@ -3496,6 +3572,7 @@
             <button class="gal-tool-btn" onclick="openAlbumsModal()">🏷️ Manage albums</button>
         </div>
         <div class="album-tabs" id="album-tabs"><button class="album-tab active" onclick="filterAlbum('all', this)">🌸 All</button></div>
+        <div class="alb-bar" id="alb-bar"></div>
         <div class="photo-grid" id="gallery-grid"><p class="gallery-loading-state">💕 Loading photos...</p></div>
     </div>
 </div>
@@ -3519,10 +3596,48 @@
         <button class="sl-player-btn" id="sl-speed-btn" onclick="cycleSlideDelay()">⏱️ 4s</button>
         <button class="sl-player-btn" id="sl-music-btn" onclick="toggleSlideMusic()">🎵 Music off</button>
         <button class="sl-player-btn" onclick="pickSlideMusic()">📁 My song</button>
+        <button class="sl-player-btn" onclick="openSlideZoom()">🔍 Zoom</button>
+        <button class="sl-player-btn" onclick="adjustSlidePhoto()">✂️ Adjust</button>
         <div class="sl-music-name" id="sl-music-name"></div>
     </div>
 </div>
 <input type="file" id="sl-music-file" accept="audio/*" style="display:none" onchange="handleSlideMusicFile(event)"/>
+
+<!-- ===== PHOTO ZOOM VIEWER (v24) ===== -->
+<div class="zv-overlay" id="zv-overlay">
+    <button class="zv-close" onclick="closeZoomViewer()" aria-label="Close">✕</button>
+    <div class="zv-stage" id="zv-stage"><img id="zv-img" src="" alt="" draggable="false"/></div>
+    <div class="zv-bar">
+        <div class="zv-cap" id="zv-cap"></div>
+        <div class="zv-tools">
+            <button class="zv-btn" onclick="zvStep(1/1.6)" aria-label="Zoom out">➖</button>
+            <span class="zv-hint">Pinch or double-tap to zoom</span>
+            <button class="zv-btn" onclick="zvStep(1.6)" aria-label="Zoom in">➕</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== PHOTO FRAMING EDITOR (v24) ===== -->
+<div class="pe-overlay" id="pe-overlay">
+    <div class="pe-head">
+        <button class="pe-x" onclick="peCancel()">✕ Cancel</button>
+        <span class="pe-title" id="pe-title">Frame your photo</span>
+        <button class="pe-ok" id="pe-ok" onclick="peConfirm()">✓ Done</button>
+    </div>
+    <div class="pe-stage" id="pe-stage">
+        <div class="pe-frame" id="pe-frame"><div class="pe-grid"></div></div>
+        <div class="pe-loading" id="pe-loading">📷 Opening the photo…</div>
+    </div>
+    <div class="pe-controls">
+        <div class="pe-hint">Drag to move · pinch or slide to zoom — what's inside the frame is what will be shown</div>
+        <div class="pe-zoom-row"><span>➖</span><input type="range" id="pe-zoom" min="1" max="5" step="0.01" value="1" aria-label="Zoom"/><span>➕</span></div>
+        <div class="pe-ratios" id="pe-ratios"></div>
+        <div class="pe-tools">
+            <button class="pe-tool" onclick="peRotate()">↻ Rotate</button>
+            <button class="pe-tool" onclick="peReset()">⟲ Reset</button>
+        </div>
+    </div>
+</div>
 
 <!-- ===== ALBUMS MODAL ===== -->
 <div class="theme-modal-overlay" id="albums-modal-overlay">
@@ -3899,7 +4014,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script type="module">
     import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import {getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, getDoc, deleteField}
+    import {getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, orderBy, getDoc, deleteField, writeBatch}
         from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
     const app = initializeApp({
@@ -4480,16 +4595,118 @@
         updateNavBadges();
     });
 
-    /* ===== NAV ===== */
-    window.showPage = function(id, btn) {
+    /* ============================================================
+       ===== NAV (v24 — the phone's ◁ back button) =====
+       Every page change and every window that opens (photo zoom,
+       editor, slideshow, modals…) adds a step to the history, so
+       ◁ closes the window / goes back to the previous page instead
+       of leaving the app. On Home with nothing open, ◁ leaves.
+       ============================================================ */
+    let navCurrentPage = "home";
+    let navCurId = (history.state && typeof history.state.hyId === "number") ? history.state.hyId : 0;
+    let navSeq = navCurId;
+    const navOpen = [];   // windows open right now: { el, entryId }
+    try { history.replaceState({ hyId: navCurId, hyPage: "home" }, ""); } catch (e) {}
+
+    function activatePage(id) {
+        const pg = document.getElementById('page-' + id);
+        if (!pg) return false;
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('page-' + id).classList.add('active');
-        btn.classList.add('active');
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        pg.classList.add('active');
+        const b = document.getElementById('nav-' + id);
+        if (b) b.classList.add('active');
+        navCurrentPage = id;
         if (id === 'places') setTimeout(() => initOurPlacesMap(), 120);
         if (id === 'quiz') renderQuizScores();
+        if (id === 'gallery') requestAnimationFrame(galFitAll);
+        return true;
+    }
+    function navPush(extra) {
+        navSeq = Math.max(navSeq, navCurId) + 1;
+        navCurId = navSeq;
+        try { history.pushState(Object.assign({ hyId: navSeq, hyPage: navCurrentPage }, extra || {}), ""); } catch (e) {}
+    }
+    window.showPage = function(id, btn) {
+        if (!document.getElementById('page-' + id)) return;
+        if (id !== navCurrentPage) {
+            // remember where we were on this page, for when we come back
+            try { history.replaceState(Object.assign({}, history.state, { hyScroll: window.scrollY }), ""); } catch (e) {}
+            activatePage(id);
+            navPush({ hyPage: id });
+        } else {
+            activatePage(id);
+        }
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
+
+    // Windows that ◁ should close (id → how to close it properly)
+    const NAV_OVERLAYS = [
+        ["pe-overlay",            () => peCancel()],
+        ["zv-overlay",            () => closeZoomViewer()],
+        ["slideshow-overlay",     () => closeSlideshow()],
+        ["albums-modal-overlay",  () => closeAlbumsModal()],
+        ["theme-modal-overlay",   () => closeThemeModal()],
+        ["security-modal-overlay",() => closeSecurityModal()],
+        ["export-modal-overlay",  () => closeExportModal()],
+        ["cat-modal-overlay",     () => closeCategoryModal()],
+        ["idea-lightbox",         () => closeIdeaLightbox()],
+        ["place-add-popup",       () => closePlaceModal()],
+        ["notif-dropdown",        () => document.getElementById("notif-dropdown").classList.remove("open")]
+    ];
+    function navSyncOverlays() {
+        NAV_OVERLAYS.forEach(([id]) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const isOpen = el.classList.contains("open");
+            const idx = navOpen.findIndex(o => o.el === el);
+            if (isOpen && idx < 0) { navPush({ hyOv: id }); navOpen.push({ el, entryId: navCurId }); }
+            else if (!isOpen && idx >= 0) navOpen.splice(idx, 1);   // closed with ✕ — its step is skipped later
+        });
+    }
+    const navObserver = new MutationObserver(navSyncOverlays);
+    NAV_OVERLAYS.forEach(([id, close]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el._navClose = close;
+        navObserver.observe(el, { attributes: true, attributeFilter: ["class"] });
+    });
+
+    window.addEventListener("popstate", e => {
+        navSyncOverlays();
+        const st = e.state || {};
+        const landId = typeof st.hyId === "number" ? st.hyId : 0;
+        const goingForward = landId > navCurId;
+        navCurId = landId;
+        if (goingForward) {   // (desktop ▷ button)
+            if (st.hyPage && st.hyPage !== navCurrentPage) activatePage(st.hyPage);
+            return;
+        }
+        let changed = false;
+        // 1) close the windows opened after the step we landed on (top one first)
+        for (let i = navOpen.length - 1; i >= 0; i--) {
+            const o = navOpen[i];
+            if (o.entryId <= landId) continue;
+            navOpen.splice(i, 1);
+            try { o.el._navClose(); } catch (err) { console.warn(err); }
+            if (o.el.classList.contains("open")) {   // it refused to close (ex: PDF being made) → keep its step
+                navPush({ hyOv: o.el.id });
+                navOpen.push({ el: o.el, entryId: navCurId });
+            }
+            changed = true;
+        }
+        // 2) otherwise go back to the previous page, at the same scroll position
+        if (!changed) {
+            const page = st.hyPage || "home";
+            if (page !== navCurrentPage && activatePage(page)) {
+                const y = st.hyScroll || 0;
+                requestAnimationFrame(() => window.scrollTo(0, y));
+                changed = true;
+            }
+        }
+        // 3) an empty step (a window already closed with ✕) → skip it
+        if (!changed) { try { history.back(); } catch (err) {} }
+    });
 
     /* ============================================================
        ===== TIMELINE (v12 — our words unlock on the big day) =====
@@ -4512,8 +4729,8 @@
             ]
         },
         {
-            date: "8 Oct 2027", ts: "2027-10-08T00:00:00",
-            unlockDate: "7 Oct 2027", unlockTs: "2027-10-07T00:00:00",
+            date: "10 Oct 2027", ts: "2027-10-10T00:00:00",
+            unlockDate: "9 Oct 2027", unlockTs: "2027-10-09T00:00:00",
             title: "Wedding Day 👰🤵", desc: "Forever begins here", emoji: "🎊",
             quotes: [
                 "حاضر بش تكون بجنبي ديمة",
@@ -4590,9 +4807,9 @@
 
     /* ===== COUNTDOWNS ===== */
     const engTarget = new Date("2026-07-11T00:00:00");
-    const wedTarget = new Date("2027-10-08T00:00:00");
+    const wedTarget = new Date("2027-10-10T00:00:00");   // v24 — wedding moved to Sunday 10 Oct 2027, 00:00
     const relStart  = new Date("2025-08-15T00:00:00");
-    const ENG_TOTAL = 103, WED_TOTAL = 417;
+    const ENG_TOTAL = 103, WED_TOTAL = 419;
     const fmtDate = d => d.toLocaleDateString("en-GB", {weekday:"long",year:"numeric",month:"long",day:"numeric"});
     document.getElementById("eng-date-label").textContent = fmtDate(engTarget);
     document.getElementById("wed-date-label").textContent = fmtDate(wedTarget);
@@ -4726,21 +4943,432 @@
     function showSync(){document.getElementById("sync-indicator").classList.add("show");}
     function hideSync(){document.getElementById("sync-indicator").classList.remove("show");}
     function compressImage(file,cb){const r=new FileReader();r.onload=e=>{const img=new Image();img.onload=()=>{const MAX=600;let w=img.width,h=img.height;if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(img,0,0,w,h);cb(c.toDataURL("image/jpeg",.65));};img.src=e.target.result;};r.readAsDataURL(file);}
-    window.handleZoneFile=function(event,zoneId){const file=event.target.files[0];if(!file)return;compressImage(file,b64=>applyZoneImage(zoneId,b64));};
-    function applyZoneImage(zoneId,b64){const zone=document.getElementById(zoneId+"-upload-zone");if(!zone)return;zone._b64=b64;document.getElementById(zoneId+"-img-preview").src=b64;document.getElementById(zoneId+"-img-preview").style.display="block";document.getElementById(zoneId+"-upload-hint").style.display="none";document.getElementById(zoneId+"-clear-btn").style.display="block";zone.classList.add("has-img");}
-    window.clearZone=function(e,zoneId){e.stopPropagation();const zone=document.getElementById(zoneId+"-upload-zone");if(!zone)return;zone._b64=null;document.getElementById(zoneId+"-img-preview").src="";document.getElementById(zoneId+"-img-preview").style.display="none";document.getElementById(zoneId+"-upload-hint").style.display="";document.getElementById(zoneId+"-clear-btn").style.display="none";zone.classList.remove("has-img");const fi=document.getElementById(zoneId+"-file-input")||document.getElementById("add-file-input");if(fi)fi.value="";};
+    /* ============================================================
+       ===== PHOTO TOOLS (v24) =====
+       • Photo editor — like Instagram: pick a format (Original, 1:1,
+         4:5, 9:16, 16:9), drag to move, pinch / slider / wheel to zoom,
+         rotate. The framed result is what gets saved and shown.
+       • Zoom viewer — tap a photo: full screen, pinch or double-tap.
+       ============================================================ */
+    const PE_MAX_SIDE = 1080;     // longest side of a saved photo (px)
+    const PE_WORK_MAX = 2400;     // big camera photos are scaled to this first (lighter on phones)
+    const PE_QUALITY = 0.82;
+    const PE_MAX_CHARS = 850000;  // stay well under Firestore's 1 MB per document
+    const PE_MAX_ZOOM = 5;
+    const PE_RATIOS = [
+        { key: "orig", label: "Original", r: 0 },
+        { key: "1:1",  label: "1:1",  r: 1 },
+        { key: "4:5",  label: "4:5",  r: 4 / 5 },
+        { key: "9:16", label: "9:16", r: 9 / 16 },
+        { key: "16:9", label: "16:9", r: 16 / 9 }
+    ];
+    const ptEl = id => document.getElementById(id);
+    function ptRestoreScroll() {
+        const stillOpen = ["slideshow-overlay", "zv-overlay", "pe-overlay"].some(id => ptEl(id) && ptEl(id).classList.contains("open"));
+        if (!stillOpen) document.body.style.overflow = "";
+    }
+
+    function peLoadImage(src) {
+        return new Promise((resolve, reject) => {
+            const im = new Image();
+            im.onload = () => resolve(im);
+            im.onerror = () => reject(new Error("This photo can't be read 😕"));
+            im.src = src;
+        });
+    }
+    // Draw the photo on a canvas (scaled down if huge), turned rot × 90°
+    async function peBuildWork(src, rot) {
+        const im = await peLoadImage(src);
+        const k = Math.min(1, PE_WORK_MAX / Math.max(im.naturalWidth, im.naturalHeight));
+        const w = Math.max(1, Math.round(im.naturalWidth * k)), h = Math.max(1, Math.round(im.naturalHeight * k));
+        const turned = rot % 2 === 1;
+        const c = document.createElement("canvas");
+        c.width = turned ? h : w; c.height = turned ? w : h;
+        const ctx = c.getContext("2d");
+        ctx.imageSmoothingQuality = "high";
+        ctx.translate(c.width / 2, c.height / 2);
+        ctx.rotate(rot * Math.PI / 2);
+        ctx.drawImage(im, -w / 2, -h / 2, w, h);
+        return c;
+    }
+    // Cut a rectangle of the canvas into a JPEG (never upscaled, size-capped)
+    function peCut(cv, sx, sy, sw, sh, maxSide) {
+        let scale = Math.min(1, maxSide / Math.max(sw, sh)), q = PE_QUALITY, out = null;
+        for (let t = 0; t < 6; t++) {
+            const ow = Math.max(1, Math.round(sw * scale)), oh = Math.max(1, Math.round(sh * scale));
+            const c = document.createElement("canvas");
+            c.width = ow; c.height = oh;
+            const ctx = c.getContext("2d");
+            ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, ow, oh);
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(cv, sx, sy, sw, sh, 0, 0, ow, oh);
+            out = { b64: c.toDataURL("image/jpeg", q), ratio: ow / oh };
+            if (out.b64.length <= PE_MAX_CHARS) break;
+            q = Math.max(0.5, q - 0.08); scale *= 0.85;
+        }
+        return out;
+    }
+    // No editing: keep the whole photo, just make it light enough
+    async function peQuick(src, maxSide) {
+        const cv = await peBuildWork(src, 0);
+        return peCut(cv, 0, 0, cv.width, cv.height, maxSide || PE_MAX_SIDE);
+    }
+
+    /* ---------- the editor ---------- */
+    let pe = null;   // the open editor session
+    function peBase() { return Math.max(pe.FW / pe.cv.width, pe.FH / pe.cv.height); }
+    function peApply() {
+        if (!pe || !pe.cv || !pe.FW) return;
+        const W = pe.cv.width, H = pe.cv.height, S = peBase() * pe.z;
+        const hw = pe.FW / (2 * S), hh = pe.FH / (2 * S);
+        pe.cx = Math.min(Math.max(pe.cx, hw), W - hw);
+        pe.cy = Math.min(Math.max(pe.cy, hh), H - hh);
+        pe.cv.style.transform = `translate(${pe.FW / 2 - pe.cx * S}px,${pe.FH / 2 - pe.cy * S}px) scale(${S})`;
+        const zr = ptEl("pe-zoom");
+        if (zr) zr.value = pe.z;
+    }
+    function peLayout() {
+        if (!pe || !pe.cv) return;
+        const stage = ptEl("pe-stage");
+        const aw = Math.max(60, stage.clientWidth - 28), ah = Math.max(60, stage.clientHeight - 28);
+        const r = pe.ratio || (pe.cv.width / pe.cv.height);
+        let fw = aw, fh = aw / r;
+        if (fh > ah) { fh = ah; fw = ah * r; }
+        pe.FW = Math.round(fw); pe.FH = Math.round(fh);
+        const fr = ptEl("pe-frame");
+        fr.style.width = pe.FW + "px"; fr.style.height = pe.FH + "px";
+        peApply();
+    }
+    function peZoomAt(nz, px, py) {   // px, py: point in the frame that stays still
+        if (!pe || !pe.cv) return;
+        nz = Math.min(PE_MAX_ZOOM, Math.max(1, nz));
+        const S = peBase() * pe.z;
+        const ix = pe.cx + (px - pe.FW / 2) / S, iy = pe.cy + (py - pe.FH / 2) / S;
+        pe.z = nz;
+        const S2 = peBase() * pe.z;
+        pe.cx = ix - (px - pe.FW / 2) / S2; pe.cy = iy - (py - pe.FH / 2) / S2;
+        peApply();
+    }
+    function peRenderRatios() {
+        const box = ptEl("pe-ratios");
+        if (!box || !pe || !pe.cv) return;
+        box.innerHTML = PE_RATIOS.map(o => {
+            const r = o.r || (pe.cv.width / pe.cv.height);
+            const w = r >= 1 ? 22 : Math.round(22 * r), h = r >= 1 ? Math.round(22 / r) : 22;
+            return `<button class="pe-ratio${pe.ratioKey === o.key ? " on" : ""}" onclick="peSetRatio('${o.key}')"><span class="pe-shape" style="width:${w}px;height:${h}px"></span>${o.label}</button>`;
+        }).join("");
+    }
+    function peMountCanvas(cv) {
+        const fr = ptEl("pe-frame");
+        if (pe.cv && pe.cv.parentNode) pe.cv.remove();
+        cv.style.width = cv.width + "px"; cv.style.height = cv.height + "px";
+        fr.insertBefore(cv, fr.firstChild);
+        pe.cv = cv;
+    }
+    window.peSetRatio = function(key) {
+        if (!pe || !pe.cv) return;
+        const o = PE_RATIOS.find(x => x.key === key) || PE_RATIOS[0];
+        pe.ratioKey = o.key; pe.ratio = o.r;
+        peRenderRatios(); peLayout();
+    };
+    window.peRotate = async function() {
+        if (!pe || pe.busy) return;
+        const session = pe;
+        session.busy = true;
+        try {
+            const rot = (session.rot + 1) % 4;
+            const cv = await peBuildWork(session.src, rot);
+            if (pe !== session) return;
+            session.rot = rot;
+            peMountCanvas(cv);
+            session.z = 1; session.cx = cv.width / 2; session.cy = cv.height / 2;
+            peRenderRatios(); peLayout();
+        } catch (e) { alert(e.message); }
+        session.busy = false;
+    };
+    window.peReset = function() {
+        if (!pe || !pe.cv) return;
+        pe.z = 1; pe.cx = pe.cv.width / 2; pe.cy = pe.cv.height / 2;
+        peApply();
+    };
+    // openPhotoEditor({src, state?, title?, okLabel?, maxSide?}) → Promise<{b64, ratio, state} | null>
+    window.openPhotoEditor = function(opts) {
+        return new Promise(resolve => {
+            if (pe) peFinish(null);
+            const st = opts.state || {};
+            const o = PE_RATIOS.find(x => x.key === (st.ratioKey || opts.ratioKey)) || PE_RATIOS[0];
+            pe = { src: opts.src, maxSide: opts.maxSide || PE_MAX_SIDE, resolve, rot: st.rot || 0,
+                   z: 1, cx: 0, cy: 0, FW: 0, FH: 0, cv: null, busy: true, ratioKey: o.key, ratio: o.r };
+            const session = pe;
+            ptEl("pe-title").textContent = opts.title || "Frame your photo";
+            ptEl("pe-ok").textContent = opts.okLabel || "✓ Done";
+            ptEl("pe-loading").style.display = "flex";
+            ptEl("pe-ratios").innerHTML = "";
+            ptEl("pe-overlay").classList.add("open");
+            document.body.style.overflow = "hidden";
+            peBuildWork(opts.src, session.rot).then(cv => {
+                if (pe !== session) return;
+                peMountCanvas(cv);
+                session.z = st.z || 1;
+                session.cx = (st.cx != null ? st.cx : 0.5) * cv.width;
+                session.cy = (st.cy != null ? st.cy : 0.5) * cv.height;
+                session.busy = false;
+                ptEl("pe-loading").style.display = "none";
+                peRenderRatios();
+                requestAnimationFrame(peLayout);
+            }).catch(err => {
+                if (pe !== session) return;
+                alert(err.message);
+                peFinish(null);
+            });
+        });
+    };
+    function peFinish(result) {
+        if (!pe) return;
+        const s = pe;
+        pe = null;
+        if (s.cv && s.cv.parentNode) s.cv.remove();
+        ptEl("pe-overlay").classList.remove("open");
+        ptRestoreScroll();
+        s.resolve(result);
+    }
+    window.peCancel = function() { peFinish(null); };
+    window.peConfirm = function() {
+        if (!pe || pe.busy || !pe.cv || !pe.FW) return;
+        const S = peBase() * pe.z, sw = pe.FW / S, sh = pe.FH / S;
+        const out = peCut(pe.cv, pe.cx - sw / 2, pe.cy - sh / 2, sw, sh, pe.maxSide);
+        out.state = { ratioKey: pe.ratioKey, z: pe.z, cx: pe.cx / pe.cv.width, cy: pe.cy / pe.cv.height, rot: pe.rot };
+        peFinish(out);
+    };
+    (function peWire() {
+        const stage = ptEl("pe-stage");
+        if (!stage) return;
+        const pts = new Map();
+        let pinch = null;
+        const local = (x, y) => { const r = ptEl("pe-frame").getBoundingClientRect(); return { x: x - r.left, y: y - r.top }; };
+        const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+        const startPinch = () => {
+            const [a, b] = [...pts.values()];
+            const m = local((a.x + b.x) / 2, (a.y + b.y) / 2);
+            pinch = { d0: Math.max(1, dist(a, b)), z0: pe.z, mx: m.x, my: m.y };
+        };
+        stage.addEventListener("pointerdown", e => {
+            if (!pe || pe.busy) return;
+            e.preventDefault();
+            try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+            pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            if (pts.size === 2) startPinch();
+            stage.classList.add("dragging");
+        });
+        stage.addEventListener("pointermove", e => {
+            if (!pe || pe.busy || !pts.has(e.pointerId)) return;
+            const prev = pts.get(e.pointerId), cur = { x: e.clientX, y: e.clientY };
+            pts.set(e.pointerId, cur);
+            if (pts.size === 1) {
+                const S = peBase() * pe.z;
+                pe.cx -= (cur.x - prev.x) / S; pe.cy -= (cur.y - prev.y) / S;
+                peApply();
+            } else if (pinch) {
+                const [a, b] = [...pts.values()];
+                const m = local((a.x + b.x) / 2, (a.y + b.y) / 2);
+                peZoomAt(pinch.z0 * dist(a, b) / pinch.d0, m.x, m.y);
+                const S = peBase() * pe.z;
+                pe.cx -= (m.x - pinch.mx) / S; pe.cy -= (m.y - pinch.my) / S;
+                pinch.mx = m.x; pinch.my = m.y;
+                peApply();
+            }
+        });
+        const end = e => {
+            pts.delete(e.pointerId);
+            if (pts.size < 2) pinch = null;
+            if (pts.size === 0) stage.classList.remove("dragging");
+        };
+        stage.addEventListener("pointerup", end);
+        stage.addEventListener("pointercancel", end);
+        stage.addEventListener("wheel", e => {
+            if (!pe || pe.busy) return;
+            e.preventDefault();
+            const m = local(e.clientX, e.clientY);
+            peZoomAt(pe.z * Math.exp(-e.deltaY * 0.0015), m.x, m.y);
+        }, { passive: false });
+        ptEl("pe-zoom").addEventListener("input", e => {
+            if (pe && !pe.busy) peZoomAt(parseFloat(e.target.value) || 1, pe.FW / 2, pe.FH / 2);
+        });
+    })();
+
+    /* ---------- the zoom viewer ---------- */
+    const zv = { z: 1, tx: 0, ty: 0, w: 0, h: 0 };
+    window.openZoomViewer = function(src, caption) {
+        if (!src) return;
+        const img = ptEl("zv-img");
+        zv.z = 1; zv.tx = 0; zv.ty = 0;
+        img.style.transition = "none";
+        img.style.transform = "none";
+        img.onload = zvFit;
+        img.src = src;
+        ptEl("zv-cap").textContent = caption || "";
+        ptEl("zv-overlay").classList.add("open");
+        ptEl("zv-overlay").classList.remove("zoomed");
+        document.body.style.overflow = "hidden";
+        if (img.complete && img.naturalWidth) zvFit();
+    };
+    window.closeZoomViewer = function() {
+        ptEl("zv-overlay").classList.remove("open");
+        ptRestoreScroll();
+    };
+    function zvFit() {
+        const st = ptEl("zv-stage"), img = ptEl("zv-img");
+        if (!img.naturalWidth || !st.clientWidth) return;
+        const W = st.clientWidth - 24, H = st.clientHeight - 24, r = img.naturalWidth / img.naturalHeight;
+        let w = W, h = W / r;
+        if (h > H) { h = H; w = H * r; }
+        zv.w = w; zv.h = h;
+        img.style.width = w + "px"; img.style.height = h + "px";
+        zvApply(false);
+    }
+    function zvApply(anim) {
+        const st = ptEl("zv-stage"), img = ptEl("zv-img");
+        const mx = Math.max(0, (zv.w * zv.z - st.clientWidth) / 2), my = Math.max(0, (zv.h * zv.z - st.clientHeight) / 2);
+        zv.tx = Math.min(mx, Math.max(-mx, zv.tx));
+        zv.ty = Math.min(my, Math.max(-my, zv.ty));
+        img.style.transition = anim ? "transform .25s ease" : "none";
+        img.style.transform = `translate(${zv.tx}px,${zv.ty}px) scale(${zv.z})`;
+        ptEl("zv-overlay").classList.toggle("zoomed", zv.z > 1.01);
+    }
+    function zvZoomAt(nz, px, py, anim) {   // px, py: measured from the centre of the screen
+        nz = Math.min(PE_MAX_ZOOM, Math.max(1, nz));
+        const k = nz / zv.z;
+        zv.tx = px - (px - zv.tx) * k; zv.ty = py - (py - zv.ty) * k; zv.z = nz;
+        if (nz === 1) { zv.tx = 0; zv.ty = 0; }
+        zvApply(anim);
+    }
+    window.zvStep = function(f) { zvZoomAt(zv.z * f, 0, 0, true); };
+    (function zvWire() {
+        const st = ptEl("zv-stage");
+        if (!st) return;
+        const pts = new Map();
+        let pinch = null, down = null, lastTap = 0, lastTapPos = null;
+        const fromCentre = (x, y) => { const r = st.getBoundingClientRect(); return { x: x - r.left - r.width / 2, y: y - r.top - r.height / 2 }; };
+        const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+        st.addEventListener("pointerdown", e => {
+            e.preventDefault();
+            try { st.setPointerCapture(e.pointerId); } catch (_) {}
+            pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            if (pts.size === 1) down = { x: e.clientX, y: e.clientY, t: Date.now(), onImg: e.target === ptEl("zv-img"), moved: false };
+            if (pts.size === 2) {
+                const [a, b] = [...pts.values()];
+                const m = fromCentre((a.x + b.x) / 2, (a.y + b.y) / 2);
+                pinch = { d0: Math.max(1, dist(a, b)), z0: zv.z, mx: m.x, my: m.y };
+                if (down) down.moved = true;
+            }
+        });
+        st.addEventListener("pointermove", e => {
+            if (!pts.has(e.pointerId)) return;
+            const prev = pts.get(e.pointerId), cur = { x: e.clientX, y: e.clientY };
+            pts.set(e.pointerId, cur);
+            if (down && Math.hypot(cur.x - down.x, cur.y - down.y) > 8) down.moved = true;
+            if (pts.size === 1 && zv.z > 1.01) {
+                zv.tx += cur.x - prev.x; zv.ty += cur.y - prev.y;
+                zvApply(false);
+            } else if (pts.size >= 2 && pinch) {
+                const [a, b] = [...pts.values()];
+                const m = fromCentre((a.x + b.x) / 2, (a.y + b.y) / 2);
+                zvZoomAt(pinch.z0 * dist(a, b) / pinch.d0, m.x, m.y, false);
+                zv.tx += m.x - pinch.mx; zv.ty += m.y - pinch.my;
+                pinch.mx = m.x; pinch.my = m.y;
+                zvApply(false);
+            }
+        });
+        const end = e => {
+            if (!pts.has(e.pointerId)) return;
+            pts.delete(e.pointerId);
+            if (pts.size < 2) pinch = null;
+            if (pts.size > 0 || !down) return;
+            const d = down;
+            down = null;
+            if (e.type === "pointercancel" || d.moved || Date.now() - d.t > 350) return;
+            const now = Date.now();
+            if (now - lastTap < 320 && lastTapPos && Math.hypot(d.x - lastTapPos.x, d.y - lastTapPos.y) < 40) {
+                lastTap = 0;   // double tap → zoom in / back to normal
+                if (zv.z > 1.01) zvZoomAt(1, 0, 0, true);
+                else { const m = fromCentre(d.x, d.y); zvZoomAt(2.5, m.x, m.y, true); }
+                return;
+            }
+            lastTap = now;
+            lastTapPos = { x: d.x, y: d.y };
+            if (!d.onImg && zv.z <= 1.01) closeZoomViewer();   // tap on the dark background
+        };
+        st.addEventListener("pointerup", end);
+        st.addEventListener("pointercancel", end);
+        st.addEventListener("wheel", e => {
+            e.preventDefault();
+            const m = fromCentre(e.clientX, e.clientY);
+            zvZoomAt(zv.z * Math.exp(-e.deltaY * 0.0015), m.x, m.y, false);
+        }, { passive: false });
+    })();
+
+    window.addEventListener("resize", () => {
+        if (pe && pe.cv) peLayout();
+        if (ptEl("zv-overlay").classList.contains("open")) zvFit();
+    });
+    // Esc closes the editor / viewer first (before the slideshow under them)
+    window.addEventListener("keydown", e => {
+        const peOpen = ptEl("pe-overlay").classList.contains("open");
+        const zvOpen = ptEl("zv-overlay").classList.contains("open");
+        if (!peOpen && !zvOpen) return;
+        if (e.key === "Escape") { if (peOpen) peCancel(); else closeZoomViewer(); }
+        if (["Escape", "ArrowLeft", "ArrowRight"].includes(e.key)) e.stopPropagation();
+    }, true);
+
+    /* ---------- photo zones (memory add / edit forms) ---------- */
+    function ptForgetSrc(zone) {
+        if (!zone) return;
+        if (zone._src && String(zone._src).startsWith("blob:")) URL.revokeObjectURL(zone._src);
+        zone._src = null; zone._peState = null;
+    }
+    window.handleZoneFile = async function(event, zoneId) {
+        const input = event.target, file = input.files && input.files[0];
+        input.value = "";
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        const res = await openPhotoEditor({ src: url, okLabel: "✓ Use photo" });
+        const zone = document.getElementById(zoneId + "-upload-zone");
+        if (!res || !zone) { URL.revokeObjectURL(url); return; }
+        ptForgetSrc(zone);
+        zone._src = url;               // the original stays here, so "Adjust" never loses quality
+        zone._peState = res.state;
+        applyZoneImage(zoneId, res.b64);
+    };
+    window.adjustZone = async function(e, zoneId) {
+        if (e) e.stopPropagation();
+        const zone = document.getElementById(zoneId + "-upload-zone");
+        if (!zone || !zone._b64) return;
+        if (!zone._src) { zone._src = zone._b64; zone._peState = null; }
+        const res = await openPhotoEditor({ src: zone._src, state: zone._peState });
+        if (!res) return;
+        zone._peState = res.state;
+        applyZoneImage(zoneId, res.b64);
+    };
+    function applyZoneImage(zoneId,b64){const zone=document.getElementById(zoneId+"-upload-zone");if(!zone)return;zone._b64=b64;document.getElementById(zoneId+"-img-preview").src=b64;document.getElementById(zoneId+"-img-preview").style.display="block";document.getElementById(zoneId+"-upload-hint").style.display="none";document.getElementById(zoneId+"-clear-btn").style.display="inline-block";const ab=document.getElementById(zoneId+"-adjust-btn");if(ab)ab.style.display="inline-block";zone.classList.add("has-img");}
+    window.clearZone=function(e,zoneId){e.stopPropagation();const zone=document.getElementById(zoneId+"-upload-zone");if(!zone)return;zone._b64=null;ptForgetSrc(zone);document.getElementById(zoneId+"-img-preview").src="";document.getElementById(zoneId+"-img-preview").style.display="none";document.getElementById(zoneId+"-upload-hint").style.display="";document.getElementById(zoneId+"-clear-btn").style.display="none";const ab=document.getElementById(zoneId+"-adjust-btn");if(ab)ab.style.display="none";zone.classList.remove("has-img");const fi=document.getElementById(zoneId+"-file-input")||document.getElementById("add-file-input");if(fi)fi.value="";};
 
     const REACTION_EMOJIS=["❤️","🩷","💕","🤍","🥰","😍","😘","🥹","🤩","😋","😂","😅","🫶","🤝","🤲","🌹","🌸","💐","🦋","🫀"];
 
     /* ===== MEMORIES ===== */
     const memoriesRef=collection(db,"memories");
     let allMemories=[];
+    let editingMemoryId=null;   // while a memory is being edited, live updates don't wipe the form
     onSnapshot(query(memoriesRef,orderBy("date","desc")),snapshot=>{
         allMemories=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+        renderMemories();
+    });
+    function renderMemories(){
+        if(editingMemoryId&&allMemories.some(m=>m.id===editingMemoryId))return;
+        editingMemoryId=null;
         const container=document.getElementById("messages-list");
-        if(snapshot.empty){container.innerHTML='<p class="no-messages">No memories saved yet… write your first one 💕</p>';return;}
-        container.innerHTML=snapshot.docs.map(docSnap=>{
-            const m=docSnap.data(),id=docSnap.id;
+        if(!allMemories.length){container.innerHTML='<p class="no-messages">No memories saved yet… write your first one 💕</p>';return;}
+        container.innerHTML=allMemories.map(m=>{
+            const id=m.id;
             const reactions=m.reactions||{};const comments=m.comments||[];
             let reactionsHtml="";
             if(reactions.hamdi)reactionsHtml+=`<span class="reaction-chip" onclick="toggleReactionPicker('${id}')" title="Hamdi"><span class="rc-emoji">${reactions.hamdi}</span> <span class="rc-who">👨</span></span>`;
@@ -4754,9 +5382,9 @@
                 return `<div class="comment-item"><span class="comment-who">${whoIcon}</span><div class="comment-body"><div class="cb-name">${whoName}</div><div class="cb-text">${esc(c.text)}</div><div class="cb-time">${c.time||""}</div><div class="comment-reactions">${cReactHtml}<button class="comment-react-btn" onclick="toggleCommentReactionPicker('${id}',${ci})">😊+</button><div class="comment-reaction-picker" id="cpicker-${id}-${ci}">${REACTION_EMOJIS.map(em=>`<button onclick="addCommentReaction('${id}',${ci},'${em}')">${em}</button>`).join("")}</div></div></div>${canDelete?`<button class="comment-delete-btn" onclick="deleteComment('${id}',${ci})">🗑️</button>`:""}</div>`;
             }).join("");
             const commentCount=comments.length;
-            return `<div class="msg-card" id="msg-card-${id}"><div class="msg-header"><span class="msg-label">${m.createdBy==="yossr"?"👩":"👨"} ${esc(m.label||"Memory")}</span><span class="msg-actions"><button class="msg-edit" onclick="startEdit('${id}')">✏️</button><button class="msg-delete" onclick="deleteMemory('${id}')">🗑️</button></span></div>${m.date?`<span class="msg-date-pin">📅 ${esc(m.date)}</span>`:""} ${m.image?`<img class="msg-img" src="${m.image}" alt="memory photo"/>`:""} ${m.text?`<div class="msg-body">${esc(m.text)}</div>`:""}<div class="reactions-bar"><div class="existing-reactions">${reactionsHtml}</div><button class="react-btn" onclick="toggleReactionPicker('${id}')">😊+</button><div class="reaction-picker" id="picker-${id}">${REACTION_EMOJIS.map(em=>`<button onclick="addReaction('${id}','${em}')">${em}</button>`).join("")}</div></div><div class="comments-section"><button class="toggle-comments" onclick="toggleComments('${id}')">💬 Comments${commentCount>0?` (${commentCount})`:""}</button><div class="comments-list" id="comments-${id}">${commentsHtml}<div class="comment-input-row"><input type="text" id="cinput-${id}" placeholder="Write a comment… 💕" maxlength="300" onkeydown="if(event.key==='Enter')addComment('${id}')"/><button class="comment-send-btn" onclick="addComment('${id}')">Send</button></div></div></div></div>`;
+            return `<div class="msg-card" id="msg-card-${id}"><div class="msg-header"><span class="msg-label">${m.createdBy==="yossr"?"👩":"👨"} ${esc(m.label||"Memory")}</span><span class="msg-actions"><button class="msg-edit" onclick="startEdit('${id}')">✏️</button><button class="msg-delete" onclick="deleteMemory('${id}')">🗑️</button></span></div>${m.date?`<span class="msg-date-pin">📅 ${esc(m.date)}</span>`:""} ${m.image?`<img class="msg-img" src="${m.image}" alt="${esc(m.label||"Memory")}" title="Tap to zoom 🔍" onclick="openZoomViewer(this.src,this.alt)"/>`:""}${m.text?`<div class="msg-body">${esc(m.text)}</div>`:""}<div class="reactions-bar"><div class="existing-reactions">${reactionsHtml}</div><button class="react-btn" onclick="toggleReactionPicker('${id}')">😊+</button><div class="reaction-picker" id="picker-${id}">${REACTION_EMOJIS.map(em=>`<button onclick="addReaction('${id}','${em}')">${em}</button>`).join("")}</div></div><div class="comments-section"><button class="toggle-comments" onclick="toggleComments('${id}')">💬 Comments${commentCount>0?` (${commentCount})`:""}</button><div class="comments-list" id="comments-${id}">${commentsHtml}<div class="comment-input-row"><input type="text" id="cinput-${id}" placeholder="Write a comment… 💕" maxlength="300" onkeydown="if(event.key==='Enter')addComment('${id}')"/><button class="comment-send-btn" onclick="addComment('${id}')">Send</button></div></div></div></div>`;
         }).join("");
-    });
+    }
 
     window.toggleReactionPicker=function(id){if(!currentUser){showIdentityModal();return;}const picker=document.getElementById("picker-"+id);if(!picker)return;document.querySelectorAll('.reaction-picker.open').forEach(p=>{if(p.id!=="picker-"+id)p.classList.remove('open');});picker.classList.toggle("open");};
     window.addReaction=async function(id,emoji){if(!currentUser){showIdentityModal();return;}document.getElementById("picker-"+id)?.classList.remove("open");showSync();try{const docRef=doc(db,"memories",id);const snap=await getDoc(docRef);const data=snap.data();const reactions=data.reactions||{};const updateData={};const isRemoving=reactions[currentUser]===emoji;if(isRemoving)updateData["reactions."+currentUser]=deleteField();else updateData["reactions."+currentUser]=emoji;await updateDoc(docRef,updateData);if(!isRemoving){const partner=currentUser==="hamdi"?"yossr":"hamdi";const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";await createNotification("memory",`${whoName} reacted ${emoji} to a memory`,partner,"memories");}}catch(e){alert("Error: "+e.message);}hideSync();};
@@ -4842,9 +5470,10 @@
         hideSync();
     };
     window.deleteMemory=async function(id){if(!confirm("Delete this memory?"))return;showSync();await deleteDoc(doc(db,"memories",id));hideSync();};
-    window.startEdit=function(id){const card=document.getElementById("msg-card-"+id);const imgSrc=card.querySelector(".msg-img")?card.querySelector(".msg-img").src:"";const label=card.querySelector(".msg-label")?card.querySelector(".msg-label").textContent:"";const datePin=card.querySelector(".msg-date-pin")?card.querySelector(".msg-date-pin").textContent.replace("📅 ",""):"";const body=card.querySelector(".msg-body")?card.querySelector(".msg-body").textContent:"";const uid="edit-"+id;const hasImg=!!imgSrc;card.innerHTML=`<div class="edit-form"><input type="text" id="${uid}-label-input" value="${esc(label)}" placeholder="Label" maxlength="60"/><input type="date" id="${uid}-date-input" value="${esc(datePin)}" style="padding:8px 12px;border:1px solid rgba(255,182,210,.7);border-radius:10px;background:rgba(255,240,248,.9);color:#7a2545;font-size:.9rem;font-family:Lato,sans-serif;outline:none;"/><textarea id="${uid}-text-input" placeholder="Your memory…">${esc(body)}</textarea><div class="img-upload-zone${hasImg?" has-img":""}" id="${uid}-upload-zone" onclick="document.getElementById('${uid}-file-input').click()"><span id="${uid}-upload-hint"${hasImg?' style="display:none"':""}>📷 Click to change photo</span><img class="zone-preview" id="${uid}-img-preview" src="${imgSrc||""}" style="display:${hasImg?"block":"none"};"/><button class="zone-clear-btn" id="${uid}-clear-btn" style="display:${hasImg?"block":"none"};" onclick="clearZone(event,'${uid}')">✕ Remove</button></div><input type="file" id="${uid}-file-input" accept="image/*" style="display:none" onchange="handleZoneFile(event,'${uid}')"/><div class="edit-actions"><button class="btn-save-edit" onclick="saveEdit('${id}')">💾 Save</button><button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button></div></div>`;document.getElementById(uid+"-upload-zone")._b64=imgSrc||null;};
-    window.cancelEdit=function(){window.location.reload();};
-    window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});}catch(e){alert("Error: "+e.message);}hideSync();};
+    // v24: the form is filled from the saved data (the old version re-read the card, so the 👨/👩 got added to the label at every edit)
+    window.startEdit=function(id){const m=allMemories.find(x=>x.id===id);const card=document.getElementById("msg-card-"+id);if(!m||!card)return;editingMemoryId=id;const imgSrc=m.image||"";const label=m.label||"";const datePin=m.date||"";const body=m.text||"";const uid="edit-"+id;const hasImg=!!imgSrc;card.innerHTML=`<div class="edit-form"><input type="text" id="${uid}-label-input" value="${esc(label)}" placeholder="Label" maxlength="60"/><input type="date" id="${uid}-date-input" value="${esc(datePin)}" style="padding:8px 12px;border:1px solid rgba(255,182,210,.7);border-radius:10px;background:rgba(255,240,248,.9);color:#7a2545;font-size:.9rem;font-family:Lato,sans-serif;outline:none;"/><textarea id="${uid}-text-input" placeholder="Your memory…">${esc(body)}</textarea><div class="img-upload-zone${hasImg?" has-img":""}" id="${uid}-upload-zone" onclick="document.getElementById('${uid}-file-input').click()"><span id="${uid}-upload-hint"${hasImg?' style="display:none"':""}>📷 Click to change photo</span><img class="zone-preview" id="${uid}-img-preview" src="${imgSrc}" style="display:${hasImg?"block":"none"};"/><button class="zone-adjust-btn" id="${uid}-adjust-btn" style="display:${hasImg?"inline-block":"none"};" onclick="adjustZone(event,'${uid}')">✂️ Adjust framing</button><button class="zone-clear-btn" id="${uid}-clear-btn" style="display:${hasImg?"inline-block":"none"};" onclick="clearZone(event,'${uid}')">✕ Remove</button></div><input type="file" id="${uid}-file-input" accept="image/*" style="display:none" onchange="handleZoneFile(event,'${uid}')"/><div class="edit-actions"><button class="btn-save-edit" onclick="saveEdit('${id}')">💾 Save</button><button class="btn-cancel-edit" onclick="cancelEdit()">Cancel</button></div></div>`;const zone=document.getElementById(uid+"-upload-zone");zone._b64=imgSrc||null;zone._src=imgSrc||null;zone._peState=null;};
+    window.cancelEdit=function(){const zone=editingMemoryId&&document.getElementById("edit-"+editingMemoryId+"-upload-zone");ptForgetSrc(zone);editingMemoryId=null;renderMemories();};
+    window.saveEdit=async function(id){const uid="edit-"+id;const label=document.getElementById(uid+"-label-input").value.trim();const date=document.getElementById(uid+"-date-input").value;const text=document.getElementById(uid+"-text-input").value.trim();const zone=document.getElementById(uid+"-upload-zone");const image=zone?zone._b64:null;showSync();try{await updateDoc(doc(db,"memories",id),{label,date,text,image});ptForgetSrc(zone);editingMemoryId=null;renderMemories();}catch(e){alert("Error: "+e.message);}hideSync();};
 
     /* ============================================================
        ===== CHECKLIST (v21) =====
@@ -6019,9 +6648,53 @@
     /* ===== GALLERY ===== */
     const galleryRef=collection(db,"gallery");let galleryAllPhotos=[];let currentAlbumFilter="all";let slideshowPhotos=[];let slideshowIndex=0;let galleryPendingPhotos=[];
     function compressGalleryImage(file,cb){const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{const MAX=520;let w=img.width,h=img.height;if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(img,0,0,w,h);cb(c.toDataURL("image/jpeg",.62));};img.src=ev.target.result;};r.readAsDataURL(file);}
-    window.handleGalleryFiles=function(e){const files=Array.from(e.target.files);if(!files.length)return;const startIndex=galleryPendingPhotos.length;const grid=document.getElementById("gal-multi-grid");grid.style.display="grid";if(startIndex===0){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;color:#e07fa0;font-size:.88rem;padding:14px;letter-spacing:1px;animation:pulse 1.2s infinite;">📷 Processing ${files.length} photo${files.length>1?"s":""}…</div>`;}let done=0;files.forEach((file,i)=>{galleryPendingPhotos[startIndex+i]=null;compressGalleryImage(file,b64=>{galleryPendingPhotos[startIndex+i]={b64,caption:""};done++;if(done===files.length)renderMultiPreview();});});e.target.value="";};
-    function renderMultiPreview(){const ready=galleryPendingPhotos.filter(Boolean);galleryPendingPhotos=ready;const grid=document.getElementById("gal-multi-grid");grid.style.display=ready.length>0?"grid":"none";grid.innerHTML=ready.map((p,i)=>`<div class="gal-multi-item" id="gmi-${i}"><img src="${p.b64}" alt="photo ${i+1}"/><input type="text" placeholder="Caption… 💕" maxlength="80" oninput="galleryPendingPhotos[${i}].caption=this.value" value="${esc(p.caption||"")}"/><button class="gal-multi-remove" onclick="removeGalleryPending(${i})">✕</button></div>`).join("");updateGalSaveBtn();}
-    window.removeGalleryPending=function(i){galleryPendingPhotos.splice(i,1);renderMultiPreview();};
+    /* v24 — one photo: the framing editor opens right away.
+       Several photos: each one gets a ✂️ button to frame it before saving. */
+    window.handleGalleryFiles=async function(e){
+        const files=Array.from(e.target.files||[]);
+        e.target.value="";
+        if(!files.length)return;
+        if(files.length===1){
+            const url=URL.createObjectURL(files[0]);
+            const res=await openPhotoEditor({src:url,okLabel:"✓ Use photo"});
+            if(!res){URL.revokeObjectURL(url);return;}
+            galleryPendingPhotos.push({src:url,b64:res.b64,ratio:res.ratio,state:res.state,caption:""});
+            renderMultiPreview();
+            return;
+        }
+        const grid=document.getElementById("gal-multi-grid");
+        grid.style.display="grid";
+        const note=document.createElement("div");
+        note.className="gal-processing";
+        grid.appendChild(note);
+        for(let i=0;i<files.length;i++){
+            note.textContent=`📷 Preparing ${i+1} / ${files.length}…`;
+            const url=URL.createObjectURL(files[i]);
+            try{const res=await peQuick(url);galleryPendingPhotos.push({src:url,b64:res.b64,ratio:res.ratio,state:null,caption:""});}
+            catch(err){URL.revokeObjectURL(url);console.warn(err);}
+        }
+        note.remove();
+        renderMultiPreview();
+    };
+    function renderMultiPreview(){
+        galleryPendingPhotos=galleryPendingPhotos.filter(Boolean);
+        const grid=document.getElementById("gal-multi-grid");
+        grid.style.display=galleryPendingPhotos.length>0?"grid":"none";
+        grid.innerHTML=galleryPendingPhotos.map((p,i)=>`<div class="gal-multi-item" id="gmi-${i}"><div class="gmi-img" onclick="adjustGalleryPending(${i})"><img src="${p.b64}" alt="photo ${i+1}"/></div><button class="gal-multi-adjust" onclick="adjustGalleryPending(${i})">✂️ Adjust</button><input type="text" placeholder="Caption… 💕" maxlength="80" oninput="setPendingCaption(${i},this.value)" value="${esc(p.caption||"")}"/><button class="gal-multi-remove" onclick="removeGalleryPending(${i})">✕</button></div>`).join("");
+        updateGalSaveBtn();
+    }
+    // (the caption box used to write to a variable it couldn't reach, so captions were lost)
+    window.setPendingCaption=function(i,v){if(galleryPendingPhotos[i])galleryPendingPhotos[i].caption=v;};
+    window.adjustGalleryPending=async function(i){
+        const p=galleryPendingPhotos[i];
+        if(!p)return;
+        const res=await openPhotoEditor({src:p.src||p.b64,state:p.state});
+        if(!res||galleryPendingPhotos[i]!==p)return;
+        p.b64=res.b64;p.ratio=res.ratio;p.state=res.state;
+        renderMultiPreview();
+    };
+    function forgetPendingSrc(p){if(p&&p.src&&String(p.src).startsWith("blob:"))URL.revokeObjectURL(p.src);}
+    window.removeGalleryPending=function(i){forgetPendingSrc(galleryPendingPhotos[i]);galleryPendingPhotos.splice(i,1);renderMultiPreview();};
     function updateGalSaveBtn(){const btn=document.getElementById("gal-save-btn");const n=galleryPendingPhotos.length;btn.style.display=n>0?"block":"none";btn.textContent=n===1?"💾 Add 1 Photo to Gallery":`💾 Add ${n} Photos to Gallery`;}
 
     window.saveAllGalleryPhotos = async function () {
@@ -6033,15 +6706,18 @@
         btn.textContent = "💾 Saving…";
         showSync();
         try {
+            const photoCount = galleryPendingPhotos.length;
             for (const p of galleryPendingPhotos) {
                 await addDoc(galleryRef, {
                     image: p.b64,
+                    ratio: p.ratio || null,
                     caption: p.caption || "",
                     album,
                     addedBy: currentUser || "hamdi",
                     addedAt: new Date().toISOString()
                 });
             }
+            galleryPendingPhotos.forEach(forgetPendingSrc);
             galleryPendingPhotos = [];
             document.getElementById("gal-multi-grid").style.display = "none";
             document.getElementById("gal-multi-grid").innerHTML = "";
@@ -6049,7 +6725,6 @@
             document.getElementById("gal-file-input").value = "";
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            const photoCount = galleryPendingPhotos.length || 1;
             await createNotification("gallery", `${whoName} added ${photoCount} photo${photoCount > 1 ? 's' : ''} to the gallery`, partner, "gallery");
         } catch (er) {
             alert("Error: " + er.message);
@@ -6058,7 +6733,22 @@
         updateGalSaveBtn();
         hideSync();
     };
-    onSnapshot(query(galleryRef,orderBy("addedAt","desc")),snapshot=>{galleryAllPhotos=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderGalleryGrid();});
+    onSnapshot(query(galleryRef,orderBy("addedAt","desc")),snapshot=>{galleryAllPhotos=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderGalleryGrid();if(document.getElementById("slideshow-overlay").classList.contains("open"))updateSlideshowView();});
+
+    /* --- v24: each photo keeps its own shape (no more cut heads) — masonry grid --- */
+    const GAL_ROW = 4;   // must match grid-auto-rows in .photo-grid.masonry
+    function galSpan(item){
+        const img=item.querySelector("img");
+        const r=(img&&img.naturalWidth&&img.naturalHeight)?img.naturalWidth/img.naturalHeight:(parseFloat(item.dataset.ratio)||1);
+        const w=item.offsetWidth;
+        if(!w)return;   // gallery page hidden → done when it's shown
+        const gap=parseFloat(getComputedStyle(item).marginBottom)||0;
+        item.style.gridRowEnd="span "+Math.max(1,Math.round((w/r+gap)/GAL_ROW));
+    }
+    window.galFit=function(img){const item=img&&img.closest(".photo-item");if(item)galSpan(item);};
+    function galFitAll(){document.querySelectorAll("#gallery-grid .photo-item").forEach(galSpan);}
+    let galResizeT=null;
+    window.addEventListener("resize",()=>{clearTimeout(galResizeT);galResizeT=setTimeout(galFitAll,150);});
     /* --- favourites helpers --- */
     function photoFavs(p){ const f = p.fav || {}; return Object.keys(f).filter(u => f[u]); }
     function photoFavIcon(p){
@@ -6083,26 +6773,48 @@
                     return `<button class="album-tab${active}" onclick="filterAlbum('${esc(a).replace(/'/g,"\\'")}',this)">${esc(a)} <span style="font-size:.75rem;opacity:.8">(${count})</span></button>`;
                 }).join("");
         }
+        // an album that no longer exists (renamed / deleted on the other phone) → back to All
+        if(currentAlbumFilter!=="all"&&currentAlbumFilter!=="__fav"&&!albumSet.includes(currentAlbumFilter)){
+            currentAlbumFilter="all";
+            renderGalleryGrid();
+            return;
+        }
+        renderAlbumBar();
         let filtered;
         if(currentAlbumFilter==="all") filtered=galleryAllPhotos;
         else if(currentAlbumFilter==="__fav") filtered=galleryAllPhotos.filter(p=>photoFavs(p).length>0);
         else filtered=galleryAllPhotos.filter(p=>p.album===currentAlbumFilter);
         slideshowPhotos=filtered;
         if(filtered.length===0){
+            grid.classList.remove("masonry");
             grid.innerHTML='<p class="gallery-empty">'+(currentAlbumFilter==="__fav"?"No favourite yet — tap the heart on a photo 🤍":"No photos yet in this album… add your first memory 📸")+'</p>';
             return;
         }
+        grid.classList.add("masonry");
         grid.innerHTML=filtered.map((p,i)=>{
             const favs=photoFavs(p);
             const title=favs.length?("Loved by "+favs.map(u=>u==="yossr"?"Yossr":"Hamdi").join(" & ")):"Add to favourites";
-            return `<div class="photo-item" onclick="openSlideshow(${i})">
-                <img src="${p.image}" alt="${esc(p.caption||"")}" loading="lazy"/>
+            return `<div class="photo-item" data-ratio="${Number(p.ratio)||""}" onclick="openSlideshow(${i})">
+                <img src="${p.image}" alt="${esc(p.caption||"")}" onload="galFit(this)"/>
                 <div class="photo-overlay">${p.caption?`<div class="po-caption">${esc(p.caption)}</div>`:""}<div class="po-album">${esc(p.album||"")}</div></div>
                 <button class="photo-fav-btn${isFavByMe(p)?" on":""}" title="${esc(title)}" onclick="toggleGalleryFav(event,'${p.id}')">${photoFavIcon(p)}</button>
                 <button class="photo-del-btn" onclick="deleteGalleryPhoto(event,'${p.id}')">🗑️</button>
             </div>`;
         }).join("");
+        galFitAll();
     }
+    // Rename / delete bar shown under the tabs when one album is open
+    function renderAlbumBar(){
+        const bar=document.getElementById("alb-bar");
+        if(!bar)return;
+        const a=currentAlbumFilter;
+        if(a==="all"||a==="__fav"){bar.classList.remove("show");bar.innerHTML="";return;}
+        bar.innerHTML=`<span class="alb-bar-name">🏷️ ${esc(a)}</span>
+            <button class="gal-tool-btn" onclick="renameCurrentAlbum()">✏️ Rename</button>
+            <button class="gal-tool-btn alb-bar-del" onclick="deleteAlbum(currentAlbumName())">🗑️ Delete album</button>`;
+        bar.classList.add("show");
+    }
+    window.currentAlbumName=function(){return currentAlbumFilter;};
 
     window.toggleGalleryFav = async function(e, id){
         if(e) e.stopPropagation();
@@ -6261,9 +6973,10 @@
             list.innerHTML = albums.length ? albums.map((a,i)=>{
                 const n=galleryAllPhotos.filter(p=>p.album===a).length;
                 return `<div class="alb-row">
-                    <input class="cl-panel-input" id="alb-i-${i}" value="${esc(a)}" maxlength="40"/>
+                    <input class="cl-panel-input" id="alb-i-${i}" value="${esc(a)}" maxlength="40" onkeydown="if(event.key==='Enter')renameAlbum(${i})"/>
                     <span class="alb-count">${n}</span>
-                    <button class="cl-panel-btn" onclick="renameAlbum(${i})">💾</button>
+                    <button class="cl-panel-btn" title="Save the new name" onclick="renameAlbum(${i})">💾</button>
+                    <button class="cl-panel-btn alb-del-btn" title="Delete the album (photos stay in All)" onclick="deleteAlbumAt(${i})">🗑️</button>
                 </div>`;
             }).join("") : '<div class="cl-panel-empty">No album yet — add photos with an album name 🌸</div>';
         }
@@ -6273,28 +6986,57 @@
         if(from) from.innerHTML=opts;
         if(into) into.innerHTML=opts;
     }
+    // toName "" = no album any more → the photos simply stay in 🌸 All
     async function moveAlbum(fromName,toName,verb){
         const photos=galleryAllPhotos.filter(p=>p.album===fromName);
         if(!photos.length) return 0;
         showSync();
         let n=0;
+        // follow the album to its new name (or back to All) before the live update arrives
+        if(currentAlbumFilter===fromName) currentAlbumFilter=toName||"all";
         try{
-            for(const p of photos){
-                await updateDoc(doc(db,"gallery",p.id),{album:toName});
-                n++;
+            for(let i=0;i<photos.length;i+=400){            // one write for the whole album
+                const batch=writeBatch(db);
+                const part=photos.slice(i,i+400);
+                part.forEach(p=>batch.update(doc(db,"gallery",p.id),{album:toName}));
+                await batch.commit();
+                part.forEach(p=>{p.album=toName;});   // local copy too, so the screen is right at once
+                n+=part.length;
             }
         }catch(e){ alert("Error: "+e.message); }
         hideSync();
+        renderGalleryGrid();
         if(n){
-            if(currentAlbumFilter===fromName) currentAlbumFilter=toName;
-            clToast(`${n} photo${n>1?"s":""} ${verb} “${toName}” 🏷️`);
             const partner=currentUser==="hamdi"?"yossr":"hamdi";
             const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";
-            await createNotification("gallery",`${whoName} moved ${n} photo${n>1?"s":""} to the album "${toName}" 🏷️`,partner,"gallery");
+            if(toName){
+                clToast(`${n} photo${n>1?"s":""} ${verb} “${toName}” 🏷️`);
+                await createNotification("gallery",`${whoName} moved ${n} photo${n>1?"s":""} to the album "${toName}" 🏷️`,partner,"gallery");
+            }else{
+                clToast(`Album “${fromName}” deleted — its ${n} photo${n>1?"s are":" is"} still in 🌸 All`);
+                await createNotification("gallery",`${whoName} deleted the album "${fromName}" — its photos are still in All 🌸`,partner,"gallery");
+            }
         }
         renderAlbumsModal();
         return n;
     }
+    window.deleteAlbum=async function(name){
+        if(!name||name==="all"||name==="__fav") return;
+        const n=galleryAllPhotos.filter(p=>p.album===name).length;
+        if(!confirm(`Delete the album "${name}"?\n\nIts ${n} photo${n>1?"s":""} will NOT be deleted — ${n>1?"they stay":"it stays"} in 🌸 All.`)) return;
+        await moveAlbum(name,"","");
+    };
+    window.deleteAlbumAt=function(i){ return deleteAlbum(galAlbums()[i]); };
+    window.renameCurrentAlbum=async function(){
+        const from=currentAlbumFilter;
+        if(from==="all"||from==="__fav") return;
+        const answer=prompt(`New name for the album "${from}":`,from);
+        if(answer===null) return;
+        const to=answer.trim().slice(0,40);
+        if(!to||to===from) return;
+        if(galAlbums().includes(to) && !confirm(`"${to}" already exists.\nMerge "${from}" into it?`)) return;
+        await moveAlbum(from,to,"moved to");
+    };
     window.renameAlbum=async function(i){
         const albums=galAlbums();
         const from=albums[i];
@@ -6319,6 +7061,41 @@
     window.deleteGalleryPhoto=async function(e,id){e.stopPropagation();if(!confirm("Delete this photo?"))return;showSync();try{await deleteDoc(doc(db,"gallery",id));}catch(err){alert("Error: "+err.message);}hideSync();};
     document.addEventListener("keydown",function(e){const overlay=document.getElementById("slideshow-overlay");if(!overlay||!overlay.classList.contains("open"))return;if(e.key==="ArrowLeft")slideshowNav(-1);if(e.key==="ArrowRight")slideshowNav(1);if(e.key==="Escape")closeSlideshow();});
     document.getElementById("slideshow-overlay").addEventListener("click",function(e){if(e.target===this)closeSlideshow();});
+
+    /* --- v24: slideshow — swipe left/right, tap = zoom, ✂️ re-frame a saved photo --- */
+    window.openSlideZoom=function(){
+        const p=slideshowPhotos[slideshowIndex];
+        if(!p) return;
+        stopSlideshowPlay();
+        openZoomViewer(p.image,p.caption||p.album||"");
+    };
+    window.adjustSlidePhoto=async function(){
+        const p=slideshowPhotos[slideshowIndex];
+        if(!p) return;
+        stopSlideshowPlay();
+        const res=await openPhotoEditor({src:p.image,title:"Re-frame this photo",okLabel:"💾 Save"});
+        if(!res) return;
+        showSync();
+        try{
+            await updateDoc(doc(db,"gallery",p.id),{image:res.b64,ratio:res.ratio});
+            clToast("New framing saved ✂️");
+        }catch(err){ alert("Error: "+err.message); }
+        hideSync();
+    };
+    (function slideWire(){
+        const img=document.getElementById("slideshow-img");
+        if(!img) return;
+        let d=null;
+        img.addEventListener("pointerdown",e=>{d={x:e.clientX,y:e.clientY,t:Date.now()};});
+        img.addEventListener("pointercancel",()=>{d=null;});
+        img.addEventListener("pointerup",e=>{
+            if(!d) return;
+            const dx=e.clientX-d.x, dy=e.clientY-d.y, dt=Date.now()-d.t;
+            d=null;
+            if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.3){ slideshowNav(dx<0?1:-1); return; }
+            if(Math.abs(dx)<10&&Math.abs(dy)<10&&dt<500) openSlideZoom();
+        });
+    })();
 
     /* ============================================================
        ===== SCRATCH CARDS =====
