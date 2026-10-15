@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v27"/>
+    <meta name="app-version" content="v28"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -3206,6 +3206,7 @@
             .current-user-badge { top: calc(9px + env(safe-area-inset-top)) !important; bottom: auto !important; left: 10px !important; padding: 4px 12px 4px 6px !important; font-size: .78rem !important; z-index: 260 !important; box-shadow: none !important; }
             .notif-bell { top: calc(7px + env(safe-area-inset-top)) !important; bottom: auto !important; right: 10px !important; width: 42px !important; height: 42px !important; font-size: 1.15rem !important; z-index: 260 !important; box-shadow: none !important; }
             .theme-picker-btn, .lock-btn, #install-prompt { display: none !important; }
+            .home-book-card { display: none !important; }   /* v28: on the phone the PDF book is in "More" */
             .notif-dropdown { top: calc(62px + env(safe-area-inset-top)) !important; right: 8px !important; left: 8px !important; width: auto !important; max-height: calc(100vh - 150px) !important; }
             .sync-indicator { bottom: calc(80px + env(safe-area-inset-bottom)) !important; }
             .cl-toast { bottom: calc(86px + env(safe-area-inset-bottom)) !important; }
@@ -3520,7 +3521,7 @@
             <div class="progress-wrap"><div class="progress-bar" id="wed-progress"></div></div>
             <p class="days-left" id="wed-days"></p>
         </div>
-        <div class="card">
+        <div class="card home-book-card">
             <div class="icon">📖</div>
             <h2>Our Memory Book</h2>
             <p class="event-date">Everything we saved, in one PDF</p>
