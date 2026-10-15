@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v24"/>
+    <meta name="app-version" content="v25"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -3133,6 +3133,43 @@
         .pe-tools { display: flex; gap: 8px; }
         .pe-tool { padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255, 182, 210, .35); background: rgba(255, 255, 255, .08); color: #ffd6e8; font-size: .82rem; font-family: inherit; cursor: pointer; }
         .pe-tool:hover, .pe-ratio:hover { background: rgba(255, 182, 210, .2); }
+
+        /* ============================================================
+           ===== v25 — avatars, notification links, place photos =====
+           ============================================================ */
+        .av { display: inline-block; width: 1.45em; height: 1.45em; border-radius: 50%; object-fit: cover; vertical-align: middle; margin: -3px 2px 0; border: 1.5px solid #fff; box-shadow: 0 1px 5px rgba(192, 57, 107, .28); background: #ffe3ef; flex: none; }
+        .av-md { width: 30px; height: 30px; margin: 0; }
+        .av-lg { width: 2.1em; height: 2.1em; }
+        .av-xl { width: 64px; height: 64px; border-width: 3px; margin: 0 auto; display: block; }
+        .av-badge { width: 26px; height: 26px; margin: -2px 4px 0 -6px; }
+        .av-notif { width: 34px; height: 34px; margin: 0; }
+        .id-avatar { width: 86px; height: 86px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 6px 18px rgba(192, 57, 107, .3); background: #ffe3ef; }
+        .identity-choice:hover .id-avatar { transform: scale(1.05); transition: transform .2s; }
+        .quiz-score-icon { font-size: 1rem; }
+        .ts-icon .av-xl { width: 52px; height: 52px; }
+        @keyframes hyFlash { 0%, 100% { box-shadow: 0 0 0 0 rgba(224, 127, 160, 0); } 30%, 70% { box-shadow: 0 0 0 4px rgba(224, 127, 160, .9), 0 0 28px rgba(192, 57, 107, .5); } }
+        .hy-flash { animation: hyFlash 1.3s ease 2; }
+        .zv-arrow { display: none; position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 182, 210, .35); color: #ffd6e8; font-size: 1.6rem; line-height: 1; cursor: pointer; }
+        .zv-overlay.many .zv-arrow { display: block; }
+        .zv-prev { left: 10px; } .zv-next { right: 10px; }
+        .zv-count { color: rgba(255, 182, 210, .7); font-size: .75rem; letter-spacing: 1px; margin-top: 3px; min-height: 1em; }
+        /* places: photos */
+        .place-card .p-photos { display: flex; gap: 6px; overflow-x: auto; margin: 8px -6px 8px; padding: 2px 6px 4px; scrollbar-width: thin; }
+        .place-card .p-thumb { width: 64px; height: 64px; flex: none; object-fit: cover; border-radius: 10px; cursor: zoom-in; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(192, 57, 107, .18); }
+        .place-card .p-btns { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+        .place-card .p-photo-btn { margin-top: 10px; padding: 6px 12px; background: rgba(255, 214, 232, .8); color: #9b1c4a; border: 1px solid rgba(255, 182, 210, .9); border-radius: 8px; font-size: .78rem; font-family: 'Lato', sans-serif; cursor: pointer; }
+        .place-card .p-photo-btn:hover { background: rgba(255, 182, 210, .8); }
+        .pm-photo { margin-top: 8px; cursor: zoom-in; text-align: center; }
+        .pm-photo img { display: block; width: 170px; max-width: 100%; max-height: 170px; object-fit: cover; border-radius: 10px; margin: 0 auto 4px; }
+        .pm-photo span { font-size: .75rem; color: #9b1c4a; }
+        .place-photo-pick { width: 100%; padding: 9px; margin-top: 2px; border: 1.5px dashed rgba(224, 127, 160, .8); border-radius: 12px; background: rgba(255, 240, 248, .8); color: #c0396b; font-size: .85rem; font-family: 'Lato', sans-serif; cursor: pointer; }
+        .place-new-photos { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+        .place-new-photos:empty { display: none; }
+        .pnp-item { position: relative; }
+        .pnp-item img { width: 58px; height: 58px; object-fit: cover; border-radius: 9px; display: block; }
+        .pnp-item button { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; border: none; background: #fff; color: #c0396b; font-size: .65rem; cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, .2); }
+        .notif-av { position: relative; display: inline-block; line-height: 0; }
+        .notif-type { position: absolute; right: -6px; bottom: -4px; font-size: .78rem; line-height: 1; background: #fff; border-radius: 50%; padding: 2px; box-shadow: 0 1px 4px rgba(0, 0, 0, .15); }
     </style>
 </head>
 <body>
@@ -3171,6 +3208,7 @@
 </div>
 <div class="cl-toast" id="cl-toast"></div>
 <input type="file" id="cl-idea-file" accept="image/*" multiple style="display:none" onchange="handleIdeaFiles(event)"/>
+<input type="file" id="place-photo-file" accept="image/*" multiple style="display:none" onchange="handlePlacePhotoFiles(event)"/>
 
 <!-- ===== PDF EXPORT MODAL ===== -->
 <div class="theme-modal-overlay" id="export-modal-overlay">
@@ -3296,8 +3334,8 @@
         <h2>Who are you? 💕</h2>
         <p>Choose your identity</p>
         <div class="identity-choices">
-            <div class="identity-choice" onclick="setIdentity('hamdi')"><span class="id-icon">👨</span><span class="id-name">Hamdi</span></div>
-            <div class="identity-choice" onclick="setIdentity('yossr')"><span class="id-icon">👩</span><span class="id-name">Yossr</span></div>
+            <div class="identity-choice" onclick="setIdentity('hamdi')"><img class="id-avatar" data-av="hamdi" alt="Hamdi"/><span class="id-name">Hamdi</span></div>
+            <div class="identity-choice" onclick="setIdentity('yossr')"><img class="id-avatar" data-av="yossr" alt="Yossr"/><span class="id-name">Yossr</span></div>
         </div>
     </div>
 </div>
@@ -3543,6 +3581,8 @@
             <input type="text" id="place-name-input" placeholder="Place name (e.g. Where we met 💕)" maxlength="50"/>
         </div>
         <textarea id="place-desc-input" placeholder="Tell the story of this place… 💕" maxlength="200"></textarea>
+        <button type="button" class="place-photo-pick" id="place-new-photo-btn" onclick="pickPlacePhotos('__new')">📷 Add photos of this place (optional)</button>
+        <div class="place-new-photos" id="place-new-photos"></div>
         <p class="place-coords-info" id="place-coords-info">📍 Coordinates will be saved automatically</p>
         <input type="hidden" id="place-lat-input"/><input type="hidden" id="place-lng-input"/>
         <div class="place-modal-actions">
@@ -3607,12 +3647,16 @@
 <div class="zv-overlay" id="zv-overlay">
     <button class="zv-close" onclick="closeZoomViewer()" aria-label="Close">✕</button>
     <div class="zv-stage" id="zv-stage"><img id="zv-img" src="" alt="" draggable="false"/></div>
+    <button class="zv-arrow zv-prev" onclick="zvNav(-1)" aria-label="Previous">‹</button>
+    <button class="zv-arrow zv-next" onclick="zvNav(1)" aria-label="Next">›</button>
     <div class="zv-bar">
         <div class="zv-cap" id="zv-cap"></div>
+        <div class="zv-count" id="zv-count"></div>
         <div class="zv-tools">
             <button class="zv-btn" onclick="zvStep(1/1.6)" aria-label="Zoom out">➖</button>
             <span class="zv-hint">Pinch or double-tap to zoom</span>
             <button class="zv-btn" onclick="zvStep(1.6)" aria-label="Zoom in">➕</button>
+            <button class="zv-btn zv-del" id="zv-del" onclick="zvDelete()" aria-label="Delete" style="display:none">🗑️</button>
         </div>
     </div>
 </div>
@@ -3670,8 +3714,8 @@
             <div class="scratch-form-row">
                 <input type="text" id="sc-emoji" placeholder="Emoji 🌹" maxlength="4" style="max-width:90px;flex:none;"/>
                 <select id="sc-to">
-                    <option value="yossr">👩 To Yossr</option>
-                    <option value="hamdi">👨 To Hamdi</option>
+                    <option value="yossr">💌 To Yossr</option>
+                    <option value="hamdi">💌 To Hamdi</option>
                 </select>
                 <select id="sc-bg">
                     <option value="0">🌸 Rose Pink</option>
@@ -3807,8 +3851,8 @@
             <div class="fl-form-row">
                 <input type="text" id="fl-title" placeholder="Letter title (e.g. Our wedding day 💒)" maxlength="80"/>
                 <select id="fl-to">
-                    <option value="yossr">👩 To Yossr</option>
-                    <option value="hamdi">👨 To Hamdi</option>
+                    <option value="yossr">💌 To Yossr</option>
+                    <option value="hamdi">💌 To Hamdi</option>
                 </select>
             </div>
             <div class="fl-form-row">
@@ -3862,7 +3906,7 @@
             <!-- Scoreboard -->
             <div class="ttt-scoreboard">
                 <div class="ttt-score-card">
-                    <div class="ts-icon">👨</div>
+                    <div class="ts-icon"><img class="av av-xl" data-av="hamdi" alt="Hamdi"/></div>
                     <div class="ts-name">Hamdi ❤️</div>
                     <div class="ts-num" id="ttt-score-hamdi">0</div>
                     <div class="ts-lbl">Wins</div>
@@ -3874,7 +3918,7 @@
                     <div class="ts-lbl">Ties</div>
                 </div>
                 <div class="ttt-score-card">
-                    <div class="ts-icon">👩</div>
+                    <div class="ts-icon"><img class="av av-xl" data-av="yossr" alt="Yossr"/></div>
                     <div class="ts-name">Yossr 🌹</div>
                     <div class="ts-num" id="ttt-score-yossr">0</div>
                     <div class="ts-lbl">Wins</div>
@@ -4060,6 +4104,34 @@
     }
     window.registerForPush = registerForPush;
 
+    /* ===== AVATARS (v25) — our photos instead of 👨 / 👩 ===== */
+    const AVATAR_DATA = {
+        hamdi: "data:image/jpeg;base64,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",
+        yossr: "data:image/jpeg;base64,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"
+    };
+    // turned into short blob: links once, so every list stays light
+    const AVATAR_URL = {};
+    for (const k of ["hamdi", "yossr"]) {
+        try {
+            const bin = atob(AVATAR_DATA[k].split(",")[1]);
+            const arr = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+            AVATAR_URL[k] = URL.createObjectURL(new Blob([arr], { type: "image/jpeg" }));
+        } catch (e) { AVATAR_URL[k] = AVATAR_DATA[k]; }
+    }
+    function whoKey(u) { return u === "yossr" ? "yossr" : "hamdi"; }
+    function personName(u) { return u === "yossr" ? "Yossr" : "Hamdi"; }
+    // av("hamdi") → round photo; av("yossr", "av-lg") → bigger one
+    function av(u, cls) {
+        const k = whoKey(u);
+        return `<img class="av${cls ? " " + cls : ""}" src="${AVATAR_URL[k]}" alt="${personName(k)}" title="${personName(k)}"/>`;
+    }
+    function avName(u, cls) { return av(u, cls) + " " + personName(u); }
+    // PDF pages are drawn on a canvas → use the embedded data version
+    function avPdf(u) { return `<img class="av" src="${AVATAR_DATA[whoKey(u)]}" alt="${personName(u)}"/>`; }
+    window.av = av;
+    document.querySelectorAll("img[data-av]").forEach(img => { img.src = AVATAR_URL[whoKey(img.dataset.av)]; });
+
     /* ===== IDENTITY ===== */
     const ID_KEY = "hamdi-yossr-identity";
     let currentUser = localStorage.getItem(ID_KEY);
@@ -4067,7 +4139,7 @@
     function showIdentityModal() { document.getElementById("identity-overlay").style.display = "flex"; }
     function updateBadge() {
         const badge = document.getElementById("current-user-badge");
-        if (currentUser) { badge.style.display = "block"; badge.textContent = currentUser === "hamdi" ? "👨 Hamdi" : "👩 Yossr"; }
+        if (currentUser) { badge.style.display = "block"; badge.innerHTML = avName(currentUser, "av-badge"); }
         else { badge.style.display = "none"; }
     }
     window.setIdentity = function(who) {
@@ -4464,9 +4536,11 @@
             const unreadClass = n.read ? '' : 'unread';
             const unreadDot = n.read ? '' : '<span class="notif-unread-dot"></span>';
             const icon = getNotificationIcon(n.type);
-            return `<div class="notif-item ${unreadClass}" onclick="handleNotificationClick('${n.id}', '${n.page}')">
+            const from = (n.createdBy === "hamdi" || n.createdBy === "yossr") ? n.createdBy : null;
+            const iconHtml = from ? `<span class="notif-av">${av(from, "av-notif")}<span class="notif-type">${icon}</span></span>` : icon;
+            return `<div class="notif-item ${unreadClass}" onclick="handleNotificationClick('${n.id}')">
                 ${unreadDot}
-                <span class="notif-item-icon">${icon}</span>
+                <span class="notif-item-icon">${iconHtml}</span>
                 <div class="notif-item-content">
                     <div class="notif-item-text">${esc(n.message)}</div>
                     <div class="notif-item-time">${timeAgo}</div>
@@ -4502,15 +4576,113 @@
         document.getElementById("notif-dropdown").classList.toggle("open");
     };
 
-    window.handleNotificationClick = async function(notifId, page) {
-        try {
-            await updateDoc(doc(db, "notifications", notifId), { read: true });
-        } catch (e) { console.error(e); }
+    window.handleNotificationClick = function(notifId) {
+        const n = allNotifications.find(x => x.id === notifId) || {};
+        if (!n.read) updateDoc(doc(db, "notifications", notifId), { read: true }).catch(e => console.error(e));
         document.getElementById("notif-dropdown").classList.remove("open");
-        if (page) {
-            const navBtn = document.getElementById("nav-" + page);
-            if (navBtn) navBtn.click();
-        }
+        openNotifTarget(n.page, n.itemId, n.itemKind);
+    };
+
+    /* ---------- v25: a notification opens the exact thing it talks about ----------
+       (the memory, the letter, the card, the task, the photo, the place…)
+       Older notifications without an item just open the page, like before. */
+    function hyFlash(el) {
+        const nav = document.querySelector("nav");
+        const top = el.getBoundingClientRect().top + window.scrollY - (nav ? nav.offsetHeight : 0) - 14;
+        window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+        el.classList.remove("hy-flash");
+        void el.offsetWidth;
+        el.classList.add("hy-flash");
+        setTimeout(() => el.classList.remove("hy-flash"), 2700);
+    }
+    // waits (max ~3 s) until the item is on screen, then scrolls to it and makes it glow
+    function hyFocus(find, onFound, tries) {
+        tries = tries || 0;
+        const el = find();
+        if (el && el.offsetParent !== null) { hyFlash(el); if (onFound) onFound(el); return; }
+        if (tries < 20) setTimeout(() => hyFocus(find, onFound, tries + 1), 150);
+    }
+    function tabBtn(containerSel, key) {
+        return [...document.querySelectorAll(containerSel + " button")].find(b => (b.getAttribute("onclick") || "").includes(`'${key}'`));
+    }
+    window.openNotifTarget = function(page, itemId, kind) {
+        if (!page || !document.getElementById("page-" + page)) return;
+        showPage(page);
+        if (!itemId && !kind) return;
+        const me = currentUser || "hamdi";
+        const sel = v => String(v).replace(/["\\]/g, "\\$&");
+        setTimeout(() => {
+            switch (page) {
+                case "memories":
+                    hyFocus(() => document.getElementById("msg-card-" + itemId), () => {
+                        if (kind === "comment") { const c = document.getElementById("comments-" + itemId); if (c) c.classList.add("open"); }
+                    });
+                    break;
+                case "gallery":
+                    if (kind === "album") {
+                        if (galAlbums().includes(itemId)) { currentAlbumFilter = itemId; renderGalleryGrid(); }
+                        hyFocus(() => document.getElementById("alb-bar").classList.contains("show") ? document.getElementById("alb-bar") : document.getElementById("album-tabs"));
+                        break;
+                    }
+                    if (!document.querySelector(`#gallery-grid [data-id="${sel(itemId)}"]`)) { currentAlbumFilter = "all"; renderGalleryGrid(); }
+                    hyFocus(() => document.querySelector(`#gallery-grid [data-id="${sel(itemId)}"]`));
+                    break;
+                case "letters": {
+                    const L = allLetters.find(l => l.id === itemId);
+                    let tab = "mine";
+                    if (L && L.to === me) tab = Date.now() < letterUnlockMs(L) ? "locked" : "unlocked";
+                    const b = tabBtn(".fl-tabs", tab);
+                    if (b) showLettersTab(tab, b);
+                    hyFocus(() => document.querySelector(`#fpanel-${tab} [data-item="${sel(itemId)}"]`), el => {
+                        const content = document.getElementById("flc-" + itemId);
+                        const rb = el.querySelector(".fl-readmore-btn");
+                        if (content && rb && content.classList.contains("collapsed")) toggleLetterContent(itemId, rb);
+                    });
+                    break;
+                }
+                case "scratch": {
+                    const c = scratchCardsData.find(x => x.id === itemId);
+                    const tab = c && c.to !== me ? "sent" : "received";
+                    const b = tabBtn(".scratch-tabs", tab);
+                    if (b) showScratchTab(tab, b);
+                    // the "received" tab redraws its cards 50 ms after switching → wait for it
+                    setTimeout(() => hyFocus(() => document.querySelector(`#spanel-${tab} [data-item="${sel(itemId)}"]`)), 180);
+                    break;
+                }
+                case "quiz": {
+                    const tab = ["add", "answer", "discussions"].includes(kind) ? kind : "answer";
+                    const b = tabBtn(".quiz-tabs", tab);
+                    if (b) showQuizTab(tab, b);
+                    if (tab === "answer") { const fb = document.getElementById("filter-all"); if (fb) filterQuizQuestions("all", fb); }
+                    if (itemId) hyFocus(() => document.querySelector(`#qpanel-${tab} [data-item="${sel(itemId)}"]`));
+                    break;
+                }
+                case "checklist": {
+                    const t = checklistData.find(x => x.id === itemId);
+                    if (!t) break;
+                    showChecklistTab(t.status || "todo");
+                    if (kind) clPanels[itemId] = kind;
+                    renderChecklist();
+                    if (!document.getElementById("task-" + itemId)) {   // a search / filter hides it → clear them
+                        clSearch = ""; clFilterCat = "all"; clFilterQuick = "all";
+                        const si = document.getElementById("cl-search-input"); if (si) si.value = "";
+                        const cf = document.getElementById("cl-cat-filter"); if (cf) cf.value = "all";
+                        const qs = document.getElementById("cl-quick-select"); if (qs) qs.value = "all";
+                        renderChecklist();
+                    }
+                    hyFocus(() => document.getElementById("task-" + itemId));
+                    break;
+                }
+                case "places":
+                    setTimeout(() => focusPlace(itemId), 250);
+                    break;
+                case "games": {
+                    const b = ["ttt", "puzzle", "memory"].includes(kind) && tabBtn(".games-tabs", kind);
+                    if (b) showGameTab(kind, b);
+                    break;
+                }
+            }
+        }, 60);
     };
 
     window.deleteNotification = async function(event, notifId) {
@@ -4539,15 +4711,19 @@
         }
     });
 
-    async function createNotification(type, message, targetUser, page) {
+    // v25: itemId / itemKind = the exact thing to open when the notification is tapped
+    async function createNotification(type, message, targetUser, page, itemId, itemKind) {
         if (!targetUser || targetUser === currentUser) return;
         try {
-            await addDoc(notificationsRef, {
+            const data = {
                 type, message, targetUser, page,
                 createdBy: currentUser,
                 read: false,
                 createdAt: new Date().toISOString()
-            });
+            };
+            if (itemId) data.itemId = String(itemId);
+            if (itemKind) data.itemKind = String(itemKind);
+            await addDoc(notificationsRef, data);
             // Push l partner 7atta ken l app msakra
             fetch(PUSH_ENDPOINT, {
                 method: "POST",
@@ -5197,9 +5373,19 @@
     })();
 
     /* ---------- the zoom viewer ---------- */
-    const zv = { z: 1, tx: 0, ty: 0, w: 0, h: 0 };
-    window.openZoomViewer = function(src, caption) {
+    const zv = { z: 1, tx: 0, ty: 0, w: 0, h: 0, list: null, idx: 0 };
+    // openZoomViewer(src, caption)  — one photo
+    // openZoomViewer(null, null, [{src, caption, del?}], index)  — several: swipe ◀ ▶ (v25)
+    window.openZoomViewer = function(src, caption, list, index) {
+        zv.list = Array.isArray(list) && list.length ? list : null;
+        zv.idx = zv.list ? Math.min(Math.max(0, index || 0), zv.list.length - 1) : 0;
+        if (zv.list) { src = zv.list[zv.idx].src; caption = zv.list[zv.idx].caption; }
         if (!src) return;
+        zvShow(src, caption);
+        ptEl("zv-overlay").classList.add("open");
+        document.body.style.overflow = "hidden";
+    };
+    function zvShow(src, caption) {
         const img = ptEl("zv-img");
         zv.z = 1; zv.tx = 0; zv.ty = 0;
         img.style.transition = "none";
@@ -5207,10 +5393,28 @@
         img.onload = zvFit;
         img.src = src;
         ptEl("zv-cap").textContent = caption || "";
-        ptEl("zv-overlay").classList.add("open");
         ptEl("zv-overlay").classList.remove("zoomed");
-        document.body.style.overflow = "hidden";
+        const many = !!(zv.list && zv.list.length > 1);
+        ptEl("zv-overlay").classList.toggle("many", many);
+        ptEl("zv-count").textContent = many ? `${zv.idx + 1} / ${zv.list.length}` : "";
+        ptEl("zv-del").style.display = zv.list && zv.list[zv.idx] && zv.list[zv.idx].del ? "" : "none";
         if (img.complete && img.naturalWidth) zvFit();
+    }
+    window.zvNav = function(dir) {
+        if (!zv.list || zv.list.length < 2) return;
+        zv.idx = (zv.idx + dir + zv.list.length) % zv.list.length;
+        zvShow(zv.list[zv.idx].src, zv.list[zv.idx].caption);
+    };
+    window.zvDelete = async function() {
+        const item = zv.list && zv.list[zv.idx];
+        if (!item || !item.del) return;
+        if (!confirm("Delete this photo? 🗑️")) return;
+        const ok = await item.del();
+        if (ok === false) return;
+        zv.list.splice(zv.idx, 1);
+        if (!zv.list.length) { closeZoomViewer(); return; }
+        zv.idx = Math.min(zv.idx, zv.list.length - 1);
+        zvShow(zv.list[zv.idx].src, zv.list[zv.idx].caption);
     };
     window.closeZoomViewer = function() {
         ptEl("zv-overlay").classList.remove("open");
@@ -5259,7 +5463,7 @@
                 const [a, b] = [...pts.values()];
                 const m = fromCentre((a.x + b.x) / 2, (a.y + b.y) / 2);
                 pinch = { d0: Math.max(1, dist(a, b)), z0: zv.z, mx: m.x, my: m.y };
-                if (down) down.moved = true;
+                if (down) { down.moved = true; down.multi = true; }
             }
         });
         st.addEventListener("pointermove", e => {
@@ -5286,7 +5490,13 @@
             if (pts.size > 0 || !down) return;
             const d = down;
             down = null;
-            if (e.type === "pointercancel" || d.moved || Date.now() - d.t > 350) return;
+            if (e.type === "pointercancel") return;
+            if (d.moved && !d.multi && zv.list && zv.z <= 1.01) {   // swipe → next / previous photo
+                const dx = e.clientX - d.x, dy = e.clientY - d.y;
+                if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.3) zvNav(dx < 0 ? 1 : -1);
+                return;
+            }
+            if (d.moved || Date.now() - d.t > 350) return;
             const now = Date.now();
             if (now - lastTap < 320 && lastTapPos && Math.hypot(d.x - lastTapPos.x, d.y - lastTapPos.y) < 40) {
                 lastTap = 0;   // double tap → zoom in / back to normal
@@ -5317,6 +5527,8 @@
         const zvOpen = ptEl("zv-overlay").classList.contains("open");
         if (!peOpen && !zvOpen) return;
         if (e.key === "Escape") { if (peOpen) peCancel(); else closeZoomViewer(); }
+        if (!peOpen && zvOpen && e.key === "ArrowLeft") zvNav(-1);
+        if (!peOpen && zvOpen && e.key === "ArrowRight") zvNav(1);
         if (["Escape", "ArrowLeft", "ArrowRight"].includes(e.key)) e.stopPropagation();
     }, true);
 
@@ -5371,25 +5583,25 @@
             const id=m.id;
             const reactions=m.reactions||{};const comments=m.comments||[];
             let reactionsHtml="";
-            if(reactions.hamdi)reactionsHtml+=`<span class="reaction-chip" onclick="toggleReactionPicker('${id}')" title="Hamdi"><span class="rc-emoji">${reactions.hamdi}</span> <span class="rc-who">👨</span></span>`;
-            if(reactions.yossr)reactionsHtml+=`<span class="reaction-chip" onclick="toggleReactionPicker('${id}')" title="Yossr"><span class="rc-emoji">${reactions.yossr}</span> <span class="rc-who">👩</span></span>`;
+            if(reactions.hamdi)reactionsHtml+=`<span class="reaction-chip" onclick="toggleReactionPicker('${id}')" title="Hamdi"><span class="rc-emoji">${reactions.hamdi}</span> <span class="rc-who">${av("hamdi")}</span></span>`;
+            if(reactions.yossr)reactionsHtml+=`<span class="reaction-chip" onclick="toggleReactionPicker('${id}')" title="Yossr"><span class="rc-emoji">${reactions.yossr}</span> <span class="rc-who">${av("yossr")}</span></span>`;
             let commentsHtml=comments.map((c,ci)=>{
-                const whoIcon=c.author==="hamdi"?"👨":"👩";const whoName=c.author==="hamdi"?"Hamdi":"Yossr";
+                const whoIcon=av(c.author,"av-md");const whoName=c.author==="hamdi"?"Hamdi":"Yossr";
                 const canDelete=c.author===currentUser;
                 const cReactions=c.reactions||{};let cReactHtml="";
-                if(cReactions.hamdi)cReactHtml+=`<span class="comment-reaction-chip" onclick="toggleCommentReactionPicker('${id}',${ci})" title="Hamdi">${cReactions.hamdi} 👨</span>`;
-                if(cReactions.yossr)cReactHtml+=`<span class="comment-reaction-chip" onclick="toggleCommentReactionPicker('${id}',${ci})" title="Yossr">${cReactions.yossr} 👩</span>`;
+                if(cReactions.hamdi)cReactHtml+=`<span class="comment-reaction-chip" onclick="toggleCommentReactionPicker('${id}',${ci})" title="Hamdi">${cReactions.hamdi} ${av("hamdi")}</span>`;
+                if(cReactions.yossr)cReactHtml+=`<span class="comment-reaction-chip" onclick="toggleCommentReactionPicker('${id}',${ci})" title="Yossr">${cReactions.yossr} ${av("yossr")}</span>`;
                 return `<div class="comment-item"><span class="comment-who">${whoIcon}</span><div class="comment-body"><div class="cb-name">${whoName}</div><div class="cb-text">${esc(c.text)}</div><div class="cb-time">${c.time||""}</div><div class="comment-reactions">${cReactHtml}<button class="comment-react-btn" onclick="toggleCommentReactionPicker('${id}',${ci})">😊+</button><div class="comment-reaction-picker" id="cpicker-${id}-${ci}">${REACTION_EMOJIS.map(em=>`<button onclick="addCommentReaction('${id}',${ci},'${em}')">${em}</button>`).join("")}</div></div></div>${canDelete?`<button class="comment-delete-btn" onclick="deleteComment('${id}',${ci})">🗑️</button>`:""}</div>`;
             }).join("");
             const commentCount=comments.length;
-            return `<div class="msg-card" id="msg-card-${id}"><div class="msg-header"><span class="msg-label">${m.createdBy==="yossr"?"👩":"👨"} ${esc(m.label||"Memory")}</span><span class="msg-actions"><button class="msg-edit" onclick="startEdit('${id}')">✏️</button><button class="msg-delete" onclick="deleteMemory('${id}')">🗑️</button></span></div>${m.date?`<span class="msg-date-pin">📅 ${esc(m.date)}</span>`:""} ${m.image?`<img class="msg-img" src="${m.image}" alt="${esc(m.label||"Memory")}" title="Tap to zoom 🔍" onclick="openZoomViewer(this.src,this.alt)"/>`:""}${m.text?`<div class="msg-body">${esc(m.text)}</div>`:""}<div class="reactions-bar"><div class="existing-reactions">${reactionsHtml}</div><button class="react-btn" onclick="toggleReactionPicker('${id}')">😊+</button><div class="reaction-picker" id="picker-${id}">${REACTION_EMOJIS.map(em=>`<button onclick="addReaction('${id}','${em}')">${em}</button>`).join("")}</div></div><div class="comments-section"><button class="toggle-comments" onclick="toggleComments('${id}')">💬 Comments${commentCount>0?` (${commentCount})`:""}</button><div class="comments-list" id="comments-${id}">${commentsHtml}<div class="comment-input-row"><input type="text" id="cinput-${id}" placeholder="Write a comment… 💕" maxlength="300" onkeydown="if(event.key==='Enter')addComment('${id}')"/><button class="comment-send-btn" onclick="addComment('${id}')">Send</button></div></div></div></div>`;
+            return `<div class="msg-card" id="msg-card-${id}"><div class="msg-header"><span class="msg-label">${av(m.createdBy)} ${esc(m.label||"Memory")}</span><span class="msg-actions"><button class="msg-edit" onclick="startEdit('${id}')">✏️</button><button class="msg-delete" onclick="deleteMemory('${id}')">🗑️</button></span></div>${m.date?`<span class="msg-date-pin">📅 ${esc(m.date)}</span>`:""} ${m.image?`<img class="msg-img" src="${m.image}" alt="${esc(m.label||"Memory")}" title="Tap to zoom 🔍" onclick="openZoomViewer(this.src,this.alt)"/>`:""}${m.text?`<div class="msg-body">${esc(m.text)}</div>`:""}<div class="reactions-bar"><div class="existing-reactions">${reactionsHtml}</div><button class="react-btn" onclick="toggleReactionPicker('${id}')">😊+</button><div class="reaction-picker" id="picker-${id}">${REACTION_EMOJIS.map(em=>`<button onclick="addReaction('${id}','${em}')">${em}</button>`).join("")}</div></div><div class="comments-section"><button class="toggle-comments" onclick="toggleComments('${id}')">💬 Comments${commentCount>0?` (${commentCount})`:""}</button><div class="comments-list" id="comments-${id}">${commentsHtml}<div class="comment-input-row"><input type="text" id="cinput-${id}" placeholder="Write a comment… 💕" maxlength="300" onkeydown="if(event.key==='Enter')addComment('${id}')"/><button class="comment-send-btn" onclick="addComment('${id}')">Send</button></div></div></div></div>`;
         }).join("");
     }
 
     window.toggleReactionPicker=function(id){if(!currentUser){showIdentityModal();return;}const picker=document.getElementById("picker-"+id);if(!picker)return;document.querySelectorAll('.reaction-picker.open').forEach(p=>{if(p.id!=="picker-"+id)p.classList.remove('open');});picker.classList.toggle("open");};
-    window.addReaction=async function(id,emoji){if(!currentUser){showIdentityModal();return;}document.getElementById("picker-"+id)?.classList.remove("open");showSync();try{const docRef=doc(db,"memories",id);const snap=await getDoc(docRef);const data=snap.data();const reactions=data.reactions||{};const updateData={};const isRemoving=reactions[currentUser]===emoji;if(isRemoving)updateData["reactions."+currentUser]=deleteField();else updateData["reactions."+currentUser]=emoji;await updateDoc(docRef,updateData);if(!isRemoving){const partner=currentUser==="hamdi"?"yossr":"hamdi";const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";await createNotification("memory",`${whoName} reacted ${emoji} to a memory`,partner,"memories");}}catch(e){alert("Error: "+e.message);}hideSync();};
+    window.addReaction=async function(id,emoji){if(!currentUser){showIdentityModal();return;}document.getElementById("picker-"+id)?.classList.remove("open");showSync();try{const docRef=doc(db,"memories",id);const snap=await getDoc(docRef);const data=snap.data();const reactions=data.reactions||{};const updateData={};const isRemoving=reactions[currentUser]===emoji;if(isRemoving)updateData["reactions."+currentUser]=deleteField();else updateData["reactions."+currentUser]=emoji;await updateDoc(docRef,updateData);if(!isRemoving){const partner=currentUser==="hamdi"?"yossr":"hamdi";const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";await createNotification("memory",`${whoName} reacted ${emoji} to a memory`,partner,"memories",id);}}catch(e){alert("Error: "+e.message);}hideSync();};
     window.toggleCommentReactionPicker=function(memId,ci){if(!currentUser){showIdentityModal();return;}const pickerId="cpicker-"+memId+"-"+ci;const picker=document.getElementById(pickerId);if(!picker)return;document.querySelectorAll('.comment-reaction-picker.open').forEach(p=>{if(p.id!==pickerId)p.classList.remove('open');});picker.classList.toggle("open");};
-    window.addCommentReaction=async function(memId,ci,emoji){if(!currentUser){showIdentityModal();return;}document.getElementById("cpicker-"+memId+"-"+ci)?.classList.remove("open");showSync();try{const docRef=doc(db,"memories",memId);const snap=await getDoc(docRef);const data=snap.data();const comments=data.comments||[];if(!comments[ci]){hideSync();return;}if(!comments[ci].reactions)comments[ci].reactions={};const isRemoving=comments[ci].reactions[currentUser]===emoji;if(isRemoving)delete comments[ci].reactions[currentUser];else comments[ci].reactions[currentUser]=emoji;await updateDoc(docRef,{comments:comments});if(!isRemoving&&comments[ci].author!==currentUser){const targetUser=comments[ci].author;const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";await createNotification("memory",`${whoName} reacted ${emoji} to your comment`,targetUser,"memories");}}catch(e){alert("Error: "+e.message);}hideSync();};
+    window.addCommentReaction=async function(memId,ci,emoji){if(!currentUser){showIdentityModal();return;}document.getElementById("cpicker-"+memId+"-"+ci)?.classList.remove("open");showSync();try{const docRef=doc(db,"memories",memId);const snap=await getDoc(docRef);const data=snap.data();const comments=data.comments||[];if(!comments[ci]){hideSync();return;}if(!comments[ci].reactions)comments[ci].reactions={};const isRemoving=comments[ci].reactions[currentUser]===emoji;if(isRemoving)delete comments[ci].reactions[currentUser];else comments[ci].reactions[currentUser]=emoji;await updateDoc(docRef,{comments:comments});if(!isRemoving&&comments[ci].author!==currentUser){const targetUser=comments[ci].author;const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";await createNotification("memory",`${whoName} reacted ${emoji} to your comment`,targetUser,"memories",memId,"comment");}}catch(e){alert("Error: "+e.message);}hideSync();};
     window.toggleComments=function(id){const list=document.getElementById("comments-"+id);if(list)list.classList.toggle("open");};
     window.addComment = async function (id) {
         if (!currentUser) {
@@ -5417,7 +5629,7 @@
             input.value = "";
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("memory", `${whoName} commented on a memory 💬`, partner, "memories");
+            await createNotification("memory", `${whoName} commented on a memory 💬`, partner, "memories", id, "comment");
         } catch (e) {
             alert("Error: " + e.message);
         }
@@ -5439,7 +5651,7 @@
         btn.textContent = "💾 Saving...";
         showSync();
         try {
-            await addDoc(memoriesRef, {
+            const newMemRef = await addDoc(memoriesRef, {
                 text,
                 date,
                 label,
@@ -5461,7 +5673,7 @@
             setTimeout(() => toast.style.display = "none", 2500);
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("memory", `${whoName} added a new memory${label ? ' "' + label + '"' : ''}`, partner, "memories");
+            await createNotification("memory", `${whoName} added a new memory${label ? ' "' + label + '"' : ''}`, partner, "memories", newMemRef.id);
         } catch (e) {
             alert("Error: " + e.message);
         }
@@ -5560,9 +5772,9 @@
         clearTimeout(clToastTimer);
         clToastTimer = setTimeout(() => el.classList.remove("show"), 2600);
     }
-    function clNotify(msg) {
+    function clNotify(msg, taskId, panel) {
         const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-        return createNotification("checklist", msg, partner, "checklist");
+        return createNotification("checklist", msg, partner, "checklist", taskId, panel);
     }
     function clWho() { return currentUser === "hamdi" ? "Hamdi" : "Yossr"; }
 
@@ -5850,7 +6062,7 @@
             <div class="checklist-task-badges">${badges.join("")}</div>
             ${payBar}
             ${vendor}
-            <div class="checklist-task-meta">Added by ${t.createdBy === "yossr" ? "👩 Yossr" : "👨 Hamdi"} · ${t.createdAt ? t.createdAt.substring(0, 10) : ""}</div>
+            <div class="checklist-task-meta">Added by ${avName(t.createdBy)} · ${t.createdAt ? t.createdAt.substring(0, 10) : ""}</div>
             <div class="checklist-status-row">
                 <label class="checklist-status-lbl">Status</label>
                 <select class="checklist-status-select" onchange="changeTaskStatus('${t.id}', this.value)">${options}</select>
@@ -6029,7 +6241,7 @@
             }
             return `<div class="cl-pay-row">
                 <span class="cl-pay-amt">${clMoney(p.amount)}</span>
-                <span class="cl-pay-meta">${p.date ? clFmtDate(p.date) : ""} · ${p.by === "yossr" ? "👩" : "👨"}${p.note ? " · " + esc(p.note) : ""}</span>
+                <span class="cl-pay-meta">${p.date ? clFmtDate(p.date) : ""} · ${av(p.by)}${p.note ? " · " + esc(p.note) : ""}</span>
                 <button class="cl-sub-del" onclick="clStartItemEdit('${t.id}','pay','${p.id}')" title="Edit">✏️</button>
                 <button class="cl-sub-del" onclick="deletePayment('${t.id}','${p.id}')" title="Delete">✕</button>
             </div>`;
@@ -6068,7 +6280,7 @@
             }
             const mine = c.author === currentUser;
             return `<div class="cl-msg${mine ? " mine" : ""}">
-                <div class="cl-msg-who">${c.author === "yossr" ? "👩 Yossr" : "👨 Hamdi"} <span>${esc(c.time || "")}</span>
+                <div class="cl-msg-who">${avName(c.author)} <span>${esc(c.time || "")}</span>
                     <span class="cl-msg-acts">${mine ? `<button class="cl-sub-del" onclick="clStartItemEdit('${t.id}','chat','${idx}')" title="Edit">✏️</button>` : ""}<button class="cl-sub-del" onclick="deleteComment('${t.id}',${idx})" title="Delete">✕</button></span>
                 </div>
                 <div class="cl-msg-txt">${esc(c.text)}</div>
@@ -6184,7 +6396,7 @@
             try {
                 await createNotification("checklist",
                     `${late ? "⚠️ Late" : "🔔 Due today"}: "${clShort(t.text, 40)}"`,
-                    currentUser, "checklist");
+                    currentUser, "checklist", t.id);
             } catch (e) {}
         }
         try { localStorage.setItem(key, JSON.stringify({ day: today, ids: seen.concat(fresh.map(t => t.id)) })); } catch (e) {}
@@ -6210,7 +6422,7 @@
 
         showSync();
         try {
-            await addDoc(checklistRef, {
+            const newTaskRef = await addDoc(checklistRef, {
                 text,
                 status: select.value,
                 category: catSel ? catSel.value : "other",
@@ -6227,7 +6439,7 @@
             if (planInput) planInput.value = "";
             if (dueInput) dueInput.value = "";
             if (budgetInput) budgetInput.value = "";
-            await clNotify(`${clWho()} added a task: ${clShort(text, 40)}`);
+            await clNotify(`${clWho()} added a task: ${clShort(text, 40)}`, newTaskRef.id);
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
     };
@@ -6240,7 +6452,7 @@
         try {
             await updateDoc(doc(db, "checklist", id), { status: newStatus, updatedAt: new Date().toISOString() });
             clToast("Moved to " + CL_STATUS_LABEL[newStatus]);
-            await clNotify(`${clWho()} moved "${clShort(task ? task.text : "a task", 32)}" to ${CL_STATUS_LABEL[newStatus]}`);
+            await clNotify(`${clWho()} moved "${clShort(task ? task.text : "a task", 32)}" to ${CL_STATUS_LABEL[newStatus]}`, id);
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
     };
@@ -6294,7 +6506,7 @@
             await updateDoc(doc(db, "checklist", id), { ...data, updatedAt: new Date().toISOString() });
             editingTaskId = null;
             renderChecklist();
-            await clNotify(`${clWho()} updated the task: ${clShort(data.text, 40)}`);
+            await clNotify(`${clWho()} updated the task: ${clShort(data.text, 40)}`, id);
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
     };
@@ -6372,7 +6584,7 @@
         const paidNow = clPaid(t) + amount;
         const budget = Number(t.budget) || 0;
         clToast(budget > 0 && paidNow >= budget ? "Fully paid ✅" : "Payment saved 💰");
-        await clNotify(`${clWho()} paid ${clMoney(amount)} for "${clShort(t.text, 28)}"${budget > 0 ? ` · ${clMoney(Math.max(0, budget - paidNow))} left` : ""}`);
+        await clNotify(`${clWho()} paid ${clMoney(amount)} for "${clShort(t.text, 28)}"${budget > 0 ? ` · ${clMoney(Math.max(0, budget - paidNow))} left` : ""}`, taskId, "pay");
     };
     window.deletePayment = async function(taskId, payId) {
         const t = checklistData.find(x => x.id === taskId);
@@ -6394,7 +6606,7 @@
             time: new Date().toLocaleString("en-GB", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })
         };
         await clUpdateArray(taskId, "comments", [...(t.comments || []), c]);
-        await clNotify(`${clWho()} wrote on "${clShort(t.text, 26)}": ${clShort(text, 40)}`);
+        await clNotify(`${clWho()} wrote on "${clShort(t.text, 26)}": ${clShort(text, 40)}`, taskId, "chat");
     };
 
     /* ---------- inline item editing ---------- */
@@ -6541,7 +6753,7 @@
         if (added) {
             clPanels[taskId] = "ideas";
             clToast(added + " idea" + (added > 1 ? "s" : "") + " added 🖼️");
-            await clNotify(`${clWho()} added ${added} photo idea${added > 1 ? "s" : ""} for "${clShort(task ? task.text : "a task", 30)}" — vote for your favourite 💕`);
+            await clNotify(`${clWho()} added ${added} photo idea${added > 1 ? "s" : ""} for "${clShort(task ? task.text : "a task", 30)}" — vote for your favourite 💕`, taskId, "ideas");
         }
     };
 
@@ -6557,7 +6769,7 @@
                 const task = checklistData.find(t => t.id === idea.taskId);
                 const both = (user === "hamdi" ? votes.yossr : votes.hamdi);
                 clToast(both ? "You both love this one 💖" : "Vote saved 💗");
-                await clNotify(`${clWho()} voted for ${idea.label ? '"' + clShort(idea.label, 24) + '"' : "an idea"}${task ? ' in "' + clShort(task.text, 24) + '"' : ""} 💗`);
+                await clNotify(`${clWho()} voted for ${idea.label ? '"' + clShort(idea.label, 24) + '"' : "an idea"}${task ? ' in "' + clShort(task.text, 24) + '"' : ""} 💗`, idea.taskId, "ideas");
             }
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
@@ -6602,11 +6814,134 @@
     function closeGeocodeResults(){const r=document.getElementById("map-geocode-results");if(r){r.classList.remove("open");r.innerHTML="";}}
     document.addEventListener("click",function(e){if(!e.target.closest("#map-geocode-bar"))closeGeocodeResults();});
     function initOurPlacesMap(){if(mapInitialized){setTimeout(()=>leafletMap&&leafletMap.invalidateSize(),50);return;}mapInitialized=true;leafletMap=L.map("our-places-map",{zoomControl:true}).setView([36.8065,10.1815],11);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',maxZoom:19}).addTo(leafletMap);leafletMap.on("click",function(e){const lat=e.latlng.lat.toFixed(6);const lng=e.latlng.lng.toFixed(6);document.getElementById("place-lat-input").value=lat;document.getElementById("place-lng-input").value=lng;document.getElementById("place-coords-info").textContent=`📍 ${lat}, ${lng}`;document.getElementById("place-emoji-input").value="";document.getElementById("place-name-input").value=lastGeocodedName||"";document.getElementById("place-desc-input").value="";document.getElementById("place-add-popup").classList.add("open");});renderPlaceMarkers(placesData);setupGeocodeSearch();}
-    function renderPlaceMarkers(places){if(!leafletMap)return;Object.values(placeMarkers).forEach(m=>m.remove());Object.keys(placeMarkers).forEach(k=>delete placeMarkers[k]);places.forEach(p=>{const icon=L.divIcon({html:`<div style="font-size:1.6rem;text-align:center;line-height:1;">${p.emoji||"📍"}</div>`,className:"",iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-16]});const marker=L.marker([p.lat,p.lng],{icon}).addTo(leafletMap).bindPopup(`<strong>${p.emoji||"📍"} ${p.name}</strong>${p.desc?"<br><span style='font-size:.85rem;color:#7a2545'>"+p.desc+"</span>":""}`);placeMarkers[p.id]=marker;});}
+    /* ---------- v25: photos taken at each place (collection "placephotos") ---------- */
+    const placePhotosRef = collection(db, "placephotos");
+    let placePhotos = [];
+    let placeNewPhotos = [];        // photos chosen while pinning a new place
+    let placePhotoTarget = null;    // place id ("__new" = the place being pinned)
+    function placePhotosOf(id) { return placePhotos.filter(ph => ph.placeId === id); }
+    function placeById(id) { return placesData.find(p => p.id === id); }
+    onSnapshot(query(placePhotosRef, orderBy("addedAt", "asc")), snapshot => {
+        placePhotos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderPlacesList(placesData);
+        renderPlaceMarkers(placesData);
+    }, err => console.warn("Place photos:", err && (err.code || err.message)));
+
+    function renderPlaceMarkers(places){
+        if(!leafletMap)return;
+        Object.values(placeMarkers).forEach(m=>m.remove());
+        Object.keys(placeMarkers).forEach(k=>delete placeMarkers[k]);
+        places.forEach(p=>{
+            const icon=L.divIcon({html:`<div style="font-size:1.6rem;text-align:center;line-height:1;">${p.emoji||"📍"}</div>`,className:"",iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-16]});
+            const photos=placePhotosOf(p.id);
+            const photoHtml=photos.length?`<div class="pm-photo" onclick="openPlacePhotos('${p.id}',0)"><img src="${photos[0].image}" alt=""/><span>📷 ${photos.length} photo${photos.length>1?"s":""}</span></div>`:"";
+            const marker=L.marker([p.lat,p.lng],{icon}).addTo(leafletMap).bindPopup(`<strong>${p.emoji||"📍"} ${esc(p.name)}</strong>${p.desc?"<br><span style='font-size:.85rem;color:#7a2545'>"+esc(p.desc)+"</span>":""}${photoHtml}`);
+            placeMarkers[p.id]=marker;
+        });
+    }
     let placeSearchQuery="";
-    function renderPlacesList(places){const list=document.getElementById("places-list");if(!list)return;const filtered=placeSearchQuery?places.filter(p=>(p.name||"").toLowerCase().includes(placeSearchQuery)||(p.desc||"").toLowerCase().includes(placeSearchQuery)||(p.emoji||"").includes(placeSearchQuery)):places;if(places.length===0){list.innerHTML='<p class="no-places">No places saved yet… click the map to add your first one 🌹</p>';return;}if(filtered.length===0){list.innerHTML=`<p class="no-places">No places found for "<strong>${esc(placeSearchQuery)}</strong>" 🔍</p>`;return;}list.innerHTML=filtered.map(p=>{const authorIcon=p.addedBy==="yossr"?"👩":"👨";const authorName=p.addedBy==="yossr"?"Yossr":"Hamdi";return `<div class="place-card"><button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button><div class="p-emoji">${p.emoji||"📍"}</div><div class="p-name">${esc(p.name)}</div>${p.desc?`<div class="p-desc">${esc(p.desc)}</div>`:""}<div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div><div class="p-author">${authorIcon} Added by ${authorName}</div><button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button></div>`;}).join("");}
+    function renderPlacesList(places){
+        const list=document.getElementById("places-list");
+        if(!list)return;
+        const filtered=placeSearchQuery?places.filter(p=>(p.name||"").toLowerCase().includes(placeSearchQuery)||(p.desc||"").toLowerCase().includes(placeSearchQuery)||(p.emoji||"").includes(placeSearchQuery)):places;
+        if(places.length===0){list.innerHTML='<p class="no-places">No places saved yet… click the map to add your first one 🌹</p>';return;}
+        if(filtered.length===0){list.innerHTML=`<p class="no-places">No places found for "<strong>${esc(placeSearchQuery)}</strong>" 🔍</p>`;return;}
+        list.innerHTML=filtered.map(p=>{
+            const photos=placePhotosOf(p.id);
+            const strip=photos.length?`<div class="p-photos">${photos.map((ph,i)=>`<img class="p-thumb" src="${ph.image}" alt="" onclick="openPlacePhotos('${p.id}',${i})"/>`).join("")}</div>`:"";
+            return `<div class="place-card" data-item="${p.id}"><button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button><div class="p-emoji">${p.emoji||"📍"}</div><div class="p-name">${esc(p.name)}</div>${p.desc?`<div class="p-desc">${esc(p.desc)}</div>`:""}${strip}<div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div><div class="p-author">${avName(p.addedBy)} · added it</div><div class="p-btns"><button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button><button class="p-photo-btn" onclick="pickPlacePhotos('${p.id}')">📷 ${photos.length?"Add more":"Add photos"}</button></div></div>`;
+        }).join("");
+    }
     onSnapshot(query(placesRef,orderBy("addedAt","asc")),snapshot=>{placesData=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderPlacesList(placesData);renderPlaceMarkers(placesData);});
     window.flyToPlace=function(lat,lng){if(!leafletMap)return;leafletMap.flyTo([lat,lng],15,{duration:1.2});window.scrollTo({top:document.getElementById("our-places-map").offsetTop-80,behavior:"smooth"});};
+    // used by notifications: fly to the place, open its bubble, light up its card
+    window.focusPlace=function(id){
+        const p=placeById(id);
+        if(!p)return;
+        if(leafletMap){leafletMap.flyTo([p.lat,p.lng],15,{duration:1.2});const m=placeMarkers[id];if(m)setTimeout(()=>m.openPopup(),1300);}
+        hyFocus(()=>document.querySelector(`#places-list [data-item="${id}"]`));
+    };
+
+    /* --- add photos (one → framing editor, several → as they are) --- */
+    async function preparePlacePhotos(files){
+        if(files.length===1){
+            const url=URL.createObjectURL(files[0]);
+            const res=await openPhotoEditor({src:url,okLabel:"✓ Use photo"});
+            URL.revokeObjectURL(url);
+            return res?[res]:[];
+        }
+        const out=[];
+        for(let i=0;i<files.length;i++){
+            clToast(`📷 Preparing ${i+1} / ${files.length}…`);
+            const url=URL.createObjectURL(files[i]);
+            try{out.push(await peQuick(url));}catch(e){console.warn(e);}
+            URL.revokeObjectURL(url);
+        }
+        return out;
+    }
+    function placePhotoError(e){
+        const m=String((e&&(e.code||e.message))||e);
+        if(/permission/i.test(m))return "Firebase refused the place photos 🔒\nIn Firebase › Firestore › Rules, allow the collection \"placephotos\" (the same way as \"gallery\").";
+        return "Error: "+((e&&e.message)||e);
+    }
+    async function uploadPlacePhotos(placeId,photos,notify){
+        if(!photos.length)return 0;
+        showSync();
+        let n=0;
+        try{
+            for(const ph of photos){
+                await addDoc(placePhotosRef,{placeId,image:ph.b64,ratio:ph.ratio||null,addedBy:currentUser||"hamdi",addedAt:new Date().toISOString()});
+                n++;
+            }
+        }catch(e){alert(placePhotoError(e));}
+        hideSync();
+        if(n&&notify){
+            const p=placeById(placeId);
+            clToast(`${n} photo${n>1?"s":""} added 📸`);
+            const partner=currentUser==="hamdi"?"yossr":"hamdi";
+            const who=currentUser==="hamdi"?"Hamdi":"Yossr";
+            await createNotification("places",`${who} added ${n} photo${n>1?"s":""} to "${p?p.name:"a place"}" 📸`,partner,"places",placeId);
+        }
+        return n;
+    }
+    window.pickPlacePhotos=function(placeId){
+        placePhotoTarget=placeId;
+        const fi=document.getElementById("place-photo-file");
+        fi.value="";
+        fi.click();
+    };
+    window.handlePlacePhotoFiles=async function(e){
+        const files=Array.from(e.target.files||[]);
+        e.target.value="";
+        const target=placePhotoTarget;
+        placePhotoTarget=null;
+        if(!files.length||!target)return;
+        const photos=await preparePlacePhotos(files);
+        if(!photos.length)return;
+        if(target==="__new"){placeNewPhotos=placeNewPhotos.concat(photos);renderPlaceNewPhotos();return;}
+        await uploadPlacePhotos(target,photos,true);
+    };
+    function renderPlaceNewPhotos(){
+        const box=document.getElementById("place-new-photos");
+        if(!box)return;
+        box.innerHTML=placeNewPhotos.map((ph,i)=>`<div class="pnp-item"><img src="${ph.b64}" alt=""/><button onclick="removePlaceNewPhoto(${i})" aria-label="Remove">✕</button></div>`).join("");
+        const btn=document.getElementById("place-new-photo-btn");
+        if(btn)btn.textContent=placeNewPhotos.length?`📷 Add more (${placeNewPhotos.length})`:"📷 Add photos of this place (optional)";
+    }
+    window.removePlaceNewPhoto=function(i){placeNewPhotos.splice(i,1);renderPlaceNewPhotos();};
+    window.openPlacePhotos=function(placeId,index){
+        const p=placeById(placeId);
+        const photos=placePhotosOf(placeId);
+        if(!photos.length)return;
+        const list=photos.map(ph=>({
+            src:ph.image,
+            caption:`${p?(p.emoji||"📍")+" "+p.name:""} · 📷 ${personName(ph.addedBy)}${ph.addedAt?" · "+new Date(ph.addedAt).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):""}`,
+            del:async()=>{showSync();try{await deleteDoc(doc(db,"placephotos",ph.id));hideSync();return true;}catch(e){hideSync();alert("Error: "+e.message);return false;}}
+        }));
+        if(leafletMap)leafletMap.closePopup();
+        openZoomViewer(null,null,list,index||0);
+    };
+
     window.savePlaceFromModal = async function () {
         const name = document.getElementById("place-name-input").value.trim();
         const emoji = document.getElementById("place-emoji-input").value.trim() || "📍";
@@ -6623,7 +6958,7 @@
         }
         showSync();
         try {
-            await addDoc(placesRef, {
+            const newPlaceRef = await addDoc(placesRef, {
                 name,
                 emoji,
                 desc,
@@ -6632,17 +6967,28 @@
                 addedBy: currentUser || "hamdi",
                 addedAt: new Date().toISOString()
             });
+            const photos = placeNewPhotos;
             closePlaceModal();
+            const n = await uploadPlacePhotos(newPlaceRef.id, photos, false);
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("places", `${whoName} added a new place: ${name}`, partner, "places");
+            await createNotification("places", `${whoName} added a new place: ${name}${n ? ` 📷 ${n}` : ""}`, partner, "places", newPlaceRef.id);
         } catch (e) {
             alert("Error: " + e.message);
         }
         hideSync();
     };
-    window.closePlaceModal=function(){document.getElementById("place-add-popup").classList.remove("open");};
-    window.deletePlace=async function(id){if(!confirm("Delete this place?"))return;showSync();try{await deleteDoc(doc(db,"places",id));}catch(e){alert("Error: "+e.message);}hideSync();};
+    window.closePlaceModal=function(){document.getElementById("place-add-popup").classList.remove("open");placeNewPhotos=[];renderPlaceNewPhotos();};
+    window.deletePlace=async function(id){
+        const photos=placePhotosOf(id);
+        if(!confirm(photos.length?`Delete this place and its ${photos.length} photo${photos.length>1?"s":""}?`:"Delete this place?"))return;
+        showSync();
+        try{
+            for(const ph of photos){try{await deleteDoc(doc(db,"placephotos",ph.id));}catch(e){}}
+            await deleteDoc(doc(db,"places",id));
+        }catch(e){alert("Error: "+e.message);}
+        hideSync();
+    };
     document.getElementById("place-add-popup").addEventListener("click",function(e){if(e.target===this)closePlaceModal();});
 
     /* ===== GALLERY ===== */
@@ -6707,8 +7053,9 @@
         showSync();
         try {
             const photoCount = galleryPendingPhotos.length;
+            let firstPhotoId = null;
             for (const p of galleryPendingPhotos) {
-                await addDoc(galleryRef, {
+                const ref = await addDoc(galleryRef, {
                     image: p.b64,
                     ratio: p.ratio || null,
                     caption: p.caption || "",
@@ -6716,6 +7063,7 @@
                     addedBy: currentUser || "hamdi",
                     addedAt: new Date().toISOString()
                 });
+                if (!firstPhotoId) firstPhotoId = ref.id;
             }
             galleryPendingPhotos.forEach(forgetPendingSrc);
             galleryPendingPhotos = [];
@@ -6725,7 +7073,7 @@
             document.getElementById("gal-file-input").value = "";
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("gallery", `${whoName} added ${photoCount} photo${photoCount > 1 ? 's' : ''} to the gallery`, partner, "gallery");
+            await createNotification("gallery", `${whoName} added ${photoCount} photo${photoCount > 1 ? 's' : ''} to the gallery`, partner, "gallery", firstPhotoId, "photo");
         } catch (er) {
             alert("Error: " + er.message);
         }
@@ -6794,7 +7142,7 @@
         grid.innerHTML=filtered.map((p,i)=>{
             const favs=photoFavs(p);
             const title=favs.length?("Loved by "+favs.map(u=>u==="yossr"?"Yossr":"Hamdi").join(" & ")):"Add to favourites";
-            return `<div class="photo-item" data-ratio="${Number(p.ratio)||""}" onclick="openSlideshow(${i})">
+            return `<div class="photo-item" data-id="${p.id}" data-ratio="${Number(p.ratio)||""}" onclick="openSlideshow(${i})">
                 <img src="${p.image}" alt="${esc(p.caption||"")}" onload="galFit(this)"/>
                 <div class="photo-overlay">${p.caption?`<div class="po-caption">${esc(p.caption)}</div>`:""}<div class="po-album">${esc(p.album||"")}</div></div>
                 <button class="photo-fav-btn${isFavByMe(p)?" on":""}" title="${esc(title)}" onclick="toggleGalleryFav(event,'${p.id}')">${photoFavIcon(p)}</button>
@@ -6829,7 +7177,7 @@
                 const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
                 const both = p.fav && p.fav[partner];
                 if(both) clToast("You both love this photo 💖");
-                await createNotification("gallery", `${whoName} loved a photo ❤️${p.caption ? ' — "' + String(p.caption).slice(0,30) + '"' : ""}`, partner, "gallery");
+                await createNotification("gallery", `${whoName} loved a photo ❤️${p.caption ? ' — "' + String(p.caption).slice(0,30) + '"' : ""}`, partner, "gallery", id, "photo");
             }
         }catch(err){ alert("Error: "+err.message); }
         hideSync();
@@ -7011,7 +7359,7 @@
             const whoName=currentUser==="hamdi"?"Hamdi":"Yossr";
             if(toName){
                 clToast(`${n} photo${n>1?"s":""} ${verb} “${toName}” 🏷️`);
-                await createNotification("gallery",`${whoName} moved ${n} photo${n>1?"s":""} to the album "${toName}" 🏷️`,partner,"gallery");
+                await createNotification("gallery",`${whoName} moved ${n} photo${n>1?"s":""} to the album "${toName}" 🏷️`,partner,"gallery",toName,"album");
             }else{
                 clToast(`Album “${fromName}” deleted — its ${n} photo${n>1?"s are":" is"} still in 🌸 All`);
                 await createNotification("gallery",`${whoName} deleted the album "${fromName}" — its photos are still in All 🌸`,partner,"gallery");
@@ -7165,9 +7513,9 @@
 
     function buildScratchCardHTML(c, isSent) {
         const bg = CARD_BACKGROUNDS[c.bgIndex || 0];
-        const fromIcon = c.from === "hamdi" ? "👨" : "👩";
+        const fromIcon = av(c.from);
         const fromName = c.from === "hamdi" ? "Hamdi" : "Yossr";
-        const toIcon = c.to === "hamdi" ? "👨" : "👩";
+        const toIcon = av(c.to);
         const toName = c.to === "hamdi" ? "Hamdi" : "Yossr";
         const time = c.sentAt ? new Date(c.sentAt).toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" }) : "";
 
@@ -7181,10 +7529,10 @@
         if (showReactions) {
             let chipsHtml = "";
             if (reactions.hamdi) {
-                chipsHtml += `<span class="sc-reaction-chip" title="Hamdi"><span class="scrc-emoji">${reactions.hamdi}</span><span class="scrc-who">👨</span></span>`;
+                chipsHtml += `<span class="sc-reaction-chip" title="Hamdi"><span class="scrc-emoji">${reactions.hamdi}</span><span class="scrc-who">${av("hamdi")}</span></span>`;
             }
             if (reactions.yossr) {
-                chipsHtml += `<span class="sc-reaction-chip" title="Yossr"><span class="scrc-emoji">${reactions.yossr}</span><span class="scrc-who">👩</span></span>`;
+                chipsHtml += `<span class="sc-reaction-chip" title="Yossr"><span class="scrc-emoji">${reactions.yossr}</span><span class="scrc-who">${av("yossr")}</span></span>`;
             }
 
             // Receiver can react (only on received revealed cards)
@@ -7201,7 +7549,7 @@
             }
         }
 
-        return `<div class="scratch-card-outer" style="background:${bg};">
+        return `<div class="scratch-card-outer" data-item="${c.id}" style="background:${bg};">
             <div class="scratch-card-inner" id="sci-${c.id}">
                 <div class="sc-from-badge">
                     <span class="sc-from-tag">${fromIcon} ${fromName} → ${toIcon} ${toName}</span>
@@ -7243,7 +7591,7 @@
             await updateDoc(docRef, updateData);
             if (!isRemoving && data.from !== currentUser) {
                 const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-                await createNotification("scratch", `${whoName} reacted ${emoji} to your scratch card 🎴`, data.from, "scratch");
+                await createNotification("scratch", `${whoName} reacted ${emoji} to your scratch card 🎴`, data.from, "scratch", cardId);
             }
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
@@ -7356,14 +7704,14 @@
         btn.disabled = true; btn.textContent = "💌 Sending...";
         showSync();
         try {
-            await addDoc(scratchRef, {
+            const newCardRef = await addDoc(scratchRef, {
                 from: currentUser, to, emoji, bgIndex, message,
                 revealed: false, sentAt: new Date().toISOString()
             });
             document.getElementById("sc-emoji").value = "";
             document.getElementById("sc-msg").value = "";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("scratch", `${whoName} sent you a secret scratch card 🎴`, to, "scratch");
+            await createNotification("scratch", `${whoName} sent you a secret scratch card 🎴`, to, "scratch", newCardRef.id);
         } catch(e) { alert("Error: " + e.message); }
         btn.disabled = false; btn.textContent = "🎴 Send Secret Card";
         hideSync();
@@ -7454,7 +7802,7 @@ window.addQuizQuestion = async function() {
     showSync();
 
     try {
-        await addDoc(quizRef, questionData);
+        const newQRef = await addDoc(quizRef, questionData);
         document.getElementById("q-question").value = "";
         if (currentQuizType === "multiple") {
             document.getElementById("q-opt-a").value = "";
@@ -7466,7 +7814,7 @@ window.addQuizQuestion = async function() {
         // Notify partner
         const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
         const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-        await createNotification("quiz", `${whoName} added a new quiz question 💡`, partner, "quiz");
+        await createNotification("quiz", `${whoName} added a new quiz question 💡`, partner, "quiz", newQRef.id, "answer");
     } catch (e) { alert("Error: " + e.message); }
 
     btn.disabled = false;
@@ -7532,12 +7880,12 @@ function renderAnswerPanel() {
         return;
     }
 
-    container.innerHTML = `<p style="font-family:Great Vibes,cursive;font-size:1.5rem;color:#c0396b;text-align:center;margin-bottom:14px;">Questions About ${partnerName} ${partner === "hamdi" ? "👨" : "👩"}</p>` +
+    container.innerHTML = `<p style="font-family:Great Vibes,cursive;font-size:1.5rem;color:#c0396b;text-align:center;margin-bottom:14px;">Questions About ${partnerName} ${av(partner,"av-lg")}</p>` +
         filteredQs.map(q => buildQuizCardHTML(q, false)).join("");
 }
 
 function buildQuizCardHTML(q, isOwn) {
-    const aboutIcon = q.about === "hamdi" ? "👨" : "👩";
+    const aboutIcon = av(q.about);
     const aboutName = q.about === "hamdi" ? "Hamdi" : "Yossr";
     const me = currentUser || "hamdi";
     const isOpen = q.type === "open";
@@ -7554,7 +7902,7 @@ function buildQuizCardHTML(q, isOwn) {
         if (isOwn) {
             // Show partner's answer if exists
             if (partnerAnswer) {
-                const partnerIcon = partner === "hamdi" ? "👨" : "👩";
+                const partnerIcon = av(partner);
                 const partnerN = partner === "hamdi" ? "Hamdi" : "Yossr";
                 answerSection = `<div class="quiz-open-answer-display">
                     <div class="quiz-open-answer-label">${partnerIcon} ${partnerN}'s answer:</div>
@@ -7605,7 +7953,7 @@ function buildQuizCardHTML(q, isOwn) {
         // Status
         if (isOwn) {
             if (partnerAnswer) {
-                const partnerIcon = partner === "hamdi" ? "👨" : "👩";
+                const partnerIcon = av(partner);
                 const correct = partnerAnswer.answer === q.correct;
                 answerSection += `<div class="quiz-answered-status">${partnerIcon} answered: <span class="${correct ? "ans-correct" : "ans-wrong"}">${esc(q.options[partnerAnswer.answer] || partnerAnswer.answer)} ${correct ? "✅" : "❌"}</span></div>`;
             } else {
@@ -7619,7 +7967,7 @@ function buildQuizCardHTML(q, isOwn) {
 
     const pinnedBadge = q.pinned ? '<span class="quiz-pinned-badge">📌 Pinned</span>' : '';
     const cardClass = q.pinned ? 'quiz-question-card pinned' : 'quiz-question-card';
-    return `<div class="${cardClass}">
+    return `<div class="${cardClass}" data-item="${q.id}">
         <div class="quiz-q-header">
             <span class="quiz-q-about">${aboutIcon} About ${aboutName}${typeBadge}${pinnedBadge}</span>
             <span class="quiz-q-actions">
@@ -7639,7 +7987,7 @@ function buildAuthorCommentsSection(q, isAuthor) {
     const author = q.about; // The one who created the question
 
     let commentsHtml = comments.map((c, ci) => {
-        const whoIcon = c.author === "hamdi" ? "👨" : "👩";
+        const whoIcon = av(c.author, "av-md");
         const whoName = c.author === "hamdi" ? "Hamdi" : "Yossr";
         const canDelete = c.author === me;
         return `<div class="quiz-author-comment">
@@ -7690,7 +8038,7 @@ window.submitOpenAnswer = async function(qId, inputEl) {
         const q = allQuizQuestions.find(x => x.id === qId);
         if (q) {
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("quiz_answer", `${whoName} answered your quiz question 💬`, q.about, "quiz");
+            await createNotification("quiz_answer", `${whoName} answered your quiz question 💬`, q.about, "quiz", qId, "add");
         }
     } catch (e) { alert("Error: " + e.message); }
     hideSync();
@@ -7710,7 +8058,7 @@ window.answerQuiz = async function(qId, letter) {
         await updateDoc(doc(db, "quizquestions", qId), update);
         // Notify the question author
         const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-        await createNotification("quiz_answer", `${whoName} answered your quiz question 💬`, q.about, "quiz");
+        await createNotification("quiz_answer", `${whoName} answered your quiz question 💬`, q.about, "quiz", qId, "add");
     } catch (e) { alert("Error: " + e.message); }
     hideSync();
 };
@@ -7735,7 +8083,7 @@ window.addQuizComment = async function(qId, inputEl) {
         // Notify the partner (the one who answered)
         const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
         const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-        await createNotification("quiz_comment", `${whoName} reacted to your quiz answer 💭`, partner, "quiz");
+        await createNotification("quiz_comment", `${whoName} reacted to your quiz answer 💭`, partner, "quiz", qId, "answer");
     } catch (e) { alert("Error: " + e.message); }
     hideSync();
 };
@@ -7773,7 +8121,7 @@ window.togglePinQuestion = async function(qId) {
         if (newPinState) {
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("quiz", `${whoName} pinned a question for deeper discussion 📌`, partner, "quiz");
+            await createNotification("quiz", `${whoName} pinned a question for deeper discussion 📌`, partner, "quiz", qId, "discussions");
         }
     } catch (e) { alert("Error: " + e.message); }
     hideSync();
@@ -7810,9 +8158,9 @@ function renderQuizScores() {
     let winnerHtml = "";
     if (hamdiTotal > 0 || yossrTotal > 0) {
         if (hamdiPct > yossrPct) {
-            winnerHtml = `<div class="quiz-winner-banner"><h3>👨 Hamdi knows Yossr better! 🏆</h3><p>${hamdiPct}% vs ${yossrPct}% — Hamdi wins this round 😄</p></div>`;
+            winnerHtml = `<div class="quiz-winner-banner"><h3>${av("hamdi","av-lg")} Hamdi knows Yossr better! 🏆</h3><p>${hamdiPct}% vs ${yossrPct}% — Hamdi wins this round 😄</p></div>`;
         } else if (yossrPct > hamdiPct) {
-            winnerHtml = `<div class="quiz-winner-banner"><h3>👩 Yossr knows Hamdi better! 🏆</h3><p>${yossrPct}% vs ${hamdiPct}% — Yossr wins this round 😄</p></div>`;
+            winnerHtml = `<div class="quiz-winner-banner"><h3>${av("yossr","av-lg")} Yossr knows Hamdi better! 🏆</h3><p>${yossrPct}% vs ${hamdiPct}% — Yossr wins this round 😄</p></div>`;
         } else if (hamdiTotal > 0 && yossrTotal > 0) {
             winnerHtml = `<div class="quiz-winner-banner"><h3>💕 It's a tie! You know each other perfectly!</h3><p>${hamdiPct}% — perfectly matched 🌹</p></div>`;
         }
@@ -7821,14 +8169,14 @@ function renderQuizScores() {
     container.innerHTML = winnerHtml + `
     <div class="quiz-scores-wrap">
         <div class="quiz-score-card">
-            <div class="quiz-score-icon">👨</div>
+            <div class="quiz-score-icon">${av("hamdi","av-xl")}</div>
             <div class="quiz-score-name">Hamdi</div>
             <div class="quiz-score-num">${hamdiCorrect}<span style="font-size:1.2rem;color:#b07090;">/${hamdiTotal}</span></div>
             <div class="quiz-score-label">Questions correct</div>
             <div class="quiz-score-pct">${hamdiPct}% about Yossr 💕</div>
         </div>
         <div class="quiz-score-card">
-            <div class="quiz-score-icon">👩</div>
+            <div class="quiz-score-icon">${av("yossr","av-xl")}</div>
             <div class="quiz-score-name">Yossr</div>
             <div class="quiz-score-num">${yossrCorrect}<span style="font-size:1.2rem;color:#b07090;">/${yossrTotal}</span></div>
             <div class="quiz-score-label">Questions correct</div>
@@ -7906,7 +8254,7 @@ function renderQuizScores() {
                 });
                 editingLetterId = null;
             } else {
-                await addDoc(lettersRef, {
+                const newLetterRef = await addDoc(lettersRef, {
                     title, to, unlockDate, occasion, content,
                     from: currentUser,
                     createdAt: new Date().toISOString(),
@@ -7919,7 +8267,7 @@ function renderQuizScores() {
                 const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
                 const formattedDate = letterUnlockDate({ unlockDate }).toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
                 if (to !== currentUser) {
-                    await createNotification("letters", `${whoName} sealed a letter for you, opens ${formattedDate} 💌`, to, "letters");
+                    await createNotification("letters", `${whoName} sealed a letter for you, opens ${formattedDate} 💌`, to, "letters", newLetterRef.id);
                 }
             }
             // Clear form
@@ -7975,6 +8323,10 @@ function renderQuizScores() {
         // My letters (all I wrote)
         const mine = allLetters.filter(l => l.from === me);
 
+        // v25: the newest letter is always on top
+        const newestFirst = (a, b) => String(b.createdAt || b.unlockDate || "").localeCompare(String(a.createdAt || a.unlockDate || ""));
+        locked.sort(newestFirst); unlocked.sort(newestFirst); mine.sort(newestFirst);
+
         renderLetterList(locked, "fl-locked-list", "locked");
         renderLetterList(unlocked, "fl-unlocked-list", "unlocked");
         renderLetterList(mine, "fl-mine-list", "mine");
@@ -8001,9 +8353,9 @@ function renderQuizScores() {
         const canOpen = !isLocked && letter.to === me;
         const isOwn = letter.from === me;
 
-        const fromIcon = letter.from === "hamdi" ? "👨" : "👩";
+        const fromIcon = av(letter.from);
         const fromName = letter.from === "hamdi" ? "Hamdi" : "Yossr";
-        const toLabel = letter.to === "hamdi" ? "👨 Hamdi" : "👩 Yossr";
+        const toLabel = avName(letter.to);
 
         const unlockDateFormatted = letterUnlockDate(letter).toLocaleDateString("en-GB", {
             weekday: "long", day: "2-digit", month: "long", year: "numeric"
@@ -8024,7 +8376,7 @@ function renderQuizScores() {
 
             const cardClass = mode === "mine" && isOwn ? "fl-letter-card locked" : "fl-letter-card locked";
 
-            return `<div class="${cardClass}">
+            return `<div class="${cardClass}" data-item="${letter.id}">
                 <div class="fl-letter-header">
                     <div class="fl-letter-title">${esc(letter.title)}</div>
                     <div class="fl-letter-actions">${editBtn}${delBtn}</div>
@@ -8053,7 +8405,7 @@ function renderQuizScores() {
 
         // Unlockable but not yet opened — show "Open" button
         if (canOpen && !letter.unlocked) {
-            return `<div class="fl-letter-card unlocked-ready">
+            return `<div class="fl-letter-card unlocked-ready" data-item="${letter.id}">
                 <div class="fl-letter-header">
                     <div class="fl-letter-title">${esc(letter.title)}</div>
                     <div class="fl-letter-actions">${editBtn}${delBtn}</div>
@@ -8073,12 +8425,12 @@ function renderQuizScores() {
         }
 
         // Already opened — show full content
-        const unlockedByName = letter.unlockedBy === "hamdi" ? "👨 Hamdi" : letter.unlockedBy === "yossr" ? "👩 Yossr" : "";
+        const unlockedByName = (letter.unlockedBy === "hamdi" || letter.unlockedBy === "yossr") ? avName(letter.unlockedBy) : "";
         const unlockedAtFormatted = letter.unlockedAt ? new Date(letter.unlockedAt).toLocaleDateString("en-GB", {
             day: "2-digit", month: "short", year: "numeric"
         }) : "";
 
-        return `<div class="fl-letter-card">
+        return `<div class="fl-letter-card" data-item="${letter.id}">
             <div class="fl-letter-header">
                 <div class="fl-letter-title">${esc(letter.title)}</div>
                 <div class="fl-letter-actions">${editBtn}${delBtn}</div>
@@ -8117,7 +8469,7 @@ function renderQuizScores() {
             const letter = allLetters.find(l => l.id === letterId);
             if (letter && letter.from !== currentUser) {
                 const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-                await createNotification("letters", `${whoName} opened your letter "${letter.title}" 💌✨`, letter.from, "letters");
+                await createNotification("letters", `${whoName} opened your letter "${letter.title}" 💌✨`, letter.from, "letters", letterId);
             }
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
@@ -8166,6 +8518,7 @@ function renderQuizScores() {
                     message: `📬 Your letter "${letter.title}" is ready to open! 💌`,
                     targetUser: letter.to,
                     page: "letters",
+                    itemId: letter.id,
                     createdBy: letter.from || "system",
                     read: false,
                     createdAt: new Date().toISOString()
@@ -8261,7 +8614,7 @@ function renderQuizScores() {
             // Notify partner
             const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("games", `${whoName} started a Tic Tac Toe game — your turn! 🎯`, partner, "games");
+            await createNotification("games", `${whoName} started a Tic Tac Toe game — your turn! 🎯`, partner, "games", null, "ttt");
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
     };
@@ -8311,7 +8664,7 @@ function renderQuizScores() {
             if (updates.status !== "finished") {
                 const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
                 const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-                await createNotification("games", `${whoName} played — your turn now 🎯`, partner, "games");
+                await createNotification("games", `${whoName} played — your turn now 🎯`, partner, "games", null, "ttt");
             }
         } catch (e) { alert("Error: " + e.message); }
         hideSync();
@@ -8440,7 +8793,7 @@ function renderQuizScores() {
                 resultText = "💔 Loss";
                 resultClass = "ttt-result-loss";
             }
-            const winnerName = g.winner === "hamdi" ? "👨 Hamdi" : g.winner === "yossr" ? "👩 Yossr" : "Tie";
+            const winnerName = (g.winner === "hamdi" || g.winner === "yossr") ? avName(g.winner) : "Tie";
             return `<div class="ttt-history-item">
                 <span>${winnerName}</span>
                 <span class="ttt-history-result ${resultClass}">${resultText}</span>
@@ -8690,7 +9043,7 @@ function renderQuizScores() {
             const min = Math.floor(elapsedSec / 60);
             const sec = elapsedSec % 60;
             const timeStr = `${min}m ${sec}s`;
-            await createNotification("games", `${whoName} solved a ${puzzleState.size}×${puzzleState.size} puzzle in ${timeStr} 🧩`, partner, "games");
+            await createNotification("games", `${whoName} solved a ${puzzleState.size}×${puzzleState.size} puzzle in ${timeStr} 🧩`, partner, "games", null, "puzzle");
         } catch (e) { console.error(e); }
     }
 
@@ -8750,7 +9103,7 @@ function renderQuizScores() {
             const min = Math.floor(s.timeSec / 60);
             const sec = s.timeSec % 60;
             const timeStr = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-            const userIcon = s.user === "hamdi" ? "👨" : "👩";
+            const userIcon = av(s.user);
             const userName = s.user === "hamdi" ? "Hamdi" : "Yossr";
             const rank = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
             return `<div class="puzzle-leaderboard-item">
@@ -8999,7 +9352,7 @@ function renderQuizScores() {
             const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
             const min = Math.floor(elapsedSec / 60);
             const sec = elapsedSec % 60;
-            await createNotification("games", `${whoName} won Memory Match (${memoryState.size}×${memoryState.size}) in ${min}m ${sec}s 🧠`, partner, "games");
+            await createNotification("games", `${whoName} won Memory Match (${memoryState.size}×${memoryState.size}) in ${min}m ${sec}s 🧠`, partner, "games", null, "memory");
         } catch (e) { console.error(e); }
     }
 
@@ -9053,7 +9406,7 @@ function renderQuizScores() {
             const min = Math.floor(s.timeSec / 60);
             const sec = s.timeSec % 60;
             const timeStr = `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-            const userIcon = s.user === "hamdi" ? "👨" : "👩";
+            const userIcon = av(s.user);
             const userName = s.user === "hamdi" ? "Hamdi" : "Yossr";
             const rank = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
             return `<div class="memory-leaderboard-item">
@@ -9092,7 +9445,7 @@ function renderQuizScores() {
     const pdfSleep = ms => new Promise(r => setTimeout(r, ms));
 
     /* ---------- tiny helpers ---------- */
-    function pdfWho(u) { return u === "yossr" ? "👩 Yossr" : "👨 Hamdi"; }
+    function pdfWho(u) { return avPdf(u) + " " + personName(u); }
     function pdfDay(v) {
         if (!v) return "";
         const d = String(v).length <= 10 ? new Date(v + "T00:00:00") : new Date(v);
@@ -9204,8 +9557,8 @@ function renderQuizScores() {
     function pdfMemoryHTML(m, withPhotos) {
         const reactions = m.reactions || {};
         let react = "";
-        if (reactions.hamdi) react += '<span>' + reactions.hamdi + ' 👨</span>';
-        if (reactions.yossr) react += '<span>' + reactions.yossr + ' 👩</span>';
+        if (reactions.hamdi) react += '<span>' + reactions.hamdi + ' ' + avPdf("hamdi") + '</span>';
+        if (reactions.yossr) react += '<span>' + reactions.yossr + ' ' + avPdf("yossr") + '</span>';
         const comments = (m.comments || []).map(c =>
             '<div class="pdfb-comment"><b>' + pdfWho(c.author) + '</b> ' + esc(c.text) +
             (c.time ? '<i>' + esc(c.time) + '</i>' : '') + '</div>').join("");
@@ -9315,8 +9668,8 @@ function renderQuizScores() {
         const votes = idea.votes || {};
         const both = votes.hamdi && votes.yossr;
         const who = [];
-        if (votes.hamdi) who.push("👨 Hamdi");
-        if (votes.yossr) who.push("👩 Yossr");
+        if (votes.hamdi) who.push(avPdf("hamdi") + " Hamdi");
+        if (votes.yossr) who.push(avPdf("yossr") + " Yossr");
         return '<div class="pdfb-card">' +
             '<div class="pdfb-card-top"><span class="pdfb-tag">' + esc(task.text) + '</span>' +
             '<span class="pdfb-date">' + (both ? "💖 Chosen together" : "⭐ " + who.join(" ")) + '</span></div>' +
