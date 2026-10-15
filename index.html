@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v31"/>
+    <meta name="app-version" content="v32"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -3226,6 +3226,12 @@
         .otd-mem-txt small { color: #7a2545; font-size: .8rem; line-height: 1.4; }
         .otd-photos { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
         .otd-photos img { width: 76px; height: 76px; object-fit: cover; border-radius: 12px; flex: none; cursor: zoom-in; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(192, 57, 107, .18); }
+        /* v32: today's real date instead of the 📅 emoji (it always shows "JUL 17") */
+        .otd-cal { display: flex; flex-direction: column; width: 70px; margin: 0 auto 12px; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 6px 18px rgba(192, 57, 107, .22); border: 1px solid rgba(255, 182, 210, .7); font-family: 'Lato', sans-serif; }
+        .otd-cal-m { display: block; padding: 4px 0 3px; background: linear-gradient(135deg, #e8608c, #c0396b); color: #fff; font-size: .72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+        .otd-cal-d { display: block; padding: 2px 0 6px; color: #9b1c4a; font-size: 2rem; font-weight: 800; line-height: 1.15; }
+        body[data-theme="midnight"] .otd-cal { background: rgba(45, 45, 74, .95); border-color: rgba(192, 57, 107, .5); }
+        body[data-theme="midnight"] .otd-cal-d { color: #f48fb1; }
         /* v27: voice messages */
         .voice-box { margin: 0 0 14px; }
         .vb-add { width: 100%; padding: 11px; border: 2px dashed rgba(255, 182, 210, .8); border-radius: 14px; background: rgba(255, 240, 248, .5); color: #c0396b; font-size: .88rem; font-family: 'Lato', sans-serif; letter-spacing: .5px; cursor: pointer; }
@@ -3683,7 +3689,7 @@
         </div>
         <!-- v27: On this day -->
         <div class="card otd-card" id="otd-card" style="display:none">
-            <div class="icon">📅</div>
+            <div class="otd-cal" aria-hidden="true"><span class="otd-cal-m" id="otd-cal-m"></span><span class="otd-cal-d" id="otd-cal-d"></span></div>
             <h2>On This Day</h2>
             <p class="event-date" id="otd-sub">Our memories from this same day</p>
             <div id="otd-list"></div>
@@ -7980,9 +7986,16 @@
         renderOnThisDay(past);
     }
     window.loadOnThisDay = loadOnThisDay;
+    // the little calendar on the card always shows today's date
+    function otdCalendar() {
+        const now = new Date(), m = document.getElementById("otd-cal-m"), d = document.getElementById("otd-cal-d");
+        if (m) m.textContent = now.toLocaleDateString("en-GB", { month: "short" }).replace(".", "");
+        if (d) d.textContent = now.getDate();
+    }
     function renderOnThisDay(past) {
         const card = document.getElementById("otd-card"), list = document.getElementById("otd-list");
         if (!card || !list) return;
+        otdCalendar();
         const rows = past.filter(x => otdItems[x.key] && (otdItems[x.key].memories.length || otdItems[x.key].photos.length)).map(x => {
             const it = otdItems[x.key];
             const when = x.date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
