@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v32"/>
+    <meta name="app-version" content="v33"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
@@ -3154,8 +3154,15 @@
         .zv-prev { left: 10px; } .zv-next { right: 10px; }
         .zv-count { color: rgba(255, 182, 210, .7); font-size: .75rem; letter-spacing: 1px; margin-top: 3px; min-height: 1em; }
         /* places: photos */
-        .place-card .p-photos { display: flex; gap: 6px; overflow-x: auto; margin: 8px -6px 8px; padding: 2px 6px 4px; scrollbar-width: thin; }
-        .place-card .p-thumb { width: 64px; height: 64px; flex: none; object-fit: cover; border-radius: 10px; cursor: zoom-in; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(192, 57, 107, .18); }
+        /* v33: place photos keep their real shape and stay centered */
+        .place-card .p-photos { display: flex; align-items: center; gap: 8px; overflow-x: auto; margin: 6px -10px 8px; padding: 6px 10px 14px; scrollbar-width: thin; }
+        .place-card .p-photos.n1, .place-card .p-photos.n2 { overflow: visible; }   /* nothing to scroll → don't cut the shadow */
+        .place-card .p-photos > :first-child { margin-left: auto; }
+        .place-card .p-photos > :last-child { margin-right: auto; }
+        .place-card .p-thumb { display: block; flex: none; width: auto; height: 150px; max-width: 260px; object-fit: cover; border-radius: 14px; cursor: zoom-in; border: 3px solid #fff; box-shadow: 0 3px 9px rgba(192, 57, 107, .2); }
+        .place-card .p-photos.n1 .p-thumb { flex: 0 1 auto; height: auto; max-width: 100%; max-height: 320px; object-fit: contain; }
+        /* 2 photos: one row, same height, each in its own shape (--r = width/height, set when it loads) */
+        .place-card .p-photos.n2 .p-thumb { flex: var(--r, 1) 1 0%; min-width: 0; width: auto; height: auto; max-width: none; aspect-ratio: var(--r, 1); object-fit: cover; border: 0; box-shadow: 0 0 0 3px #fff, 0 3px 9px rgba(192, 57, 107, .2); }
         .place-card .p-btns { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
         .place-card .p-photo-btn { margin-top: 10px; padding: 6px 12px; background: rgba(255, 214, 232, .8); color: #9b1c4a; border: 1px solid rgba(255, 182, 210, .9); border-radius: 8px; font-size: .78rem; font-family: 'Lato', sans-serif; cursor: pointer; }
         .place-card .p-photo-btn:hover { background: rgba(255, 182, 210, .8); }
@@ -7678,7 +7685,7 @@
         if(filtered.length===0){list.innerHTML=`<p class="no-places">No places found for "<strong>${esc(placeSearchQuery)}</strong>" 🔍</p>`;return;}
         list.innerHTML=filtered.map(p=>{
             const photos=placePhotosOf(p.id);
-            const strip=photos.length?`<div class="p-photos">${photos.map((ph,i)=>`<img class="p-thumb" src="${ph.image}" alt="" onclick="openPlacePhotos('${p.id}',${i})"/>`).join("")}</div>`:"";
+            const strip=photos.length?`<div class="p-photos${photos.length<3?" n"+photos.length:""}">${photos.map((ph,i)=>`<img class="p-thumb" src="${ph.image}" alt="" onload="this.style.setProperty('--r',(this.naturalWidth/this.naturalHeight).toFixed(3))" onclick="openPlacePhotos('${p.id}',${i})"/>`).join("")}</div>`:"";
             return `<div class="place-card" data-item="${p.id}"><button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button><div class="p-emoji">${p.emoji||"📍"}</div><div class="p-name">${esc(p.name)}</div>${p.desc?`<div class="p-desc">${esc(p.desc)}</div>`:""}${strip}<div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div><div class="p-author">${avName(p.addedBy)} · added it</div><div class="p-btns"><button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button><button class="p-photo-btn" onclick="pickPlacePhotos('${p.id}')">📷 ${photos.length?"Add more":"Add photos"}</button></div></div>`;
         }).join("");
     }
