@@ -1,4 +1,4 @@
-// Service Worker — Hamdi & Yossr 💍 — v27
+// Service Worker — Hamdi & Yossr 💍 — v28
 
 // ===== FCM Push (notif w l app msakra) =====
 importScripts("https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js");
@@ -19,14 +19,12 @@ firebase.messaging().onBackgroundMessage(payload => {
     body: d.body || "",
     icon: "./icons/icon-192.png",
     badge: "./icons/icon-192.png",
-    // v27: remember what this notification is about
     data: { page: d.page || "", itemId: d.itemId || "", itemKind: d.itemKind || "", notifId: d.notifId || "" }
   };
   if (d.notifId) opts.tag = d.notifId;
   self.registration.showNotification(d.title || "Hamdi & Yossr 💍", opts);
 });
 
-// Ki to89oz 3al notif → te7el l app — v27: directly on the memory / letter / card…
 self.addEventListener("notificationclick", event => {
   event.notification.close();
   const d = event.notification.data || {};
@@ -44,7 +42,7 @@ self.addEventListener("notificationclick", event => {
   })());
 });
 
-const CACHE_NAME = "hamdi-yossr-v27";
+const CACHE_NAME = "hamdi-yossr-v28";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
