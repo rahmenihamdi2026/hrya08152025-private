@@ -6,6 +6,7 @@
     <title>Hamdi & Yossr 💍</title>
     <meta name="app-version" content="v35"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+    <link rel="stylesheet" href="stories.css?v=36"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#c0396b"/>
@@ -3612,7 +3613,8 @@
     </div>
 </div>
 
-<div class="current-user-badge" id="current-user-badge" onclick="openProfileModal()" title="My profile"></div>
+<div class="current-user-badge" id="current-user-badge" onclick="(window.hysAvatarTap || openProfileModal)()" title="My story / my profile"></div>
+<div class="hys-partner" id="hys-partner" onclick="window.hysOpenPartner && hysOpenPartner()"></div>
 
 <!-- ===== MY PROFILE (v26) ===== -->
 <div class="theme-modal-overlay" id="profile-modal-overlay">
@@ -4602,8 +4604,10 @@
     function showIdentityModal() { document.getElementById("identity-overlay").style.display = "flex"; }
     function updateBadge() {
         const badge = document.getElementById("current-user-badge");
-        if (currentUser) { badge.style.display = "block"; badge.innerHTML = av(currentUser, "av-badge") + `<span class="badge-name"> ${personName(currentUser)}</span>`; }
+        // v36: the ring + "+" of the stories sit on my photo
+        if (currentUser) { badge.style.display = "block"; badge.innerHTML = `<span class="hys-ringwrap" id="hys-me-ring">${av(currentUser, "av-badge")}<button type="button" class="hys-plus" onclick="event.stopPropagation();window.hysPick && hysPick()" aria-label="New story" title="New story">+</button></span><span class="badge-name"> ${personName(currentUser)}</span>`; }
         else { badge.style.display = "none"; }
+        if (window.hysDecorate) window.hysDecorate();
     }
     window.setIdentity = function(who) {
     currentUser = who; localStorage.setItem(ID_KEY, who);
@@ -4617,6 +4621,7 @@
     renderMyQuestionsPanel();
     renderAnswerPanel();
     registerForPush();
+    if (window.hysRefresh) window.hysRefresh();   // v36: stories of the new person
 };
     window.changeIdentity = function() { showIdentityModal(); };
     if (!currentUser) showIdentityModal();
@@ -5122,7 +5127,8 @@
             memory: '💌', gallery: '📸', scratch: '🎴', quiz: '❓',
             checklist: '✅', places: '🗺️', special: '🗓️',
             quiz_answer: '💬', quiz_comment: '💭', letters: '✉️',
-            games: '🎮', profile: '📸', thinking: '💕', love: '💕', security: '🔐', otd: '✨'
+            games: '🎮', profile: '📸', thinking: '💕', love: '💕', security: '🔐', otd: '✨',
+            story: '🌟', story_seen: '👀', story_react: '😍'
         };
         return icons[type] || '🔔';
     }
@@ -5173,6 +5179,12 @@
         return [...document.querySelectorAll(containerSel + " button")].find(b => (b.getAttribute("onclick") || "").includes(`'${key}'`));
     }
     window.openNotifTarget = function(page, itemId, kind) {
+        // v36: a story notification opens the story itself
+        if ((kind === "story" || (page === "home" && /^st[0-9a-z]{10,}$/.test(String(itemId || "")))) && window.hysOpenFromNotif) {
+            showPage("home");
+            setTimeout(() => window.hysOpenFromNotif(String(itemId)), 300);
+            return;
+        }
         if (!page || !document.getElementById("page-" + page)) return;
         showPage(page);
         if (kind === "thinking") { setTimeout(() => loveBurst(26, currentUser === "hamdi" ? "yossr" : "hamdi"), 350); return; }
@@ -11460,7 +11472,29 @@ function renderQuizScores() {
         if(!e.target.closest('.comment-reaction-picker')&&!e.target.closest('.comment-react-btn')&&!e.target.closest('.comment-reaction-chip'))document.querySelectorAll('.comment-reaction-picker.open').forEach(p=>p.classList.remove('open'));
         if(!e.target.closest('.sc-reaction-picker')&&!e.target.closest('.sc-react-btn')&&!e.target.closest('.sc-reaction-chip'))document.querySelectorAll('.sc-reaction-picker.open').forEach(p=>p.classList.remove('open'));
     });
+
+    /* ===== STORIES (v36) — what stories.js needs from the app ===== */
+    window.HY = {
+        db,
+        me: () => currentUser,
+        name: personName,
+        avatarUrl: k => AVATAR_URL[whoKey(k)],
+        av,
+        notify: (type, message, target, page, itemId, itemKind) => createNotification(type, message, target, page, itemId, itemKind),
+        toast: msg => clToast(msg),
+        openProfile: () => openProfileModal(),
+        // ◁ (back) closes the story screens like the other windows
+        navRegister: (id, close) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            NAV_OVERLAYS.push([id, close]);
+            el._navClose = close;
+            navObserver.observe(el, { attributes: true, attributeFilter: ["class"] });
+        }
+    };
+    window.dispatchEvent(new Event("hy-ready"));
 </script>
+<script type="module" src="stories.js?v=36"></script>
 <!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
 <script>
     // Enregistrer le service worker
