@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v39"/>
+    <meta name="app-version" content="v40"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-    <link rel="stylesheet" href="stories.css?v=39"/>
+    <link rel="stylesheet" href="stories.css?v=40"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#c0396b"/>
@@ -1225,6 +1225,30 @@
         .pm-nights { position: absolute; left: 50%; top: 26px; transform: translateX(-50%); background: #fff; border: 1.5px solid #c0396b; border-radius: 10px; padding: 0 4px; font-size: .8rem; line-height: 1.35; white-space: nowrap; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
         .place-card .p-nights { font-size: .78rem; color: #c0396b; font-weight: 700; margin: 2px 0 6px; }
         body[data-theme="midnight"] .place-adjust-bar { background: rgba(45, 45, 74, .97) !important; color: #ffd6e8 !important; }
+
+        /* ===== v40: my position 📍 + a new place made for a wedding night ===== */
+        .map-locate-btn {
+            position: absolute; right: 12px; bottom: 30px; z-index: 1100; width: 46px; height: 46px; border-radius: 50%; padding: 0;
+            border: 1px solid rgba(255, 182, 210, .9); background: #fff; font-size: 1.35rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(90, 26, 53, .28);
+        }
+        .map-locate-btn.busy { animation: hyLocPulse 1s ease-in-out infinite; }
+        @keyframes hyLocPulse { 50% { transform: scale(.86); opacity: .55; } }
+        .place-adjust-bar.show ~ .map-locate-btn { bottom: 84px; }
+        .week-map-wrap.map-wrap { margin-bottom: 8px; }
+        .week-map-wrap #week-map { margin-bottom: 0; }
+        .me-dot { width: 18px; height: 18px; box-sizing: border-box; border-radius: 50%; background: #1a73e8; border: 3px solid #fff; box-shadow: 0 0 0 7px rgba(26, 115, 232, .22), 0 2px 6px rgba(0, 0, 0, .35); }
+        .pfn-bar { display: none; align-items: center; gap: 10px; margin: 0 0 14px; padding: 10px 12px; border-radius: 16px; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; font-size: .85rem; box-shadow: 0 6px 18px rgba(192, 57, 107, .3); }
+        .pfn-bar.show { display: flex; }
+        .pfn-bar span { flex: 1; line-height: 1.35; }
+        .pfn-bar button { border: none; background: rgba(255, 255, 255, .25); color: #fff; border-radius: 10px; padding: 7px 10px; cursor: pointer; font-family: 'Lato', sans-serif; font-size: .8rem; white-space: nowrap; }
+        .wn-place-btns { display: flex; gap: 8px; }
+        .wn-place-btns button { flex: 1; padding: 9px 8px; border-radius: 12px; border: 1px dashed rgba(192, 57, 107, .55); background: rgba(255, 255, 255, .8); color: #9b1c4a; font-size: .8rem; cursor: pointer; font-family: 'Lato', sans-serif; }
+        body[data-theme="midnight"] .map-locate-btn,
+        body[data-theme="midnight"] .wn-place-btns button { background: rgba(45, 45, 74, .95) !important; border-color: rgba(192, 57, 107, .45) !important; color: #f48fb1 !important; }
+        /* v40: with "My photo" theme, Yossr's family stays rose (the photo colours never touch it) */
+        body[data-theme="custom"] .gu-sec.y .gu-btn { border-color: #ED93B1 !important; color: #993556 !important; }
+        body[data-theme="custom"] .gu-sec.y .gu-empty { color: #b07090 !important; }
 
         /* ===== Celebrated (event already passed) ===== */
         .celebrated-head { width: 100%; font-size: 1.1rem; font-weight: 700; color: #c0396b; letter-spacing: .5px; margin-bottom: 2px; }
@@ -3944,7 +3968,7 @@
     <div class="page-wrap">
         <p class="page-title">Our Wedding Week 💍</p>
         <p class="page-sub">✨ Time &amp; place of each night ✨</p>
-        <div id="week-map"></div>
+        <div class="map-wrap week-map-wrap"><div id="week-map"></div><button type="button" class="map-locate-btn" id="week-locate-btn" onclick="weekLocateMe()" aria-label="Show where I am" title="Where am I?">📍</button></div>
         <p class="wn-hint" id="week-map-hint"></p>
         <div class="week-list" id="week-list"></div>
     </div>
@@ -4103,7 +4127,8 @@
     <div class="page-wrap" style="max-width:900px;">
         <p class="page-title">Our Places 🗺️</p>
         <p class="page-sub">✨ Every spot that belongs to our story ✨</p>
-        <p class="place-hint">📍 Search a place — the pin drops right on it. Or tap the map.</p>
+        <p class="place-hint">📍 Search a place — the pin drops right on it. Or tap the map, or 📍 for where you are.</p>
+        <div class="pfn-bar" id="pfn-bar"><span id="pfn-txt"></span><button type="button" onclick="placeForNightCancel()">✕ Cancel</button></div>
         <div class="map-wrap">
             <div id="our-places-map"></div>
             <div class="map-geocode-bar" id="map-geocode-bar">
@@ -4113,6 +4138,7 @@
                 <div class="map-geocode-results" id="map-geocode-results"></div>
             </div>
             <div class="place-adjust-bar" id="place-adjust-bar"><span>✋ Drag the pin or tap the map</span><button type="button" class="pa-done" onclick="placeAdjustDone()">✅ Done</button><button type="button" class="pa-x" onclick="placeAdjustCancel()" aria-label="Cancel">✕</button></div>
+            <button type="button" class="map-locate-btn" id="place-locate-btn" onclick="placeLocateMe()" aria-label="Pin my current position" title="Pin where I am">📍</button>
         </div>
         <div class="places-list" id="places-list"><p class="no-places">No places saved yet… click the map to add your first one 🌹</p></div>
     </div>
@@ -5603,6 +5629,7 @@
         if (id === 'places') ensurePlacePhotos();
         if (id === 'home') setTimeout(loadOnThisDay, 300);
         if (id === 'guests') renderGuests();
+        if (id !== 'places' && placeForNight) { placeForNight = null; placeForNightBar(); }
         if (id === 'week') { weekEditing = null; renderWeekPage(); setTimeout(initWeekMap, 120); }
         hySyncTabs(id);
         if (typeof voiceStopAny === "function") voiceStopAny();
@@ -6044,7 +6071,10 @@
                 <label>🕛 End <input type="time" id="wn-end" value="${esc(t.end)}"/></label>
             </div>
             <label>📍 Place <select id="wn-place"><option value="">— choose in Our Places —</option>${opts}</select></label>
-            <button type="button" class="wn-newplace" onclick="showPage('places')">➕ A new place? Pin it first in Our Places</button>
+            <div class="wn-place-btns">
+                <button type="button" onclick="weekNewPlace('${date}', false)">➕ New place</button>
+                <button type="button" onclick="weekNewPlace('${date}', true)">📍 I'm here</button>
+            </div>
             <div class="wn-form-btns">
                 <button type="button" class="add-event-btn" onclick="weekSave('${date}')">💾 Save</button>
                 <button type="button" class="wn-cancel" onclick="weekEdit(null)">Cancel</button>
@@ -6092,30 +6122,97 @@
         renderWeekPage();
         if (weekEditing) setTimeout(() => { const t = document.getElementById("wn-time"); if (t) t.focus(); }, 60);
     };
-    window.weekSave = async function(date) {
+    // v40: save one night (used by ✏️ Save and by a place made for this night)
+    async function weekStore(date, start, end, placeId, placeName) {
         const night = WEDDING_WEEK.find(n => n.date === date);
         if (!night) return;
-        const start = (document.getElementById("wn-time") || {}).value || "";
-        const end = (document.getElementById("wn-end") || {}).value || "";
-        const placeId = (document.getElementById("wn-place") || {}).value || "";
-        if ((start && !/^\d{2}:\d{2}$/.test(start)) || (end && !/^\d{2}:\d{2}$/.test(end))) { alert("Please choose a valid time 🕗"); return; }
         const before = weekTimes(date);
         const changed = start !== before.start || end !== before.end || placeId !== (weekNight(date).placeId || "");
+        await setDoc(WEEK_DOC, { nights: { [date]: { start, end, placeId, time: deleteField() } }, updatedBy: currentUser || "hamdi", updatedAt: new Date().toISOString() }, { merge: true });
+        weekFitDone = false; renderWeekMarkers(true);
+        if (changed) {
+            const p = wpPlaces.find(x => x.id === placeId) || (placeName ? { name: placeName } : null);
+            const span = start && end ? start + " – " + end : start ? "from " + start : end ? "until " + end : "";
+            const what = [span, p && p.name].filter(Boolean).join(" · ") || "time & place removed";
+            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+            await createNotification("wedding", `${whoName} set ${night.emoji} ${night.name}: ${what} 💍`, partner, "home", "wk-" + date);
+        }
+    }
+    function weekReadTimes(date) {
+        const t = weekTimes(date), sIn = document.getElementById("wn-time"), eIn = document.getElementById("wn-end");
+        return { start: sIn ? sIn.value : t.start, end: eIn ? eIn.value : t.end };
+    }
+    window.weekSave = async function(date) {
+        const { start, end } = weekReadTimes(date);
+        const placeId = (document.getElementById("wn-place") || {}).value || "";
+        if ((start && !/^\d{2}:\d{2}$/.test(start)) || (end && !/^\d{2}:\d{2}$/.test(end))) { alert("Please choose a valid time 🕗"); return; }
         weekEditing = null;
         showSync();
-        try {
-            await setDoc(WEEK_DOC, { nights: { [date]: { start, end, placeId, time: deleteField() } }, updatedBy: currentUser || "hamdi", updatedAt: new Date().toISOString() }, { merge: true });
-            weekFitDone = false; renderWeekMarkers(true);
-            if (changed) {
-                const p = wpPlaces.find(x => x.id === placeId);
-                const span = start && end ? start + " – " + end : start ? "from " + start : end ? "until " + end : "";
-                const what = [span, p && p.name].filter(Boolean).join(" · ") || "time & place removed";
-                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-                await createNotification("wedding", `${whoName} set ${night.emoji} ${night.name}: ${what} 💍`, partner, "home", "wk-" + date);
-            }
-        } catch (e) { weekEditing = date; renderWeekPage(); alert("Error: " + e.message); }
+        try { await weekStore(date, start, end, placeId); }
+        catch (e) { weekEditing = date; renderWeekPage(); alert("Error: " + e.message); }
         hideSync();
+    };
+
+    /* ===== v40: a new place made for a night — Our Places opens with a banner; once the place
+       is saved it is put on that night (with the times typed) and we come back to the program ===== */
+    var placeForNight = null;       // { date, start, end }
+    function placeForNightBar() {
+        const bar = document.getElementById("pfn-bar");
+        if (!bar) return;
+        const n = placeForNight && WEDDING_WEEK.find(x => x.date === placeForNight.date);
+        bar.classList.toggle("show", !!n);
+        if (n) document.getElementById("pfn-txt").textContent = `${n.emoji} Choosing the place for ${n.name} — search it, tap the map or use 📍`;
+    }
+    window.weekNewPlace = function(date, here) {
+        if (!WEDDING_WEEK.some(n => n.date === date)) return;
+        const t = weekReadTimes(date);
+        weekEditing = null;
+        showPage("places");                      // (leaving a page clears an older pending night)
+        placeForNight = { date, start: t.start, end: t.end };
+        placeForNightBar();
+        if (here) setTimeout(() => placeLocateMe(), 450);
+    };
+    window.placeForNightCancel = function() {
+        const d = placeForNight && placeForNight.date;
+        placeForNight = null;
+        placeForNightBar();
+        if (document.getElementById("place-add-popup").classList.contains("open") || document.getElementById("place-adjust-bar").classList.contains("show")) closePlaceModal();
+        if (d) openWeekProgram(d);
+    };
+
+    /* ===== v40: where am I? (the phone's location) ===== */
+    function hyLocate(btn) {
+        return new Promise(resolve => {
+            if (!("geolocation" in navigator)) { alert("📍 This phone can't share its position here."); return resolve(null); }
+            if (btn) btn.classList.add("busy");
+            navigator.geolocation.getCurrentPosition(p => {
+                if (btn) btn.classList.remove("busy");
+                resolve({ lat: p.coords.latitude, lng: p.coords.longitude, acc: Math.round(p.coords.accuracy || 0) });
+            }, err => {
+                if (btn) btn.classList.remove("busy");
+                if (err && err.code === 1) alert("📍 Location is blocked for this app.\nAllow it in your phone (browser › Site settings › Location), then try again.");
+                else alert("📍 Can't find your position right now — check that location / GPS is on and try again.");
+                resolve(null);
+            }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 20000 });
+        });
+    }
+    let weekMeMarker = null;
+    // program map: a blue dot where I am (nothing is saved)
+    window.weekLocateMe = async function() {
+        initWeekMap();
+        const me = await hyLocate(document.getElementById("week-locate-btn"));
+        if (!me || !weekMap) return;
+        if (weekMeMarker) weekMeMarker.setLatLng([me.lat, me.lng]);
+        else {
+            const icon = L.divIcon({ className: "", html: '<div class="me-dot"></div>', iconSize: [18, 18], iconAnchor: [9, 9], popupAnchor: [0, -10] });
+            weekMeMarker = L.marker([me.lat, me.lng], { icon, zIndexOffset: 900 }).addTo(weekMap).bindPopup("📍 You are here");
+        }
+        const pts = [[me.lat, me.lng]];
+        Object.values(weekMarkers).forEach(m => { const ll = m.getLatLng(); pts.push([ll.lat, ll.lng]); });
+        if (pts.length > 1) weekMap.fitBounds(pts, { padding: [40, 40], maxZoom: 16 });
+        else weekMap.setView(pts[0], 16);
+        setTimeout(() => { if (weekMeMarker) weekMeMarker.openPopup(); }, 600);
     };
     function initWeekMap() {
         const el = document.getElementById("week-map");
@@ -8286,6 +8383,21 @@
         document.getElementById("place-add-popup").classList.add("open");
     };
     window.placeAdjustCancel = function() { closePlaceModal(); };
+    // v40: 📍 drops the red pin where I am (or moves it, while adjusting)
+    window.placeLocateMe = async function() {
+        initOurPlacesMap();
+        const me = await hyLocate(document.getElementById("place-locate-btn"));
+        if (!me || !leafletMap) return;
+        leafletMap.flyTo([me.lat, me.lng], 17, { duration: 1.2 });
+        placeDropDraft(me.lat, me.lng);
+        if (placeAdjusting) return;
+        lastGeocodedName = "";
+        setTimeout(() => {
+            placeOpenForm("");
+            const info = document.getElementById("place-coords-info");
+            if (info && me.acc) info.textContent += ` · ±${me.acc} m`;
+        }, 1300);
+    };
     function initOurPlacesMap(){if(mapInitialized){setTimeout(()=>leafletMap&&leafletMap.invalidateSize(),50);return;}mapInitialized=true;leafletMap=L.map("our-places-map",{zoomControl:true}).setView([36.8065,10.1815],11);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',maxZoom:19}).addTo(leafletMap);leafletMap.on("click",function(e){placeMapClick(e.latlng.lat,e.latlng.lng);});renderPlaceMarkers(placesData);setupGeocodeSearch();}
     /* ---------- v25: photos taken at each place (collection "placephotos") ---------- */
     const placePhotosRef = collection(db, "placephotos");
@@ -8451,11 +8563,19 @@
                 addedAt: new Date().toISOString()
             });
             const photos = placeNewPhotos;
+            const forNight = placeForNight;            // v40: a place made for a wedding night
             closePlaceModal();
-            const n = await uploadPlacePhotos(newPlaceRef.id, photos, false);
-            const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
-            const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
-            await createNotification("places", `${whoName} added a new place: ${name}${n ? ` 📷 ${n}` : ""}`, partner, "places", newPlaceRef.id);
+            if (forNight) {
+                placeForNight = null; placeForNightBar();
+                await weekStore(forNight.date, forNight.start, forNight.end, newPlaceRef.id, name);
+                openWeekProgram(forNight.date);
+                await uploadPlacePhotos(newPlaceRef.id, photos, false);
+            } else {
+                const n = await uploadPlacePhotos(newPlaceRef.id, photos, false);
+                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                await createNotification("places", `${whoName} added a new place: ${name}${n ? ` 📷 ${n}` : ""}`, partner, "places", newPlaceRef.id);
+            }
         } catch (e) {
             alert("Error: " + e.message);
         }
@@ -11910,6 +12030,7 @@ function renderQuizScores() {
         for (const r of rules) {
             if (r.type === 1) {
                 if (!r.selectorText || r.selectorText.includes("data-theme")) continue;
+                if (/\.gu-[\w-]+\.y\b/.test(r.selectorText)) continue;      // v40: Yossr's family stays rose
                 const decls = [];
                 for (let i = 0; i < r.style.length; i++) {
                     const prop = r.style[i], val = r.style.getPropertyValue(prop);
@@ -12023,6 +12144,7 @@ function renderQuizScores() {
     window.openCustomTheme = function() {
         closeThemeModal();
         ctState = ctState || ctRead();
+        if (ctState && ctState.img) useCustomTheme();     // v40: back to my photo theme straight away
         setTimeout(() => { ctRenderPanel(); ptEl("ct-modal-overlay").classList.add("open"); }, 60);
     };
     window.closeCustomTheme = function() { ptEl("ct-modal-overlay").classList.remove("open"); };
@@ -12117,7 +12239,7 @@ function renderQuizScores() {
     };
     window.dispatchEvent(new Event("hy-ready"));
 </script>
-<script type="module" src="stories.js?v=39"></script>
+<script type="module" src="stories.js?v=40"></script>
 <!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
 <script>
     // Enregistrer le service worker
