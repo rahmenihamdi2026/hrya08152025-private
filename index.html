@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v38"/>
+    <meta name="app-version" content="v39"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-    <link rel="stylesheet" href="stories.css?v=38"/>
+    <link rel="stylesheet" href="stories.css?v=39"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#c0396b"/>
@@ -1125,7 +1125,6 @@
         .custom-card.wn-card { padding: 22px 22px 18px; }
         .custom-card.wn-card:hover { transform: none; }
         .wn-card.wn-today { border: 2px solid #c0396b; }
-        .wn-num { position: absolute; top: 12px; left: 14px; width: 22px; height: 22px; border-radius: 50%; background: #c0396b; color: #fff; font-size: .72rem; font-weight: 700; line-height: 22px; }
         .wn-edit { position: absolute; top: 9px; right: 10px; background: none; border: none; font-size: 1rem; cursor: pointer; padding: 4px; }
         .wn-when { font-size: .74rem; color: #b07090; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
         .wn-row { font-size: .92rem; color: #7a2545; margin: 4px 0; }
@@ -1145,7 +1144,9 @@
         .wn-form-btns { display: flex; gap: 8px; }
         .wn-form-btns .add-event-btn { flex: 1; }
         .wn-cancel { padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(255, 182, 210, .8); background: #fff; color: #9b1c4a; cursor: pointer; font-family: 'Lato', sans-serif; }
-        .wn-pin { width: 30px; height: 30px; border-radius: 50%; background: #c0396b; color: #fff; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 700; box-shadow: 0 3px 10px rgba(0, 0, 0, .3); font-family: 'Lato', sans-serif; }
+        .wn-pin { height: 34px; min-width: 34px; box-sizing: border-box; padding: 0 5px; border-radius: 17px; background: #fff; border: 2px solid #c0396b; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; line-height: 1; box-shadow: 0 3px 10px rgba(0, 0, 0, .3); white-space: nowrap; }
+        .wn-times { display: flex; gap: 10px; }
+        .wn-times label { flex: 1; min-width: 0; }
         body[data-theme="midnight"] .wn-row,
         body[data-theme="midnight"] .wn-when,
         body[data-theme="midnight"] .wn-hint,
@@ -1154,32 +1155,76 @@
         body[data-theme="midnight"] .wn-actions a,
         body[data-theme="midnight"] .wn-cancel { background: rgba(45, 45, 74, .9) !important; color: #f48fb1 !important; border-color: rgba(192, 57, 107, .4) !important; }
 
-        /* ===== v38: OUR GUESTS page ===== */
-        .gu-stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
-        .gu-stats .stat-block { min-width: 86px; text-align: center; }
-        .gu-tabs.games-tabs { margin-bottom: 16px; flex-wrap: nowrap; gap: 8px; }
-        .gu-tabs .games-tab { flex: 1 1 0; max-width: 220px; padding: 10px 8px; letter-spacing: .3px; font-size: .84rem; white-space: nowrap; }
+        /* ===== v39: OUR GUESTS — per night, two families (Hamdi = blue, Yossr = rose) ===== */
+        .gu-tabs.games-tabs { margin-bottom: 16px; flex-wrap: nowrap; gap: 6px; }
+        .gu-tabs .games-tab { flex: 1 1 0; max-width: 200px; padding: 10px 4px; letter-spacing: .2px; font-size: .8rem; white-space: nowrap; }
+        .gu-stats { display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap; margin-bottom: 18px; }
+        .gu-st { flex: 1 1 0; max-width: 130px; min-width: 0; border-radius: 14px; padding: 12px 4px 8px; text-align: center; box-shadow: 0 4px 14px rgba(192, 57, 107, .12); }
+        .gu-st .snum { font-size: 1.6rem; font-weight: 700; display: block; line-height: 1; }
+        .gu-st .slbl { font-size: .56rem; text-transform: uppercase; letter-spacing: .6px; margin-top: 4px; display: block; }
+        .gu-st.stat-block { min-width: 0; }
+        .gu-st.h { background: #E6F1FB; border: 1px solid #85B7EB; color: #0C447C; }
+        .gu-st.y { background: #fff0f6; border: 1px solid #ED93B1; color: #72243E; }
         .gu-form.add-event-form { padding: 14px 16px; gap: 10px; }
+        .gu-for { width: 100%; font-size: .72rem; color: #b07090; letter-spacing: 1px; text-transform: uppercase; }
+        .gu-fam { display: flex; gap: 8px; width: 100%; }
+        .gu-fam-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 6px; border-radius: 12px; cursor: pointer; font-family: 'Lato', sans-serif; font-size: .82rem; background: #fff; }
+        .gu-fam-btn .av { margin: 0; }
+        .gu-fam-btn.h { border: 1.5px solid #85B7EB; color: #0C447C; }
+        .gu-fam-btn.y { border: 1.5px solid #ED93B1; color: #72243E; }
+        .gu-fam-btn.h.on { background: #378ADD; border-color: #378ADD; color: #fff; }
+        .gu-fam-btn.y.on { background: #D4537E; border-color: #D4537E; color: #fff; }
         .gu-form .gu-name-in { flex: 1 1 100%; min-width: 0; }
         .gu-form .add-event-btn { flex: 1; }
         .gu-qty { display: flex; align-items: center; gap: 6px; }
         .add-event-form .gu-qty input { flex: none; min-width: 0; width: 56px; text-align: center; padding: 10px 4px; }
         .gu-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255, 182, 210, .9); background: #fff; color: #9b1c4a; font-size: 1.1rem; font-weight: 700; cursor: pointer; line-height: 1; padding: 0; flex: none; }
-        .gu-for { width: 100%; font-size: .72rem; color: #b07090; letter-spacing: 1px; text-transform: uppercase; }
-        .gu-list { background: rgba(255, 255, 255, .72); border: 1px solid rgba(255, 182, 210, .55); border-radius: 22px; padding: 4px 14px; box-shadow: 0 8px 28px rgba(192, 57, 107, .1); margin-bottom: 30px; }
-        .gu-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(255, 182, 210, .45); }
-        .gu-row:last-child { border-bottom: none; }
-        .gu-row .gu-name { flex: 1; min-width: 0; color: #7a2545; font-size: .95rem; overflow-wrap: anywhere; }
-        .gu-row .gu-n { min-width: 26px; text-align: center; font-weight: 700; color: #9b1c4a; font-size: 1rem; }
+        .gu-sec { border-radius: 22px; padding: 12px 14px 6px; margin-bottom: 16px; box-shadow: 0 8px 28px rgba(192, 57, 107, .08); }
+        .gu-sec.h { background: rgba(230, 241, 251, .92); border: 1px solid #85B7EB; }
+        .gu-sec.y { background: rgba(255, 240, 246, .92); border: 1px solid #ED93B1; }
+        .gu-sec-head { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .92rem; padding-bottom: 6px; }
+        .gu-sec-head .av { margin: 0; }
+        .gu-sec.h .gu-sec-head { color: #0C447C; }
+        .gu-sec.y .gu-sec-head { color: #72243E; }
+        .gu-sec-head .gu-sec-n { margin-left: auto; font-size: 1.05rem; }
+        .gu-row { display: flex; align-items: center; gap: 8px; padding: 9px 0; border-top: 1px solid rgba(0, 0, 0, .07); }
+        .gu-row .gu-name { flex: 1; min-width: 0; font-size: .95rem; overflow-wrap: anywhere; }
+        .gu-sec.h .gu-name, .gu-sec.h .gu-n { color: #0C447C; }
+        .gu-sec.y .gu-name, .gu-sec.y .gu-n { color: #72243E; }
+        .gu-row .gu-n { min-width: 26px; text-align: center; font-weight: 700; font-size: 1rem; }
         .gu-row .gu-btn { width: 28px; height: 28px; font-size: .95rem; }
+        .gu-sec.h .gu-btn { border-color: #85B7EB; color: #185FA5; }
         .gu-ic { background: none; border: none; cursor: pointer; font-size: .95rem; padding: 4px; flex: none; }
-        .gu-empty { text-align: center; color: #c090a8; font-size: .9rem; padding: 18px 6px; letter-spacing: .5px; }
-        body[data-theme="midnight"] .gu-list { background: rgba(45, 45, 74, .85) !important; border-color: rgba(192, 57, 107, .4) !important; }
-        body[data-theme="midnight"] .gu-row { border-bottom-color: rgba(192, 57, 107, .3) !important; }
-        body[data-theme="midnight"] .gu-row .gu-name,
+        .gu-empty { text-align: center; color: #a08090; font-size: .85rem; padding: 10px 6px 12px; border-top: 1px solid rgba(0, 0, 0, .07); }
+        body[data-theme="midnight"] .gu-st.h, body[data-theme="midnight"] .gu-sec.h { background: rgba(55, 138, 221, .16) !important; border-color: rgba(133, 183, 235, .45) !important; }
+        body[data-theme="midnight"] .gu-st.y, body[data-theme="midnight"] .gu-sec.y { background: rgba(212, 83, 126, .16) !important; border-color: rgba(237, 147, 177, .45) !important; }
+        body[data-theme="midnight"] .gu-st.h, body[data-theme="midnight"] .gu-sec.h .gu-sec-head,
+        body[data-theme="midnight"] .gu-sec.h .gu-name, body[data-theme="midnight"] .gu-sec.h .gu-n { color: #B5D4F4 !important; }
+        body[data-theme="midnight"] .gu-st.y, body[data-theme="midnight"] .gu-sec.y .gu-sec-head,
+        body[data-theme="midnight"] .gu-sec.y .gu-name, body[data-theme="midnight"] .gu-sec.y .gu-n { color: #F4C0D1 !important; }
         body[data-theme="midnight"] .gu-for { color: #ffd6e8 !important; }
-        body[data-theme="midnight"] .gu-row .gu-n { color: #f48fb1 !important; }
-        body[data-theme="midnight"] .gu-btn { background: rgba(45, 45, 74, .9) !important; color: #f48fb1 !important; border-color: rgba(192, 57, 107, .4) !important; }
+        body[data-theme="midnight"] .gu-btn, body[data-theme="midnight"] .gu-fam-btn:not(.on) { background: rgba(45, 45, 74, .9) !important; }
+        body[data-theme="midnight"] .gu-btn { color: #f48fb1 !important; }
+        body[data-theme="midnight"] .gu-sec.h .gu-btn, body[data-theme="midnight"] .gu-fam-btn.h:not(.on) { color: #B5D4F4 !important; }
+        body[data-theme="midnight"] .gu-fam-btn.y:not(.on) { color: #F4C0D1 !important; }
+        body[data-theme="midnight"] .gu-row, body[data-theme="midnight"] .gu-empty { border-top-color: rgba(255, 255, 255, .08) !important; color: #c8a8b8; }
+
+        /* ===== v39: Our Places — the pin drops on the place, and can be moved ===== */
+        .pd-pin { font-size: 2.3rem; line-height: 1; text-align: center; filter: drop-shadow(0 3px 4px rgba(0, 0, 0, .35)); }
+        .place-adjust-bar {
+            display: none; position: absolute; left: 12px; right: 12px; bottom: 14px; z-index: 1200; align-items: center; gap: 8px;
+            background: rgba(255, 255, 255, .96); border: 1px solid rgba(255, 182, 210, .8); border-radius: 16px; padding: 8px 10px;
+            box-shadow: 0 8px 24px rgba(90, 26, 53, .25); font-size: .82rem; color: #7a2545;
+        }
+        .place-adjust-bar.show { display: flex; }
+        .place-adjust-bar span { flex: 1; }
+        .place-adjust-bar button { border: none; border-radius: 12px; padding: 8px 12px; cursor: pointer; font-family: 'Lato', sans-serif; font-size: .82rem; }
+        .place-adjust-bar .pa-done { background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; }
+        .place-adjust-bar .pa-x { background: rgba(255, 228, 240, .9); color: #9b1c4a; }
+        .place-move-btn { display: block; width: 100%; margin: 6px 0 12px; padding: 8px 10px; border-radius: 12px; border: 1px dashed rgba(192, 57, 107, .5); background: rgba(255, 255, 255, .7); color: #9b1c4a; font-size: .8rem; cursor: pointer; font-family: 'Lato', sans-serif; }
+        .pm-nights { position: absolute; left: 50%; top: 26px; transform: translateX(-50%); background: #fff; border: 1.5px solid #c0396b; border-radius: 10px; padding: 0 4px; font-size: .8rem; line-height: 1.35; white-space: nowrap; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
+        .place-card .p-nights { font-size: .78rem; color: #c0396b; font-weight: 700; margin: 2px 0 6px; }
+        body[data-theme="midnight"] .place-adjust-bar { background: rgba(45, 45, 74, .97) !important; color: #ffd6e8 !important; }
 
         /* ===== Celebrated (event already passed) ===== */
         .celebrated-head { width: 100%; font-size: 1.1rem; font-weight: 700; color: #c0396b; letter-spacing: .5px; margin-bottom: 2px; }
@@ -3783,17 +3828,17 @@
             <button class="more-item" id="more-places" onclick="moreGo('places')"><span class="more-ic">🗺️</span>Our Places</button>
             <button class="more-item" id="more-letters" onclick="moreGo('letters')"><span class="more-ic">✉️</span>Letters</button>
             <button class="more-item" id="more-scratch" onclick="moreGo('scratch')"><span class="more-ic">🎴</span>Scratch Cards</button>
+            <button class="more-item" id="more-guests" onclick="moreGo('guests')"><span class="more-ic">👥</span>Guests</button>
             <button class="more-item" id="more-quiz" onclick="moreGo('quiz')"><span class="more-ic">❓</span>Quiz</button>
             <button class="more-item" id="more-games" onclick="moreGo('games')"><span class="more-ic">🎮</span>Games</button>
             <button class="more-item" id="more-story" onclick="moreGo('story')"><span class="more-ic">👩‍❤️‍👨</span>Our Story</button>
-            <button class="more-item" id="more-guests" onclick="moreGo('guests')"><span class="more-ic">👥</span>Guests</button>
         </div>
         <div class="more-rows">
             <button class="more-row" onclick="moreThen('profile')"><span class="more-row-av" id="more-me-av"></span>My profile &amp; photo</button>
             <button class="more-row" onclick="moreThen('wrapped')">✨ Our story in numbers</button>
+            <button class="more-row" onclick="moreThen('book')">📖 Our memory book (PDF)</button>
             <button class="more-row" onclick="moreThen('theme')">🎨 Theme &amp; my photo wallpaper</button>
             <button class="more-row" onclick="moreThen('security')">🔐 Security &amp; PIN</button>
-            <button class="more-row" onclick="moreThen('book')">📖 Our memory book (PDF)</button>
             <button class="more-row" id="more-install" style="display:none" onclick="moreThen('install')">📲 Install the app</button>
         </div>
     </div>
@@ -3905,22 +3950,27 @@
     </div>
 </div>
 
-<!-- v38: OUR GUESTS -->
+<!-- v39: OUR GUESTS — per night, two families -->
 <div id="page-guests" class="page">
     <div class="page-wrap">
         <p class="page-title">Our Guests 👥</p>
-        <p class="page-sub">✨ Everyone who will celebrate with us ✨</p>
-        <div class="gu-stats">
-            <div class="stat-block"><span class="snum" id="gu-total">0</span><span class="slbl">Total</span></div>
-            <div class="stat-block"><span class="snum" id="gu-sum-hamdi">0</span><span class="slbl">Hamdi</span></div>
-            <div class="stat-block"><span class="snum" id="gu-sum-yossr">0</span><span class="slbl">Yossr</span></div>
-        </div>
+        <p class="page-sub">✨ Who celebrates with us, night by night ✨</p>
         <div class="games-tabs gu-tabs">
-            <button type="button" class="games-tab" id="gu-tab-hamdi" onclick="guTab('hamdi')">Hamdi's guests</button>
-            <button type="button" class="games-tab" id="gu-tab-yossr" onclick="guTab('yossr')">Yossr's guests</button>
+            <button type="button" class="games-tab" id="gu-tab-henna" onclick="guTab('henna')">🌿 Henna</button>
+            <button type="button" class="games-tab" id="gu-tab-wtiya" onclick="guTab('wtiya')">👰 Wtiya</button>
+            <button type="button" class="games-tab" id="gu-tab-wedding" onclick="guTab('wedding')">💍 Wedding</button>
+        </div>
+        <div class="gu-stats">
+            <div class="stat-block gu-st"><span class="snum" id="gu-total">0</span><span class="slbl" id="gu-total-lbl">Total</span></div>
+            <div class="gu-st h"><span class="snum" id="gu-sum-hamdi">0</span><span class="slbl">Hamdi's family</span></div>
+            <div class="gu-st y"><span class="snum" id="gu-sum-yossr">0</span><span class="slbl">Yossr's family</span></div>
         </div>
         <div class="add-event-form gu-form">
             <div class="gu-for" id="gu-for"></div>
+            <div class="gu-fam">
+                <button type="button" class="gu-fam-btn h" id="gu-fam-hamdi" onclick="guFam('hamdi')"><span id="gu-fam-av-hamdi"></span>Hamdi's family</button>
+                <button type="button" class="gu-fam-btn y" id="gu-fam-yossr" onclick="guFam('yossr')"><span id="gu-fam-av-yossr"></span>Yossr's family</button>
+            </div>
             <input type="text" class="gu-name-in" id="gu-name" placeholder="Name (e.g. Famille Amri)" maxlength="50" onkeydown="if(event.key==='Enter')addGuest()"/>
             <div class="gu-qty">
                 <button type="button" class="gu-btn" onclick="guFormStep(-1)" aria-label="One less">−</button>
@@ -3929,7 +3979,8 @@
             </div>
             <button type="button" class="add-event-btn" onclick="addGuest()">+ Add</button>
         </div>
-        <div class="gu-list" id="gu-list"></div>
+        <div class="gu-sec h"><div class="gu-sec-head"><span id="gu-sec-av-hamdi"></span>Hamdi's family<span class="gu-sec-n" id="gu-sec-n-hamdi">0</span></div><div id="gu-list-hamdi"></div></div>
+        <div class="gu-sec y"><div class="gu-sec-head"><span id="gu-sec-av-yossr"></span>Yossr's family<span class="gu-sec-n" id="gu-sec-n-yossr">0</span></div><div id="gu-list-yossr"></div></div>
     </div>
 </div>
 
@@ -4052,7 +4103,7 @@
     <div class="page-wrap" style="max-width:900px;">
         <p class="page-title">Our Places 🗺️</p>
         <p class="page-sub">✨ Every spot that belongs to our story ✨</p>
-        <p class="place-hint">📍 Search a location below, then click the map to pin your special place</p>
+        <p class="place-hint">📍 Search a place — the pin drops right on it. Or tap the map.</p>
         <div class="map-wrap">
             <div id="our-places-map"></div>
             <div class="map-geocode-bar" id="map-geocode-bar">
@@ -4061,6 +4112,7 @@
                 <button class="map-geocode-clear" id="map-geocode-clear" onclick="clearMapSearch()">✕</button>
                 <div class="map-geocode-results" id="map-geocode-results"></div>
             </div>
+            <div class="place-adjust-bar" id="place-adjust-bar"><span>✋ Drag the pin or tap the map</span><button type="button" class="pa-done" onclick="placeAdjustDone()">✅ Done</button><button type="button" class="pa-x" onclick="placeAdjustCancel()" aria-label="Cancel">✕</button></div>
         </div>
         <div class="places-list" id="places-list"><p class="no-places">No places saved yet… click the map to add your first one 🌹</p></div>
     </div>
@@ -4076,6 +4128,7 @@
         <button type="button" class="place-photo-pick" id="place-new-photo-btn" onclick="pickPlacePhotos('__new')">📷 Add photos of this place (optional)</button>
         <div class="place-new-photos" id="place-new-photos"></div>
         <p class="place-coords-info" id="place-coords-info">📍 Coordinates will be saved automatically</p>
+        <button type="button" class="place-move-btn" onclick="placeStartAdjust()">✋ Pin not exactly right? Move it on the map</button>
         <input type="hidden" id="place-lat-input"/><input type="hidden" id="place-lng-input"/>
         <div class="place-modal-actions">
             <button class="place-save-btn" onclick="savePlaceFromModal()">💾 Save Place</button>
@@ -5419,8 +5472,8 @@
                     break;
                 case "guests": {
                     const g = guestsData.find(x => x.id === itemId);
-                    if (g && (g.side === "yossr" ? "yossr" : "hamdi") !== guSide) guTab(g.side);
-                    if (itemId) hyFocus(() => document.querySelector(`#gu-list [data-guest="${sel(itemId)}"]`));
+                    if (g && guNightOf(g) !== guNight) guTab(guNightOf(g));
+                    if (itemId) hyFocus(() => document.querySelector(`#page-guests [data-guest="${sel(itemId)}"]`));
                     break;
                 }
                 case "games": {
@@ -5948,13 +6001,24 @@
         const d = snap.exists() ? snap.data() : null;
         weekProg = d && d.nights && typeof d.nights === "object" ? d.nights : {};
         renderWeddingWeek(); renderWeekPage();
+        try { renderPlacesList(placesData); renderPlaceMarkers(placesData); } catch (e) { /* Our Places not ready yet */ }
     }, err => console.warn("Wedding week:", err && (err.code || err.message)));
     function weekSetPlaces(list) { wpPlaces = Array.isArray(list) ? list : []; renderWeddingWeek(); renderWeekPage(); }
     function weekNight(date) { return weekProg[date] || {}; }
     function weekPlace(date) { const id = weekNight(date).placeId; return id ? wpPlaces.find(p => p.id === id) || null : null; }
+    // v39: start + end of each night ("time" = the start, before v39)
+    function weekTimes(date) { const n = weekNight(date); return { start: n.start || n.time || "", end: n.end || "" }; }
+    function weekTimeTxt(date) {
+        const t = weekTimes(date);
+        if (t.start && t.end) return t.start + " – " + t.end;
+        if (t.start) return "from " + t.start;
+        if (t.end) return "until " + t.end;
+        return "";
+    }
+    function weekNightsAtPlace(placeId) { return placeId ? WEDDING_WEEK.filter(n => !n.rest && weekNight(n.date).placeId === placeId) : []; }
     function weekInfoLine(date) {
         const n = weekNight(date), p = weekPlace(date), parts = [];
-        if (n.time) parts.push("🕗 " + n.time);
+        if (weekTimeTxt(date)) parts.push("🕗 " + weekTimeTxt(date));
         if (p) parts.push("📍 " + (p.name || "Place"));
         return parts.join(" · ");
     }
@@ -5973,8 +6037,12 @@
         const n = weekNight(date);
         const opts = wpPlaces.slice().sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "fr", { sensitivity: "base" }))
             .map(p => `<option value="${esc(p.id)}"${p.id === n.placeId ? " selected" : ""}>${esc((p.emoji || "📍") + " " + (p.name || "Place"))}</option>`).join("");
+        const t = weekTimes(date);
         return `<div class="wn-form">
-            <label>🕗 Time <input type="time" id="wn-time" value="${esc(n.time || "")}"/></label>
+            <div class="wn-times">
+                <label>🕗 Start <input type="time" id="wn-time" value="${esc(t.start)}"/></label>
+                <label>🕛 End <input type="time" id="wn-end" value="${esc(t.end)}"/></label>
+            </div>
             <label>📍 Place <select id="wn-place"><option value="">— choose in Our Places —</option>${opts}</select></label>
             <button type="button" class="wn-newplace" onclick="showPage('places')">➕ A new place? Pin it first in Our Places</button>
             <div class="wn-form-btns">
@@ -5987,12 +6055,12 @@
         const wrap = document.getElementById("week-list");
         if (!wrap) return;
         // keep what is being typed if the data changes meanwhile
-        const tIn = document.getElementById("wn-time"), pIn = document.getElementById("wn-place");
-        const keep = weekEditing && tIn && pIn ? { t: tIn.value, p: pIn.value } : null;
+        const tIn = document.getElementById("wn-time"), eIn = document.getElementById("wn-end"), pIn = document.getElementById("wn-place");
+        const keep = weekEditing && tIn && eIn && pIn ? { t: tIn.value, e: eIn.value, p: pIn.value } : null;
         const today = localToday();
         wrap.innerHTML = WEDDING_WEEK.filter(n => !n.rest).map((n, k) => {
             const prog = weekNight(n.date), p = weekPlace(n.date);
-            const timeTxt = prog.time ? esc(prog.time) : '<span class="wn-none">No time yet</span>';
+            const timeTxt = weekTimeTxt(n.date) ? esc(weekTimeTxt(n.date)) : '<span class="wn-none">No time yet</span>';
             const placeTxt = p ? `${esc(p.emoji || "📍")} ${esc(p.name || "Place")}`
                 : prog.placeId ? '📍 <span class="wn-none">Place removed — choose another</span>' : '📍 <span class="wn-none">No place yet</span>';
             const okLL = p && !isNaN(parseFloat(p.lat)) && !isNaN(parseFloat(p.lng));
@@ -6001,7 +6069,6 @@
                     <a href="https://www.google.com/maps/dir/?api=1&destination=${parseFloat(p.lat)},${parseFloat(p.lng)}" target="_blank" rel="noopener">🧭 Directions</a>
                 </div>` : "";
             return `<div class="custom-card wn-card${n.date === today ? " wn-today" : ""}" id="wn-${n.date}" data-item="${n.date}">
-                <span class="wn-num">${k + 1}</span>
                 <button type="button" class="wn-edit" onclick="weekEdit('${n.date}')" aria-label="Edit ${esc(n.name)}">✏️</button>
                 <div class="c-emoji">${n.emoji}</div>
                 <div class="c-name">${esc(n.name)}</div>
@@ -6014,6 +6081,8 @@
         if (keep) {
             const t2 = document.getElementById("wn-time"), p2 = document.getElementById("wn-place");
             if (t2) t2.value = keep.t;
+            const e2 = document.getElementById("wn-end");
+            if (e2) e2.value = keep.e;
             if (p2 && [...p2.options].some(o => o.value === keep.p)) p2.value = keep.p;
         }
         renderWeekMarkers(false);
@@ -6026,19 +6095,21 @@
     window.weekSave = async function(date) {
         const night = WEDDING_WEEK.find(n => n.date === date);
         if (!night) return;
-        const time = (document.getElementById("wn-time") || {}).value || "";
+        const start = (document.getElementById("wn-time") || {}).value || "";
+        const end = (document.getElementById("wn-end") || {}).value || "";
         const placeId = (document.getElementById("wn-place") || {}).value || "";
-        if (time && !/^\d{2}:\d{2}$/.test(time)) { alert("Please choose a valid time 🕗"); return; }
-        const before = weekNight(date);
-        const changed = time !== (before.time || "") || placeId !== (before.placeId || "");
+        if ((start && !/^\d{2}:\d{2}$/.test(start)) || (end && !/^\d{2}:\d{2}$/.test(end))) { alert("Please choose a valid time 🕗"); return; }
+        const before = weekTimes(date);
+        const changed = start !== before.start || end !== before.end || placeId !== (weekNight(date).placeId || "");
         weekEditing = null;
         showSync();
         try {
-            await setDoc(WEEK_DOC, { nights: { [date]: { time, placeId } }, updatedBy: currentUser || "hamdi", updatedAt: new Date().toISOString() }, { merge: true });
+            await setDoc(WEEK_DOC, { nights: { [date]: { start, end, placeId, time: deleteField() } }, updatedBy: currentUser || "hamdi", updatedAt: new Date().toISOString() }, { merge: true });
             weekFitDone = false; renderWeekMarkers(true);
             if (changed) {
                 const p = wpPlaces.find(x => x.id === placeId);
-                const what = [time, p && p.name].filter(Boolean).join(" · ") || "time & place removed";
+                const span = start && end ? start + " – " + end : start ? "from " + start : end ? "until " + end : "";
+                const what = [span, p && p.name].filter(Boolean).join(" · ") || "time & place removed";
                 const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
                 const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
                 await createNotification("wedding", `${whoName} set ${night.emoji} ${night.name}: ${what} 💍`, partner, "home", "wk-" + date);
@@ -6072,8 +6143,9 @@
         const pts = [];
         ids.forEach(id => {
             const g = groups[id], ll = [parseFloat(g.p.lat), parseFloat(g.p.lng)];
-            const icon = L.divIcon({ className: "", html: `<div class="wn-pin">${g.nights.map(x => x.k + 1).join("·")}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] });
-            const lines = g.nights.map(({ n }) => `${n.emoji} ${esc(n.name)}${weekNight(n.date).time ? " · " + esc(weekNight(n.date).time) : ""}`).join("<br>");
+            const w = 34 + (g.nights.length - 1) * 20;
+            const icon = L.divIcon({ className: "", html: `<div class="wn-pin">${g.nights.map(x => x.n.emoji).join("")}</div>`, iconSize: [w, 34], iconAnchor: [w / 2, 17], popupAnchor: [0, -17] });
+            const lines = g.nights.map(({ n }) => `${n.emoji} ${esc(n.name)}${weekTimeTxt(n.date) ? " · " + esc(weekTimeTxt(n.date)) : ""}`).join("<br>");
             const m = L.marker(ll, { icon }).addTo(weekMap).bindPopup(`<b>${esc(g.p.emoji || "📍")} ${esc(g.p.name || "Place")}</b><br>${lines}`);
             g.nights.forEach(({ n }) => { weekMarkers[n.date] = m; });
             pts.push(ll);
@@ -6095,43 +6167,57 @@
         if (m) setTimeout(() => m.openPopup(), 1300);
     };
 
-    /* ===== v38: OUR GUESTS — collection "guests" { name, count, side: hamdi | yossr, addedBy, addedAt } ===== */
+    /* ===== v39: OUR GUESTS — collection "guests" { name, count, side: hamdi | yossr, night: henna | wtiya | wedding, addedBy, addedAt }
+       Each night has two lists: Hamdi's family (blue) and Yossr's family (rose). Both of us see and edit everything. */
     const guestsRef = collection(db, "guests");
+    const GU_NIGHTS = { henna: { emoji: "🌿", name: "Henna" }, wtiya: { emoji: "👰", name: "Wtiya" }, wedding: { emoji: "💍", name: "Wedding" } };
     let guestsData = [];
-    let guSide = null;              // the list on screen (hamdi | yossr)
+    let guNight = null;             // the night on screen
+    let guFamSel = null;            // the family the form adds to
     onSnapshot(guestsRef, snap => {
         guestsData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         renderGuests();
     }, err => console.warn("Guests:", err && (err.code || err.message)));
     const guCount = g => Math.min(999, Math.max(1, parseInt(g && g.count, 10) || 1));
+    const guSideOf = g => g && g.side === "yossr" ? "yossr" : "hamdi";
+    const guNightOf = g => g && GU_NIGHTS[g.night] ? g.night : (guSideOf(g) === "yossr" ? "wtiya" : "henna");
     function renderGuests() {
-        const list = document.getElementById("gu-list");
-        if (!list) return;
-        if (!guSide) guSide = currentUser === "yossr" ? "yossr" : "hamdi";
-        const of = side => guestsData.filter(g => (g.side === "yossr" ? "yossr" : "hamdi") === side);
-        const sum = side => of(side).reduce((t, g) => t + guCount(g), 0);
-        const h = sum("hamdi"), y = sum("yossr");
-        document.getElementById("gu-total").textContent = h + y;
-        document.getElementById("gu-sum-hamdi").textContent = h;
-        document.getElementById("gu-sum-yossr").textContent = y;
-        ["hamdi", "yossr"].forEach(s => {
-            const b = document.getElementById("gu-tab-" + s);
-            if (b) { b.classList.toggle("active", s === guSide); b.textContent = `${personName(s)}'s guests · ${s === "hamdi" ? h : y}`; }
+        if (!document.getElementById("gu-total")) return;
+        if (!guNight) guNight = currentUser === "yossr" ? "wtiya" : "henna";
+        if (!guFamSel) guFamSel = currentUser === "yossr" ? "yossr" : "hamdi";
+        const sumOf = list => list.reduce((t, g) => t + guCount(g), 0);
+        Object.keys(GU_NIGHTS).forEach(k => {
+            const b = document.getElementById("gu-tab-" + k);
+            if (b) { b.classList.toggle("active", k === guNight); b.textContent = `${GU_NIGHTS[k].emoji} ${GU_NIGHTS[k].name} · ${sumOf(guestsData.filter(g => guNightOf(g) === k))}`; }
+        });
+        const night = GU_NIGHTS[guNight];
+        const tonight = guestsData.filter(g => guNightOf(g) === guNight);
+        const bySide = { hamdi: tonight.filter(g => guSideOf(g) === "hamdi"), yossr: tonight.filter(g => guSideOf(g) === "yossr") };
+        document.getElementById("gu-total").textContent = sumOf(tonight);
+        document.getElementById("gu-total-lbl").textContent = "Total " + night.name;
+        ["hamdi", "yossr"].forEach(side => {
+            const n = sumOf(bySide[side]);
+            document.getElementById("gu-sum-" + side).textContent = n;
+            document.getElementById("gu-sec-n-" + side).textContent = n;
+            const fb = document.getElementById("gu-fam-" + side);
+            if (fb) fb.classList.toggle("on", side === guFamSel);
+            ["gu-fam-av-", "gu-sec-av-"].forEach(p => { const el = document.getElementById(p + side); if (el) el.innerHTML = av(side); });
+            const list = bySide[side].sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "fr", { sensitivity: "base" }));
+            document.getElementById("gu-list-" + side).innerHTML = list.length ? list.map(g => `<div class="gu-row" data-guest="${esc(g.id)}">
+                    <span class="gu-name">${esc(g.name || "Guest")}</span>
+                    <button type="button" class="gu-btn" onclick="guStep('${g.id}',-1)" aria-label="One less">−</button>
+                    <span class="gu-n">${guCount(g)}</span>
+                    <button type="button" class="gu-btn" onclick="guStep('${g.id}',1)" aria-label="One more">+</button>
+                    <button type="button" class="gu-ic" onclick="guRename('${g.id}')" aria-label="Rename">✏️</button>
+                    <button type="button" class="gu-ic" onclick="guDelete('${g.id}')" aria-label="Delete">🗑️</button>
+                </div>`).join("")
+                : `<p class="gu-empty">No one yet from ${personName(side)}'s family for the ${night.name} 🌸</p>`;
         });
         const forEl = document.getElementById("gu-for");
-        if (forEl) forEl.textContent = `➕ Add to ${personName(guSide)}'s list`;
-        const mine = of(guSide).sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "fr", { sensitivity: "base" }));
-        list.innerHTML = mine.length ? mine.map(g => `<div class="gu-row" data-guest="${esc(g.id)}">
-                <span class="gu-name">${esc(g.name || "Guest")}</span>
-                <button type="button" class="gu-btn" onclick="guStep('${g.id}',-1)" aria-label="One less">−</button>
-                <span class="gu-n">${guCount(g)}</span>
-                <button type="button" class="gu-btn" onclick="guStep('${g.id}',1)" aria-label="One more">+</button>
-                <button type="button" class="gu-ic" onclick="guRename('${g.id}')" aria-label="Rename">✏️</button>
-                <button type="button" class="gu-ic" onclick="guDelete('${g.id}')" aria-label="Delete">🗑️</button>
-            </div>`).join("")
-            : `<p class="gu-empty">No guests yet on ${personName(guSide)}'s list… add the first one 🌸</p>`;
+        if (forEl) forEl.textContent = `➕ Add to the ${night.emoji} ${night.name} · ${personName(guFamSel)}'s family`;
     }
-    window.guTab = function(side) { guSide = side === "yossr" ? "yossr" : "hamdi"; renderGuests(); };
+    window.guTab = function(night) { if (GU_NIGHTS[night]) { guNight = night; renderGuests(); } };
+    window.guFam = function(side) { guFamSel = side === "yossr" ? "yossr" : "hamdi"; renderGuests(); };
     window.guFormStep = function(d) {
         const el = document.getElementById("gu-count");
         el.value = Math.min(999, Math.max(1, (parseInt(el.value, 10) || 1) + d));
@@ -6141,10 +6227,10 @@
         const name = nameEl.value.trim().slice(0, 50);
         const count = Math.min(999, Math.max(1, parseInt(cntEl.value, 10) || 1));
         if (!name) { alert("Please enter a name 💕"); nameEl.focus(); return; }
-        const side = guSide || "hamdi";
+        const side = guFamSel || "hamdi", night = guNight || "henna";
         nameEl.value = ""; cntEl.value = 1; nameEl.focus();
         showSync();
-        try { await addDoc(guestsRef, { name, count, side, addedBy: currentUser || "hamdi", addedAt: new Date().toISOString() }); }
+        try { await addDoc(guestsRef, { name, count, side, night, addedBy: currentUser || "hamdi", addedAt: new Date().toISOString() }); }
         catch (e) { nameEl.value = name; cntEl.value = count; alert("Error: " + e.message); }
         hideSync();
     };
@@ -6166,7 +6252,7 @@
     };
     window.guDelete = function(id) {
         const g = guestsData.find(x => x.id === id);
-        if (!g || !confirm(`Remove "${g.name}" (${guCount(g)}) from the list?`)) return;
+        if (!g || !confirm(`Remove "${g.name}" (${guCount(g)}) from the ${GU_NIGHTS[guNightOf(g)].name}?`)) return;
         deleteDoc(doc(db, "guests", id)).catch(e => alert("Error: " + e.message));
     };
     tick(); setInterval(tick,1000);
@@ -8145,11 +8231,62 @@
     }
     async function runGeocode(q){const geocodeResults=document.getElementById("map-geocode-results");if(!geocodeResults)return;try{const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1`;const res=await fetch(url,{headers:{"Accept-Language":"en"}});const data=await res.json();if(!data.length){geocodeResults.innerHTML='<div class="mgr-loading">No results found 🌸</div>';return;}geocodeResults.innerHTML=data.map(r=>{const parts=r.display_name.split(", ");const name=parts.slice(0,2).join(", ");const sub=parts.slice(2,4).join(", ");const safeName=parts[0].replace(/'/g,"\\'").replace(/"/g,'\\"');return `<div class="mgr-item" onclick="selectGeoResult(${r.lat},${r.lon},'${safeName}')"><span class="mgr-icon">📍</span><div><div class="mgr-name">${esc(name)}</div><div class="mgr-sub">${esc(sub)}</div></div></div>`;}).join("");geocodeResults.classList.add("open");}catch(e){geocodeResults.innerHTML='<div class="mgr-loading">Search error 😔</div>';}}
     let lastGeocodedName="";
-    window.selectGeoResult=function(lat,lon,name){if(!leafletMap)return;lastGeocodedName=name;leafletMap.flyTo([parseFloat(lat),parseFloat(lon)],15,{duration:1.4});const geocodeInput=document.getElementById("map-geocode-input");const geocodeClear=document.getElementById("map-geocode-clear");if(geocodeInput)geocodeInput.value=name;if(geocodeClear)geocodeClear.classList.add("show");closeGeocodeResults();};
+    window.selectGeoResult=function(lat,lon,name){if(!leafletMap)return;lastGeocodedName=name;leafletMap.flyTo([parseFloat(lat),parseFloat(lon)],17,{duration:1.2});placeDropDraft(parseFloat(lat),parseFloat(lon));setTimeout(()=>placeOpenForm(name),1300);const geocodeInput=document.getElementById("map-geocode-input");const geocodeClear=document.getElementById("map-geocode-clear");if(geocodeInput)geocodeInput.value=name;if(geocodeClear)geocodeClear.classList.add("show");closeGeocodeResults();};
     window.clearMapSearch=function(){const geocodeInput=document.getElementById("map-geocode-input");const geocodeClear=document.getElementById("map-geocode-clear");if(geocodeInput)geocodeInput.value="";if(geocodeClear)geocodeClear.classList.remove("show");closeGeocodeResults();};
     function closeGeocodeResults(){const r=document.getElementById("map-geocode-results");if(r){r.classList.remove("open");r.innerHTML="";}}
     document.addEventListener("click",function(e){if(!e.target.closest("#map-geocode-bar"))closeGeocodeResults();});
-    function initOurPlacesMap(){if(mapInitialized){setTimeout(()=>leafletMap&&leafletMap.invalidateSize(),50);return;}mapInitialized=true;leafletMap=L.map("our-places-map",{zoomControl:true}).setView([36.8065,10.1815],11);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',maxZoom:19}).addTo(leafletMap);leafletMap.on("click",function(e){const lat=e.latlng.lat.toFixed(6);const lng=e.latlng.lng.toFixed(6);document.getElementById("place-lat-input").value=lat;document.getElementById("place-lng-input").value=lng;document.getElementById("place-coords-info").textContent=`📍 ${lat}, ${lng}`;document.getElementById("place-emoji-input").value="";document.getElementById("place-name-input").value=lastGeocodedName||"";document.getElementById("place-desc-input").value="";document.getElementById("place-add-popup").classList.add("open");});renderPlaceMarkers(placesData);setupGeocodeSearch();}
+    /* ===== v39: the pin drops right on the place (search result or tap), like Google Maps =====
+       The red pin can be dragged; "Move it on the map" hides the form (what was typed stays),
+       then ✅ Done brings it back with the new coordinates. */
+    let placeDraft = null, placeAdjusting = false;
+    function placeSetCoords(lat, lng) {
+        const a = Number(lat).toFixed(6), b = Number(lng).toFixed(6);
+        document.getElementById("place-lat-input").value = a;
+        document.getElementById("place-lng-input").value = b;
+        document.getElementById("place-coords-info").textContent = `📍 ${a}, ${b}`;
+    }
+    function placeDropDraft(lat, lng) {
+        if (!leafletMap || isNaN(lat) || isNaN(lng)) return;
+        if (!placeDraft) {
+            const icon = L.divIcon({ className: "", html: '<div class="pd-pin">📍</div>', iconSize: [40, 40], iconAnchor: [20, 38] });
+            placeDraft = L.marker([lat, lng], { icon, draggable: true, zIndexOffset: 1000 }).addTo(leafletMap);
+            placeDraft.on("dragend", () => { const ll = placeDraft.getLatLng(); placeSetCoords(ll.lat, ll.lng); });
+        } else placeDraft.setLatLng([lat, lng]);
+        placeSetCoords(lat, lng);
+    }
+    function placeAdjustMode(on) {
+        placeAdjusting = !!on;
+        const bar = document.getElementById("place-adjust-bar");
+        if (bar) bar.classList.toggle("show", placeAdjusting);
+    }
+    function placeRemoveDraft() {
+        if (placeDraft) { placeDraft.remove(); placeDraft = null; }
+        placeAdjustMode(false);
+    }
+    function placeOpenForm(name) {
+        document.getElementById("place-emoji-input").value = "";
+        document.getElementById("place-name-input").value = name || "";
+        document.getElementById("place-desc-input").value = "";
+        document.getElementById("place-add-popup").classList.add("open");
+    }
+    function placeMapClick(lat, lng) {
+        placeDropDraft(lat, lng);
+        if (!placeAdjusting) placeOpenForm(lastGeocodedName || "");
+    }
+    window.placeStartAdjust = function() {
+        document.getElementById("place-add-popup").classList.remove("open");     // hidden only — the form keeps its text
+        placeAdjustMode(true);
+        const el = document.getElementById("our-places-map");
+        const bar = [document.querySelector("nav"), document.getElementById("m-topbar")].find(x => x && x.offsetHeight > 0 && getComputedStyle(x).display !== "none");
+        if (el) window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - (bar ? bar.offsetHeight : 0) - 10), behavior: "smooth" });
+        if (placeDraft && leafletMap) leafletMap.panTo(placeDraft.getLatLng());
+    };
+    window.placeAdjustDone = function() {
+        placeAdjustMode(false);
+        document.getElementById("place-add-popup").classList.add("open");
+    };
+    window.placeAdjustCancel = function() { closePlaceModal(); };
+    function initOurPlacesMap(){if(mapInitialized){setTimeout(()=>leafletMap&&leafletMap.invalidateSize(),50);return;}mapInitialized=true;leafletMap=L.map("our-places-map",{zoomControl:true}).setView([36.8065,10.1815],11);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',maxZoom:19}).addTo(leafletMap);leafletMap.on("click",function(e){placeMapClick(e.latlng.lat,e.latlng.lng);});renderPlaceMarkers(placesData);setupGeocodeSearch();}
     /* ---------- v25: photos taken at each place (collection "placephotos") ---------- */
     const placePhotosRef = collection(db, "placephotos");
     let placePhotos = [];
@@ -8175,10 +8312,13 @@
         Object.values(placeMarkers).forEach(m=>m.remove());
         Object.keys(placeMarkers).forEach(k=>delete placeMarkers[k]);
         places.forEach(p=>{
-            const icon=L.divIcon({html:`<div style="font-size:1.6rem;text-align:center;line-height:1;">${p.emoji||"📍"}</div>`,className:"",iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-16]});
+            const nights=weekNightsAtPlace(p.id);   // v39: the wedding nights held here
+            const nightsBadge=nights.length?`<div class="pm-nights">${nights.map(n=>n.emoji).join("")}</div>`:"";
+            const nightsTxt=nights.length?"<br><span style='font-size:.85rem;color:#c0396b'>"+nights.map(n=>n.emoji+" "+esc(n.name)+(weekTimeTxt(n.date)?" · "+esc(weekTimeTxt(n.date)):"")).join("<br>")+"</span>":"";
+            const icon=L.divIcon({html:`<div style="position:relative;font-size:1.6rem;text-align:center;line-height:1;">${p.emoji||"📍"}${nightsBadge}</div>`,className:"",iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-16]});
             const photos=placePhotosOf(p.id);
             const photoHtml=photos.length?`<div class="pm-photo" onclick="openPlacePhotos('${p.id}',0)"><img src="${photos[0].image}" alt=""/><span>📷 ${photos.length} photo${photos.length>1?"s":""}</span></div>`:"";
-            const marker=L.marker([p.lat,p.lng],{icon}).addTo(leafletMap).bindPopup(`<strong>${p.emoji||"📍"} ${esc(p.name)}</strong>${p.desc?"<br><span style='font-size:.85rem;color:#7a2545'>"+esc(p.desc)+"</span>":""}${photoHtml}`);
+            const marker=L.marker([p.lat,p.lng],{icon}).addTo(leafletMap).bindPopup(`<strong>${p.emoji||"📍"} ${esc(p.name)}</strong>${nightsTxt}${p.desc?"<br><span style='font-size:.85rem;color:#7a2545'>"+esc(p.desc)+"</span>":""}${photoHtml}`);
             placeMarkers[p.id]=marker;
         });
     }
@@ -8192,7 +8332,7 @@
         list.innerHTML=filtered.map(p=>{
             const photos=placePhotosOf(p.id);
             const strip=photos.length?`<div class="p-photos${photos.length<3?" n"+photos.length:""}">${photos.map((ph,i)=>`<img class="p-thumb" src="${ph.image}" alt="" onload="this.style.setProperty('--r',(this.naturalWidth/this.naturalHeight).toFixed(3))" onclick="openPlacePhotos('${p.id}',${i})"/>`).join("")}</div>`:"";
-            return `<div class="place-card" data-item="${p.id}"><button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button><div class="p-emoji">${p.emoji||"📍"}</div><div class="p-name">${esc(p.name)}</div>${p.desc?`<div class="p-desc">${esc(p.desc)}</div>`:""}${strip}<div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div><div class="p-author">${avName(p.addedBy)} · added it</div><div class="p-btns"><button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button><button class="p-photo-btn" onclick="pickPlacePhotos('${p.id}')">📷 ${photos.length?"Add more":"Add photos"}</button></div></div>`;
+            return `<div class="place-card" data-item="${p.id}"><button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button><div class="p-emoji">${p.emoji||"📍"}</div><div class="p-name">${esc(p.name)}</div>${weekNightsAtPlace(p.id).length?`<div class="p-nights">${weekNightsAtPlace(p.id).map(n=>n.emoji+" "+esc(n.name)).join(" · ")}</div>`:""}${p.desc?`<div class="p-desc">${esc(p.desc)}</div>`:""}${strip}<div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div><div class="p-author">${avName(p.addedBy)} · added it</div><div class="p-btns"><button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button><button class="p-photo-btn" onclick="pickPlacePhotos('${p.id}')">📷 ${photos.length?"Add more":"Add photos"}</button></div></div>`;
         }).join("");
     }
     onSnapshot(query(placesRef,orderBy("addedAt","asc")),snapshot=>{placesData=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderPlacesList(placesData);renderPlaceMarkers(placesData);weekSetPlaces(placesData);});
@@ -8321,7 +8461,7 @@
         }
         hideSync();
     };
-    window.closePlaceModal=function(){document.getElementById("place-add-popup").classList.remove("open");placeNewPhotos=[];renderPlaceNewPhotos();};
+    window.closePlaceModal=function(){document.getElementById("place-add-popup").classList.remove("open");placeNewPhotos=[];renderPlaceNewPhotos();placeRemoveDraft();};
     window.deletePlace=async function(id){
         const photos=placePhotosOf(id);
         if(!confirm(photos.length?`Delete this place and its ${photos.length} photo${photos.length>1?"s":""}?`:"Delete this place?"))return;
@@ -11692,7 +11832,7 @@ function renderQuizScores() {
         group("🗓️", "Special dates", loadEvents().filter(e => has(e.name, e.date)).map(e => ({
             page: "special", id: e.id, title: (e.emoji || "🗓️") + " " + e.name, sub: e.date })));
         group("👥", "Guests", guestsData.filter(g => has(g.name)).map(g => ({
-            page: "guests", id: g.id, title: g.name || "Guest", sub: `${guCount(g)} · ${personName(g.side === "yossr" ? "yossr" : "hamdi")}'s guests` })));
+            page: "guests", id: g.id, title: g.name || "Guest", sub: `${GU_NIGHTS[guNightOf(g)].emoji} ${GU_NIGHTS[guNightOf(g)].name} · ${personName(guSideOf(g))}'s family · ${guCount(g)}` })));
         group("❓", "Quiz", allQuizQuestions.filter(x => has(x.question)).map(x => ({
             page: "quiz", id: x.id, kind: x.about === me ? "add" : "answer", title: x.question, sub: "About " + personName(x.about) })));
         group("🎴", "Scratch cards", scratchCardsData.filter(c => (c.from === me || c.revealed) && has(c.message)).map(c => ({
@@ -11977,7 +12117,7 @@ function renderQuizScores() {
     };
     window.dispatchEvent(new Event("hy-ready"));
 </script>
-<script type="module" src="stories.js?v=38"></script>
+<script type="module" src="stories.js?v=39"></script>
 <!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
 <script>
     // Enregistrer le service worker
