@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v36"/>
+    <meta name="app-version" content="v37"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-    <link rel="stylesheet" href="stories.css?v=36"/>
+    <link rel="stylesheet" href="stories.css?v=37"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#c0396b"/>
@@ -1069,6 +1069,45 @@
         .progress-wrap { background: rgba(255, 182, 210, .35); border-radius: 50px; height: 8px; overflow: hidden; margin-bottom: 14px; }
         .progress-bar { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #f48fb1, #c0396b); transition: width 1s ease; }
         .card .days-left { font-size: .82rem; color: #a0556e; letter-spacing: 1px; }
+
+        /* ===== v37: our wedding week (Tunisian nights) under the wedding countdown ===== */
+        .wk { margin-top: 20px; padding-top: 16px; border-top: 1px dashed rgba(255, 182, 210, .8); }
+        .wk-title { font-size: .72rem; color: #b07090; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .wk-days { display: flex; gap: 5px; justify-content: center; }
+        .wk-day {
+            flex: 1 1 0; min-width: 0; max-width: 48px; padding: 7px 0 6px; border-radius: 12px; cursor: pointer;
+            border: 2px solid transparent; font: inherit; line-height: 1.1; position: relative;
+            -webkit-tap-highlight-color: transparent; transition: transform .2s, border-color .2s;
+        }
+        .wk-day.time-block { min-width: 0; padding: 7px 0 6px; box-shadow: 0 2px 8px rgba(192, 57, 107, .14); }
+        .wk-day .wk-wd { display: block; font-size: .56rem; color: #b05070; text-transform: uppercase; letter-spacing: .5px; }
+        .wk-day .wk-dn { display: block; font-size: 1rem; font-weight: 700; color: #9b1c4a; margin: 1px 0; }
+        .wk-day .wk-em { display: block; font-size: .85rem; }
+        .wk-day.rest { opacity: .45; filter: grayscale(.7); }
+        .wk-day.sel { border-color: #c0396b; transform: translateY(-3px); opacity: 1; }
+        .wk-day.rest.sel { filter: none; }
+        .wk-day.past::after {
+            content: "✓"; position: absolute; top: -6px; right: -4px; width: 16px; height: 16px; border-radius: 50%;
+            background: #c0396b; color: #fff; font-size: .6rem; line-height: 16px; font-weight: 700;
+        }
+        .wk-info { margin-top: 12px; background: rgba(255, 214, 232, .45); border-radius: 16px; padding: 10px 12px; }
+        .wk-info .wk-name { font-size: 1rem; font-weight: 700; color: #9b1c4a; }
+        .wk-info .wk-date { font-size: .72rem; color: #b07090; letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
+        .wk-info .wk-left { font-size: .85rem; color: #c0396b; font-weight: 700; margin-top: 4px; }
+        body[data-theme="lavender"] .wk-day.sel { border-color: #7b4fa5 !important; }
+        body[data-theme="lavender"] .wk-day.past::after { background: #7b4fa5 !important; }
+        body[data-theme="peach"] .wk-day.sel { border-color: #c0784e !important; }
+        body[data-theme="peach"] .wk-day.past::after { background: #c0784e !important; }
+        body[data-theme="ocean"] .wk-day.sel { border-color: #2d6e8c !important; }
+        body[data-theme="ocean"] .wk-day.past::after { background: #2d6e8c !important; }
+        body[data-theme="sunset"] .wk-day.sel { border-color: #d2691e !important; }
+        body[data-theme="sunset"] .wk-day.past::after { background: #d2691e !important; }
+        body[data-theme="midnight"] .wk { border-top-color: rgba(192, 57, 107, .4) !important; }
+        body[data-theme="midnight"] .wk-info { background: rgba(192, 57, 107, .18) !important; }
+        body[data-theme="midnight"] .wk-info .wk-name,
+        body[data-theme="midnight"] .wk-info .wk-left { color: #f48fb1 !important; }
+        body[data-theme="midnight"] .wk-info .wk-date,
+        body[data-theme="midnight"] .wk-title { color: #ffd6e8 !important; }
 
         /* ===== Celebrated (event already passed) ===== */
         .celebrated-head { width: 100%; font-size: 1.1rem; font-weight: 700; color: #c0396b; letter-spacing: .5px; margin-bottom: 2px; }
@@ -3728,6 +3767,7 @@
             <div class="countdown" id="wed-countdown"></div>
             <div class="progress-wrap"><div class="progress-bar" id="wed-progress"></div></div>
             <p class="days-left" id="wed-days"></p>
+            <div class="wk" id="wed-week"></div>
         </div>
         <div class="card home-book-card">
             <div class="icon">📖</div>
@@ -5563,8 +5603,7 @@
             ]
         },
         {
-            date: "10 Oct 2027", ts: "2027-10-10T00:00:00",
-            unlockDate: "9 Oct 2027", unlockTs: "2027-10-09T00:00:00",
+            date: "3 Sep 2027", ts: "2027-09-03T00:00:00",          // v37: our words unlock at 00:00 on the wedding day
             title: "Wedding Day 👰🤵", desc: "Forever begins here", emoji: "🎊",
             quotes: [
                 "حاضر بش تكون بجنبي ديمة",
@@ -5641,9 +5680,10 @@
 
     /* ===== COUNTDOWNS ===== */
     const engTarget = new Date("2026-07-11T00:00:00");
-    const wedTarget = new Date("2027-10-10T00:00:00");   // v24 — wedding moved to Sunday 10 Oct 2027, 00:00
+    const wedTarget = new Date("2027-09-03T00:00:00");   // v37 — wedding moved to Friday 3 Sep 2027, 00:00 (also in stories.js + api/remind.js)
     const relStart  = new Date("2025-08-15T00:00:00");
-    const ENG_TOTAL = 103, WED_TOTAL = 419;
+    const ENG_TOTAL = 103;
+    const WED_TOTAL = Math.round((wedTarget - new Date("2026-08-17T00:00:00")) / 86400000);   // v37: same start as before (17 Aug 2026) → 382 days
     const fmtDate = d => d.toLocaleDateString("en-GB", {weekday:"long",year:"numeric",month:"long",day:"numeric"});
     document.getElementById("eng-date-label").textContent = fmtDate(engTarget);
     document.getElementById("wed-date-label").textContent = fmtDate(wedTarget);
@@ -5716,8 +5756,58 @@
         renderCountdown(wedTarget,"wed-countdown","wed-progress","wed-days",WED_TOTAL);
         updateRelation(); tickCustom();
         // refresh the locked timeline cards once a minute
-        if (tickCount++ % 60 === 0) updateTimelineLocks();
+        if (tickCount++ % 60 === 0) { updateTimelineLocks(); renderWeddingWeek(); }
     }
+
+    /* ===== v37: OUR WEDDING WEEK — the Tunisian nights, under the wedding countdown =====
+       Only the Wedding Day (wedTarget) has a countdown; this strip just shows the program.
+       Keep in sync with WEDDING_WEEK_SPECIAL (Special Dates) below. */
+    const WEDDING_WEEK = [
+        { date: "2027-08-28", emoji: "🎉", name: "Agira" },
+        { date: "2027-08-29", emoji: "😴", name: "Repos", rest: true },
+        { date: "2027-08-30", emoji: "👰", name: "Wtiya" },
+        { date: "2027-08-31", emoji: "🐑", name: "Dhbi7a" },
+        { date: "2027-09-01", emoji: "🌿", name: "Henna" },
+        { date: "2027-09-02", emoji: "😴", name: "Repos", rest: true },
+        { date: "2027-09-03", emoji: "💍", name: "Wedding" }
+    ];
+    let wkSel = null, wkDay = "";
+    const wkDays = (from, to) => Math.round((Date.parse(to + "T00:00:00Z") - Date.parse(from + "T00:00:00Z")) / 86400000);
+    function wkDefault(today) {
+        const first = WEDDING_WEEK[0].date, last = WEDDING_WEEK[WEDDING_WEEK.length - 1].date;
+        if (today >= first && today <= last) return WEDDING_WEEK.findIndex(n => n.date === today);
+        const next = WEDDING_WEEK.findIndex(n => !n.rest && n.date >= today);
+        return next >= 0 ? next : WEDDING_WEEK.length - 1;
+    }
+    function renderWeddingWeek() {
+        const wrap = document.getElementById("wed-week");
+        if (!wrap) return;
+        const today = localToday();
+        if (wkDay !== today) { wkDay = today; wkSel = null; }     // a new day → back to the nearest night
+        if (wkSel === null) wkSel = wkDefault(today);
+        const chips = WEDDING_WEEK.map((n, i) => {
+            const d = new Date(n.date + "T00:00:00");
+            const wd = d.toLocaleDateString("en-GB", { weekday: "short" });
+            const cls = ["wk-day", "time-block", n.rest ? "rest" : "", n.date < today ? "past" : "", i === wkSel ? "sel" : ""].filter(Boolean).join(" ");
+            return `<button type="button" class="${cls}" onclick="selectWeddingNight(${i})" aria-label="${esc(n.name)} — ${esc(fmtDate(d))}">
+                <span class="wk-wd">${wd}</span><span class="wk-dn">${d.getDate()}</span><span class="wk-em">${n.emoji}</span></button>`;
+        }).join("");
+        const n = WEDDING_WEEK[wkSel];
+        const left = wkDays(today, n.date);
+        let status;
+        if (left > 1) status = n.rest ? `😴 Rest day · in ${left} days` : `⏳ in ${left} days`;
+        else if (left === 1) status = n.rest ? "😴 Rest day · tomorrow" : "⏳ Tomorrow! 💕";
+        else if (left === 0) status = n.rest ? "😴 Rest day today 💕" : wkSel === WEDDING_WEEK.length - 1 ? "💍 Today is our wedding! 💕" : "🎉 Tonight! 💕";
+        else status = "✓ Done 💕";
+        wrap.innerHTML = `<div class="wk-title">Our wedding week</div>
+            <div class="wk-days">${chips}</div>
+            <div class="wk-info">
+                <div class="wk-name">${n.emoji} ${esc(n.name)}</div>
+                <div class="wk-date">${esc(fmtDate(new Date(n.date + "T00:00:00")))}</div>
+                <div class="wk-left">${status}</div>
+            </div>`;
+    }
+    window.selectWeddingNight = function(i) { wkSel = i; renderWeddingWeek(); };
     tick(); setInterval(tick,1000);
 
     /* ===== SPECIAL DATES (v27 — shared: Firestore settings/specialdates { events: [...] }) =====
@@ -5735,8 +5825,38 @@
         const raw=snap.exists()&&Array.isArray((snap.data()||{}).events)?snap.data().events:[];
         specialEvents=raw.filter(e=>e&&e.name&&e.date).sort((x,y)=>x.date<y.date?-1:x.date>y.date?1:0);
         renderCustom();
-        if(!(snap.metadata&&snap.metadata.fromCache))migrateLocalSpecialDates();
+        if(!(snap.metadata&&snap.metadata.fromCache)){migrateLocalSpecialDates();seedWeddingWeek(snap.exists()?snap.data():null);}
     },err=>console.warn("Special dates:",err&&(err.code||err.message)));
+    /* v37: the 5 nights of our wedding week also live in Special Dates, so the server
+       (api/remind.js) sends "Tomorrow: …" and "Today: …" for each one.
+       Added once only — a night deleted by hand will not come back.
+       WW_REV: bump it when a name / emoji / date below changes → the nights already
+       saved are corrected (rev 2: short names, no first names).
+       Fixed ids and values so both phones doing it at the same time give one copy. */
+    const WW_REV = 2;
+    const WEDDING_WEEK_SPECIAL = [
+        { id: "wed27-agira",   emoji: "🎉", name: "Agira",   date: "2027-08-28" },
+        { id: "wed27-wtiyet",  emoji: "👰", name: "Wtiya",   date: "2027-08-30" },
+        { id: "wed27-dhbi7a",  emoji: "🐑", name: "Dhbi7a",  date: "2027-08-31" },
+        { id: "wed27-henna",   emoji: "🌿", name: "Henna",   date: "2027-09-01" },
+        { id: "wed27-mariage", emoji: "💍", name: "Wedding", date: "2027-09-03" }
+    ].map(e => ({ ...e, by: "hamdi", at: "2026-11-14T00:00:00.000Z" }));
+    let weddingWeekSeeding = false;
+    async function seedWeddingWeek(data) {
+        if (weddingWeekSeeding || (data && data.weddingWeekRev >= WW_REV)) return;
+        weddingWeekSeeding = true;
+        const same = (a, b) => a.name === b.name && a.emoji === b.emoji && a.date === b.date;
+        const saved = specialEvents.filter(e => typeof e.id === "string" && e.id.startsWith("wed27-"));
+        const firstTime = !(data && (data.weddingWeekV37 || data.weddingWeekRev));
+        // first time: all 5 nights · later: only the nights still there (deleted ones stay deleted)
+        const wanted = WEDDING_WEEK_SPECIAL.filter(w => firstTime || saved.some(o => o.id === w.id));
+        const stale = saved.filter(o => { const w = wanted.find(x => x.id === o.id); return !w || !same(w, o); });
+        const toAdd = wanted.filter(w => !saved.some(o => o.id === w.id && same(w, o)));
+        try {
+            if (stale.length) await setDoc(SPECIAL_DOC, { events: arrayRemove(...stale) }, { merge: true });
+            await setDoc(SPECIAL_DOC, toAdd.length ? { events: arrayUnion(...toAdd), weddingWeekRev: WW_REV } : { weddingWeekRev: WW_REV }, { merge: true });
+        } catch (e) { weddingWeekSeeding = false; console.warn("Wedding week dates:", e && (e.code || e.message)); }
+    }
     async function migrateLocalSpecialDates(){
         if(specialMigrated)return;
         specialMigrated=true;
@@ -11494,7 +11614,7 @@ function renderQuizScores() {
     };
     window.dispatchEvent(new Event("hy-ready"));
 </script>
-<script type="module" src="stories.js?v=36"></script>
+<script type="module" src="stories.js?v=37"></script>
 <!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
 <script>
     // Enregistrer le service worker
