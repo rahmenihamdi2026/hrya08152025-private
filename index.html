@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v44"/>
+    <meta name="app-version" content="v45"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-    <link rel="stylesheet" href="stories.css?v=44"/>
+    <link rel="stylesheet" href="stories.css?v=45"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#c0396b"/>
@@ -6663,6 +6663,27 @@
         x.fillStyle = "#1a1a1a";
         for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) if (m[i][j]) x.fillRect(Math.round(bx + off + j * cell), Math.round(top + off + i * cell), cell, cell);
     }
+    // v45: the little calendar of each night (like Memories) — month on a coloured band, the day below
+    const INV_MONTHS = ["JANV", "FÉVR", "MARS", "AVR", "MAI", "JUIN", "JUIL", "AOÛT", "SEPT", "OCT", "NOV", "DÉC"];
+    function invCalBadge(x, X, Y, w, h, date, th) {
+        const d = new Date(date + "T12:00:00"), band = th.dark ? th.frame : th.accent, bandTxt = th.dark ? "#1F2347" : "#ffffff";
+        const r = Math.round(w * 0.2), bandH = Math.round(h * 0.33);
+        const shape = () => { x.beginPath(); if (x.roundRect) x.roundRect(X, Y, w, h, r); else x.rect(X, Y, w, h); };
+        x.save();
+        x.shadowColor = "rgba(0, 0, 0, 0.18)"; x.shadowBlur = 16; x.shadowOffsetY = 5;
+        shape(); x.fillStyle = "#ffffff"; x.fill();
+        x.restore();
+        x.save(); shape(); x.clip(); x.fillStyle = band; x.fillRect(X, Y, w, bandH); x.restore();
+        x.save();
+        x.textAlign = "center"; x.direction = "ltr";
+        if ("letterSpacing" in x) x.letterSpacing = "2px";
+        x.fillStyle = bandTxt; x.font = `700 ${Math.round(bandH * 0.52)}px Lato, sans-serif`;
+        x.fillText(INV_MONTHS[d.getMonth()], X + w / 2 + 1, Y + bandH * 0.7);
+        if ("letterSpacing" in x) x.letterSpacing = "0px";
+        x.fillStyle = th.dark ? "#1F2347" : th.accent; x.font = `700 ${Math.round((h - bandH) * 0.6)}px Lato, sans-serif`;
+        x.fillText(String(d.getDate()), X + w / 2, Y + bandH + (h - bandH) * 0.74);
+        x.restore();
+    }
     async function invDraw(md) {
         try { await Promise.all(["128px 'Great Vibes'", "700 48px Lato", "400 38px Lato", "italic 30px Lato", "400 38px Amiri", "700 40px Amiri"].map(f => document.fonts.load(f, "Aa ب"))); } catch (e) {}
         const hsl = (h, sa, l) => `hsl(${Math.round(h)}, ${Math.round(Math.min(1, sa) * 100)}%, ${Math.round(l * 100)}%)`;
@@ -6704,8 +6725,15 @@
         const anyQr = md.nights.some(n => n.url);
         if (md.nights.length === 1) {
             const n = md.nights[0];
-            y += 85; x.fillStyle = th.accent; invText(x, n.dateTxt, W / 2, y, INV_F.bold, 48, 900);
-            if (n.time.trim()) { y += 62; x.fillStyle = th.text; invText(x, n.time, W / 2, y, INV_F.body, 40, 900); }
+            y += 42;
+            const cw = 112, ch = 124, gap = 26, dt = String(n.dateTxt || "").trim();
+            x.font = INV_F.bold.replace("{px}", 46);
+            const tw = dt ? Math.min(x.measureText(dt).width, 900 - cw - gap) : 0;
+            const gx = dt ? W / 2 - (cw + gap + tw) / 2 : W / 2 - cw / 2;
+            invCalBadge(x, gx, y, cw, ch, n.date, th);
+            if (dt) { x.textAlign = "left"; x.fillStyle = th.accent; invText(x, dt, gx + cw + gap, y + ch / 2 + 16, INV_F.bold, 46, 900 - cw - gap); x.textAlign = "center"; }
+            y += ch;
+            if (n.time.trim()) { y += 58; x.fillStyle = th.text; invText(x, n.time, W / 2, y, INV_F.body, 40, 900); }
             if (n.place.trim()) { y += 66; x.fillStyle = th.text; invText(x, "📍 " + n.place, W / 2, y, INV_F.body, 38, 900); }
             if (n.url) { const box = 300; invQr(x, n.url, W / 2 - box / 2, y + 40, box); y += 40 + box; }
         } else {
@@ -6715,11 +6743,14 @@
                 x.fillStyle = th.dark ? "rgba(255, 255, 255, 0.10)" : "rgba(255, 255, 255, 0.55)";
                 x.beginPath(); if (x.roundRect) x.roundRect(bx, y, bw, bh, 24); else x.rect(bx, y, bw, bh); x.fill();
                 x.strokeStyle = th.frame; x.lineWidth = 1.2; x.stroke();
-                const cx = qr ? bx + (bw - qr - 40) / 2 : W / 2, mw = qr ? bw - qr - 70 : bw - 60;
-                x.fillStyle = th.accent; invText(x, `${n.emoji} ${n.label}`, cx, y + 62, INV_F.bold, 40, mw);
-                x.fillStyle = th.text; invText(x, n.dateTxt, cx, y + 114, INV_F.body, 34, mw);
-                if (n.time.trim()) invText(x, n.time, cx, y + 162, INV_F.body, 32, mw);
-                if (n.place.trim()) invText(x, "📍 " + n.place, cx, y + 210, INV_F.body, 32, mw);
+                const cw = 98, ch = 108, calX = bx + 24;
+                invCalBadge(x, calX, y + (bh - ch) / 2, cw, ch, n.date, th);
+                const left = calX + cw + 16, right = qr ? bx + bw - qr - 44 : bx + bw - 22;
+                const cx = (left + right) / 2, mw = right - left;
+                x.fillStyle = th.accent; invText(x, `${n.emoji} ${n.label}`, cx, y + 62, INV_F.bold, 38, mw);
+                x.fillStyle = th.text; invText(x, n.dateTxt, cx, y + 114, INV_F.body, 32, mw);
+                if (n.time.trim()) invText(x, n.time, cx, y + 162, INV_F.body, 30, mw);
+                if (n.place.trim()) invText(x, "📍 " + n.place, cx, y + 210, INV_F.body, 30, mw);
                 if (qr) invQr(x, n.url, bx + bw - qr - 30, y + (bh - qr) / 2, qr);
                 y += bh + 26;
             });
@@ -7072,7 +7103,7 @@
         md.nights.forEach(n => {
             out.push("");
             out.push(`${n.emoji} ${n.label}`.trim());
-            out.push(`📅 ${n.dateTxt}${n.time.trim() ? " · " + n.time : ""}`);
+            out.push(`${n.dateTxt}${n.time.trim() ? " · " + n.time : ""}`);
             if (n.place.trim()) out.push(`📍 ${n.place}`);
             if (n.url) out.push(`🧭 ${n.url}`);
         });
@@ -13254,7 +13285,7 @@ function renderQuizScores() {
     };
     window.dispatchEvent(new Event("hy-ready"));
 </script>
-<script type="module" src="stories.js?v=44"></script>
+<script type="module" src="stories.js?v=45"></script>
 <!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
 <script>
     // Enregistrer le service worker
