@@ -1,4 +1,4 @@
-// Service Worker — Hamdi & Yossr 💍 — v42
+// Service Worker — Hamdi & Yossr 💍 — v43
 
 // ===== FCM Push (notif w l app msakra) =====
 importScripts("https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js");
@@ -42,13 +42,13 @@ self.addEventListener("notificationclick", event => {
   })());
 });
 
-const CACHE_NAME = "hamdi-yossr-v42";
+const CACHE_NAME = "hamdi-yossr-v43";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./stories.js?v=42",
-  "./stories.css?v=42",
+  "./stories.js?v=43",
+  "./stories.css?v=43",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/apple-touch-icon.png"
