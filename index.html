@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v43"/>
+    <meta name="app-version" content="v44"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-    <link rel="stylesheet" href="stories.css?v=43"/>
+    <link rel="stylesheet" href="stories.css?v=44"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#c0396b"/>
@@ -1256,6 +1256,42 @@
         .card .icon .hy-rings { width: 1.35em; height: 1.1em; }
         #wr-overlay .hy-rings { color: #fff !important; }
         #wr-overlay .hy-rings path { fill: transparent; }
+        /* ===== v44: Invitations — two menus, the preview always on screen, many cards ===== */
+        .inv-wrap.page-wrap { max-width: 560px; }
+        @media (min-width: 900px) { .inv-wrap.page-wrap { max-width: 1040px; } }
+        .inv-tabs.games-tabs { flex-wrap: nowrap; gap: 8px; margin-bottom: 16px; }
+        .inv-tabs .games-tab { flex: 1 1 0; max-width: 260px; padding: 11px 8px; }
+        .inv-pane { display: none; }
+        .inv-pane.on { display: block; }
+        .inv-new-btn { display: block; width: 100%; padding: 13px; border: none; border-radius: 16px; background: linear-gradient(135deg, #e07fa0, #c0396b); color: #fff; font-weight: 700; font-size: .95rem; cursor: pointer; margin-bottom: 12px; box-shadow: 0 6px 18px rgba(192, 57, 107, .25); font-family: 'Lato', sans-serif; }
+        .inv-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 6px; scrollbar-width: none; }
+        .inv-filters::-webkit-scrollbar { display: none; }
+        .inv-filter { flex: none; padding: 7px 12px; border-radius: 20px; border: 1px solid rgba(255, 182, 210, .9); background: #fff; color: #9b1c4a; font-size: .8rem; cursor: pointer; font-family: 'Lato', sans-serif; white-space: nowrap; }
+        .inv-filter.on { background: #c0396b; color: #fff; border-color: transparent; }
+        .inv-empty { text-align: center; color: #b07090; padding: 24px 10px; grid-column: 1 / -1; }
+        @media (min-width: 900px) { .inv-cards { grid-template-columns: repeat(4, 1fr) !important; } }
+        .inv-card.flash { animation: invFlash 1.4s ease 2; }
+        @keyframes invFlash { 50% { box-shadow: 0 0 0 5px rgba(192, 57, 107, .45); } }
+        .inv-card-send { display: block; width: 100%; margin-top: 6px; padding: 9px; border: none; border-radius: 10px; background: #1fa855; color: #fff; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; font-size: .85rem; }
+        .inv-card-acts { display: flex; margin-top: 4px; }
+        .inv-card-acts button { flex: 1; background: none; border: none; font-size: 1.05rem; padding: 6px 0; cursor: pointer; border-radius: 8px; }
+        .inv-card-acts button:hover { background: rgba(255, 182, 210, .25); }
+        .inv-edit-head { font-size: .85rem; color: #7a2545; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .inv-edit-head .inv-reset { margin: 0; }
+        .inv-stage { position: sticky; top: var(--inv-top, 0px); z-index: 30; display: flex; justify-content: center; align-items: flex-start; gap: 8px; margin: 0 -20px 12px; padding: 8px 20px 10px; background: rgba(255, 240, 248, .94); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 182, 210, .5); }
+        .inv-stage .inv-preview { height: min(40vh, 400px); width: auto; max-width: calc(100% - 50px); min-height: 0; margin: 0; cursor: zoom-in; }
+        .inv-stage.small .inv-preview { height: min(22vh, 220px); }
+        .inv-stage-btns { display: flex; flex-direction: column; gap: 6px; }
+        .inv-stage-btns button { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255, 182, 210, .9); background: #fff; cursor: pointer; font-size: 1rem; padding: 0; }
+        @media (min-width: 900px) {
+            .inv-editor { display: grid; grid-template-columns: minmax(300px, 420px) 1fr; gap: 24px; align-items: start; }
+            .inv-stage { margin: 0; padding: 0; background: none; backdrop-filter: none; border: none; top: calc(var(--inv-top, 0px) + 12px); flex-direction: column; align-items: center; }
+            .inv-stage .inv-preview { height: auto; width: 100%; max-width: 100%; max-height: calc(100vh - var(--inv-top, 0px) - 90px); object-fit: contain; }
+            .inv-stage-btns { flex-direction: row; }
+        }
+        body[data-theme="midnight"] .inv-stage { background: rgba(26, 26, 46, .94) !important; border-color: rgba(192, 57, 107, .4) !important; }
+        body[data-theme="midnight"] .inv-filter:not(.on), body[data-theme="midnight"] .inv-stage-btns button { background: rgba(26, 26, 46, .9) !important; color: #f48fb1 !important; border-color: rgba(192, 57, 107, .4) !important; }
+        body[data-theme="midnight"] .inv-edit-head, body[data-theme="midnight"] .inv-empty { color: #ffd6e8 !important; }
         /* ===== v43: INVITATIONS page ===== */
         .inv-preview { display: block; width: 100%; border-radius: 14px; box-shadow: 0 8px 24px rgba(90, 26, 53, .22); background: #fff; min-height: 240px; margin-bottom: 12px; }
         .inv-warn { display: none; font-size: .8rem; color: #8a5a00; background: #fff4d6; border: 1px solid #f0d58a; border-radius: 12px; padding: 8px 10px; margin-bottom: 12px; }
@@ -4083,57 +4119,81 @@
     </div>
 </div>
 
-<!-- v43: INVITATIONS -->
+<!-- v44: INVITATIONS — two menus: My cards (list, send, download) · Create (the card maker) -->
 <div id="page-invite" class="page">
-    <div class="page-wrap" style="max-width:560px;">
+    <div class="page-wrap inv-wrap">
         <p class="page-title">Invitations 💌</p>
-        <p class="page-sub">✨ Make a card · send it on WhatsApp ✨</p>
-        <img class="inv-preview" id="inv-preview" alt="Invitation card"/>
-        <div class="inv-warn" id="inv-warn"></div>
-        <div class="inv-box">
-            <div class="inv-label">🌙 Nights on the card</div>
-            <div class="inv-nights" id="inv-nights"></div>
+        <p class="page-sub">✨ Make cards · send them on WhatsApp ✨</p>
+        <div class="games-tabs inv-tabs">
+            <button type="button" class="games-tab" id="inv-tab-list" onclick="invTab('list')">🗂️ My cards</button>
+            <button type="button" class="games-tab" id="inv-tab-create" onclick="invTab('create')">✏️ Create</button>
         </div>
-        <div class="inv-box">
-            <div class="inv-label">💑 Names</div>
-            <p class="inv-hint">Ticked names are shown, joined with « & »</p>
-            <div id="inv-names"></div>
-        </div>
-        <div class="inv-box">
-            <div class="inv-label">✍️ Texts — français, عربي, English…</div>
-            <label class="inv-field">Title <input type="text" id="inv-title" maxlength="50" oninput="invFromForm()"/></label>
-            <label class="inv-field">Message <textarea id="inv-msg" maxlength="200" rows="3" oninput="invFromForm()"></textarea></label>
-            <div id="inv-night-texts"></div>
-            <label class="inv-field">Under the QR code <input type="text" id="inv-scan" maxlength="50" oninput="invFromForm()"/></label>
-            <button type="button" class="inv-reset" onclick="invReset()">↺ Back to the default texts</button>
-        </div>
-        <div class="inv-box">
-            <div class="inv-label">🖋️ Signature</div>
-            <p class="inv-hint">Ticked signers are shown, joined with « & »</p>
-            <div id="inv-signers"></div>
-            <button type="button" class="inv-reset" onclick="invAddSigner()">➕ Add a signer</button>
-        </div>
-        <div class="inv-box">
-            <div class="inv-label">🎨 Card theme</div>
-            <div class="inv-themes" id="inv-themes"></div>
-            <div class="inv-photo-ctl" id="inv-photo-ctl">
-                <button type="button" class="inv-photo-pick" onclick="invPickPhoto()">📷 Change photo</button>
-                <div class="inv-label" style="margin-top:10px">🎨 Colour (taken from your photo)</div>
-                <div class="inv-sw" id="inv-sw"></div>
-                <label class="inv-range">☁️ Soften the photo <input type="range" id="inv-dim" min="15" max="90" value="55" oninput="invFromForm()"/></label>
-                <label class="inv-range">💧 Blur <input type="range" id="inv-blur" min="0" max="12" value="0" oninput="invFromForm()"/></label>
-            </div>
-            <input type="file" id="inv-file" accept="image/*" style="display:none" onchange="invHandleFile(event)"/>
-        </div>
-        <div class="inv-btns">
-            <button type="button" class="inv-share" onclick="invShare()">📤 Send</button>
-            <button type="button" class="inv-dl" onclick="invDownload()">⬇️ Image</button>
-            <button type="button" class="inv-keep" id="inv-keep-btn" onclick="invKeep()">💾 Keep</button>
-        </div>
-        <div class="inv-box">
-            <div class="inv-cards-head"><div class="inv-label">🗂️ Our cards</div><button type="button" class="inv-reset" onclick="invNewCard()">＋ New card</button></div>
-            <p class="inv-hint">Kept cards — Hamdi and Yossr see them all. Tap one to open it again.</p>
+
+        <!-- 1) MY CARDS -->
+        <div class="inv-pane" id="inv-pane-list">
+            <button type="button" class="inv-new-btn" onclick="invNewCard()">＋ New card</button>
+            <div class="inv-filters" id="inv-filters"></div>
             <div class="inv-cards" id="inv-cards"></div>
+        </div>
+
+        <!-- 2) CREATE -->
+        <div class="inv-pane" id="inv-pane-create">
+            <div class="inv-edit-head" id="inv-edit-head"></div>
+            <div class="inv-editor">
+                <div class="inv-stage" id="inv-stage">
+                    <img class="inv-preview" id="inv-preview" alt="Invitation card" onclick="invZoom()"/>
+                    <div class="inv-stage-btns">
+                        <button type="button" onclick="invZoom()" aria-label="See the card big">🔍</button>
+                        <button type="button" onclick="invStageSize()" aria-label="Smaller or bigger preview" id="inv-stage-size">↕</button>
+                    </div>
+                </div>
+                <div class="inv-controls">
+                    <div class="inv-warn" id="inv-warn"></div>
+                    <div class="inv-box">
+                        <div class="inv-label">🏷️ Card name (for the list)</div>
+                        <input type="text" class="inv-in" id="inv-cardname" maxlength="50" oninput="invFromForm()"/>
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-label">🌙 Nights on the card</div>
+                        <div class="inv-nights" id="inv-nights"></div>
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-label">🎨 Card theme</div>
+                        <div class="inv-themes" id="inv-themes"></div>
+                        <div class="inv-photo-ctl" id="inv-photo-ctl">
+                            <button type="button" class="inv-photo-pick" onclick="invPickPhoto()">📷 Change photo</button>
+                            <div class="inv-label" style="margin-top:10px">🎨 Colour (taken from your photo)</div>
+                            <div class="inv-sw" id="inv-sw"></div>
+                            <label class="inv-range">☁️ Soften the photo <input type="range" id="inv-dim" min="15" max="90" value="55" oninput="invFromForm()"/></label>
+                            <label class="inv-range">💧 Blur <input type="range" id="inv-blur" min="0" max="12" value="0" oninput="invFromForm()"/></label>
+                        </div>
+                        <input type="file" id="inv-file" accept="image/*" style="display:none" onchange="invHandleFile(event)"/>
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-label">💑 Names</div>
+                        <p class="inv-hint">Ticked names are shown, joined with « & »</p>
+                        <div id="inv-names"></div>
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-label">✍️ Texts — français, عربي, English…</div>
+                        <label class="inv-field">Title <input type="text" id="inv-title" maxlength="50" oninput="invFromForm()"/></label>
+                        <label class="inv-field">Message <textarea id="inv-msg" maxlength="200" rows="3" oninput="invFromForm()"></textarea></label>
+                        <div id="inv-night-texts"></div>
+                        <label class="inv-field">Under the QR code <input type="text" id="inv-scan" maxlength="50" oninput="invFromForm()"/></label>
+                        <button type="button" class="inv-reset" onclick="invReset()">↺ Back to the default texts</button>
+                    </div>
+                    <div class="inv-box">
+                        <div class="inv-label">🖋️ Signature</div>
+                        <p class="inv-hint">Ticked signers are shown, joined with « & »</p>
+                        <div id="inv-signers"></div>
+                        <button type="button" class="inv-reset" onclick="invAddSigner()">➕ Add a signer</button>
+                    </div>
+                    <div class="inv-btns">
+                        <button type="button" class="inv-keep" id="inv-save-btn" onclick="invSaveCard(false)">💾 Save card</button>
+                        <button type="button" class="inv-dl" id="inv-saveas-btn" onclick="invSaveCard(true)">⧉ Save as new</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -6493,7 +6553,8 @@
             title: null, message: null, scan: null, per: {},          // null = automatic text
             signers: [{ text: "Famille Rahmeni", on: false }, { text: "Famille Amri", on: false }],
             theme: "rose", hue: 338, sat: 1, dim: 0.55, blur: 0,
-            cardId: null, photoOwner: null          // the saved card being edited · whose background photo
+            cardId: null, photoOwner: null,         // the saved card being edited · whose background photo
+            cardName: null                          // v44: name in My cards (null = automatic)
         };
         invAutoChecks(st);
         return st;
@@ -6513,6 +6574,7 @@
         if (Array.isArray(d.signers) && d.signers.length) st.signers = d.signers.map(x => ({ text: String((x && x.text) ?? ""), on: !!(x && x.on) }));
         if (INV_THEMES[d.theme] || d.theme === "photo") st.theme = d.theme;
         if (typeof d.cardId === "string") st.cardId = d.cardId;
+        if (typeof d.cardName === "string" && d.cardName.trim()) st.cardName = d.cardName;
         if (d.photoOwner === "hamdi" || d.photoOwner === "yossr") st.photoOwner = d.photoOwner;
         ["hue", "sat", "dim", "blur"].forEach(k => { if (Number.isFinite(d[k])) st[k] = d[k]; });
         return st;
@@ -6698,7 +6760,8 @@
         return c;
     }
 
-    // ---------- the page ----------
+    // ---------- the page (v44: two menus — 🗂️ My cards · ✏️ Create) ----------
+    let invTabSel = "list";
     function invRenderNights() {
         invEl("inv-nights").innerHTML = WEDDING_WEEK.filter(n => !n.rest).map(n => {
             const on = invSt.nights.includes(n.date), d = new Date(n.date + "T12:00:00");
@@ -6730,6 +6793,8 @@
         invEl("inv-title").value = invVal(invSt.title, invAuto.title(invSt));
         invEl("inv-msg").value = invVal(invSt.message, invAuto.message(invSt));
         invEl("inv-scan").value = invVal(invSt.scan, invAuto.scan(invSt));
+        invEl("inv-cardname").value = invSt.cardName || "";
+        invEl("inv-cardname").placeholder = invAutoName(invSt);
         invEl("inv-dim").value = Math.round((Number.isFinite(invSt.dim) ? invSt.dim : 0.55) * 100);
         invEl("inv-blur").value = Number(invSt.blur) || 0;
     }
@@ -6741,15 +6806,41 @@
         invEl("inv-warn").textContent = miss.length ? `⚠️ ${miss.join(" · ")} yet — add them with ✏️ in the program (Home › See program).` : "";
         invEl("inv-warn").classList.toggle("show", miss.length > 0);
     }
+    function invEditHead() {
+        const editing = invSt.cardId && invCards.find(c => c.id === invSt.cardId);
+        invEl("inv-edit-head").innerHTML = editing
+            ? `✏️ Editing <b>${esc(editing.name || "Invitation")}</b> <button type="button" class="inv-reset" onclick="invNewCard()">＋ New card instead</button>`
+            : `✨ <b>New card</b> — it will be added to My cards`;
+        invEl("inv-save-btn").textContent = editing ? "💾 Save changes" : "💾 Save card";
+        invEl("inv-saveas-btn").style.display = editing ? "" : "none";
+    }
+    // the preview stays on screen under the top bar while the settings scroll
+    function invStickyTop() {
+        const bar = [document.querySelector("nav"), document.getElementById("m-topbar")].find(b => b && b.offsetHeight > 0 && getComputedStyle(b).display !== "none");
+        document.documentElement.style.setProperty("--inv-top", (bar ? bar.offsetHeight : 0) + "px");
+    }
+    window.addEventListener("resize", () => { if (navCurrentPage === "invite") invStickyTop(); });
+    window.invStageSize = function() { invEl("inv-stage").classList.toggle("small"); };
+    window.invZoom = function() { const src = invEl("inv-preview").src; if (src) openZoomViewer(src, invAutoName(invSt)); };
+    function invRenderEditor() {
+        invRenderNights(); invRenderNames(); invRenderSigners(); invRenderNightTexts(); invFillTexts();
+        invEl("inv-themes").innerHTML = invThemesHtml(invSt.theme);
+        invPhotoCtl(); invWarn(); invEditHead(); invLoadOwnerPhoto(); invRefresh();
+    }
+    window.invTab = function(t) {
+        invTabSel = t === "create" ? "create" : "list";
+        ["list", "create"].forEach(k => {
+            invEl("inv-tab-" + k).classList.toggle("active", k === invTabSel);
+            invEl("inv-pane-" + k).classList.toggle("on", k === invTabSel);
+        });
+        if (invTabSel === "create") { invStickyTop(); invRenderEditor(); }
+        else invRenderCards();
+    };
     function invOpenPage() {
         if (!invEl("inv-nights")) return;
         if (!invSt) invSt = invNormalize(invDrafts[invMe()], invMe());
-        invRenderNights(); invRenderNames(); invRenderSigners(); invRenderNightTexts(); invFillTexts();
-        invEl("inv-themes").innerHTML = invThemesHtml(invSt.theme);
-        invPhotoCtl(); invWarn();
-        invLoadOwnerPhoto();
-        invCardsListen(); invRenderCards();
-        invRefresh();
+        invCardsListen();
+        invTab(invTabSel);
     }
     window.invToggleNight = function(d) {
         const i = invSt.nights.indexOf(d);
@@ -6768,6 +6859,7 @@
         st.title = keep(invEl("inv-title").value, invAuto.title(st));
         st.message = keep(invEl("inv-msg").value, invAuto.message(st));
         st.scan = keep(invEl("inv-scan").value, invAuto.scan(st));
+        st.cardName = invEl("inv-cardname").value.trim() || null;
         document.querySelectorAll("#inv-night-texts [data-k]").forEach(inp => { const d = inp.dataset.d, k = inp.dataset.k; invPer(st, d)[k] = keep(inp.value, invAuto[k](d)); });
         document.querySelectorAll("#inv-signers .inv-check").forEach((row, i) => {
             if (!st.signers[i]) return;
@@ -6781,7 +6873,7 @@
         clearTimeout(invRenderT); invRenderT = setTimeout(invRefresh, 250);
         clearTimeout(invSaveT); invSaveT = setTimeout(() => { invSaveT = null; invSave(); }, 900);
     }
-    function invSave() {
+    function invSave() {                  // the card being made is kept as a draft (nothing lost when leaving)
         if (!invSt) return;
         const me = invMe();
         setDoc(INV_DOC, { drafts: { [me]: JSON.parse(JSON.stringify(invSt)) }, updatedBy: me, updatedAt: new Date().toISOString() }, { merge: true })
@@ -6793,13 +6885,12 @@
         invCanvas = c;
         invEl("inv-preview").src = c.toDataURL("image/jpeg", 0.85);
         invBlob = null;
-        c.toBlob(b => { if (invCanvas === c) invBlob = b; }, "image/jpeg", 0.92);
+        if (invEl("inv-cardname")) invEl("inv-cardname").placeholder = invAutoName(invSt);
     }
     window.invAddSigner = function() { invSt.signers.push({ text: "", on: true }); invRenderSigners(); invChanged(); const ins = document.querySelectorAll('#inv-signers input[type="text"]'); if (ins.length) ins[ins.length - 1].focus(); };
     window.invDelSigner = function(i) { if (invSt.signers.length > 1) { invSt.signers.splice(i, 1); invRenderSigners(); invChanged(); } };
     window.invReset = function() {
         invSt.title = invSt.message = invSt.scan = null; invSt.per = {};
-        invSt.guest.prefix = INV_PREFIX;
         invSt.names.hamdi.text = "Hamdi"; invSt.names.yossr.text = "Yossr";
         invRenderNames(); invRenderNightTexts(); invFillTexts(); invChanged();
     };
@@ -6861,10 +6952,9 @@
         invPhotoCtl(); invRefresh(); invSave();
     };
 
-
-    /* ===== v43: OUR CARDS — every card kept with 💾, seen by both of us =====
-       collection invcards { name, state, thumb (small picture), by, at } — listened to only once the page is opened */
-    let invCards = [], invCardsOn = false;
+    /* ===== MY CARDS — as many cards as we want (several for the Wedding, several for the Henna…),
+       seen by both of us: collection invcards { name, state, thumb, by, at } — listened to once the page is opened */
+    let invCards = [], invCardsOn = false, invFilter = "all", invFlashId = null;
     function invLoadOwnerPhoto() {
         const owner = invPhOwner();
         if (invPhotos[owner] !== undefined) return;
@@ -6875,62 +6965,64 @@
         invCardsOn = true;
         onSnapshot(query(collection(db, "invcards"), orderBy("at", "desc")), snap => {
             invCards = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            // photos of the photo-theme cards, ready before ✉️ Send is tapped
+            [...new Set(invCards.filter(c => c.state && c.state.theme === "photo").map(c => c.state.photoOwner || c.by))].forEach(o => { if (o === "hamdi" || o === "yossr") invLoadPhoto(o); });
             invRenderCards();
-        }, err => console.warn("Our cards:", err && (err.code || err.message)));
+            if (invSt && invEl("inv-edit-head")) invEditHead();
+        }, err => console.warn("My cards:", err && (err.code || err.message)));
     }
-    function invCardName(st) {
+    function invAutoName(st) {
         const nights = st.nights.map(d => (WEDDING_WEEK.find(x => x.date === d) || {}).name).filter(Boolean).join(" + ");
-        return nights || "Invitation";
+        const theme = st.theme === "photo" ? "My photo" : (INV_THEMES[st.theme] || INV_THEMES.rose).name;
+        return `${nights || "Invitation"} · ${theme}`;
     }
-    function invThumb() {
-        const w = 300, h = Math.round(invCanvas.height * w / invCanvas.width), c = document.createElement("canvas");
+    const invCardNameOf = st => (st.cardName && st.cardName.trim()) || invAutoName(st);
+    function invThumbOf(canvas) {
+        const w = 300, h = Math.round(canvas.height * w / canvas.width), c = document.createElement("canvas");
         c.width = w; c.height = h;
-        c.getContext("2d").drawImage(invCanvas, 0, 0, w, h);
+        c.getContext("2d").drawImage(canvas, 0, 0, w, h);
         return c.toDataURL("image/jpeg", 0.72);
     }
     function invRenderCards() {
-        const box = invEl("inv-cards");
+        const box = invEl("inv-cards"), fb = invEl("inv-filters");
         if (!box) return;
-        if (!invCards.length) { box.innerHTML = '<p class="inv-hint" style="margin:0">No card kept yet — tap 💾 Keep to add this one 🌸</p>'; return; }
-        box.innerHTML = invCards.map(c => {
+        const tab = invEl("inv-tab-list");
+        if (tab) tab.textContent = `🗂️ My cards${invCards.length ? " · " + invCards.length : ""}`;
+        // filters: All + the nights that have cards
+        const nightsUsed = WEDDING_WEEK.filter(n => !n.rest && invCards.some(c => c.state && Array.isArray(c.state.nights) && c.state.nights.includes(n.date)));
+        if (invFilter !== "all" && !nightsUsed.some(n => n.date === invFilter)) invFilter = "all";
+        fb.innerHTML = invCards.length ? [`<button type="button" class="inv-filter${invFilter === "all" ? " on" : ""}" onclick="invSetFilter('all')">All · ${invCards.length}</button>`]
+            .concat(nightsUsed.map(n => `<button type="button" class="inv-filter${invFilter === n.date ? " on" : ""}" onclick="invSetFilter('${n.date}')">${n.emoji} ${esc(n.name)} · ${invCards.filter(c => c.state && (c.state.nights || []).includes(n.date)).length}</button>`)).join("") : "";
+        const list = invCards.filter(c => invFilter === "all" || (c.state && (c.state.nights || []).includes(invFilter)));
+        if (!invCards.length) { box.innerHTML = '<p class="inv-empty">No card yet — tap <b>＋ New card</b> to make the first one 🌸</p>'; return; }
+        box.innerHTML = list.map(c => {
             const when = c.at ? new Date(c.at).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : "";
-            return `<div class="inv-card${invSt && c.id === invSt.cardId ? " on" : ""}" data-card="${esc(c.id)}">
-                <button type="button" class="inv-card-open" onclick="invOpenCard('${c.id}')">${c.thumb ? `<img src="${c.thumb}" alt=""/>` : ""}<span class="inv-card-name">${esc(c.name || "Invitation")}</span></button>
-                <div class="inv-card-by">${av(c.by === "yossr" ? "yossr" : "hamdi")}<span>${esc(when)}</span><button type="button" class="inv-del" onclick="invDeleteCard('${c.id}')" aria-label="Delete this card">🗑️</button></div>
+            return `<div class="inv-card${invFlashId === c.id ? " flash" : ""}" data-card="${esc(c.id)}">
+                <button type="button" class="inv-card-open" onclick="invViewCard('${c.id}')" aria-label="See the card">${c.thumb ? `<img src="${c.thumb}" alt=""/>` : ""}</button>
+                <span class="inv-card-name">${esc(c.name || "Invitation")}</span>
+                <div class="inv-card-by">${av(c.by === "yossr" ? "yossr" : "hamdi")}<span>${esc(when)}</span></div>
+                <button type="button" class="inv-card-send" onclick="invSendCard('${c.id}')">📤 Send</button>
+                <div class="inv-card-acts">
+                    <button type="button" onclick="invDownloadCard('${c.id}')" aria-label="Download" title="Download">⬇️</button>
+                    <button type="button" onclick="invEditCard('${c.id}')" aria-label="Edit" title="Edit">✏️</button>
+                    <button type="button" onclick="invDeleteCard('${c.id}')" aria-label="Delete" title="Delete">🗑️</button>
+                </div>
             </div>`;
         }).join("");
+        invFlashId = null;
     }
-    function invRenderAll() {
-        invRenderNights(); invRenderNames(); invRenderSigners(); invRenderNightTexts(); invFillTexts();
-        invEl("inv-themes").innerHTML = invThemesHtml(invSt.theme);
-        invPhotoCtl(); invWarn(); invRenderCards(); invLoadOwnerPhoto(); invRefresh();
-    }
-    window.invKeep = async function() {
-        if (!invSt) return;
-        await invRefresh();
-        if (!invCanvas) return;
-        const data = { name: invCardName(invSt), state: JSON.parse(JSON.stringify({ ...invSt, cardId: null })), thumb: invThumb(), by: invMe(), at: new Date().toISOString() };
-        const btn = invEl("inv-keep-btn");
-        showSync();
-        try {
-            if (invSt.cardId && invCards.some(c => c.id === invSt.cardId)) await updateDoc(doc(db, "invcards", invSt.cardId), data);
-            else { const ref = await addDoc(collection(db, "invcards"), data); invSt.cardId = ref.id; }
-            invSave(); invRenderCards();
-            if (btn) { btn.textContent = "✓ Kept"; setTimeout(() => { btn.textContent = "💾 Keep"; }, 1600); }
-        } catch (e) { alert("Error: " + e.message); }
-        hideSync();
+    window.invSetFilter = function(k) { invFilter = k; invRenderCards(); };
+    window.invNewCard = function() {
+        invSt = invNew(invMe());
+        invSave(); invTab("create");
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
-    window.invOpenCard = function(id) {
+    window.invEditCard = function(id) {
         const c = invCards.find(x => x.id === id);
         if (!c) return;
         invSt = invNormalize(c.state, invMe());
         invSt.cardId = id;
-        invRenderAll(); invSave();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-    window.invNewCard = function() {
-        invSt = invNew(invMe());
-        invRenderAll(); invSave();
+        invSave(); invTab("create");
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
     window.invDeleteCard = function(id) {
@@ -6939,15 +7031,44 @@
         deleteDoc(doc(db, "invcards", id)).catch(e => alert("Error: " + e.message));
         if (invSt && invSt.cardId === id) { invSt.cardId = null; invSave(); }
     };
+    // 💾 Save card — a new card is added (never replaces another); "Save changes" updates the card being edited
+    window.invSaveCard = async function(asNew) {
+        if (!invSt) return;
+        await invRefresh();
+        if (!invCanvas) return;
+        const editing = !asNew && invSt.cardId && invCards.some(c => c.id === invSt.cardId);
+        const data = { name: invCardNameOf(invSt), state: JSON.parse(JSON.stringify({ ...invSt, cardId: null })), thumb: invThumbOf(invCanvas), by: invMe(), at: new Date().toISOString() };
+        showSync();
+        try {
+            if (editing) { await updateDoc(doc(db, "invcards", invSt.cardId), data); invFlashId = invSt.cardId; }
+            else { const ref = await addDoc(collection(db, "invcards"), data); invSt.cardId = ref.id; invFlashId = ref.id; }
+            invSave();
+            invFilter = "all";
+            invTab("list");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (e) { alert("Error: " + e.message); }
+        hideSync();
+    };
 
-    // ---------- sending ----------
-    function invFileName() {
-        const parts = invSt.nights.map(d => (WEDDING_WEEK.find(x => x.date === d) || {}).name || "").filter(Boolean);
+    // ---------- sending (from the list) ----------
+    async function invCardCanvas(c) {
+        const st = invNormalize(c.state, invMe());
+        if (st.theme === "photo") await invLoadPhoto(st.photoOwner || c.by || invMe());
+        if (st.theme === "photo" && !st.photoOwner) st.photoOwner = c.by === "yossr" ? "yossr" : "hamdi";
+        return { st, canvas: await invDraw(invModel(st)) };
+    }
+    window.invViewCard = async function(id) {
+        const c = invCards.find(x => x.id === id);
+        if (!c) return;
+        const { canvas } = await invCardCanvas(c);
+        openZoomViewer(canvas.toDataURL("image/jpeg", 0.9), c.name || "Invitation");
+    };
+    function invFileName(st) {
+        const parts = st.nights.map(d => (WEDDING_WEEK.find(x => x.date === d) || {}).name || "").filter(Boolean);
         return `Invitation-${(parts.join("-") || "Hamdi-Yossr").replace(/[^A-Za-z0-9]+/g, "-")}.jpg`;
     }
-    function invShareText() {
-        const md = invModel(invSt), out = [`💌 ${md.title}${md.names ? " — " + md.names : ""}`];
-        if (md.guest) out.push(md.guest);
+    function invShareText(st) {
+        const md = invModel(st), out = [`💌 ${md.title}${md.names ? " — " + md.names : ""}`];
         md.nights.forEach(n => {
             out.push("");
             out.push(`${n.emoji} ${n.label}`.trim());
@@ -6957,27 +7078,33 @@
         });
         return out.join("\n");
     }
-    window.invDownload = function() {
-        if (!invCanvas) return;
-        const go = blob => {
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob); a.download = invFileName();
-            document.body.appendChild(a); a.click(); a.remove();
-            setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-        };
-        if (invBlob) go(invBlob); else invCanvas.toBlob(b => b && go(b), "image/jpeg", 0.92);
+    const invToBlob = canvas => new Promise(r => canvas.toBlob(r, "image/jpeg", 0.92));
+    function invDownloadBlob(blob, name) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob); a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }
+    window.invDownloadCard = async function(id) {
+        const c = invCards.find(x => x.id === id);
+        if (!c) return;
+        const { st, canvas } = await invCardCanvas(c);
+        const blob = await invToBlob(canvas);
+        if (blob) invDownloadBlob(blob, invFileName(st));
     };
-    window.invShare = async function() {
-        if (!invCanvas) return;
-        const blob = invBlob || await new Promise(r => invCanvas.toBlob(r, "image/jpeg", 0.92));
+    window.invSendCard = async function(id) {
+        const c = invCards.find(x => x.id === id);
+        if (!c) return;
+        const { st, canvas } = await invCardCanvas(c);       // always drawn again → today's time & place
+        const blob = await invToBlob(canvas);
         if (!blob) return;
-        const file = new File([blob], invFileName(), { type: "image/jpeg" });
+        const file = new File([blob], invFileName(st), { type: "image/jpeg" });
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try { await navigator.share({ files: [file], title: invModel(invSt).title, text: invShareText() }); }
+            try { await navigator.share({ files: [file], title: invModel(st).title, text: invShareText(st) }); }
             catch (e) { if (e && e.name !== "AbortError") alert("Sharing didn't work 😕 — use ⬇️ Download, then send the image from WhatsApp."); }
             return;
         }
-        invDownload();
+        invDownloadBlob(blob, invFileName(st));
         alert("📥 The invitation was saved — open WhatsApp and send it from your photos 💌");
     };
 
@@ -13127,7 +13254,7 @@ function renderQuizScores() {
     };
     window.dispatchEvent(new Event("hy-ready"));
 </script>
-<script type="module" src="stories.js?v=43"></script>
+<script type="module" src="stories.js?v=44"></script>
 <!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
 <script>
     // Enregistrer le service worker
