@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v37"/>
+    <meta name="app-version" content="v38"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-    <link rel="stylesheet" href="stories.css?v=37"/>
+    <link rel="stylesheet" href="stories.css?v=38"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#c0396b"/>
@@ -1108,6 +1108,78 @@
         body[data-theme="midnight"] .wk-info .wk-left { color: #f48fb1 !important; }
         body[data-theme="midnight"] .wk-info .wk-date,
         body[data-theme="midnight"] .wk-title { color: #ffd6e8 !important; }
+
+        /* ===== v38: the program of a night in the wedding-week strip ===== */
+        .wk-info.wk-link { cursor: pointer; transition: transform .2s; }
+        .wk-info.wk-link:active { transform: scale(.98); }
+        .wk-info .wk-prog { font-size: .8rem; color: #7a2545; margin-top: 6px; }
+        .wk-info .wk-prog.none { color: #c090a8; font-style: italic; }
+        .wk-info .wk-more { font-size: .72rem; color: #c0396b; font-weight: 700; letter-spacing: 1px; margin-top: 6px; }
+        body[data-theme="midnight"] .wk-info .wk-prog { color: #ffd6e8 !important; }
+        body[data-theme="midnight"] .wk-info .wk-more { color: #f48fb1 !important; }
+
+        /* ===== v38: OUR WEDDING WEEK page (time + place of each night) ===== */
+        #week-map { height: 270px; border-radius: 22px; border: 1px solid rgba(255, 182, 210, .55); box-shadow: 0 8px 28px rgba(192, 57, 107, .14); overflow: hidden; position: relative; z-index: 1; margin-bottom: 8px; }
+        .wn-hint { text-align: center; font-size: .8rem; color: #a0556e; margin: 0 0 18px; min-height: 1em; }
+        .week-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 30px; }
+        .custom-card.wn-card { padding: 22px 22px 18px; }
+        .custom-card.wn-card:hover { transform: none; }
+        .wn-card.wn-today { border: 2px solid #c0396b; }
+        .wn-num { position: absolute; top: 12px; left: 14px; width: 22px; height: 22px; border-radius: 50%; background: #c0396b; color: #fff; font-size: .72rem; font-weight: 700; line-height: 22px; }
+        .wn-edit { position: absolute; top: 9px; right: 10px; background: none; border: none; font-size: 1rem; cursor: pointer; padding: 4px; }
+        .wn-when { font-size: .74rem; color: #b07090; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+        .wn-row { font-size: .92rem; color: #7a2545; margin: 4px 0; }
+        .wn-none { color: #c090a8; font-style: italic; }
+        .wn-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+        .wn-actions button, .wn-actions a {
+            padding: 7px 12px; border-radius: 50px; border: 1px solid rgba(255, 182, 210, .8); background: rgba(255, 240, 248, .9);
+            color: #9b1c4a; font-size: .78rem; font-family: 'Lato', sans-serif; cursor: pointer; text-decoration: none;
+        }
+        .wn-form { margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(255, 182, 210, .8); display: flex; flex-direction: column; gap: 10px; text-align: left; }
+        .wn-form label { display: flex; flex-direction: column; gap: 4px; font-size: .78rem; color: #a0556e; letter-spacing: 1px; }
+        .wn-form input, .wn-form select {
+            padding: 9px 12px; border: 1px solid rgba(255, 182, 210, .7); border-radius: 12px; background: rgba(255, 240, 248, .8);
+            color: #7a2545; font-size: .9rem; font-family: 'Lato', sans-serif; outline: none; width: 100%; box-sizing: border-box;
+        }
+        .wn-newplace { background: none; border: none; color: #c0396b; font-size: .78rem; cursor: pointer; text-align: left; padding: 0; text-decoration: underline; }
+        .wn-form-btns { display: flex; gap: 8px; }
+        .wn-form-btns .add-event-btn { flex: 1; }
+        .wn-cancel { padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(255, 182, 210, .8); background: #fff; color: #9b1c4a; cursor: pointer; font-family: 'Lato', sans-serif; }
+        .wn-pin { width: 30px; height: 30px; border-radius: 50%; background: #c0396b; color: #fff; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 700; box-shadow: 0 3px 10px rgba(0, 0, 0, .3); font-family: 'Lato', sans-serif; }
+        body[data-theme="midnight"] .wn-row,
+        body[data-theme="midnight"] .wn-when,
+        body[data-theme="midnight"] .wn-hint,
+        body[data-theme="midnight"] .wn-form label { color: #ffd6e8 !important; }
+        body[data-theme="midnight"] .wn-actions button,
+        body[data-theme="midnight"] .wn-actions a,
+        body[data-theme="midnight"] .wn-cancel { background: rgba(45, 45, 74, .9) !important; color: #f48fb1 !important; border-color: rgba(192, 57, 107, .4) !important; }
+
+        /* ===== v38: OUR GUESTS page ===== */
+        .gu-stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+        .gu-stats .stat-block { min-width: 86px; text-align: center; }
+        .gu-tabs.games-tabs { margin-bottom: 16px; flex-wrap: nowrap; gap: 8px; }
+        .gu-tabs .games-tab { flex: 1 1 0; max-width: 220px; padding: 10px 8px; letter-spacing: .3px; font-size: .84rem; white-space: nowrap; }
+        .gu-form.add-event-form { padding: 14px 16px; gap: 10px; }
+        .gu-form .gu-name-in { flex: 1 1 100%; min-width: 0; }
+        .gu-form .add-event-btn { flex: 1; }
+        .gu-qty { display: flex; align-items: center; gap: 6px; }
+        .add-event-form .gu-qty input { flex: none; min-width: 0; width: 56px; text-align: center; padding: 10px 4px; }
+        .gu-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255, 182, 210, .9); background: #fff; color: #9b1c4a; font-size: 1.1rem; font-weight: 700; cursor: pointer; line-height: 1; padding: 0; flex: none; }
+        .gu-for { width: 100%; font-size: .72rem; color: #b07090; letter-spacing: 1px; text-transform: uppercase; }
+        .gu-list { background: rgba(255, 255, 255, .72); border: 1px solid rgba(255, 182, 210, .55); border-radius: 22px; padding: 4px 14px; box-shadow: 0 8px 28px rgba(192, 57, 107, .1); margin-bottom: 30px; }
+        .gu-row { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(255, 182, 210, .45); }
+        .gu-row:last-child { border-bottom: none; }
+        .gu-row .gu-name { flex: 1; min-width: 0; color: #7a2545; font-size: .95rem; overflow-wrap: anywhere; }
+        .gu-row .gu-n { min-width: 26px; text-align: center; font-weight: 700; color: #9b1c4a; font-size: 1rem; }
+        .gu-row .gu-btn { width: 28px; height: 28px; font-size: .95rem; }
+        .gu-ic { background: none; border: none; cursor: pointer; font-size: .95rem; padding: 4px; flex: none; }
+        .gu-empty { text-align: center; color: #c090a8; font-size: .9rem; padding: 18px 6px; letter-spacing: .5px; }
+        body[data-theme="midnight"] .gu-list { background: rgba(45, 45, 74, .85) !important; border-color: rgba(192, 57, 107, .4) !important; }
+        body[data-theme="midnight"] .gu-row { border-bottom-color: rgba(192, 57, 107, .3) !important; }
+        body[data-theme="midnight"] .gu-row .gu-name,
+        body[data-theme="midnight"] .gu-for { color: #ffd6e8 !important; }
+        body[data-theme="midnight"] .gu-row .gu-n { color: #f48fb1 !important; }
+        body[data-theme="midnight"] .gu-btn { background: rgba(45, 45, 74, .9) !important; color: #f48fb1 !important; border-color: rgba(192, 57, 107, .4) !important; }
 
         /* ===== Celebrated (event already passed) ===== */
         .celebrated-head { width: 100%; font-size: 1.1rem; font-weight: 700; color: #c0396b; letter-spacing: .5px; margin-bottom: 2px; }
@@ -3679,6 +3751,7 @@
     <button class="nav-btn" id="nav-memories" onclick="showPage('memories',this)">💌 Memories</button>
     <button class="nav-btn" id="nav-gallery" onclick="showPage('gallery',this)">📸 Gallery</button>
     <button class="nav-btn" id="nav-checklist" onclick="showPage('checklist',this)">✅ Checklist</button>
+    <button class="nav-btn" id="nav-guests" onclick="showPage('guests',this)">👥 Guests</button>
     <button class="nav-btn" id="nav-special" onclick="showPage('special',this)">🗓️ Special Dates</button>
     <button class="nav-btn" id="nav-places" onclick="showPage('places',this)">🗺️ Our Places</button>
     <button class="nav-btn" id="nav-scratch" onclick="showPage('scratch',this)">🎴 Scratch Cards</button>
@@ -3713,6 +3786,7 @@
             <button class="more-item" id="more-quiz" onclick="moreGo('quiz')"><span class="more-ic">❓</span>Quiz</button>
             <button class="more-item" id="more-games" onclick="moreGo('games')"><span class="more-ic">🎮</span>Games</button>
             <button class="more-item" id="more-story" onclick="moreGo('story')"><span class="more-ic">👩‍❤️‍👨</span>Our Story</button>
+            <button class="more-item" id="more-guests" onclick="moreGo('guests')"><span class="more-ic">👥</span>Guests</button>
         </div>
         <div class="more-rows">
             <button class="more-row" onclick="moreThen('profile')"><span class="more-row-av" id="more-me-av"></span>My profile &amp; photo</button>
@@ -3817,6 +3891,45 @@
             <button class="add-event-btn" onclick="addCustomEvent()">+ Add</button>
         </div>
         <div class="custom-cards" id="custom-cards"></div>
+    </div>
+</div>
+
+<!-- v38: OUR WEDDING WEEK (time + place of each night) -->
+<div id="page-week" class="page">
+    <div class="page-wrap">
+        <p class="page-title">Our Wedding Week 💍</p>
+        <p class="page-sub">✨ Time &amp; place of each night ✨</p>
+        <div id="week-map"></div>
+        <p class="wn-hint" id="week-map-hint"></p>
+        <div class="week-list" id="week-list"></div>
+    </div>
+</div>
+
+<!-- v38: OUR GUESTS -->
+<div id="page-guests" class="page">
+    <div class="page-wrap">
+        <p class="page-title">Our Guests 👥</p>
+        <p class="page-sub">✨ Everyone who will celebrate with us ✨</p>
+        <div class="gu-stats">
+            <div class="stat-block"><span class="snum" id="gu-total">0</span><span class="slbl">Total</span></div>
+            <div class="stat-block"><span class="snum" id="gu-sum-hamdi">0</span><span class="slbl">Hamdi</span></div>
+            <div class="stat-block"><span class="snum" id="gu-sum-yossr">0</span><span class="slbl">Yossr</span></div>
+        </div>
+        <div class="games-tabs gu-tabs">
+            <button type="button" class="games-tab" id="gu-tab-hamdi" onclick="guTab('hamdi')">Hamdi's guests</button>
+            <button type="button" class="games-tab" id="gu-tab-yossr" onclick="guTab('yossr')">Yossr's guests</button>
+        </div>
+        <div class="add-event-form gu-form">
+            <div class="gu-for" id="gu-for"></div>
+            <input type="text" class="gu-name-in" id="gu-name" placeholder="Name (e.g. Famille Amri)" maxlength="50" onkeydown="if(event.key==='Enter')addGuest()"/>
+            <div class="gu-qty">
+                <button type="button" class="gu-btn" onclick="guFormStep(-1)" aria-label="One less">−</button>
+                <input type="number" id="gu-count" value="1" min="1" max="999" inputmode="numeric" aria-label="Number of people"/>
+                <button type="button" class="gu-btn" onclick="guFormStep(1)" aria-label="One more">+</button>
+            </div>
+            <button type="button" class="add-event-btn" onclick="addGuest()">+ Add</button>
+        </div>
+        <div class="gu-list" id="gu-list"></div>
     </div>
 </div>
 
@@ -5168,7 +5281,7 @@
             checklist: '✅', places: '🗺️', special: '🗓️',
             quiz_answer: '💬', quiz_comment: '💭', letters: '✉️',
             games: '🎮', profile: '📸', thinking: '💕', love: '💕', security: '🔐', otd: '✨',
-            story: '🌟', story_seen: '👀', story_react: '😍'
+            story: '🌟', story_seen: '👀', story_react: '😍', wedding: '💍'
         };
         return icons[type] || '🔔';
     }
@@ -5225,6 +5338,8 @@
             setTimeout(() => window.hysOpenFromNotif(String(itemId)), 300);
             return;
         }
+        // v38: "wk-2027-09-01" → the program of that night
+        if (page === "home" && /^wk-\d{4}-\d{2}-\d{2}$/.test(String(itemId || ""))) { openWeekProgram(String(itemId).slice(3)); return; }
         if (!page || !document.getElementById("page-" + page)) return;
         showPage(page);
         if (kind === "thinking") { setTimeout(() => loveBurst(26, currentUser === "hamdi" ? "yossr" : "hamdi"), 350); return; }
@@ -5302,6 +5417,12 @@
                 case "special":
                     if (itemId) hyFocus(() => document.querySelector(`#custom-cards [data-item="${sel(itemId)}"]`));
                     break;
+                case "guests": {
+                    const g = guestsData.find(x => x.id === itemId);
+                    if (g && (g.side === "yossr" ? "yossr" : "hamdi") !== guSide) guTab(g.side);
+                    if (itemId) hyFocus(() => document.querySelector(`#gu-list [data-guest="${sel(itemId)}"]`));
+                    break;
+                }
                 case "games": {
                     const b = ["ttt", "puzzle", "memory"].includes(kind) && tabBtn(".games-tabs", kind);
                     if (b) showGameTab(kind, b);
@@ -5417,7 +5538,7 @@
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         pg.classList.add('active');
-        const b = document.getElementById('nav-' + id);
+        const b = document.getElementById('nav-' + (id === 'week' ? 'home' : id));
         if (b) b.classList.add('active');
         navCurrentPage = id;
         if (id === 'places') setTimeout(() => initOurPlacesMap(), 120);
@@ -5428,13 +5549,16 @@
         if (id === 'games') ensureGallery();
         if (id === 'places') ensurePlacePhotos();
         if (id === 'home') setTimeout(loadOnThisDay, 300);
+        if (id === 'guests') renderGuests();
+        if (id === 'week') { weekEditing = null; renderWeekPage(); setTimeout(initWeekMap, 120); }
         hySyncTabs(id);
         if (typeof voiceStopAny === "function") voiceStopAny();
         return true;
     }
     /* --- v27: phone tabs + "More" sheet --- */
-    const MORE_PAGES = ["special", "places", "letters", "scratch", "quiz", "games", "story"];
+    const MORE_PAGES = ["special", "places", "letters", "scratch", "quiz", "games", "story", "guests"];
     function hySyncTabs(id) {
+        if (id === "week") id = "home";     // v38: the program page belongs to Home
         document.querySelectorAll(".m-tab").forEach(b => b.classList.toggle("active", b.id === "mtab-" + id || (b.id === "mtab-more" && MORE_PAGES.includes(id))));
         document.querySelectorAll(".more-item").forEach(b => b.classList.toggle("active", b.id === "more-" + id));
     }
@@ -5794,6 +5918,7 @@
         }).join("");
         const n = WEDDING_WEEK[wkSel];
         const left = wkDays(today, n.date);
+        const prog = n.rest ? "" : weekInfoLine(n.date);
         let status;
         if (left > 1) status = n.rest ? `😴 Rest day · in ${left} days` : `⏳ in ${left} days`;
         else if (left === 1) status = n.rest ? "😴 Rest day · tomorrow" : "⏳ Tomorrow! 💕";
@@ -5801,13 +5926,249 @@
         else status = "✓ Done 💕";
         wrap.innerHTML = `<div class="wk-title">Our wedding week</div>
             <div class="wk-days">${chips}</div>
-            <div class="wk-info">
+            <div class="wk-info wk-link" role="button" tabindex="0" onclick="openWeekProgram('${n.date}')">
                 <div class="wk-name">${n.emoji} ${esc(n.name)}</div>
                 <div class="wk-date">${esc(fmtDate(new Date(n.date + "T00:00:00")))}</div>
                 <div class="wk-left">${status}</div>
+                ${n.rest ? "" : prog ? `<div class="wk-prog">${esc(prog)}</div>` : '<div class="wk-prog none">No time / place yet</div>'}
+                <div class="wk-more">See program ›</div>
             </div>`;
     }
     window.selectWeddingNight = function(i) { wkSel = i; renderWeddingWeek(); };
+
+    /* ===== v38: PROGRAM OF EACH NIGHT — time + place (chosen in Our Places) =====
+       Firestore settings/weddingweek { nights: { "2027-08-28": { time: "20:00", placeId: "…" } } }
+       Shown in the strip on Home and on the page "Our Wedding Week" (map, edit). */
+    const WEEK_DOC = doc(db, "settings", "weddingweek");
+    let weekProg = {};
+    let wpPlaces = [];              // copy of Our Places (the places listener fills it)
+    let weekMap = null, weekMarkers = {}, weekFitDone = false;
+    let weekEditing = null;         // the night being edited (its date)
+    onSnapshot(WEEK_DOC, snap => {
+        const d = snap.exists() ? snap.data() : null;
+        weekProg = d && d.nights && typeof d.nights === "object" ? d.nights : {};
+        renderWeddingWeek(); renderWeekPage();
+    }, err => console.warn("Wedding week:", err && (err.code || err.message)));
+    function weekSetPlaces(list) { wpPlaces = Array.isArray(list) ? list : []; renderWeddingWeek(); renderWeekPage(); }
+    function weekNight(date) { return weekProg[date] || {}; }
+    function weekPlace(date) { const id = weekNight(date).placeId; return id ? wpPlaces.find(p => p.id === id) || null : null; }
+    function weekInfoLine(date) {
+        const n = weekNight(date), p = weekPlace(date), parts = [];
+        if (n.time) parts.push("🕗 " + n.time);
+        if (p) parts.push("📍 " + (p.name || "Place"));
+        return parts.join(" · ");
+    }
+    function weekWhen(n) {
+        const left = wkDays(localToday(), n.date);
+        if (left > 1) return `in ${left} days`;
+        if (left === 1) return "tomorrow";
+        if (left === 0) return n.date === WEDDING_WEEK[WEDDING_WEEK.length - 1].date ? "today 💍" : "tonight 🎉";
+        return "done ✓";
+    }
+    window.openWeekProgram = function(date) {
+        showPage("week");
+        if (date) setTimeout(() => hyFocus(() => document.getElementById("wn-" + date)), 350);
+    };
+    function weekFormHtml(date) {
+        const n = weekNight(date);
+        const opts = wpPlaces.slice().sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "fr", { sensitivity: "base" }))
+            .map(p => `<option value="${esc(p.id)}"${p.id === n.placeId ? " selected" : ""}>${esc((p.emoji || "📍") + " " + (p.name || "Place"))}</option>`).join("");
+        return `<div class="wn-form">
+            <label>🕗 Time <input type="time" id="wn-time" value="${esc(n.time || "")}"/></label>
+            <label>📍 Place <select id="wn-place"><option value="">— choose in Our Places —</option>${opts}</select></label>
+            <button type="button" class="wn-newplace" onclick="showPage('places')">➕ A new place? Pin it first in Our Places</button>
+            <div class="wn-form-btns">
+                <button type="button" class="add-event-btn" onclick="weekSave('${date}')">💾 Save</button>
+                <button type="button" class="wn-cancel" onclick="weekEdit(null)">Cancel</button>
+            </div>
+        </div>`;
+    }
+    function renderWeekPage() {
+        const wrap = document.getElementById("week-list");
+        if (!wrap) return;
+        // keep what is being typed if the data changes meanwhile
+        const tIn = document.getElementById("wn-time"), pIn = document.getElementById("wn-place");
+        const keep = weekEditing && tIn && pIn ? { t: tIn.value, p: pIn.value } : null;
+        const today = localToday();
+        wrap.innerHTML = WEDDING_WEEK.filter(n => !n.rest).map((n, k) => {
+            const prog = weekNight(n.date), p = weekPlace(n.date);
+            const timeTxt = prog.time ? esc(prog.time) : '<span class="wn-none">No time yet</span>';
+            const placeTxt = p ? `${esc(p.emoji || "📍")} ${esc(p.name || "Place")}`
+                : prog.placeId ? '📍 <span class="wn-none">Place removed — choose another</span>' : '📍 <span class="wn-none">No place yet</span>';
+            const okLL = p && !isNaN(parseFloat(p.lat)) && !isNaN(parseFloat(p.lng));
+            const actions = okLL ? `<div class="wn-actions">
+                    <button type="button" onclick="weekFly('${n.date}')">🗺️ See on map</button>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${parseFloat(p.lat)},${parseFloat(p.lng)}" target="_blank" rel="noopener">🧭 Directions</a>
+                </div>` : "";
+            return `<div class="custom-card wn-card${n.date === today ? " wn-today" : ""}" id="wn-${n.date}" data-item="${n.date}">
+                <span class="wn-num">${k + 1}</span>
+                <button type="button" class="wn-edit" onclick="weekEdit('${n.date}')" aria-label="Edit ${esc(n.name)}">✏️</button>
+                <div class="c-emoji">${n.emoji}</div>
+                <div class="c-name">${esc(n.name)}</div>
+                <div class="wn-when">${esc(fmtDate(new Date(n.date + "T00:00:00")))} · ${weekWhen(n)}</div>
+                <div class="wn-row">🕗 ${timeTxt}</div>
+                <div class="wn-row">${placeTxt}</div>
+                ${actions}${weekEditing === n.date ? weekFormHtml(n.date) : ""}
+            </div>`;
+        }).join("");
+        if (keep) {
+            const t2 = document.getElementById("wn-time"), p2 = document.getElementById("wn-place");
+            if (t2) t2.value = keep.t;
+            if (p2 && [...p2.options].some(o => o.value === keep.p)) p2.value = keep.p;
+        }
+        renderWeekMarkers(false);
+    }
+    window.weekEdit = function(date) {
+        weekEditing = weekEditing === date ? null : date;
+        renderWeekPage();
+        if (weekEditing) setTimeout(() => { const t = document.getElementById("wn-time"); if (t) t.focus(); }, 60);
+    };
+    window.weekSave = async function(date) {
+        const night = WEDDING_WEEK.find(n => n.date === date);
+        if (!night) return;
+        const time = (document.getElementById("wn-time") || {}).value || "";
+        const placeId = (document.getElementById("wn-place") || {}).value || "";
+        if (time && !/^\d{2}:\d{2}$/.test(time)) { alert("Please choose a valid time 🕗"); return; }
+        const before = weekNight(date);
+        const changed = time !== (before.time || "") || placeId !== (before.placeId || "");
+        weekEditing = null;
+        showSync();
+        try {
+            await setDoc(WEEK_DOC, { nights: { [date]: { time, placeId } }, updatedBy: currentUser || "hamdi", updatedAt: new Date().toISOString() }, { merge: true });
+            weekFitDone = false; renderWeekMarkers(true);
+            if (changed) {
+                const p = wpPlaces.find(x => x.id === placeId);
+                const what = [time, p && p.name].filter(Boolean).join(" · ") || "time & place removed";
+                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                await createNotification("wedding", `${whoName} set ${night.emoji} ${night.name}: ${what} 💍`, partner, "home", "wk-" + date);
+            }
+        } catch (e) { weekEditing = date; renderWeekPage(); alert("Error: " + e.message); }
+        hideSync();
+    };
+    function initWeekMap() {
+        const el = document.getElementById("week-map");
+        if (!el || typeof L === "undefined") return;
+        if (!weekMap) {
+            weekMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([36.8065, 10.1815], 10);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19 }).addTo(weekMap);
+        }
+        setTimeout(() => { if (weekMap) { weekMap.invalidateSize(); renderWeekMarkers(!weekFitDone); } }, 80);
+    }
+    // one pin per place (several nights in the same place share it: "1·3")
+    function renderWeekMarkers(fit) {
+        const hint = document.getElementById("week-map-hint");
+        const groups = {};
+        WEDDING_WEEK.filter(n => !n.rest).forEach((n, k) => {
+            const p = weekPlace(n.date);
+            if (!p || isNaN(parseFloat(p.lat)) || isNaN(parseFloat(p.lng))) return;
+            (groups[p.id] = groups[p.id] || { p, nights: [] }).nights.push({ n, k });
+        });
+        const ids = Object.keys(groups);
+        if (hint) hint.textContent = ids.length ? "📍 Tap a pin to see which night it is" : "✏️ Choose a place for each night — it will appear on this map";
+        if (!weekMap) return;
+        Object.values(weekMarkers).forEach(m => m.remove());
+        weekMarkers = {};
+        const pts = [];
+        ids.forEach(id => {
+            const g = groups[id], ll = [parseFloat(g.p.lat), parseFloat(g.p.lng)];
+            const icon = L.divIcon({ className: "", html: `<div class="wn-pin">${g.nights.map(x => x.k + 1).join("·")}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] });
+            const lines = g.nights.map(({ n }) => `${n.emoji} ${esc(n.name)}${weekNight(n.date).time ? " · " + esc(weekNight(n.date).time) : ""}`).join("<br>");
+            const m = L.marker(ll, { icon }).addTo(weekMap).bindPopup(`<b>${esc(g.p.emoji || "📍")} ${esc(g.p.name || "Place")}</b><br>${lines}`);
+            g.nights.forEach(({ n }) => { weekMarkers[n.date] = m; });
+            pts.push(ll);
+        });
+        if (fit && pts.length) {
+            weekFitDone = true;
+            if (pts.length === 1) weekMap.setView(pts[0], 15);
+            else weekMap.fitBounds(pts, { padding: [40, 40], maxZoom: 15 });
+        }
+    }
+    window.weekFly = function(date) {
+        const p = weekPlace(date);
+        if (!p || !weekMap) return;
+        const el = document.getElementById("week-map");
+        const bar = [document.querySelector("nav"), document.getElementById("m-topbar")].find(b => b && b.offsetHeight > 0 && getComputedStyle(b).display !== "none");
+        window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - (bar ? bar.offsetHeight : 0) - 14), behavior: "smooth" });
+        weekMap.flyTo([parseFloat(p.lat), parseFloat(p.lng)], 16, { duration: 1.2 });
+        const m = weekMarkers[date];
+        if (m) setTimeout(() => m.openPopup(), 1300);
+    };
+
+    /* ===== v38: OUR GUESTS — collection "guests" { name, count, side: hamdi | yossr, addedBy, addedAt } ===== */
+    const guestsRef = collection(db, "guests");
+    let guestsData = [];
+    let guSide = null;              // the list on screen (hamdi | yossr)
+    onSnapshot(guestsRef, snap => {
+        guestsData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderGuests();
+    }, err => console.warn("Guests:", err && (err.code || err.message)));
+    const guCount = g => Math.min(999, Math.max(1, parseInt(g && g.count, 10) || 1));
+    function renderGuests() {
+        const list = document.getElementById("gu-list");
+        if (!list) return;
+        if (!guSide) guSide = currentUser === "yossr" ? "yossr" : "hamdi";
+        const of = side => guestsData.filter(g => (g.side === "yossr" ? "yossr" : "hamdi") === side);
+        const sum = side => of(side).reduce((t, g) => t + guCount(g), 0);
+        const h = sum("hamdi"), y = sum("yossr");
+        document.getElementById("gu-total").textContent = h + y;
+        document.getElementById("gu-sum-hamdi").textContent = h;
+        document.getElementById("gu-sum-yossr").textContent = y;
+        ["hamdi", "yossr"].forEach(s => {
+            const b = document.getElementById("gu-tab-" + s);
+            if (b) { b.classList.toggle("active", s === guSide); b.textContent = `${personName(s)}'s guests · ${s === "hamdi" ? h : y}`; }
+        });
+        const forEl = document.getElementById("gu-for");
+        if (forEl) forEl.textContent = `➕ Add to ${personName(guSide)}'s list`;
+        const mine = of(guSide).sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "fr", { sensitivity: "base" }));
+        list.innerHTML = mine.length ? mine.map(g => `<div class="gu-row" data-guest="${esc(g.id)}">
+                <span class="gu-name">${esc(g.name || "Guest")}</span>
+                <button type="button" class="gu-btn" onclick="guStep('${g.id}',-1)" aria-label="One less">−</button>
+                <span class="gu-n">${guCount(g)}</span>
+                <button type="button" class="gu-btn" onclick="guStep('${g.id}',1)" aria-label="One more">+</button>
+                <button type="button" class="gu-ic" onclick="guRename('${g.id}')" aria-label="Rename">✏️</button>
+                <button type="button" class="gu-ic" onclick="guDelete('${g.id}')" aria-label="Delete">🗑️</button>
+            </div>`).join("")
+            : `<p class="gu-empty">No guests yet on ${personName(guSide)}'s list… add the first one 🌸</p>`;
+    }
+    window.guTab = function(side) { guSide = side === "yossr" ? "yossr" : "hamdi"; renderGuests(); };
+    window.guFormStep = function(d) {
+        const el = document.getElementById("gu-count");
+        el.value = Math.min(999, Math.max(1, (parseInt(el.value, 10) || 1) + d));
+    };
+    window.addGuest = async function() {
+        const nameEl = document.getElementById("gu-name"), cntEl = document.getElementById("gu-count");
+        const name = nameEl.value.trim().slice(0, 50);
+        const count = Math.min(999, Math.max(1, parseInt(cntEl.value, 10) || 1));
+        if (!name) { alert("Please enter a name 💕"); nameEl.focus(); return; }
+        const side = guSide || "hamdi";
+        nameEl.value = ""; cntEl.value = 1; nameEl.focus();
+        showSync();
+        try { await addDoc(guestsRef, { name, count, side, addedBy: currentUser || "hamdi", addedAt: new Date().toISOString() }); }
+        catch (e) { nameEl.value = name; cntEl.value = count; alert("Error: " + e.message); }
+        hideSync();
+    };
+    window.guStep = function(id, d) {
+        const g = guestsData.find(x => x.id === id);
+        if (!g) return;
+        const n = guCount(g) + d;
+        if (n < 1 || n > 999) return;
+        updateDoc(doc(db, "guests", id), { count: n }).catch(e => alert("Error: " + e.message));
+    };
+    window.guRename = function(id) {
+        const g = guestsData.find(x => x.id === id);
+        if (!g) return;
+        const v = prompt("New name ✏️", g.name || "");
+        if (v === null) return;
+        const name = v.trim().slice(0, 50);
+        if (!name || name === g.name) return;
+        updateDoc(doc(db, "guests", id), { name }).catch(e => alert("Error: " + e.message));
+    };
+    window.guDelete = function(id) {
+        const g = guestsData.find(x => x.id === id);
+        if (!g || !confirm(`Remove "${g.name}" (${guCount(g)}) from the list?`)) return;
+        deleteDoc(doc(db, "guests", id)).catch(e => alert("Error: " + e.message));
+    };
     tick(); setInterval(tick,1000);
 
     /* ===== SPECIAL DATES (v27 — shared: Firestore settings/specialdates { events: [...] }) =====
@@ -7834,7 +8195,7 @@
             return `<div class="place-card" data-item="${p.id}"><button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button><div class="p-emoji">${p.emoji||"📍"}</div><div class="p-name">${esc(p.name)}</div>${p.desc?`<div class="p-desc">${esc(p.desc)}</div>`:""}${strip}<div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div><div class="p-author">${avName(p.addedBy)} · added it</div><div class="p-btns"><button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button><button class="p-photo-btn" onclick="pickPlacePhotos('${p.id}')">📷 ${photos.length?"Add more":"Add photos"}</button></div></div>`;
         }).join("");
     }
-    onSnapshot(query(placesRef,orderBy("addedAt","asc")),snapshot=>{placesData=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderPlacesList(placesData);renderPlaceMarkers(placesData);});
+    onSnapshot(query(placesRef,orderBy("addedAt","asc")),snapshot=>{placesData=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderPlacesList(placesData);renderPlaceMarkers(placesData);weekSetPlaces(placesData);});
     window.flyToPlace=function(lat,lng){if(!leafletMap)return;leafletMap.flyTo([lat,lng],15,{duration:1.2});window.scrollTo({top:document.getElementById("our-places-map").offsetTop-80,behavior:"smooth"});};
     // used by notifications: fly to the place, open its bubble, light up its card
     window.focusPlace=function(id){
@@ -11330,6 +11691,8 @@ function renderQuizScores() {
             page: "checklist", id: t.id, title: t.text || "Task", sub: srSnippet(pick(t.text, t.vendorName, ...(t.comments || []).map(c => c.text), ...(t.subtasks || []).map(x => x.text)), q, 80) })));
         group("🗓️", "Special dates", loadEvents().filter(e => has(e.name, e.date)).map(e => ({
             page: "special", id: e.id, title: (e.emoji || "🗓️") + " " + e.name, sub: e.date })));
+        group("👥", "Guests", guestsData.filter(g => has(g.name)).map(g => ({
+            page: "guests", id: g.id, title: g.name || "Guest", sub: `${guCount(g)} · ${personName(g.side === "yossr" ? "yossr" : "hamdi")}'s guests` })));
         group("❓", "Quiz", allQuizQuestions.filter(x => has(x.question)).map(x => ({
             page: "quiz", id: x.id, kind: x.about === me ? "add" : "answer", title: x.question, sub: "About " + personName(x.about) })));
         group("🎴", "Scratch cards", scratchCardsData.filter(c => (c.from === me || c.revealed) && has(c.message)).map(c => ({
@@ -11614,7 +11977,7 @@ function renderQuizScores() {
     };
     window.dispatchEvent(new Event("hy-ready"));
 </script>
-<script type="module" src="stories.js?v=37"></script>
+<script type="module" src="stories.js?v=38"></script>
 <!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
 <script>
     // Enregistrer le service worker
