@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Hamdi & Yossr 💍</title>
-    <meta name="app-version" content="v40"/>
+    <meta name="app-version" content="v42"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-    <link rel="stylesheet" href="stories.css?v=40"/>
+    <link rel="stylesheet" href="stories.css?v=42"/>
     <!-- ===== PWA — Installable app ===== -->
     <link rel="manifest" href="manifest.json"/>
     <meta name="theme-color" content="#c0396b"/>
@@ -1763,6 +1763,8 @@
         .place-card .p-view-btn:hover { opacity: .85; }
         .place-card .p-del { position: absolute; top: 10px; right: 12px; background: none; border: none; color: #d080a0; font-size: .85rem; cursor: pointer; transition: color .2s; }
         .place-card .p-del:hover { color: #c0396b; }
+        .place-card .p-edit { position: absolute; top: 9px; right: 42px; background: none; border: none; font-size: .9rem; cursor: pointer; padding: 2px; }   /* v41 */
+        .pm-edit { display: inline-block; margin-top: 6px; color: #c0396b; font-weight: 700; cursor: pointer; text-decoration: underline; }
         .place-add-popup { display: none; position: fixed; inset: 0; background: rgba(90, 26, 53, .48); backdrop-filter: blur(10px); z-index: 9000; align-items: center; justify-content: center; }
         .place-add-popup.open { display: flex; animation: fadeIn .25s ease; }
         .place-add-modal { background: linear-gradient(160deg, #fff5f9, #ffe4f0); border: 1px solid rgba(255, 182, 210, .6); border-radius: 26px; padding: 30px 28px 24px; width: min(360px, 90vw); box-shadow: 0 20px 60px rgba(192, 57, 107, .28); }
@@ -4127,13 +4129,13 @@
     <div class="page-wrap" style="max-width:900px;">
         <p class="page-title">Our Places 🗺️</p>
         <p class="page-sub">✨ Every spot that belongs to our story ✨</p>
-        <p class="place-hint">📍 Search a place — the pin drops right on it. Or tap the map, or 📍 for where you are.</p>
+        <p class="place-hint">📍 Search a place, or paste its Plus Code from Google Maps (e.g. R32H+4R, Manouba) — the pin drops right on it. Or tap the map, or 📍 for where you are.</p>
         <div class="pfn-bar" id="pfn-bar"><span id="pfn-txt"></span><button type="button" onclick="placeForNightCancel()">✕ Cancel</button></div>
         <div class="map-wrap">
             <div id="our-places-map"></div>
             <div class="map-geocode-bar" id="map-geocode-bar">
                 <span>🔍</span>
-                <input class="map-geocode-input" id="map-geocode-input" type="text" placeholder="Search a place…" autocomplete="off"/>
+                <input class="map-geocode-input" id="map-geocode-input" type="text" placeholder="Search a place or paste a Plus Code…" autocomplete="off"/>
                 <button class="map-geocode-clear" id="map-geocode-clear" onclick="clearMapSearch()">✕</button>
                 <div class="map-geocode-results" id="map-geocode-results"></div>
             </div>
@@ -4145,7 +4147,7 @@
 </div>
 <div class="place-add-popup" id="place-add-popup">
     <div class="place-add-modal">
-        <h3>📍 Pin This Place</h3>
+        <h3 id="place-modal-title">📍 Pin This Place</h3>
         <div class="place-modal-row">
             <input type="text" id="place-emoji-input" placeholder="Emoji 🌹" maxlength="4" style="max-width:90px;"/>
             <input type="text" id="place-name-input" placeholder="Place name (e.g. Where we met 💕)" maxlength="50"/>
@@ -4157,7 +4159,7 @@
         <button type="button" class="place-move-btn" onclick="placeStartAdjust()">✋ Pin not exactly right? Move it on the map</button>
         <input type="hidden" id="place-lat-input"/><input type="hidden" id="place-lng-input"/>
         <div class="place-modal-actions">
-            <button class="place-save-btn" onclick="savePlaceFromModal()">💾 Save Place</button>
+            <button class="place-save-btn" id="place-save-btn" onclick="savePlaceFromModal()">💾 Save Place</button>
             <button class="place-cancel-btn" onclick="closePlaceModal()">Cancel</button>
         </div>
     </div>
@@ -8326,7 +8328,60 @@
         geocodeInput.addEventListener("input",function(){const q=this.value.trim();geocodeClear.classList.toggle("show",q.length>0);clearTimeout(geocodeTimeout);if(q.length<2){closeGeocodeResults();return;}geocodeResults.innerHTML='<div class="mgr-loading">🔍 Searching…</div>';geocodeResults.classList.add("open");geocodeTimeout=setTimeout(()=>runGeocode(q),420);});
         geocodeInput.addEventListener("keydown",function(e){if(e.key==="Escape")clearMapSearch();});
     }
-    async function runGeocode(q){const geocodeResults=document.getElementById("map-geocode-results");if(!geocodeResults)return;try{const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1`;const res=await fetch(url,{headers:{"Accept-Language":"en"}});const data=await res.json();if(!data.length){geocodeResults.innerHTML='<div class="mgr-loading">No results found 🌸</div>';return;}geocodeResults.innerHTML=data.map(r=>{const parts=r.display_name.split(", ");const name=parts.slice(0,2).join(", ");const sub=parts.slice(2,4).join(", ");const safeName=parts[0].replace(/'/g,"\\'").replace(/"/g,'\\"');return `<div class="mgr-item" onclick="selectGeoResult(${r.lat},${r.lon},'${safeName}')"><span class="mgr-icon">📍</span><div><div class="mgr-name">${esc(name)}</div><div class="mgr-sub">${esc(sub)}</div></div></div>`;}).join("");geocodeResults.classList.add("open");}catch(e){geocodeResults.innerHTML='<div class="mgr-loading">Search error 😔</div>';}}
+    /* ===== v42: Plus Codes copied from Google Maps — "R32H+4R, Manouba" or "8F8GR32H+4R" =====
+       Open Location Code, decoded right here (no server). A short code needs a place nearby:
+       the town written after it (found with the same search), else the part of the map on screen. */
+    const OLC_A = "23456789CFGHJMPQRVWX", OLC_RES = [20, 1, 0.05, 0.0025, 0.000125];
+    const OLC_RE = /^\s*([23456789CFGHJMPQRVWX]{2,8}\+[23456789CFGHJMPQRVWX]{2,7})\s*[,،]?\s*(.*)$/i;
+    function olcPrefix(lat, lng, n) {
+        let la = Math.min(Math.max(lat, -90), 89.9999999) + 90, lo = ((lng + 180) % 360 + 360) % 360, out = "";
+        for (let i = 0; i < n / 2; i++) {
+            const r = OLC_RES[i], a = Math.floor(la / r), b = Math.floor(lo / r);
+            out += OLC_A[a] + OLC_A[b]; la -= a * r; lo -= b * r;
+        }
+        return out;
+    }
+    function olcDecode(code) {
+        code = code.replace("+", "").replace(/0+$/, "").toUpperCase();
+        let lat = -90, lng = -180, ls = 20, gs = 20;
+        for (let i = 0; i < Math.min(code.length, 10); i += 2) {
+            const r = OLC_RES[i / 2];
+            lat += OLC_A.indexOf(code[i]) * r; ls = r;
+            if (i + 1 < code.length) { lng += OLC_A.indexOf(code[i + 1]) * r; gs = r; }
+        }
+        for (let i = 10; i < code.length; i++) {
+            ls /= 5; gs /= 4;
+            const d = OLC_A.indexOf(code[i]);
+            lat += Math.floor(d / 4) * ls; lng += (d % 4) * gs;
+        }
+        return { lat: lat + ls / 2, lng: lng + gs / 2 };
+    }
+    async function olcFromText(text) {
+        const m = OLC_RE.exec(String(text || ""));
+        if (!m) return null;
+        const code = m[1].toUpperCase(), sep = code.indexOf("+");
+        if (sep % 2 === 1) return null;
+        const locality = m[2].replace(/\s+/g, " ").trim();
+        if (sep === 8) return { ...olcDecode(code), code, locality };
+        let ref = null;
+        if (locality) {
+            try {
+                const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(locality)}&format=json&limit=1`, { headers: { "Accept-Language": "en" } });
+                const d = await r.json();
+                if (d && d[0]) ref = { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
+            } catch (e) {}
+        }
+        if (!ref && leafletMap && leafletMap.getCenter) { const c = leafletMap.getCenter(); ref = { lat: c.lat, lng: c.lng }; }
+        if (!ref) ref = { lat: 36.8065, lng: 10.1815 };          // Tunis
+        const pad = 8 - sep, res = Math.pow(20, 2 - pad / 2), half = res / 2;
+        const c = olcDecode(olcPrefix(ref.lat, ref.lng, pad) + code);
+        if (ref.lat + half < c.lat && c.lat - res >= -90) c.lat -= res;
+        else if (ref.lat - half > c.lat && c.lat + res <= 90) c.lat += res;
+        if (ref.lng + half < c.lng) c.lng -= res;
+        else if (ref.lng - half > c.lng) c.lng += res;
+        return { lat: c.lat, lng: c.lng, code, locality };
+    }
+    async function runGeocode(q){const geocodeResults=document.getElementById("map-geocode-results");if(!geocodeResults)return;if(OLC_RE.test(q)){const pc=await olcFromText(q);if(pc){geocodeResults.innerHTML=`<div class="mgr-item" onclick="selectGeoResult(${pc.lat},${pc.lng},'')"><span class="mgr-icon">📍</span><div><div class="mgr-name">Plus Code ${esc(pc.code)}${pc.locality?" · "+esc(pc.locality):""}</div><div class="mgr-sub">Tap to drop the pin here</div></div></div>`;geocodeResults.classList.add("open");return;}}try{const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1`;const res=await fetch(url,{headers:{"Accept-Language":"en"}});const data=await res.json();if(!data.length){geocodeResults.innerHTML='<div class="mgr-loading">No results found 🌸</div>';return;}geocodeResults.innerHTML=data.map(r=>{const parts=r.display_name.split(", ");const name=parts.slice(0,2).join(", ");const sub=parts.slice(2,4).join(", ");const safeName=parts[0].replace(/'/g,"\\'").replace(/"/g,'\\"');return `<div class="mgr-item" onclick="selectGeoResult(${r.lat},${r.lon},'${safeName}')"><span class="mgr-icon">📍</span><div><div class="mgr-name">${esc(name)}</div><div class="mgr-sub">${esc(sub)}</div></div></div>`;}).join("");geocodeResults.classList.add("open");}catch(e){geocodeResults.innerHTML='<div class="mgr-loading">Search error 😔</div>';}}
     let lastGeocodedName="";
     window.selectGeoResult=function(lat,lon,name){if(!leafletMap)return;lastGeocodedName=name;leafletMap.flyTo([parseFloat(lat),parseFloat(lon)],17,{duration:1.2});placeDropDraft(parseFloat(lat),parseFloat(lon));setTimeout(()=>placeOpenForm(name),1300);const geocodeInput=document.getElementById("map-geocode-input");const geocodeClear=document.getElementById("map-geocode-clear");if(geocodeInput)geocodeInput.value=name;if(geocodeClear)geocodeClear.classList.add("show");closeGeocodeResults();};
     window.clearMapSearch=function(){const geocodeInput=document.getElementById("map-geocode-input");const geocodeClear=document.getElementById("map-geocode-clear");if(geocodeInput)geocodeInput.value="";if(geocodeClear)geocodeClear.classList.remove("show");closeGeocodeResults();};
@@ -8383,6 +8438,27 @@
         document.getElementById("place-add-popup").classList.add("open");
     };
     window.placeAdjustCancel = function() { closePlaceModal(); };
+    /* ===== v41: edit a place already saved (icon, name, story, position) — same window, already filled ===== */
+    var placeEditId = null;
+    function placeModalMode(editing) {
+        document.getElementById("place-modal-title").textContent = editing ? "✏️ Edit This Place" : "📍 Pin This Place";
+        document.getElementById("place-save-btn").textContent = editing ? "💾 Save changes" : "💾 Save Place";
+        ["place-new-photo-btn", "place-new-photos"].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = editing ? "none" : ""; });
+    }
+    window.editPlace = function(id) {
+        const p = placeById(id);
+        if (!p) return;
+        if (navCurrentPage !== "places") showPage("places");
+        initOurPlacesMap();
+        if (leafletMap) leafletMap.closePopup && leafletMap.closePopup();
+        placeEditId = id;
+        placeModalMode(true);
+        placeDropDraft(parseFloat(p.lat), parseFloat(p.lng));
+        document.getElementById("place-emoji-input").value = p.emoji || "";
+        document.getElementById("place-name-input").value = p.name || "";
+        document.getElementById("place-desc-input").value = p.desc || "";
+        document.getElementById("place-add-popup").classList.add("open");
+    };
     // v40: 📍 drops the red pin where I am (or moves it, while adjusting)
     window.placeLocateMe = async function() {
         initOurPlacesMap();
@@ -8430,7 +8506,7 @@
             const icon=L.divIcon({html:`<div style="position:relative;font-size:1.6rem;text-align:center;line-height:1;">${p.emoji||"📍"}${nightsBadge}</div>`,className:"",iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-16]});
             const photos=placePhotosOf(p.id);
             const photoHtml=photos.length?`<div class="pm-photo" onclick="openPlacePhotos('${p.id}',0)"><img src="${photos[0].image}" alt=""/><span>📷 ${photos.length} photo${photos.length>1?"s":""}</span></div>`:"";
-            const marker=L.marker([p.lat,p.lng],{icon}).addTo(leafletMap).bindPopup(`<strong>${p.emoji||"📍"} ${esc(p.name)}</strong>${nightsTxt}${p.desc?"<br><span style='font-size:.85rem;color:#7a2545'>"+esc(p.desc)+"</span>":""}${photoHtml}`);
+            const marker=L.marker([p.lat,p.lng],{icon}).addTo(leafletMap).bindPopup(`<strong>${p.emoji||"📍"} ${esc(p.name)}</strong>${nightsTxt}${p.desc?"<br><span style='font-size:.85rem;color:#7a2545'>"+esc(p.desc)+"</span>":""}${photoHtml}<br><span class="pm-edit" onclick="editPlace('${p.id}')">✏️ Edit</span>`);
             placeMarkers[p.id]=marker;
         });
     }
@@ -8444,7 +8520,7 @@
         list.innerHTML=filtered.map(p=>{
             const photos=placePhotosOf(p.id);
             const strip=photos.length?`<div class="p-photos${photos.length<3?" n"+photos.length:""}">${photos.map((ph,i)=>`<img class="p-thumb" src="${ph.image}" alt="" onload="this.style.setProperty('--r',(this.naturalWidth/this.naturalHeight).toFixed(3))" onclick="openPlacePhotos('${p.id}',${i})"/>`).join("")}</div>`:"";
-            return `<div class="place-card" data-item="${p.id}"><button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button><div class="p-emoji">${p.emoji||"📍"}</div><div class="p-name">${esc(p.name)}</div>${weekNightsAtPlace(p.id).length?`<div class="p-nights">${weekNightsAtPlace(p.id).map(n=>n.emoji+" "+esc(n.name)).join(" · ")}</div>`:""}${p.desc?`<div class="p-desc">${esc(p.desc)}</div>`:""}${strip}<div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div><div class="p-author">${avName(p.addedBy)} · added it</div><div class="p-btns"><button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button><button class="p-photo-btn" onclick="pickPlacePhotos('${p.id}')">📷 ${photos.length?"Add more":"Add photos"}</button></div></div>`;
+            return `<div class="place-card" data-item="${p.id}"><button class="p-edit" onclick="editPlace('${p.id}')" aria-label="Edit this place">✏️</button><button class="p-del" onclick="deletePlace('${p.id}')">🗑️</button><div class="p-emoji">${p.emoji||"📍"}</div><div class="p-name">${esc(p.name)}</div>${weekNightsAtPlace(p.id).length?`<div class="p-nights">${weekNightsAtPlace(p.id).map(n=>n.emoji+" "+esc(n.name)).join(" · ")}</div>`:""}${p.desc?`<div class="p-desc">${esc(p.desc)}</div>`:""}${strip}<div class="p-coords">📍 ${Number(p.lat).toFixed(4)}, ${Number(p.lng).toFixed(4)}</div><div class="p-author">${avName(p.addedBy)} · added it</div><div class="p-btns"><button class="p-view-btn" onclick="flyToPlace(${p.lat},${p.lng})">🗺️ View on Map</button><button class="p-photo-btn" onclick="pickPlacePhotos('${p.id}')">📷 ${photos.length?"Add more":"Add photos"}</button></div></div>`;
         }).join("");
     }
     onSnapshot(query(placesRef,orderBy("addedAt","asc")),snapshot=>{placesData=snapshot.docs.map(d=>({id:d.id,...d.data()}));renderPlacesList(placesData);renderPlaceMarkers(placesData);weekSetPlaces(placesData);});
@@ -8551,6 +8627,20 @@
             alert("Invalid coordinates. Please click on the map first.");
             return;
         }
+        if (placeEditId) {                               // v41: changes to a place already saved
+            const id = placeEditId, old = placeById(id) || {};
+            showSync();
+            try {
+                await updateDoc(doc(db, "places", id), { name, emoji, desc, lat, lng, editedBy: currentUser || "hamdi", editedAt: new Date().toISOString() });
+                closePlaceModal();
+                const partner = currentUser === "hamdi" ? "yossr" : "hamdi";
+                const whoName = currentUser === "hamdi" ? "Hamdi" : "Yossr";
+                if (old.name !== name || old.emoji !== emoji || (old.desc || "") !== desc || Number(old.lat) !== lat || Number(old.lng) !== lng)
+                    await createNotification("places", `${whoName} edited a place: ${emoji} ${name} ✏️`, partner, "places", id);
+            } catch (e) { alert("Error: " + e.message); }
+            hideSync();
+            return;
+        }
         showSync();
         try {
             const newPlaceRef = await addDoc(placesRef, {
@@ -8581,7 +8671,7 @@
         }
         hideSync();
     };
-    window.closePlaceModal=function(){document.getElementById("place-add-popup").classList.remove("open");placeNewPhotos=[];renderPlaceNewPhotos();placeRemoveDraft();};
+    window.closePlaceModal=function(){document.getElementById("place-add-popup").classList.remove("open");placeNewPhotos=[];renderPlaceNewPhotos();placeRemoveDraft();if(placeEditId){placeEditId=null;placeModalMode(false);}};
     window.deletePlace=async function(id){
         const photos=placePhotosOf(id);
         if(!confirm(photos.length?`Delete this place and its ${photos.length} photo${photos.length>1?"s":""}?`:"Delete this place?"))return;
@@ -12239,7 +12329,7 @@ function renderQuizScores() {
     };
     window.dispatchEvent(new Event("hy-ready"));
 </script>
-<script type="module" src="stories.js?v=40"></script>
+<script type="module" src="stories.js?v=42"></script>
 <!-- ===== PWA — Service Worker + Install Button (Android) ===== -->
 <script>
     // Enregistrer le service worker
